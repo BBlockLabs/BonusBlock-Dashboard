@@ -7,8 +7,8 @@ export default class Campaign extends Entity {
   timeFrameFrom: Date = moment().toDate();
   timeFrameTill: Date = moment().toDate();
   frequencyRatioDaily: number = 1;
-  frequencyRatioWeekly: number = 2/3;
-  frequencyRatioMonthly: number = 1/3;
+  frequencyRatioWeekly: number = 2 / 3;
+  frequencyRatioMonthly: number = 1 / 3;
   weeklyEqualDistribution: boolean = false;
   expectedRoi: number = 0;
 }

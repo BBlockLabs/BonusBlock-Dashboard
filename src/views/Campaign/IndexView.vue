@@ -1,7 +1,10 @@
 <template>
   <page-wrapper>
     <el-row>
-      <el-col> Dash </el-col>
+      <el-col>
+        Campaign Index
+        <router-link to="/campaign/add">Add new</router-link>
+      </el-col>
     </el-row>
   </page-wrapper>
 </template>

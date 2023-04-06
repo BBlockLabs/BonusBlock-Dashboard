@@ -239,7 +239,7 @@ export default class Actions implements ActionsInterface {
         headers: {
           "Content-Type": "application/json",
           "X-Auth-Token": context.rootState.UserModule?.token || "",
-        }
+        },
       }
     );
 
@@ -247,7 +247,9 @@ export default class Actions implements ActionsInterface {
       throw Actions.getBadResponseError(response.status);
     }
 
-    const responseData = await HttpResponse.fromResponse<Array<CalculationResultDto>>(response);
+    const responseData = await HttpResponse.fromResponse<
+      Array<CalculationResultDto>
+    >(response);
 
     if (!responseData.success) {
       console.error(responseData);

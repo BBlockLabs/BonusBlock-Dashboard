@@ -1,10 +1,6 @@
 <template>
   <el-main class="d-flex flex-column">
-    <el-row
-      justify="center"
-      class="my-auto"
-      :gutter="20"
-    >
+    <el-row justify="center" class="my-auto" :gutter="20">
       <el-col :md="6" :xl="5" class="my-small">
         <el-button size="large" class="w-100" @click="onMetamaskLogin">
           <svg-metamask-fox class="mr-medium icon-medium" />
@@ -14,10 +10,7 @@
 
       <el-col :md="6" :xl="5" class="my-small">
         <el-button size="large" class="w-100" @click="keplrDialog = true">
-          <svg-keplr
-            types="vite-svg-loader"
-            class="mr-medium icon-medium"
-          />
+          <svg-keplr types="vite-svg-loader" class="mr-medium icon-medium" />
           <b>Continue with Keplr</b>
         </el-button>
       </el-col>
