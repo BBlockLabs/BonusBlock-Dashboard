@@ -6,6 +6,9 @@
 </template>
 
 <style lang="scss">
+$brand-color-2: #4D49BE;
+$brand-color-3: #6A6DCD;
+
 $spinnerSize: 80;
 svg.host-spinner {
   zoom: 200%;

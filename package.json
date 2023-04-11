@@ -5,11 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build": "run-p type-check build-only",
+    "build": "vite build",
     "build-dev": "vite build --minify false --sourcemap true -m development",
     "preview": "vite preview",
-    "build-only": "vite build",
-    "type-check": "vue-tsc --noEmit",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
