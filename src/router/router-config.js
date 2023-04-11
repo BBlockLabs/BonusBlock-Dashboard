@@ -60,8 +60,8 @@ router.beforeEach((toRoute, fromRoute, next) => {
 router.afterEach((to) => {
   setTimeout(() => {
     document.title = to.meta?.title
-      ? to.meta.title + " | ALTER Network"
-      : "ALTER Network";
+      ? to.meta.title + " | BonusBlock Network"
+      : "BonusBlock Network";
   }, 0);
 });
 

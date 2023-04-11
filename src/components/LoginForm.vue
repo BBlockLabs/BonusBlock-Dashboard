@@ -10,7 +10,11 @@
             size="large"
             type="text"
             placeholder="Username"
-          />
+          >
+            <template #prefix>
+              <el-icon class="el-input__icon"><mail /></el-icon>
+            </template>
+          </el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -25,7 +29,11 @@
             size="large"
             type="password"
             placeholder="Password"
-          />
+          >
+            <template #prefix>
+              <el-icon class="el-input__icon"><lock /></el-icon>
+            </template>
+          </el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -44,8 +52,12 @@
 import Toast from "@/mixins/Toast";
 import Vuelidate from "@/mixins/Vuelidate";
 import { required, minLength } from "@vuelidate/validators";
+import Mail from "@/assets/icons/mail.svg";
 
 export default {
+  components: {
+      Mail
+  },
   mixins: [Toast, Vuelidate],
   emits: ["loginSuccess", "loginFailed", "loginError"],
   data() {

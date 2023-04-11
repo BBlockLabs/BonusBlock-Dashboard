@@ -1,11 +1,13 @@
 $brand-color-1: #2F2A95;
 $brand-color-2: #4D49BE;
-$brand-color-3: #6A6DCD;
+$brand-color-3: #EDC16C;
 $brand-color-4: #979CE7;
 $brand-color-5: #C2C5FF;
 $brand-color-6: #DCDCF5;
 
-$card-bg-color: #191919;
+$card-bg-color: #FFFFFF;
+
+$text-color-base: #000;
 
 @forward 'element-plus/theme-chalk/src/common/var.scss' with (
   $menu: (
@@ -24,6 +26,16 @@ $card-bg-color: #191919;
     'danger': (
       'base': #E38686,
     ),
+  ),
+  $text-color: (
+    'primary': #303133,
+    'regular': #606266,
+    'secondary': rgba($text-color-base, 0.65),
+    'placeholder': rgba($text-color-base, 0.55),
+    'disabled': rgba($text-color-base, 0.4),
+  ),
+  $link: (
+    'text-color': #DDB15A
   ),
   $border-radius: (
     'base': 10px,

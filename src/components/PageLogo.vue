@@ -2,7 +2,7 @@
   <div class="d-flex logo">
     <logo class="logo-icon" />
 
-    <span v-if="!small" class="logo-text ml-3"> ALTER NETWORK </span>
+    <span v-if="!small" class="logo-text ml-3"> BonusBlock NETWORK </span>
   </div>
 </template>
 

@@ -35,3 +35,7 @@
     color: EPFunctions.getCssVar('text-color', $type);
   }
 }
+
+h1, h2, h3, h4, h5 {
+  color: EPFunctions.getCssVar('text-color', 'primary')
+}

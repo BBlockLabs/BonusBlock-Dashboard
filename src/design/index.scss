@@ -1,11 +1,12 @@
 @use '@/design/element-plus-theme.scss' as theme;
-@use '@/design/element-plus-theme-dark.scss' as themeDark;
+//@use '@/design/element-plus-theme-dark.scss' as themeDark;
 @use "element-plus/theme-chalk/src/index.scss" as *;
-@use 'element-plus/theme-chalk/src/dark/css-vars.scss' as *;
+//@use 'element-plus/theme-chalk/src/dark/css-vars.scss' as *;
 @use 'element-plus/theme-chalk/src/mixins/function' as EPFunctions;
 @use 'element-plus/theme-chalk/display.css';
 @use "@/design/style/col.scss";
 @use "@/design/style/font.scss";
+@use "@/design/style/icons.scss";
 @use "@/design/style/layout.scss";
 @use "@/design/style/cards.scss";
 @use "@/design/style/color.scss";
