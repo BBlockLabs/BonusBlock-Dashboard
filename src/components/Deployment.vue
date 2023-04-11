@@ -97,7 +97,7 @@
 
 <script>
 import {PiggyBank, MoneySquare} from 'iconoir-vue';
-import ResourceGauge from '@/components/ResourceGauge';
+import ResourceGauge from '@/components/ResourceGauge.vue';
 
 export default {
   components: {

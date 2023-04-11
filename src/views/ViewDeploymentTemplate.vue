@@ -126,7 +126,7 @@
 </template>
 
 <script>
-import InfoItem from '@/components/InfoItem';
+import InfoItem from '@/components/InfoItem.vue';
 import SvgGithub from '@/assets/icons/github.svg';
 import 'highlight.js/styles/stackoverflow-dark.css';
 import 'highlight.js/lib/common';

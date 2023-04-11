@@ -131,10 +131,10 @@
 </template>
 
 <script>
-import SliderInput from '@/components/FilterSliderInput';
+import SliderInput from '@/components/FilterSliderInput.vue';
 import PackageFilter from '@/common/PackageFilter';
 import {Formatter} from '@/common/Formatter';
-import SelectedPackage from '@/components/SelectedPackage';
+import SelectedPackage from '@/components/SelectedPackage.vue';
 
 export default {
   components: {

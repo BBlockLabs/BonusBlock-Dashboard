@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import CreateWorkspaceForm from '@/components/CreateWorkspaceForm';
+import CreateWorkspaceForm from '@/components/CreateWorkspaceForm.vue';
 
 export default {
   components: {

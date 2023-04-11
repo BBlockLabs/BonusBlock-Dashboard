@@ -99,8 +99,8 @@
 </template>
 
 <script>
-import SsoLoginButton from '@/components/SsoLoginButton';
-import LoginForm from '@/components/LoginForm';
+import SsoLoginButton from '@/components/SsoLoginButton.vue';
+import LoginForm from '@/components/LoginForm.vue';
 import Toast from '@/mixins/Toast';
 import User from '@/state/models/User';
 

@@ -61,10 +61,10 @@
 </template>
 
 <script>
-import MemberRow from '@/components/MemberRow';
-import Billing from '@/components/Billing';
-import Members from '@/components/Members';
-import Deployment from '@/components/Deployment';
+import MemberRow from '@/components/MemberRow.vue';
+import Billing from '@/components/Billing.vue';
+import Members from '@/components/Members.vue';
+import Deployment from '@/components/Deployment.vue';
 
 export default {
   components: {

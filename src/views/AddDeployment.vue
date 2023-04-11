@@ -140,7 +140,7 @@
 <script>
 import SvgText from '@/assets/icons/text.svg';
 import debounce from "debounce";
-import DeploymentTemplates from '@/views/DeploymentTemplates';
+import DeploymentTemplates from '@/views/DeploymentTemplates.vue';
 
 export default {
   components: {
@@ -268,40 +268,40 @@ export default {
           background-color: rgba(137, 231, 192, 0.1);
 
           span {
-            mask-image: url('~@/assets/icons/drafts.svg?base64');
-            -webkit-mask-image: url('~@/assets/icons/drafts.svg?base64');
+            mask-image: url('@/assets/icons/drafts.svg?base64');
+            -webkit-mask-image: url('@/assets/icons/drafts.svg?base64');
           }
         }
         &.text {
           background-color: rgba(237, 209, 137, 0.1);
 
           span {
-            mask-image: url('~@/assets/icons/text.svg?base64');
-            -webkit-mask-image: url('~@/assets/icons/text.svg?base64');
+            mask-image: url('@/assets/icons/text.svg?base64');
+            -webkit-mask-image: url('@/assets/icons/text.svg?base64');
           }
         }
         &.link {
           background-color: rgba(237, 143, 137, 0.1);
 
           span {
-            mask-image: url('~@/assets/icons/link.svg?base64');
-            -webkit-mask-image: url('~@/assets/icons/link.svg?base64');
+            mask-image: url('@/assets/icons/link.svg?base64');
+            -webkit-mask-image: url('@/assets/icons/link.svg?base64');
           }
         }
         &.globe {
           background-color: rgba(227, 134, 151, 0.1);
 
           span {
-            mask-image: url('~@/assets/icons/globe.svg?base64');
-            -webkit-mask-image: url('~@/assets/icons/globe.svg?base64');
+            mask-image: url('@/assets/icons/globe.svg?base64');
+            -webkit-mask-image: url('@/assets/icons/globe.svg?base64');
           }
         }
         &.notes {
           background-color: rgba(137, 158, 231, 0.1);
 
           span {
-            mask-image: url('~@/assets/icons/notes.svg?base64');
-            -webkit-mask-image: url('~@/assets/icons/notes.svg?base64');
+            mask-image: url('@/assets/icons/notes.svg?base64');
+            -webkit-mask-image: url('@/assets/icons/notes.svg?base64');
           }
         }
       }

@@ -1,11 +1,11 @@
 import Home from '@/views/Home.vue';
 import RouteMeta from '@/router/RouteMeta';
-const AddBalance = () => import('@/views/AddBalance');
-const CreateWorkspace = () => import('@/views/CreateWorkspace');
-const Login = () => import('@/views/Login');
-const Packages = () => import('@/views/Packages');
-const Page404 = () => import('@/views/utility/404');
-const Register = () => import('@/views/Register');
+const AddBalance = () => import('@/views/AddBalance.vue');
+const CreateWorkspace = () => import('@/views/CreateWorkspace.vue');
+const Login = () => import('@/views/Login.vue');
+const Packages = () => import('@/views/Packages.vue');
+const Page404 = () => import('@/views/utility/404.vue');
+const Register = () => import('@/views/Register.vue');
 const ViewServer = () => import('@/views/ViewServer.vue');
 const ServersMap = () => import('@/views/ServersMap.vue');
 const Organizations = () => import('@/views/Organizations.vue');

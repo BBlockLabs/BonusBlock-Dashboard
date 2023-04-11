@@ -101,8 +101,8 @@
 import 'highlight.js/styles/stackoverflow-dark.css';
 import 'highlight.js/lib/common';
 import hljsVuePlugin from '@highlightjs/vue-plugin';
-import MemberRow from '@/components/MemberRow';
-import SelectedPackage from '@/components/SelectedPackage';
+import MemberRow from '@/components/MemberRow.vue';
+import SelectedPackage from '@/components/SelectedPackage.vue';
 import Spinner from '@/components/Spinner.vue';
 
 export default {

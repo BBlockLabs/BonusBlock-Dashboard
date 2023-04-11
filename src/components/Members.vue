@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import MemberRow from '@/components/MemberRow';
+import MemberRow from '@/components/MemberRow.vue';
 
 export default {
   components: {

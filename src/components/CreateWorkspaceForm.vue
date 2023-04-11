@@ -60,7 +60,7 @@
 <script>
 import Toast from '@/mixins/Toast';
 import Vuelidate from '@/mixins/Vuelidate';
-import AvatarInput from '@/components/AvatarInput';
+import AvatarInput from '@/components/AvatarInput.vue';
 import {required, minLength} from '@vuelidate/validators';
 
 export default {

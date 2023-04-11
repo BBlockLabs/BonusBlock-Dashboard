@@ -48,8 +48,8 @@
 
 <script>
 import NavigationList from '@/common/Navigation';
-import MenuItem from '@/components/MenuItem';
-import Logo from '@/components/Logo';
+import MenuItem from '@/components/MenuItem.vue';
+import Logo from '@/components/Logo.vue';
 import {SidebarCollapse, SidebarExpand} from 'iconoir-vue';
 
 export default {

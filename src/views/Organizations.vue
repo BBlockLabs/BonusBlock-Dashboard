@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import OrganizationCard from '@/components/OrganizationCard';
+import OrganizationCard from '@/components/OrganizationCard.vue';
 import debounce from 'debounce';
 
 export default {

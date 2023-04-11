@@ -1,20 +1,23 @@
 import {createApp} from 'vue';
 
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
-import 'element-plus/theme-chalk/base.css';
-import 'element-plus/theme-chalk/display.css';
-import '@/design/index.scss';
-import 'default-passive-events';
+// import 'element-plus/theme-chalk/base.css';
+// import 'element-plus/theme-chalk/display.css';
+// import '@/design/index.scss';
+// import 'default-passive-events';
 
 import moment from 'moment';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+import ElementPlus from "element-plus";
 
 import store from '@/state/store';
 import router from './router/router-config';
-import App from '@/App';
-import Debug from '@/components/Debug';
+import App from '@/App.vue';
+import Debug from '@/components/Debug.vue';
 import mq from './common/mq';
+
+import "@/design/index.scss";
 
 const app = createApp({
   extends: App,
@@ -27,6 +30,7 @@ app.use(store);
 app.use(VueAxios, {$http: axios});
 app.use(router);
 app.use(mq);
+app.use(ElementPlus);
 
 // Add $id method for component specific unique ids
 app.use((app) => {

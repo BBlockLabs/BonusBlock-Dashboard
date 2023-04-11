@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import WorldMap from '@/components/Map';
+import WorldMap from '@/components/Map.vue';
 
 export default {
   components: {

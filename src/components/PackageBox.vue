@@ -169,7 +169,7 @@
 
 <script>
 import {Formatter} from '@/common/Formatter';
-import Avatar from '@/components/Avatar';
+import Avatar from '@/components/Avatar.vue';
 import PackageModel from '@/state/models/Package';
 import { DashboardSpeed, Cpu, Server } from 'iconoir-vue';
 

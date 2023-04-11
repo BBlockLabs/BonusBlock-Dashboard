@@ -145,8 +145,8 @@
 </template>
 
 <script>
-import Avatar from '@/components/Avatar';
-import ResourceGauge from '@/components/ResourceGauge';
+import Avatar from '@/components/Avatar.vue';
+import ResourceGauge from '@/components/ResourceGauge.vue';
 import Server from "@/state/models/Server";
 
 export default {
@@ -169,4 +169,3 @@ export default {
   }
 };
 </script>
-

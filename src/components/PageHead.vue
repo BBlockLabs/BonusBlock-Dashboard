@@ -69,8 +69,8 @@
 
 <script>
 import NavigationList from '@/common/Navigation';
-import MenuItem from '@/components/MenuItem';
-import Avatar from '@/components/Avatar';
+import MenuItem from '@/components/MenuItem.vue';
+import Avatar from '@/components/Avatar.vue';
 import { Bell as IconBell, GitCompare } from 'iconoir-vue';
 
 export default {

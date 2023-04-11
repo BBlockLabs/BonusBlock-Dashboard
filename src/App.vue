@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import PageHead from '@/components/PageHead';
-import Navigation from '@/components/Navigation';
+import PageHead from '@/components/PageHead.vue';
+import Navigation from '@/components/Navigation.vue';
 
 export default {
   components: {

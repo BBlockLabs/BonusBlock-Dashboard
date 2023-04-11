@@ -76,9 +76,9 @@
 </template>
 
 <script>
-import PackageBox from '@/components/PackageBox';
+import PackageBox from '@/components/PackageBox.vue';
 import PackageFilter from '@/common/PackageFilter';
-import PackageFilters from '@/components/PackageFilters';
+import PackageFilters from '@/components/PackageFilters.vue';
 
 export default {
   components: {

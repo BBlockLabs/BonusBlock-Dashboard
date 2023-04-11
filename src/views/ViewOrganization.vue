@@ -121,10 +121,10 @@
 </template>
 
 <script>
-import InfoItem from '@/components/InfoItem';
-import WorldMap from '@/components/Map';
-import OrganizationCard from '@/components/OrganizationCard';
-import ServerBox from '@/components/ServerBox';
+import InfoItem from '@/components/InfoItem.vue';
+import WorldMap from '@/components/Map.vue';
+import OrganizationCard from '@/components/OrganizationCard.vue';
+import ServerBox from '@/components/ServerBox.vue';
 import debounce from "debounce";
 
 export default {

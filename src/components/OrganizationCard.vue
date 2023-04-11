@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import Avatar from '@/components/Avatar';
+import Avatar from '@/components/Avatar.vue';
 import Organization from '@/state/models/Organization';
 
 export default {

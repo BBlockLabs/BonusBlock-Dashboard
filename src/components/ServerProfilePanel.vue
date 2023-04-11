@@ -88,10 +88,10 @@
 </template>
 
 <script>
-import ResourceGauge from '@/components/ResourceGauge';
-import WorldMap from '@/components/Map';
-import Avatar from '@/components/Avatar';
-import InfoItem from '@/components/InfoItem';
+import ResourceGauge from '@/components/ResourceGauge.vue';
+import WorldMap from '@/components/Map.vue';
+import Avatar from '@/components/Avatar.vue';
+import InfoItem from '@/components/InfoItem.vue';
 import {NavArrowLeft} from 'iconoir-vue';
 import Server from '@/state/models/Server';
 

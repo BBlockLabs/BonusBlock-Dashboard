@@ -36,8 +36,8 @@
 </template>
 
 <script>
-import ServerProfilePanel from '@/components/ServerProfilePanel';
-import PackageBoxVertical from '@/components/PackageBoxVertical';
+import ServerProfilePanel from '@/components/ServerProfilePanel.vue';
+import PackageBoxVertical from '@/components/PackageBoxVertical.vue';
 
 export default {
   components: {
