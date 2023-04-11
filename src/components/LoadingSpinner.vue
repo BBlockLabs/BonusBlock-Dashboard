@@ -1,16 +1,7 @@
 <template>
   <svg class="host-spinner">
-    <circle
-      cx="40"
-      cy="40"
-      r="35"
-    />
-    <circle
-      class="small"
-      cx="40"
-      cy="40"
-      r="25"
-    />
+    <circle cx="40" cy="40" r="35" />
+    <circle class="small" cx="40" cy="40" r="25" />
   </svg>
 </template>
 
@@ -33,7 +24,7 @@ svg.host-spinner {
     stroke-dasharray: 150;
     transform-origin: (0.5px * $spinnerSize) (0.5px * $spinnerSize) 0;
     animation: spinner 3s linear infinite;
-    &.small{
+    &.small {
       position: absolute;
       stroke: $brand-color-2;
       top: 0;

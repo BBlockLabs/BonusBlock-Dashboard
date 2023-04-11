@@ -1,9 +1,5 @@
 <template>
-  <el-menu-item
-    v-if="childRoutes.length === 0"
-    :key="name"
-    :index="name"
-  >
+  <el-menu-item v-if="childRoutes.length === 0" :key="name" :index="name">
     <el-icon v-if="currentRoute.icon">
       <component :is="currentRoute.icon" />
     </el-icon>
@@ -13,11 +9,7 @@
     </template>
   </el-menu-item>
 
-  <el-sub-menu
-    v-if="childRoutes.length > 0"
-    :key="name"
-    :index="name"
-  >
+  <el-sub-menu v-if="childRoutes.length > 0" :key="name" :index="name">
     <template #title>
       <el-icon v-if="currentRoute.icon">
         <component :is="currentRoute.icon" />
@@ -37,10 +29,10 @@
 </template>
 
 <script>
-import NavigationList from '@/common/Navigation';
+import NavigationList from "@/common/Navigation";
 
 export default {
-  name: 'MenuItem',
+  name: "MenuItem",
   props: {
     name: {
       type: String,
@@ -49,10 +41,12 @@ export default {
   },
   computed: {
     currentRoute() {
-      return NavigationList.find(route => route.name === this.name) || null;
+      return NavigationList.find((route) => route.name === this.name) || null;
     },
     childRoutes() {
-      return NavigationList.filter(route => route.parent === this.name && route.showInMenu);
+      return NavigationList.filter(
+        (route) => route.parent === this.name && route.showInMenu
+      );
     },
   },
 };

@@ -1,12 +1,9 @@
 <template>
   <div class="b-solid bg-fill-extra-light br-base p-3 package-box">
     <el-row justify="space-between">
-      <el-col
-        :md="-1"
-        class="d-flex"
-      >
+      <el-col :md="-1" class="d-flex">
         <div class="ml-3">
-          <b>{{ packageInstance.name }}</b> <br>
+          <b>{{ packageInstance.name }}</b> <br />
           {{ packageInstance.server.url }}
         </div>
       </el-col>
@@ -23,10 +20,7 @@
       </el-col>
     </el-row>
 
-    <el-row
-      class="mt-3"
-      :gutter="24"
-    >
+    <el-row class="mt-3" :gutter="24">
       <el-col :span="24">
         <el-row :gutter="24">
           <el-col :md="8">
@@ -36,8 +30,8 @@
               </div>
 
               <b>
-                RAM <br>
-                {{ Formatter.formatBytes(packageInstance.ramBytes) }} <br>
+                RAM <br />
+                {{ Formatter.formatBytes(packageInstance.ramBytes) }} <br />
               </b>
 
               <span class="text-secondary">
@@ -53,9 +47,9 @@
               </div>
 
               <b>
-                CPU <br>
+                CPU <br />
                 {{ packageInstance.cpuCoreCount }} Core at
-                {{ packageInstance.cpuGHz }} GHz <br>
+                {{ packageInstance.cpuGHz }} GHz <br />
               </b>
 
               <span class="text-secondary">
@@ -71,8 +65,9 @@
               </div>
 
               <b>
-                Storage <br>
-                {{ Formatter.formatBytes(packageInstance.storageBytes) }} GB <br>
+                Storage <br />
+                {{ Formatter.formatBytes(packageInstance.storageBytes) }} GB
+                <br />
               </b>
 
               <span class="text-secondary">
@@ -84,17 +79,9 @@
 
         <el-row class="mt-3">
           <el-col>
-            <el-space
-              class="w-100"
-              fill
-            >
-              <el-row
-                class="b-solid br-small p-3"
-                justify="space-between"
-              >
-                <el-col :span="-1">
-                  Platform
-                </el-col>
+            <el-space class="w-100" fill>
+              <el-row class="b-solid br-small p-3" justify="space-between">
+                <el-col :span="-1"> Platform </el-col>
 
                 <el-col :span="-1">
                   <b>
@@ -103,13 +90,8 @@
                 </el-col>
               </el-row>
 
-              <el-row
-                class="b-solid br-small p-3"
-                justify="space-between"
-              >
-                <el-col :span="-1">
-                  SDK Version
-                </el-col>
+              <el-row class="b-solid br-small p-3" justify="space-between">
+                <el-col :span="-1"> SDK Version </el-col>
 
                 <el-col :span="-1">
                   <b>
@@ -118,13 +100,8 @@
                 </el-col>
               </el-row>
 
-              <el-row
-                class="b-solid br-small p-3"
-                justify="space-between"
-              >
-                <el-col :span="-1">
-                  Kubernetes Version
-                </el-col>
+              <el-row class="b-solid br-small p-3" justify="space-between">
+                <el-col :span="-1"> Kubernetes Version </el-col>
 
                 <el-col :span="-1">
                   <b>
@@ -138,16 +115,16 @@
       </el-col>
     </el-row>
 
-    <debug>{{ packageInstance }}</debug>
+    <debug-wrapper>{{ packageInstance }}</debug-wrapper>
   </div>
 </template>
 
 <script>
-import {Formatter} from '@/common/Formatter';
-import { DashboardSpeed, Cpu, Server } from 'iconoir-vue';
-import Package from '@/state/models/Package';
+import { Formatter } from "@/common/Formatter";
+import { DashboardSpeed, Cpu, Server } from "iconoir-vue";
+import Package from "@/state/models/Package";
 
-export default  {
+export default {
   components: {
     Cpu,
     DashboardSpeed,
@@ -163,21 +140,19 @@ export default  {
     },
     selected: {
       type: Boolean,
-    }
+    },
   },
-  emits: [
-    'select',
-  ],
+  emits: ["select"],
   computed: {
     Formatter: () => Formatter,
   },
   methods: {
     onSelect() {
-      this.$emit('select', this.packageInstance.id);
+      this.$emit("select", this.packageInstance.id);
     },
     viewServer(serverId) {
-      this.$router.push('/server/' + serverId);
-    }
+      this.$router.push("/server/" + serverId);
+    },
   },
 };
 </script>

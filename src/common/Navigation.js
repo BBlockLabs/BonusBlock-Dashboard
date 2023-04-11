@@ -1,10 +1,10 @@
-import {DashboardSpeed, Server, MoneySquare, Settings, Tools, Notes} from 'iconoir-vue';
+import { DashboardSpeed, Server, Settings, Notes } from "iconoir-vue";
 
 export class NavigationItem {
   /**
    * @type {String}
    */
-  name = '';
+  name = "";
 
   /**
    * @type {String|null}
@@ -27,12 +27,7 @@ export class NavigationItem {
    * @param {import('vue').RenderFunction|null} icon
    * @param {Boolean} showInMenu
    */
-  constructor(
-    name,
-    parent = null,
-    icon = null,
-    showInMenu = true,
-  ) {
+  constructor(name, parent = null, icon = null, showInMenu = true) {
     this.name = name;
     this.parent = parent;
     this.icon = icon;
@@ -41,17 +36,13 @@ export class NavigationItem {
 }
 
 export default [
-  new NavigationItem('Dashboard', null, DashboardSpeed),
-  //new NavigationItem('Overview', 'Dashboard'),
-  //new NavigationItem('Nodes', 'Dashboard'),
-  //new NavigationItem('Config', null, Tools),
-  new NavigationItem('Templates', null, Notes),
-  new NavigationItem('Provider', null, Server),
-  new NavigationItem('Packages', 'Provider'),
-  new NavigationItem('Server', 'Provider', null, false),
-  new NavigationItem('Organizations', 'Provider'),
-  new NavigationItem('Organization', 'Provider', null, false),
-  new NavigationItem('Servers Map', 'Provider'),
-  //new NavigationItem('Billing', null, MoneySquare),
-  new NavigationItem('Settings', null, Settings),
+  new NavigationItem("Dashboard", null, DashboardSpeed),
+  new NavigationItem("Templates", null, Notes),
+  new NavigationItem("Provider", null, Server),
+  new NavigationItem("Packages", "Provider"),
+  new NavigationItem("Server", "Provider", null, false),
+  new NavigationItem("Organizations", "Provider"),
+  new NavigationItem("Organization", "Provider", null, false),
+  new NavigationItem("Servers Map", "Provider"),
+  new NavigationItem("Settings", null, Settings),
 ];

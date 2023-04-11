@@ -1,7 +1,7 @@
-import Deployment from '@/state/models/Deployment';
+import Deployment from "@/state/models/Deployment";
 
 const sleep = async (milliseconds) => {
-  return new Promise(r => {
+  return new Promise((r) => {
     window.setTimeout(r, milliseconds);
   });
 };
@@ -16,11 +16,10 @@ export default {
   },
   getters: {
     /**
-     * @param {object} state
      * @return {string}
      */
-    getSampleYamlTesting(state) {
-      return 'doe: \"a deer, a female deer\"\n ray: \"a drop of golden sun\"\n pi: 3.14159\n xmas: true\n french-hens: 3\n calling-birds:\n   - huey\n   - dewey\n   - louie\n   - fred\n xmas-fifth-day:\n   calling-birds: four\n   french-hens: 3\n   golden-rings: 5\n   partridges:\n     count: 1\n     location: \"a pear tree\"\n   turtle-doves: two';
+    getSampleYamlTesting() {
+      return 'doe: "a deer, a female deer"\n ray: "a drop of golden sun"\n pi: 3.14159\n xmas: true\n french-hens: 3\n calling-birds:\n   - huey\n   - dewey\n   - louie\n   - fred\n xmas-fifth-day:\n   calling-birds: four\n   french-hens: 3\n   golden-rings: 5\n   partridges:\n     count: 1\n     location: "a pear tree"\n   turtle-doves: two';
     },
     /**
      * @param {object} state
@@ -35,7 +34,7 @@ export default {
      */
     getNewDeployment(state) {
       return state.newDeployment;
-    }
+    },
   },
   mutations: {
     /**
@@ -49,7 +48,7 @@ export default {
      * @param {String} yaml
      */
     setYaml(state, yaml) {
-      if(state.newDeployment === null) {
+      if (state.newDeployment === null) {
         this.createDeployment(state);
       }
       state.newDeployment.yaml = yaml;
@@ -59,7 +58,7 @@ export default {
      * @param {String} title
      */
     setTitle(state, title) {
-      if(state.newDeployment === null) {
+      if (state.newDeployment === null) {
         this.createDeployment(state);
       }
       state.newDeployment.title = title;
@@ -69,19 +68,17 @@ export default {
      * @param {Array} packages
      */
     setPackages(state, packages) {
-      if(state.newDeployment === null) {
+      if (state.newDeployment === null) {
         this.createDeployment(state);
       }
       state.newDeployment.packages = packages;
-    }
+    },
   },
   actions: {
-    async commitDeployment({commit, state}) {
+    async commitDeployment({ state }) {
       state.newDeployment = null;
 
       await sleep(1500);
-
-
-    }
+    },
   },
 };

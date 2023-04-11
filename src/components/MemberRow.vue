@@ -1,20 +1,10 @@
 <template>
-  <el-row
-    align="middle"
-    justify="center"
-    class="member-row"
-  >
+  <el-row align="middle" justify="center" class="member-row">
     <el-col :span="4">
       <el-avatar />
     </el-col>
-    <el-col
-      :span="18"
-      class="pl-2"
-    >
-      <el-space
-        fill
-        :size="2"
-      >
+    <el-col :span="18" class="pl-2">
+      <el-space fill :size="2">
         <span class="first">
           {{ firstLine }}
         </span>
@@ -23,10 +13,7 @@
         </span>
       </el-space>
     </el-col>
-    <el-col
-      :span="2"
-      class="align-right arrow"
-    >
+    <el-col :span="2" class="align-right arrow">
       <arrow-down />
     </el-col>
   </el-row>
@@ -34,18 +21,17 @@
 
 <script>
 export default {
-  components: {
-  },
+  components: {},
   props: {
     firstLine: {
       type: String,
       required: false,
-      default: 'First line',
+      default: "First line",
     },
     secondLine: {
       type: String,
       required: false,
-      default: 'Second line',
+      default: "Second line",
     },
   },
 };

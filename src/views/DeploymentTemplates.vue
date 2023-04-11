@@ -1,9 +1,5 @@
 <template>
-  <el-row
-    justify="center"
-    align="top"
-    class="deployments h-100"
-  >
+  <el-row justify="center" align="top" class="deployments h-100">
     <el-col
       v-loading="loading"
       :xl="17"
@@ -12,18 +8,9 @@
       :xs="20"
       class="align-center"
     >
-      <el-row
-        justify="space-between"
-        align="middle"
-        class="mb-3"
-      >
-        <el-col
-          :span="15"
-          class="align-left"
-        >
-          <h3 class="m-0">
-            Templates
-          </h3>
+      <el-row justify="space-between" align="middle" class="mb-3">
+        <el-col :span="15" class="align-left">
+          <h3 class="m-0">Templates</h3>
           Community-made templates to make deployment easier.
         </el-col>
         <el-col :span="9">
@@ -44,26 +31,11 @@
         class="mb-5 template-row"
       >
         <el-row justify="space-between">
-          <el-col
-            :span="1"
-            class="align-right"
-          >
-            <el-image
-              src="deploy-avatar.png"
-              fit="cover"
-              class="avatar"
-            />
+          <el-col :span="1" class="align-right">
+            <el-image src="deploy-avatar.png" fit="cover" class="avatar" />
           </el-col>
-          <el-col
-            :span="17"
-            class="align-left pl-4"
-          >
-            <el-space
-              direction="vertical"
-              :size="7"
-              fill
-              class="pt-1"
-            >
+          <el-col :span="17" class="align-left pl-4">
+            <el-space direction="vertical" :size="7" fill class="pt-1">
               <h3 class="m-0">
                 {{ deploymentTemplate.title }}
               </h3>
@@ -73,10 +45,7 @@
               </el-icon>
             </el-space>
           </el-col>
-          <el-col
-            :span="6"
-            class="align-right"
-          >
+          <el-col :span="6" class="align-right">
             <el-button
               round
               @click="viewDeploymentTemplate(deploymentTemplate.id)"
@@ -93,14 +62,8 @@
             </el-button>
           </el-col>
         </el-row>
-        <el-row
-          justify="start"
-          class="pt-3"
-        >
-          <el-col
-            :span="24"
-            class="align-left"
-          >
+        <el-row justify="start" class="pt-3">
+          <el-col :span="24" class="align-left">
             {{ deploymentTemplate.shortText }}
           </el-col>
         </el-row>
@@ -110,7 +73,7 @@
 </template>
 
 <script>
-import SvgGithub from '@/assets/icons/github.svg';
+import SvgGithub from "@/assets/icons/github.svg";
 import debounce from "debounce";
 
 export default {
@@ -122,12 +85,15 @@ export default {
       loading: false,
       filter: null,
       deploymentTemplates: [],
-      filteredDeploymentTemplates: []
+      filteredDeploymentTemplates: [],
     };
   },
   watch: {
     filter: debounce(function () {
-      this.filteredDeploymentTemplates = this.deploymentTemplates.filter(deploymentTemplate => deploymentTemplate.title.toLowerCase().indexOf(this.filter) !== -1);
+      this.filteredDeploymentTemplates = this.deploymentTemplates.filter(
+        (deploymentTemplate) =>
+          deploymentTemplate.title.toLowerCase().indexOf(this.filter) !== -1
+      );
     }, 500),
   },
   created() {
@@ -138,10 +104,12 @@ export default {
       this.loading = true;
 
       try {
-        const deploymentTemplateResponse = await this.$store.dispatch('DeploymentTemplateModule/loadAllDeploymentTemplates');
+        const deploymentTemplateResponse = await this.$store.dispatch(
+          "DeploymentTemplateModule/loadAllDeploymentTemplates"
+        );
 
         if (!deploymentTemplateResponse.success) {
-          console.error('failed to load templates');
+          console.error("failed to load templates");
           return;
         }
 
@@ -154,14 +122,14 @@ export default {
       }
     },
     viewDeploymentTemplate(deploymentTemplateId) {
-      this.$router.push('/templates/' + deploymentTemplateId);
+      this.$router.push("/templates/" + deploymentTemplateId);
     },
     selectDeploymentTemplate(deploymentTemplateYaml) {
-      this.$store.commit('DeploymentModule/setYaml', deploymentTemplateYaml);
+      this.$store.commit("DeploymentModule/setYaml", deploymentTemplateYaml);
 
-      this.$router.push('/packages');
-    }
-  }
+      this.$router.push("/packages");
+    },
+  },
 };
 </script>
 

@@ -1,8 +1,14 @@
 export default class PackageFilter {
-  static get BYTES_IN_GB() {return 1073741824;}
+  static get BYTES_IN_GB() {
+    return 1073741824;
+  }
 
-  static get ENDORSEMENT_RECOMMENDED() {return 1;}
-  static get ENDORSEMENT_OTHER() {return 2;}
+  static get ENDORSEMENT_RECOMMENDED() {
+    return 1;
+  }
+  static get ENDORSEMENT_OTHER() {
+    return 2;
+  }
 
   /**
    * @type {[Number, Number]|[]}
@@ -22,7 +28,7 @@ export default class PackageFilter {
   /**
    * @type {String}
    */
-  cpuName = '';
+  cpuName = "";
 
   /**
    * @type {[Number, Number]|[]}
@@ -67,10 +73,7 @@ export default class PackageFilter {
       return [];
     }
 
-    return [
-      this.prices[0] * 1000000,
-      this.prices[1] * 1000000,
-    ];
+    return [this.prices[0] * 1000000, this.prices[1] * 1000000];
   }
 
   /**

@@ -1,7 +1,6 @@
-import imageSize from 'buffer-image-size';
+import imageSize from "buffer-image-size";
 
 export default class FileParser {
-
   /**
    * @param {Blob} file
    * @param {Number} maxSize
@@ -15,7 +14,7 @@ export default class FileParser {
     maxWidth = 240,
     maxHeight = 240
   ) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       if (file.size > maxSize) {
         resolve(null);
         return;
@@ -36,11 +35,8 @@ export default class FileParser {
         }
 
         if (
-          (
-            imageInfo.width > maxWidth
-            || imageInfo.height > maxHeight
-          )
-          && imageInfo.type !== 'svg'
+          (imageInfo.width > maxWidth || imageInfo.height > maxHeight) &&
+          imageInfo.type !== "svg"
         ) {
           resolve(null);
           return;
@@ -65,16 +61,16 @@ export default class FileParser {
     }
 
     if (
-      !imageInfo.width
-      || imageInfo.width <= 0
-      || !imageInfo.height
-      || imageInfo.height <= 0
+      !imageInfo.width ||
+      imageInfo.width <= 0 ||
+      !imageInfo.height ||
+      imageInfo.height <= 0
     ) {
       return null;
     }
 
-    if (imageInfo.type === 'jpg') {
-      imageInfo.type = 'jpeg';
+    if (imageInfo.type === "jpg") {
+      imageInfo.type = "jpeg";
     }
 
     return imageInfo;

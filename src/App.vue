@@ -9,10 +9,7 @@
     </el-aside>
 
     <el-container vertical>
-      <el-header
-        v-if="$store.getters['Auth/isLoggedIn']"
-        class="bb-solid"
-      >
+      <el-header v-if="$store.getters['Auth/isLoggedIn']" class="bb-solid">
         <page-head />
       </el-header>
 
@@ -26,8 +23,8 @@
 </template>
 
 <script>
-import PageHead from '@/components/PageHead.vue';
-import Navigation from '@/components/Navigation.vue';
+import PageHead from "@/components/PageHead.vue";
+import Navigation from "@/components/NavigationMenu.vue";
 
 export default {
   components: {

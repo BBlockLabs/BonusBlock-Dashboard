@@ -1,16 +1,15 @@
 import Model from "@/state/models/Model";
 
 export class Package extends Model {
+  /**
+   * @type {String}
+   */
+  id = "";
 
   /**
    * @type {String}
    */
-  id = '';
-
-  /**
-   * @type {String}
-   */
-  name = '';
+  name = "";
 
   /**
    * @type {Number}
@@ -50,12 +49,12 @@ export class Package extends Model {
   /**
    * @type {String}
    */
-  sdkVersion = '';
+  sdkVersion = "";
 
   /**
    * @type {String}
    */
-  kubernetesVersion = '';
+  kubernetesVersion = "";
 
   /**
    * @type {[]}
@@ -65,7 +64,7 @@ export class Package extends Model {
   /**
    * @type {String}
    */
-  serverId = '';
+  serverId = "";
 
   /**
    * @type {import('@/state/models/Server').Server}
@@ -93,7 +92,7 @@ export class Package extends Model {
   constructor(options = {}) {
     super();
 
-    Object.keys(options).forEach(key => {
+    Object.keys(options).forEach((key) => {
       this[key] = options[key];
     });
   }

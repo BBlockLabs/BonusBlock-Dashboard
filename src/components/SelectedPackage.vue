@@ -1,13 +1,6 @@
 <template>
-  <el-card
-
-    class="b-solid box-card my-2 px-3 selected-card"
-    shadow="never"
-  >
-    <el-row
-      justify="space-between"
-      class="pb-4"
-    >
+  <el-card class="b-solid box-card my-2 px-3 selected-card" shadow="never">
+    <el-row justify="space-between" class="pb-4">
       <el-col :span="-1">
         {{ selectedPackage.name }}
       </el-col>
@@ -17,14 +10,8 @@
       </el-col>
     </el-row>
 
-    <el-row
-      justify="space-between"
-      class="characteristics pb-2"
-    >
-      <el-col
-        :span="-1"
-        class="d-flex"
-      >
+    <el-row justify="space-between" class="characteristics pb-2">
+      <el-col :span="-1" class="d-flex">
         <cpu class="icon my-auto" />
         <span class="ml-2 my-auto">
           {{ selectedPackage.cpuName }}
@@ -34,19 +21,11 @@
         </span>
       </el-col>
 
-      <el-col :span="-1">
-        x1
-      </el-col>
+      <el-col :span="-1"> x1 </el-col>
     </el-row>
 
-    <el-row
-      justify="space-between"
-      class="characteristics pb-2"
-    >
-      <el-col
-        :span="-1"
-        class="d-flex"
-      >
+    <el-row justify="space-between" class="characteristics pb-2">
+      <el-col :span="-1" class="d-flex">
         <dashboard-speed class="icon my-auto" />
         <span class="ml-2 my-auto">
           {{ selectedPackage.ramType }}
@@ -55,19 +34,11 @@
         </span>
       </el-col>
 
-      <el-col :span="-1">
-        x1
-      </el-col>
+      <el-col :span="-1"> x1 </el-col>
     </el-row>
 
-    <el-row
-      justify="space-between"
-      class="characteristics pb-2"
-    >
-      <el-col
-        :span="-1"
-        class="d-flex"
-      >
+    <el-row justify="space-between" class="characteristics pb-2">
+      <el-col :span="-1" class="d-flex">
         <server class="icon my-auto" />
         <span class="ml-2 my-auto">
           {{ selectedPackage.storageDriveType }}
@@ -75,16 +46,10 @@
         </span>
       </el-col>
 
-      <el-col :span="-1">
-        x1
-      </el-col>
+      <el-col :span="-1"> x1 </el-col>
     </el-row>
 
-    <el-row
-      v-if="showButtons"
-      justify="space-around"
-      class="mt-2"
-    >
+    <el-row v-if="showButtons" justify="space-around" class="mt-2">
       <el-col :span="-1">
         <el-button
           type="danger"
@@ -113,30 +78,27 @@
 </template>
 
 <script>
-import {DashboardSpeed, Cpu, Server} from 'iconoir-vue';
-import {Formatter} from '@/common/Formatter';
-import Package from '@/state/models/Package';
+import { DashboardSpeed, Cpu, Server } from "iconoir-vue";
+import { Formatter } from "@/common/Formatter";
+import Package from "@/state/models/Package";
 
 export default {
   components: {
     DashboardSpeed,
     Cpu,
-    Server
+    Server,
   },
   props: {
     selectedPackage: {
       type: [Package, Object],
-      required: true
+      required: true,
     },
     showButtons: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
-  emits: [
-    'removeSelected',
-    'viewSelected',
-  ],
+  emits: ["removeSelected", "viewSelected"],
   computed: {
     Formatter: () => Formatter,
   },

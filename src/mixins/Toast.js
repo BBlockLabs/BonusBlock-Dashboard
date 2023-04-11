@@ -1,5 +1,5 @@
-import {ElMessage} from 'element-plus';
-import {h} from 'vue';
+import { ElMessage } from "element-plus";
+import { h } from "vue";
 
 export default {
   methods: {
@@ -10,26 +10,14 @@ export default {
      * @param {Number} duration
      * @return {void}
      */
-    Toast(
-      title,
-      text,
-      type = 'info',
-      duration = 0,
-    ) {
+    Toast(title, text, type = "info", duration = 0) {
       ElMessage({
         message: h(
-          'div',
+          "div",
           {
-            class: 'toast-body'
+            class: "toast-body",
           },
-          [
-            h(
-              'h6',
-              null,
-              title
-            ),
-            text
-          ]
+          [h("h6", null, title), text]
         ),
         type,
         duration,
@@ -45,13 +33,12 @@ export default {
     ToastError(error, functionName = null) {
       this.Toast(
         functionName
-          ? 'JavaScript error in ' + functionName + '()'
-          : 'JavaScript error',
+          ? "JavaScript error in " + functionName + "()"
+          : "JavaScript error",
         error.message,
-        'error',
-        5000,
+        "error",
+        5000
       );
     },
   },
 };
-

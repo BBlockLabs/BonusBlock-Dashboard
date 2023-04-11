@@ -1,11 +1,11 @@
 import ActionResponse from "@/common/ActionResponse";
-import User from '@/state/models/User';
-import Wallet from '@/state/models/Wallet';
-import userMock from '@/state/mock/users.json';
-import walletMock from '@/state/mock/wallets.json';
+import User from "@/state/models/User";
+import Wallet from "@/state/models/Wallet";
+import userMock from "@/state/mock/users.json";
+import walletMock from "@/state/mock/wallets.json";
 
 const sleep = async (milliseconds) => {
-  return new Promise(r => {
+  return new Promise((r) => {
     window.setTimeout(r, milliseconds);
   });
 };
@@ -46,7 +46,7 @@ export default {
      */
     addDeployment(state, deployment) {
       state.user.deployments.push(deployment);
-    }
+    },
   },
   actions: {
     /**
@@ -55,9 +55,13 @@ export default {
      * @return {Promise<ActionResponse>}
      */
     async login({ dispatch }, loginData) {
-      const userData = userMock.find((user) => user.username ===  loginData.username && user.password === loginData.password);
+      const userData = userMock.find(
+        (user) =>
+          user.username === loginData.username &&
+          user.password === loginData.password
+      );
 
-      return dispatch('loginUser', userData);
+      return dispatch("loginUser", userData);
     },
     /**
      * @param {function(String, any)} dispatch
@@ -67,7 +71,7 @@ export default {
     async ssoLogin({ dispatch }, ssoClient) {
       const userData = userMock.find((user) => user.id === `user-${ssoClient}`);
 
-      return dispatch('loginUser', userData);
+      return dispatch("loginUser", userData);
     },
     /**
      * @param {function(String, any)} commit
@@ -84,14 +88,14 @@ export default {
       const wallet = new Wallet({
         id: crypto.randomUUID(),
         userId: user.id,
-        address: 'alter1p92n6tg2eldx9k4eh8plsnu37zvpgxvm7qr7v7',
+        address: "alter1p92n6tg2eldx9k4eh8plsnu37zvpgxvm7qr7v7",
         balance: 1500,
       });
 
       await sleep(1000);
 
-      commit('setUser', user);
-      commit('WalletModule/addWallet', wallet, {root: true});
+      commit("setUser", user);
+      commit("WalletModule/addWallet", wallet, { root: true });
 
       return new ActionResponse(true, user);
     },
@@ -100,7 +104,7 @@ export default {
      * @param {Object} userData
      * @return {Promise<ActionResponse>}
      */
-    async loginUser({commit}, userData) {
+    async loginUser({ commit }, userData) {
       if (!userData) {
         await sleep(500);
 
@@ -110,15 +114,17 @@ export default {
       const user = new User(userData);
 
       const userWallets = walletMock
-        .filter(wallet => wallet.userId === user.id)
-        .map(walletData => new Wallet(walletData));
+        .filter((wallet) => wallet.userId === user.id)
+        .map((walletData) => new Wallet(walletData));
 
       await sleep(250);
 
-      commit('setUser', user);
-      userWallets.forEach(wallet => commit('WalletModule/addWallet', wallet, {root: true}));
+      commit("setUser", user);
+      userWallets.forEach((wallet) =>
+        commit("WalletModule/addWallet", wallet, { root: true })
+      );
 
       return new ActionResponse(true, user);
-    }
+    },
   },
 };

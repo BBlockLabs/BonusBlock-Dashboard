@@ -1,15 +1,15 @@
 import Model from "@/state/models/Model";
 
-export class Server extends Model{
+export class Server extends Model {
   /**
    * @type {String}
    */
-  id = '';
+  id = "";
 
   /**
    * @type {String}
    */
-  name = '';
+  name = "";
 
   /**
    * @type {String|null}
@@ -34,12 +34,12 @@ export class Server extends Model{
   /**
    * @type {String}
    */
-  ip = '0.0.0.0';
+  ip = "0.0.0.0";
 
   /**
    * @type {String}
    */
-  address = '';
+  address = "";
 
   /**
    * @type {Number}
@@ -54,12 +54,12 @@ export class Server extends Model{
   /**
    * @type {String}
    */
-  ramType = '';
+  ramType = "";
 
   /**
    * @type {String}
    */
-  cpuName = '';
+  cpuName = "";
 
   /**
    * @type {Number}
@@ -99,12 +99,12 @@ export class Server extends Model{
   /**
    * @type {String}
    */
-  storageDriveType = '';
+  storageDriveType = "";
 
   /**
    * @type {String}
    */
-  platform = '';
+  platform = "";
 
   /**
    * @type {Object}
@@ -152,7 +152,7 @@ export class Server extends Model{
   constructor(options = {}) {
     super();
 
-    Object.keys(options).forEach(key => {
+    Object.keys(options).forEach((key) => {
       this[key] = options[key];
     });
   }

@@ -1,4 +1,4 @@
-import {useVuelidate} from '@vuelidate/core';
+import { useVuelidate } from "@vuelidate/core";
 
 export default {
   data() {
@@ -13,11 +13,11 @@ export default {
      */
     getVuelidateErrorMessage(el) {
       if (!el || !el.$dirty) {
-        return '';
+        return "";
       }
 
       if (el.required && el.required.$invalid) {
-        return 'Required';
+        return "Required";
       }
 
       if (el.minLength && el.minLength.$invalid) {
@@ -36,10 +36,10 @@ export default {
         return `Must be a decimal number`;
       }
 
-      return '';
+      return "";
     },
   },
   validations() {
-    throw 'validations method needs to be overwritten when using Vuelidate mixin';
+    throw "validations method needs to be overwritten when using Vuelidate mixin";
   },
 };

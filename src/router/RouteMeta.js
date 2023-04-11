@@ -1,7 +1,13 @@
 export default class RouteMeta {
-  static get AUTH_ANY() {return 0;}
-  static get AUTH_ONLY_AUTHORIZED() {return 1;}
-  static get AUTH_ONLY_NON_AUTHORIZED() {return 2;}
+  static get AUTH_ANY() {
+    return 0;
+  }
+  static get AUTH_ONLY_AUTHORIZED() {
+    return 1;
+  }
+  static get AUTH_ONLY_NON_AUTHORIZED() {
+    return 2;
+  }
 
   /**
    * @type {boolean}
@@ -14,7 +20,7 @@ export default class RouteMeta {
    * }} options
    */
   constructor(options = {}) {
-    Object.keys(options).forEach(key => {
+    Object.keys(options).forEach((key) => {
       this[key] = options[key];
     });
   }

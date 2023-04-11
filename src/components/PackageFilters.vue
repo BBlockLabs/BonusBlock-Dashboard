@@ -1,44 +1,21 @@
 <template>
-  <el-card
-    class="box-card filters-card"
-    shadow="never"
-  >
-    <el-tabs
-      :stretch="true"
-      :model-value="tabOpened"
-    >
-      <el-tab-pane
-        label="Filters"
-        name="filters"
-        class="filters-pane"
-      >
+  <el-card class="box-card filters-card" shadow="never">
+    <el-tabs :stretch="true" :model-value="tabOpened">
+      <el-tab-pane label="Filters" name="filters" class="filters-pane">
         <el-row>
-          <el-input
-            v-model="filtersValues.search"
-            placeholder="Search..."
-          />
+          <el-input v-model="filtersValues.search" placeholder="Search..." />
         </el-row>
-        <template
-          v-for="filter in filterOptions"
-          :key="filter.id"
-        >
+        <template v-for="filter in filterOptions" :key="filter.id">
           <el-row
-            v-if="!filter.hidden || typeof filter.collapsableParent === 'undefined'"
+            v-if="
+              !filter.hidden || typeof filter.collapsableParent === 'undefined'
+            "
             class="label"
           >
-            <el-link
-              :underline="false"
-              @click="hideFilter(filter.id)"
-            >
+            <el-link :underline="false" @click="hideFilter(filter.id)">
               <template v-if="filter.collapsable">
-                <arrow-down
-                  v-if="!filter.hidden"
-                  class="icon"
-                />
-                <arrow-right
-                  v-else
-                  class="icon"
-                />
+                <arrow-down v-if="!filter.hidden" class="icon" />
+                <arrow-right v-else class="icon" />
               </template>
               {{ filter.title }}
             </el-link>
@@ -85,12 +62,7 @@
           </template>
         </template>
         <el-row justify="center">
-          <el-button
-            round
-            @click="resetFilters"
-          >
-            Reset
-          </el-button>
+          <el-button round @click="resetFilters"> Reset </el-button>
         </el-row>
       </el-tab-pane>
 
@@ -102,26 +74,18 @@
       >
         <h2>{{ selected.length }} Selected</h2>
 
-        <template
-          v-for="packageId in selected"
-          :key="packageId"
-        >
+        <template v-for="packageId in selected" :key="packageId">
           <selected-package
-            :selected-package="$store.getters['PackageModule/findById'](packageId)"
+            :selected-package="
+              $store.getters['PackageModule/findById'](packageId)
+            "
             @remove-selected="$emit('removeSelected', packageId)"
             @view-selected="$emit('viewSelected', packageId)"
           />
         </template>
 
-        <el-row
-          class="button-continue"
-          justify="center"
-        >
-          <el-button
-            round
-            type="primary"
-            @click="$emit('continueSelect')"
-          >
+        <el-row class="button-continue" justify="center">
+          <el-button round type="primary" @click="$emit('continueSelect')">
             Continue
           </el-button>
         </el-row>
@@ -131,15 +95,15 @@
 </template>
 
 <script>
-import SliderInput from '@/components/FilterSliderInput.vue';
-import PackageFilter from '@/common/PackageFilter';
-import {Formatter} from '@/common/Formatter';
-import SelectedPackage from '@/components/SelectedPackage.vue';
+import SliderInput from "@/components/FilterSliderInput.vue";
+import PackageFilter from "@/common/PackageFilter";
+import { Formatter } from "@/common/Formatter";
+import SelectedPackage from "@/components/SelectedPackage.vue";
 
 export default {
   components: {
     SliderInput,
-    SelectedPackage
+    SelectedPackage,
   },
   props: {
     modelValue: {
@@ -148,22 +112,22 @@ export default {
     },
     filterOptions: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     selected: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     tabOpened: {
       type: String,
-      default: 'filters'
-    }
+      default: "filters",
+    },
   },
   emits: [
-    'update:modelValue',
-    'removeSelected',
-    'viewSelected',
-    'continueSelect'
+    "update:modelValue",
+    "removeSelected",
+    "viewSelected",
+    "continueSelect",
   ],
   data() {
     return {
@@ -177,44 +141,43 @@ export default {
   watch: {
     filtersValues: {
       handler: function () {
-        this.$emit('update:modelValue', this.filtersValues);
+        this.$emit("update:modelValue", this.filtersValues);
       },
-      deep: true
+      deep: true,
     },
     modelValue() {
       this.filtersValues = this.modelValue;
     },
   },
   mounted() {
-    this.filterOptions.map(o => o.hidden = false);
+    this.filterOptions.map((o) => (o.hidden = false));
   },
   methods: {
     resetFilters() {
-      console.log('ddfs');
+      console.log("ddfs");
       console.log(this.filtersValues);
       console.log(this.defaultValues);
       this.filtersValues = new PackageFilter();
     },
     hideFilter(id) {
-      this.filterOptions.map(o => {
-        if(o.collapsableParent && o.collapsableParent === id) {
+      this.filterOptions.map((o) => {
+        if (o.collapsableParent && o.collapsableParent === id) {
           o.hidden = !o.hidden;
         }
-        if(o.id === id) {
+        if (o.id === id) {
           o.hidden = !o.hidden;
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss">
 @use "@/design/style/layout.scss";
-@use '@/design/element-plus-theme.scss' as theme;
+@use "@/design/element-plus-theme.scss" as theme;
 
 .filters-card {
-
   .el-card__body {
     padding-left: 0;
     padding-right: 0;
@@ -244,7 +207,7 @@ export default {
             font-weight: bold !important;
           }
           .icon {
-            margin-right:0.2em;
+            margin-right: 0.2em;
           }
         }
         .el-select {
@@ -255,8 +218,8 @@ export default {
           height: 2em;
           @extend .pl-2;
           .el-checkbox__inner {
-            border-radius: .125em;
-            top:1px;
+            border-radius: 0.125em;
+            top: 1px;
           }
         }
       }

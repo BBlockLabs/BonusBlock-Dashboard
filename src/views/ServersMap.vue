@@ -1,21 +1,15 @@
 <template>
-  <div
-    v-if="!loading"
-    class="servers-map"
-  >
-    <world-map
-      :points="coordinates"
-      @click="viewServer"
-    />
+  <div v-if="!loading" class="servers-map">
+    <world-map :points="coordinates" @click="viewServer" />
   </div>
 </template>
 
 <script>
-import WorldMap from '@/components/Map.vue';
+import WorldMap from "@/components/WorldMap.vue";
 
 export default {
   components: {
-    WorldMap
+    WorldMap,
   },
   data() {
     return {
@@ -31,22 +25,23 @@ export default {
       this.loading = true;
 
       try {
-        const serverResponse = await this.$store.dispatch('ServerModule/loadAllServers');
+        const serverResponse = await this.$store.dispatch(
+          "ServerModule/loadAllServers"
+        );
 
         if (!serverResponse.success) {
           console.error(serverResponse.errors);
           return;
         }
 
-        for(let i in serverResponse.data) {
+        for (let i in serverResponse.data) {
           let server = serverResponse.data[i];
-          if(server.location) {
-
+          if (server.location) {
             let coordinate = [
               server.location.coordinates[1],
               server.location.coordinates[0],
               server.name,
-              server.id
+              server.id,
             ];
             this.coordinates.push(coordinate);
           }
@@ -58,10 +53,10 @@ export default {
       }
     },
     viewServer(data) {
-      if(data.length >= 4) {
-        this.$router.push('/server/' + data[3]);
+      if (data.length >= 4) {
+        this.$router.push("/server/" + data[3]);
       }
-    }
+    },
   },
   /*  computed: {
       getTestBnuy() {
@@ -79,7 +74,7 @@ export default {
 
 <style lang="scss">
 .servers-map {
-  height:85vh;
-  width:100%;
+  height: 85vh;
+  width: 100%;
 }
 </style>

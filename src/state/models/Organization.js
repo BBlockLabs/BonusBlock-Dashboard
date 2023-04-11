@@ -4,12 +4,12 @@ export class Organization extends Model {
   /**
    * @type {String}
    */
-  id = '';
+  id = "";
 
   /**
    * @type {String}
    */
-  name = '';
+  name = "";
 
   /**
    * @type {String|null}
@@ -68,7 +68,7 @@ export class Organization extends Model {
   constructor(options = {}) {
     super();
 
-    Object.keys(options).forEach(key => {
+    Object.keys(options).forEach((key) => {
       this[key] = options[key];
     });
   }

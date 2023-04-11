@@ -1,44 +1,25 @@
 <template>
   <div class="b-solid bg-fill-extra-light br-base p-3 w-100">
     <el-row justify="space-between">
-      <el-col
-        :md="-1"
-        class="d-flex"
-      >
+      <el-col :md="-1" class="d-flex">
         <avatar :file="server.icon" />
 
         <div class="ml-3">
-          <b>{{ server.name }}</b> <br>
+          <b>{{ server.name }}</b> <br />
           {{ server.url }}
         </div>
       </el-col>
 
       <el-col :md="-1">
-        <el-button
-          round
-          @click="viewServer(server.id)"
-        >
-          See more >
-        </el-button>
+        <el-button round @click="viewServer(server.id)"> See more > </el-button>
       </el-col>
     </el-row>
 
-    <el-row
-      class="mt-3"
-      :gutter="24"
-    >
+    <el-row class="mt-3" :gutter="24">
       <el-col :md="8">
-        <el-space
-          class="w-100"
-          fill
-        >
-          <el-row
-            class="b-solid br-small p-3"
-            justify="space-between"
-          >
-            <el-col :span="-1">
-              Region
-            </el-col>
+        <el-space class="w-100" fill>
+          <el-row class="b-solid br-small p-3" justify="space-between">
+            <el-col :span="-1"> Region </el-col>
 
             <el-col :span="-1">
               <b>
@@ -47,13 +28,8 @@
             </el-col>
           </el-row>
 
-          <el-row
-            class="b-solid br-small p-3"
-            justify="space-between"
-          >
-            <el-col :span="-1">
-              Currently leasing
-            </el-col>
+          <el-row class="b-solid br-small p-3" justify="space-between">
+            <el-col :span="-1"> Currently leasing </el-col>
 
             <el-col :span="-1">
               <b>
@@ -62,13 +38,8 @@
             </el-col>
           </el-row>
 
-          <el-row
-            class="b-solid br-small p-3"
-            justify="space-between"
-          >
-            <el-col :span="-1">
-              Total leases
-            </el-col>
+          <el-row class="b-solid br-small p-3" justify="space-between">
+            <el-col :span="-1"> Total leases </el-col>
 
             <el-col :span="-1">
               <b>
@@ -77,13 +48,8 @@
             </el-col>
           </el-row>
 
-          <el-row
-            class="b-solid br-small p-3"
-            justify="space-between"
-          >
-            <el-col :span="-1">
-              Address
-            </el-col>
+          <el-row class="b-solid br-small p-3" justify="space-between">
+            <el-col :span="-1"> Address </el-col>
 
             <el-col :span="-1">
               <b>
@@ -140,13 +106,13 @@
       </el-col>
     </el-row>
 
-    <debug>{{ server }}</debug>
+    <debug-wrapper>{{ server }}</debug-wrapper>
   </div>
 </template>
 
 <script>
-import Avatar from '@/components/Avatar.vue';
-import ResourceGauge from '@/components/ResourceGauge.vue';
+import Avatar from "@/components/AvatarImage.vue";
+import ResourceGauge from "@/components/ResourceGauge.vue";
 import Server from "@/state/models/Server";
 
 export default {
@@ -160,12 +126,11 @@ export default {
       required: true,
     },
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     viewServer(serverId) {
-      this.$router.push('/server/' + serverId);
-    }
-  }
+      this.$router.push("/server/" + serverId);
+    },
+  },
 };
 </script>

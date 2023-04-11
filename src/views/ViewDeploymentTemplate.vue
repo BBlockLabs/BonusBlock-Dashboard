@@ -1,39 +1,17 @@
 <template>
-  <el-container
-    v-if="!loading"
-    class="h-100"
-  >
+  <el-container v-if="!loading" class="h-100">
     <el-aside class="p-3 view-template-aside">
       <el-row justify="space-between">
-        <el-col
-          :span="1"
-          class="align-right"
-        >
+        <el-col :span="1" class="align-right">
           <el-space direction="horizontal">
-            <el-link
-              :underline="false"
-              class="back"
-              @click="$router.go(-1)"
-            >
+            <el-link :underline="false" class="back" @click="$router.go(-1)">
               <arrow-left />
             </el-link>
-            <el-image
-              src="deploy-avatar.png"
-              fit="cover"
-              class="avatar"
-            />
+            <el-image src="deploy-avatar.png" fit="cover" class="avatar" />
           </el-space>
         </el-col>
-        <el-col
-          :span="17"
-          class="align-left pl-4"
-        >
-          <el-space
-            direction="vertical"
-            :size="7"
-            fill
-            class="pt-1"
-          >
+        <el-col :span="17" class="align-left pl-4">
+          <el-space direction="vertical" :size="7" fill class="pt-1">
             <h3 class="m-0">
               {{ deploymentTemplate.title }}
             </h3>
@@ -45,62 +23,44 @@
         </el-col>
       </el-row>
       <h4>Information</h4>
-      <el-space
-        fill
-        :size="16"
-      >
+      <el-space fill :size="16">
         <info-item
           title="Total uses"
-          :value="(deploymentTemplate.totalUses + '')"
+          :value="deploymentTemplate.totalUses + ''"
         />
-        <info-item
-          title="Repository"
-          :value="(deploymentTemplate.url + '')"
-        />
+        <info-item title="Repository" :value="deploymentTemplate.url + ''" />
         <info-item
           title="Last update"
-          :value="(deploymentTemplate.updatedAt + '')"
+          :value="deploymentTemplate.updatedAt + ''"
         />
         <info-item
           title="Contributors"
-          :value="(deploymentTemplate.contributors + '')"
+          :value="deploymentTemplate.contributors + ''"
         />
-        <info-item
-          title="Stars"
-          :value="(deploymentTemplate.stars + '')"
-        />
-        <info-item
-          title="Forks"
-          :value="(deploymentTemplate.forks + '')"
-        />
+        <info-item title="Stars" :value="deploymentTemplate.stars + ''" />
+        <info-item title="Forks" :value="deploymentTemplate.forks + ''" />
       </el-space>
     </el-aside>
 
     <el-main class="view-template-main">
       <el-row justify="space-between">
-        <el-col
-          :span="18"
-          class="align-left"
-        >
+        <el-col :span="18" class="align-left">
           <el-button-group>
             <el-button
               :type="tab === 'readme' ? 'primary' : ''"
-              @click="tab='readme'"
+              @click="tab = 'readme'"
             >
               Readme
             </el-button>
             <el-button
               :type="tab === 'yaml' ? 'primary' : ''"
-              @click="tab='yaml'"
+              @click="tab = 'yaml'"
             >
               YAML
             </el-button>
           </el-button-group>
         </el-col>
-        <el-col
-          :span="6"
-          class="align-right"
-        >
+        <el-col :span="6" class="align-right">
           <el-button
             v-if="$store.getters['DeploymentModule/isCreateDeployment']"
             round
@@ -116,27 +76,24 @@
         {{ deploymentTemplate.text }}
       </template>
       <template v-else-if="tab === 'yaml'">
-        <highlightjs
-          language="yaml"
-          :code="deploymentTemplate.yaml"
-        />
+        <highlightjs language="yaml" :code="deploymentTemplate.yaml" />
       </template>
     </el-main>
   </el-container>
 </template>
 
 <script>
-import InfoItem from '@/components/InfoItem.vue';
-import SvgGithub from '@/assets/icons/github.svg';
-import 'highlight.js/styles/stackoverflow-dark.css';
-import 'highlight.js/lib/common';
-import hljsVuePlugin from '@highlightjs/vue-plugin';
+import InfoItem from "@/components/InfoItem.vue";
+import SvgGithub from "@/assets/icons/github.svg";
+import "highlight.js/styles/stackoverflow-dark.css";
+import "highlight.js/lib/common";
+import hljsVuePlugin from "@highlightjs/vue-plugin";
 
 export default {
   components: {
     SvgGithub,
     InfoItem,
-    highlightjs: hljsVuePlugin.component
+    highlightjs: hljsVuePlugin.component,
   },
   data() {
     return {
@@ -145,7 +102,7 @@ export default {
        * @type {import('@/state/models/DeploymentTemplate').DeploymentTemplate}
        */
       deploymentTemplate: null,
-      tab: 'readme',
+      tab: "readme",
     };
   },
   computed: {
@@ -162,7 +119,7 @@ export default {
 
       try {
         const response = await this.$store.dispatch(
-          'DeploymentTemplateModule/loadDeploymentTemplateById',
+          "DeploymentTemplateModule/loadDeploymentTemplateById",
           this.deploymentTemplateId
         );
 
@@ -179,9 +136,9 @@ export default {
     },
     selectDeploymentTemplate() {
       const sampleYaml = this.deploymentTemplate.yaml;
-      this.$store.commit('DeploymentModule/setYaml', sampleYaml);
+      this.$store.commit("DeploymentModule/setYaml", sampleYaml);
 
-      this.$router.push('/packages');
+      this.$router.push("/packages");
     },
   },
 };
@@ -192,14 +149,14 @@ export default {
   width: 17%;
   .back {
     svg {
-      height:1.5em;
-      width:1.5em;
+      height: 1.5em;
+      width: 1.5em;
     }
   }
 
   .avatar {
-    height:56px;
-    width:56px;
+    height: 56px;
+    width: 56px;
   }
 }
 .view-template-main {
@@ -207,9 +164,8 @@ export default {
 
   .el-button-group {
     .el-button {
-      border-radius: 0.25em
+      border-radius: 0.25em;
     }
-
   }
 }
 </style>

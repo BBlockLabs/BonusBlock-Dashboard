@@ -1,23 +1,14 @@
 <template>
   <el-container class="h-100">
     <el-aside>
-      <debug>ID: {{ serverId }}</debug>
-      <debug>{{ server }}</debug>
+      <debug-wrapper>ID: {{ serverId }}</debug-wrapper>
+      <debug-wrapper>{{ server }}</debug-wrapper>
 
-      <server-profile-panel
-        v-if="!loading"
-        class="w-100"
-        :server="server"
-      />
+      <server-profile-panel v-if="!loading" class="w-100" :server="server" />
     </el-aside>
 
     <el-main class="pt-0">
-      <el-row
-        v-if="!loading"
-        v-loading="loading"
-        justify="start"
-        class="gap-0"
-      >
+      <el-row v-if="!loading" v-loading="loading" justify="start" class="gap-0">
         <el-col
           v-for="packageInstance in packages"
           :key="packageInstance.id"
@@ -36,8 +27,8 @@
 </template>
 
 <script>
-import ServerProfilePanel from '@/components/ServerProfilePanel.vue';
-import PackageBoxVertical from '@/components/PackageBoxVertical.vue';
+import ServerProfilePanel from "@/components/ServerProfilePanel.vue";
+import PackageBoxVertical from "@/components/PackageBoxVertical.vue";
 
 export default {
   components: {
@@ -54,7 +45,7 @@ export default {
       /**
        * @type {[import('@/state/models/Package').Package]}
        */
-      packages: []
+      packages: [],
     };
   },
   computed: {
@@ -71,7 +62,7 @@ export default {
 
       try {
         const serverResponse = await this.$store.dispatch(
-          'ServerModule/loadServerById',
+          "ServerModule/loadServerById",
           this.serverId
         );
 
@@ -83,7 +74,7 @@ export default {
         this.server = serverResponse.data;
 
         const packagesResponse = await this.$store.dispatch(
-          'PackageModule/loadPackagesByServerId',
+          "PackageModule/loadPackagesByServerId",
           this.serverId
         );
 
@@ -101,11 +92,11 @@ export default {
     },
     continueClick(packageId) {
       let pa = [];
-      pa.push(this.$store.getters['PackageModule/findById'](packageId));
-      this.$store.commit('DeploymentModule/setPackages', pa);
+      pa.push(this.$store.getters["PackageModule/findById"](packageId));
+      this.$store.commit("DeploymentModule/setPackages", pa);
 
-      this.$router.push('/confirm-deployment');
-    }
+      this.$router.push("/confirm-deployment");
+    },
   },
 };
 </script>

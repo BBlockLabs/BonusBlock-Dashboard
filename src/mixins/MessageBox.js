@@ -1,4 +1,4 @@
-import {ElMessageBox} from 'element-plus';
+import { ElMessageBox } from "element-plus";
 
 export default {
   methods: {
@@ -14,18 +14,15 @@ export default {
      */
     async MessageBoxConfirm(message, options) {
       try {
-        const confirm = await ElMessageBox.confirm(
-          message,
-          {
-            center: true,
-            showClose: false,
-            cancelButtonText: 'Cancel',
-            cancelButtonClass: 'is-plain',
-            ...options,
-          }
-        );
+        const confirm = await ElMessageBox.confirm(message, {
+          center: true,
+          showClose: false,
+          cancelButtonText: "Cancel",
+          cancelButtonClass: "is-plain",
+          ...options,
+        });
 
-        return confirm === 'confirm';
+        return confirm === "confirm";
       } catch (e) {
         return false;
       }

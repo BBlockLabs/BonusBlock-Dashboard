@@ -1,9 +1,6 @@
 <template>
   <el-row class="h-100">
-    <el-col
-      hidden-sm-and-down
-      :md="2"
-    />
+    <el-col hidden-sm-and-down :md="2" />
     <el-col :md="6">
       <div class="d-flex h-100">
         <div class="my-auto w-100">
@@ -15,7 +12,10 @@
 
           <el-row>
             <el-col>
-              <p>Workspaces are used to collaborate with colleagues and manage deployments as a team.</p>
+              <p>
+                Workspaces are used to collaborate with colleagues and manage
+                deployments as a team.
+              </p>
             </el-col>
           </el-row>
 
@@ -23,7 +23,7 @@
             <el-col>
               <create-workspace-form
                 cancel-text="Skip for now"
-                @workSpaceAddSuccess="afterSave"
+                @work-space-add-success="afterSave"
                 @cancel="afterSave"
               />
             </el-col>
@@ -32,16 +32,11 @@
       </div>
     </el-col>
 
-    <el-col
-      hidden-sm-and-down
-      :md="2"
-    />
+    <el-col hidden-sm-and-down :md="2" />
     <el-col :md="12">
       <el-card class="h-100">
         <div class="d-flex">
-          <div class="mx-auto">
-            Decorative Illustration
-          </div>
+          <div class="mx-auto">Decorative Illustration</div>
         </div>
       </el-card>
     </el-col>
@@ -49,7 +44,7 @@
 </template>
 
 <script>
-import CreateWorkspaceForm from '@/components/CreateWorkspaceForm.vue';
+import CreateWorkspaceForm from "@/components/CreateWorkspaceForm.vue";
 
 export default {
   components: {
@@ -57,8 +52,8 @@ export default {
   },
   methods: {
     afterSave() {
-      this.$router.push('/add-balance');
+      this.$router.push("/add-balance");
     },
-  }
+  },
 };
 </script>

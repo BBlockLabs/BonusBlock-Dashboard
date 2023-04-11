@@ -1,22 +1,16 @@
 <template>
   <div class="b-solid bg-fill-extra-light br-base p-3">
     <el-row justify="space-between">
-      <el-col
-        :md="-1"
-        class="d-flex"
-      >
+      <el-col :md="-1" class="d-flex">
         <avatar :file="packageInstance.server.icon" />
         <div class="ml-3">
-          <b>{{ packageInstance.name }}</b> <br>
+          <b>{{ packageInstance.name }}</b> <br />
           {{ packageInstance.server.url }}
         </div>
       </el-col>
 
       <el-col :md="-1">
-        <el-button
-          round
-          @click="viewServer(packageInstance.server.id)"
-        >
+        <el-button round @click="viewServer(packageInstance.server.id)">
           See more >
         </el-button>
 
@@ -31,37 +25,19 @@
       </el-col>
     </el-row>
 
-    <el-row
-      class="mt-3"
-      :gutter="24"
-    >
+    <el-row class="mt-3" :gutter="24">
       <el-col :md="8">
-        <el-space
-          class="w-100"
-          fill
-        >
-          <el-row
-            class="b-solid br-small p-3"
-            justify="space-between"
-          >
-            <el-col :span="-1">
-              Price
-            </el-col>
+        <el-space class="w-100" fill>
+          <el-row class="b-solid br-small p-3" justify="space-between">
+            <el-col :span="-1"> Price </el-col>
 
             <el-col :span="-1">
-              <b>
-                {{ packageInstance.priceUHost / 1000000 }} $HOST
-              </b>
+              <b> {{ packageInstance.priceUHost / 1000000 }} $HOST </b>
             </el-col>
           </el-row>
 
-          <el-row
-            class="b-solid br-small p-3"
-            justify="space-between"
-          >
-            <el-col :span="-1">
-              Location
-            </el-col>
+          <el-row class="b-solid br-small p-3" justify="space-between">
+            <el-col :span="-1"> Location </el-col>
 
             <el-col :span="-1">
               <b>
@@ -70,13 +46,8 @@
             </el-col>
           </el-row>
 
-          <el-row
-            class="b-solid br-small p-3"
-            justify="space-between"
-          >
-            <el-col :span="-1">
-              Platform
-            </el-col>
+          <el-row class="b-solid br-small p-3" justify="space-between">
+            <el-col :span="-1"> Platform </el-col>
 
             <el-col :span="-1">
               <b>
@@ -96,8 +67,8 @@
               </div>
 
               <b>
-                RAM <br>
-                {{ Formatter.formatBytes(packageInstance.ramBytes) }} <br>
+                RAM <br />
+                {{ Formatter.formatBytes(packageInstance.ramBytes) }} <br />
               </b>
 
               <span class="text-secondary">
@@ -113,9 +84,9 @@
               </div>
 
               <b>
-                CPU <br>
+                CPU <br />
                 {{ packageInstance.cpuCoreCount }} Core at
-                {{ packageInstance.cpuGHz }} GHz <br>
+                {{ packageInstance.cpuGHz }} GHz <br />
               </b>
 
               <span class="text-secondary">
@@ -131,8 +102,9 @@
               </div>
 
               <b>
-                Storage <br>
-                {{ Formatter.formatBytes(packageInstance.storageBytes) }} GB <br>
+                Storage <br />
+                {{ Formatter.formatBytes(packageInstance.storageBytes) }} GB
+                <br />
               </b>
 
               <span class="text-secondary">
@@ -163,17 +135,17 @@
       </el-col>
     </el-row>
 
-    <debug>{{ packageInstance }}</debug>
+    <debug-wrapper>{{ packageInstance }}</debug-wrapper>
   </div>
 </template>
 
 <script>
-import {Formatter} from '@/common/Formatter';
-import Avatar from '@/components/Avatar.vue';
-import PackageModel from '@/state/models/Package';
-import { DashboardSpeed, Cpu, Server } from 'iconoir-vue';
+import { Formatter } from "@/common/Formatter";
+import Avatar from "@/components/AvatarImage.vue";
+import PackageModel from "@/state/models/Package";
+import { DashboardSpeed, Cpu, Server } from "iconoir-vue";
 
-export default  {
+export default {
   components: {
     Cpu,
     DashboardSpeed,
@@ -187,11 +159,9 @@ export default  {
     },
     selected: {
       type: Boolean,
-    }
+    },
   },
-  emits: [
-    'select',
-  ],
+  emits: ["select"],
   computed: {
     Formatter: () => Formatter,
     /**
@@ -200,17 +170,17 @@ export default  {
   },
   methods: {
     onSelect() {
-      this.$emit('select', this.packageId);
+      this.$emit("select", this.packageId);
     },
     viewServer(serverId) {
-      this.$router.push('/server/' + serverId);
-    }
+      this.$router.push("/server/" + serverId);
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
-  .box-icon {
-    height: 48px;
-  }
+.box-icon {
+  height: 48px;
+}
 </style>

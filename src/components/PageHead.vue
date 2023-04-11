@@ -1,27 +1,19 @@
 <template>
-  <el-row
-    justify="space-between"
-    class="h-100"
-  >
-    <el-col
-      class="d-flex h-100"
-      :span="-1"
-    >
+  <el-row justify="space-between" class="h-100">
+    <el-col class="d-flex h-100" :span="-1">
       <span class="my-auto">
-        {{ currentRoute ? (currentRoute.parent || currentRoute.name) : $route.name }}
+        {{
+          currentRoute ? currentRoute.parent || currentRoute.name : $route.name
+        }}
       </span>
     </el-col>
 
-    <el-col
-      v-if="routeOptions.length > 0"
-      class="h-100"
-      :span="-1"
-    >
+    <el-col v-if="routeOptions.length > 0" class="h-100" :span="-1">
       <el-menu
         :ellipsis="false"
         :default-active="$route.name"
         mode="horizontal"
-        @select="name => $router.replace({name})"
+        @select="(name) => $router.replace({ name })"
       >
         <menu-item
           v-for="route in routeOptions"
@@ -31,14 +23,8 @@
       </el-menu>
     </el-col>
 
-    <el-col
-      class="d-flex h-100"
-      :span="-1"
-    >
-      <div
-        v-if="$store.getters['Auth/isLoggedIn']"
-        class="d-flex h-100"
-      >
+    <el-col class="d-flex h-100" :span="-1">
+      <div v-if="$store.getters['Auth/isLoggedIn']" class="d-flex h-100">
         <icon-bell class="icon-large my-auto" />
 
         <el-button
@@ -56,22 +42,16 @@
         </span>
       </div>
 
-      <router-link
-        v-else
-        class="my-auto"
-        to="/login"
-      >
-        Log in
-      </router-link>
+      <router-link v-else class="my-auto" to="/login"> Log in </router-link>
     </el-col>
   </el-row>
 </template>
 
 <script>
-import NavigationList from '@/common/Navigation';
-import MenuItem from '@/components/MenuItem.vue';
-import Avatar from '@/components/Avatar.vue';
-import { Bell as IconBell, GitCompare } from 'iconoir-vue';
+import NavigationList from "@/common/Navigation";
+import MenuItem from "@/components/MenuItem.vue";
+import Avatar from "@/components/AvatarImage.vue";
+import { Bell as IconBell, GitCompare } from "iconoir-vue";
 
 export default {
   components: {
@@ -82,23 +62,31 @@ export default {
   },
   computed: {
     currentRoute() {
-      return NavigationList.find(route => route.name === this.$route.name) || null;
+      return (
+        NavigationList.find((route) => route.name === this.$route.name) || null
+      );
     },
     routeOptions() {
       if (this.currentRoute === null) {
         return [];
       }
 
-      const navRoutes = NavigationList.filter(route => route.parent !== null && route.showInMenu);
+      const navRoutes = NavigationList.filter(
+        (route) => route.parent !== null && route.showInMenu
+      );
 
-      const siblingRoutes = navRoutes.filter(route => route.parent === this.currentRoute.parent);
+      const siblingRoutes = navRoutes.filter(
+        (route) => route.parent === this.currentRoute.parent
+      );
 
       if (siblingRoutes.length > 0) {
         return siblingRoutes;
       }
 
       // Return child routes of the current route
-      return navRoutes.filter(route => route.parent === this.currentRoute.name);
+      return navRoutes.filter(
+        (route) => route.parent === this.currentRoute.name
+      );
     },
   },
 };

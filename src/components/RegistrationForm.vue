@@ -1,13 +1,8 @@
 <template>
-  <el-form
-    v-loading="loading"
-    @submit.prevent="register"
-  >
+  <el-form v-loading="loading" @submit.prevent="register">
     <el-row justify="center">
       <el-col>
-        <el-form-item
-          :error="getErrorMessage(vuelidate.formData.username)"
-        >
+        <el-form-item :error="getErrorMessage(vuelidate.formData.username)">
           <el-input
             v-model="formData.username"
             size="large"
@@ -20,9 +15,7 @@
 
     <el-row justify="center">
       <el-col>
-        <el-form-item
-          :error="getErrorMessage(vuelidate.formData.password)"
-        >
+        <el-form-item :error="getErrorMessage(vuelidate.formData.password)">
           <el-input
             v-model="formData.password"
             size="large"
@@ -53,12 +46,7 @@
 
     <el-row justify="center">
       <el-col :md="-1">
-        <el-button
-          round
-          class="w-100"
-          type="primary"
-          @click="register"
-        >
+        <el-button round class="w-100" type="primary" @click="register">
           Register
         </el-button>
       </el-col>
@@ -67,26 +55,19 @@
 </template>
 
 <script>
-import Toast from '@/mixins/Toast';
-import Vuelidate from '@/mixins/Vuelidate';
-import {required, minLength, sameAs} from '@vuelidate/validators';
+import Toast from "@/mixins/Toast";
+import Vuelidate from "@/mixins/Vuelidate";
+import { required, minLength, sameAs } from "@vuelidate/validators";
 
 export default {
-  mixins: [
-    Toast,
-    Vuelidate,
-  ],
-  emits: [
-    'registerSuccess',
-    'registerFailed',
-    'registerError',
-  ],
+  mixins: [Toast, Vuelidate],
+  emits: ["registerSuccess", "registerFailed", "registerError"],
   data() {
     return {
       formData: {
-        username: '',
-        password: '',
-        passwordRepeat: '',
+        username: "",
+        password: "",
+        passwordRepeat: "",
       },
       loading: false,
     };
@@ -107,29 +88,24 @@ export default {
           password: this.formData.password,
         };
 
-        const response = await this.$store.dispatch('Auth/register', registrationData);
+        const response = await this.$store.dispatch(
+          "Auth/register",
+          registrationData
+        );
 
         if (!response.success) {
-          this.Toast(
-            'Failed to register',
-            '',
-            'error'
-          );
-          this.$emit('registerFailed', response.errors);
+          this.Toast("Failed to register", "", "error");
+          this.$emit("registerFailed", response.errors);
 
           return;
         }
 
-        this.Toast(
-          'Registration successfully',
-          '',
-          'success'
-        );
+        this.Toast("Registration successfully", "", "success");
 
-        this.$emit('registerSuccess', response.data);
+        this.$emit("registerSuccess", response.data);
       } catch (e) {
-        this.$emit('registerError', e);
-        this.ToastError(e, 'register');
+        this.$emit("registerError", e);
+        this.ToastError(e, "register");
         console.error(e);
       } finally {
         this.loading = false;
@@ -141,11 +117,11 @@ export default {
      */
     getErrorMessage(el) {
       if (!el || !el.$dirty) {
-        return '';
+        return "";
       }
 
       if (el.sameAsPassword && el.sameAsPassword.$invalid) {
-        return 'Passwords do not match';
+        return "Passwords do not match";
       }
 
       return this.getVuelidateErrorMessage(el);

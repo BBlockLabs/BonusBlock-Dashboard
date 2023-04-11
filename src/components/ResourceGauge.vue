@@ -1,14 +1,7 @@
 <template>
-  <el-row
-    justify="space-between"
-    align="bottom"
-    class="pb-3"
-  >
+  <el-row justify="space-between" align="bottom" class="pb-3">
     <el-col :span="-1">
-      <component
-        :is="typeProps.icon"
-        class="gauge-icon icon"
-      />
+      <component :is="typeProps.icon" class="gauge-icon icon" />
       {{ title }}
     </el-col>
     <el-col :span="-1">
@@ -29,32 +22,32 @@
 </template>
 
 <script>
-import {DashboardSpeed, Cpu, Server} from 'iconoir-vue';
-import {Formatter} from '@/common/Formatter';
+import { DashboardSpeed, Cpu, Server } from "iconoir-vue";
+import { Formatter } from "@/common/Formatter";
 
 export default {
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     type: {
       type: String,
       required: true,
-      validator: value => ['cpu', 'ram', 'storage'].indexOf(value) >= 0
+      validator: (value) => ["cpu", "ram", "storage"].indexOf(value) >= 0,
     },
     current: {
       type: Number,
-      required: true
+      required: true,
     },
     max: {
       type: Number,
-      required: true
+      required: true,
     },
     class: {
       type: String,
-      default: '',
-    }
+      default: "",
+    },
   },
   computed: {
     /**
@@ -66,35 +59,35 @@ export default {
      */
     typeProps() {
       switch (this.type) {
-        case 'ram':
+        case "ram":
           return {
-            color: 'success',
+            color: "success",
             icon: DashboardSpeed,
             valueFunction: Formatter.formatBytes,
           };
-        case 'storage':
+        case "storage":
           return {
-            color: 'exception',
+            color: "exception",
             icon: Server,
             valueFunction: Formatter.formatBytes,
           };
-        case 'cpu':
+        case "cpu":
           return {
-            color: 'warning',
+            color: "warning",
             icon: Cpu,
-            valueFunction: value => `${value} vCPU`,
+            valueFunction: (value) => `${value} vCPU`,
           };
         default:
           return {
-            color: 'primary',
+            color: "primary",
             icon: DashboardSpeed,
-            valueFunction: value => value,
+            valueFunction: (value) => value,
           };
       }
     },
     percentage() {
-      return Math.round(this.current * 100 / this.max);
-    }
+      return Math.round((this.current * 100) / this.max);
+    },
   },
 };
 </script>
@@ -102,7 +95,7 @@ export default {
 <style lang="scss">
 .gauge-icon {
   position: relative;
-  top:0.25em;
-  zoom:150%;
+  top: 0.25em;
+  zoom: 150%;
 }
 </style>

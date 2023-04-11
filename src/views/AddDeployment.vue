@@ -13,51 +13,23 @@
     :align="align"
     class="deployments h-100"
   >
-    <el-col
-      v-loading="loading"
-      :xl="17"
-      :md="20"
-      :xs="24"
-      class="align-center"
-    >
+    <el-col v-loading="loading" :xl="17" :md="20" :xs="24" class="align-center">
       <template v-if="selected === null">
-        <h3 class="p-0 pb-2">
-          What would you like to deploy?
-        </h3>
-        <el-space
-          direction="vertical"
-          fill
-          :size="16"
-        >
-          <template
-            v-for="row in types"
-            :key="row.id"
-          >
+        <h3 class="p-0 pb-2">What would you like to deploy?</h3>
+        <el-space direction="vertical" fill :size="16">
+          <template v-for="row in types" :key="row.id">
             <el-card
               shadow="hover"
               class="deployment-type"
               @click="clickType(row.id)"
             >
-              <el-row
-                justify="start"
-                align="middle"
-                :gutter="20"
-              >
-                <el-col
-                  :span="4"
-                  class="align-right"
-                >
-                  <el-avatar
-                    size="large"
-                    :class="row.icon"
-                  >
+              <el-row justify="start" align="middle" :gutter="20">
+                <el-col :span="4" class="align-right">
+                  <el-avatar size="large" :class="row.icon">
                     <span />
                   </el-avatar>
                 </el-col>
-                <el-col
-                  :span="18"
-                  class="align-left"
-                >
+                <el-col :span="18" class="align-left">
                   <h3 class="m-0">
                     {{ row.title }}
                   </h3>
@@ -69,13 +41,8 @@
         </el-space>
       </template>
       <template v-if="selected === 'file'">
-        <h3 class="pb-2">
-          Upload your deploy.yml file
-        </h3>
-        <el-upload
-          class="upload-deployment"
-          drag
-        >
+        <h3 class="pb-2">Upload your deploy.yml file</h3>
+        <el-upload class="upload-deployment" drag>
           <el-icon class="el-icon--upload">
             <upload-filled />
           </el-icon>
@@ -85,18 +52,13 @@
           <template #tip>
             <div class="el-upload__tip pt-2">
               <el-row justify="space-between">
-                <el-col
-                  :span="20"
-                >
+                <el-col :span="20">
                   <el-icon class="text-icon">
                     <svg-text />
                     amazingBnuuyDeployment.yml
                   </el-icon>
                 </el-col>
-                <el-col
-                  :span="4"
-                  class="align-right"
-                >
+                <el-col :span="4" class="align-right">
                   <circle-check class="icon-ok" />
                 </el-col>
               </el-row>
@@ -113,14 +75,9 @@
         </el-button>
       </template>
       <template v-if="selected === 'docker'">
-        <h3 class="pb-2">
-          Set your Docker Registry URL
-        </h3>
-        <el-input
-          class="input-docker-url mb-5"
-          placeholder="Registry URL"
-        />
-        <br>
+        <h3 class="pb-2">Set your Docker Registry URL</h3>
+        <el-input class="input-docker-url mb-5" placeholder="Registry URL" />
+        <br />
         <el-button
           type="primary"
           size="large"
@@ -138,97 +95,101 @@
 </template>
 
 <script>
-import SvgText from '@/assets/icons/text.svg';
+import SvgText from "@/assets/icons/text.svg";
 import debounce from "debounce";
-import DeploymentTemplates from '@/views/DeploymentTemplates.vue';
+import DeploymentTemplates from "@/views/DeploymentTemplates.vue";
 
 export default {
   components: {
     SvgText,
-    DeploymentTemplates
+    DeploymentTemplates,
   },
   data() {
     return {
       loading: false,
       selected: null,
       filter: null,
-      align: "middle"
+      align: "middle",
     };
   },
   computed: {
     types() {
       return [
         {
-          'id': 'empty',
-          'icon': 'drafts',
-          'title': 'Empty',
-          'text': 'A basic config to get you started.'
+          id: "empty",
+          icon: "drafts",
+          title: "Empty",
+          text: "A basic config to get you started.",
         },
         {
-          'id': 'file',
-          'icon': 'text',
-          'title': 'From file',
-          'text': 'Load your deploy.yml file from your device.'
+          id: "file",
+          icon: "text",
+          title: "From file",
+          text: "Load your deploy.yml file from your device.",
         },
         {
-          'id': 'docker',
-          'icon': 'link',
-          'title': 'From Docker Registry',
-          'text': 'Load your deploy.yml file from a public Docker registry.'
+          id: "docker",
+          icon: "link",
+          title: "From Docker Registry",
+          text: "Load your deploy.yml file from a public Docker registry.",
         },
         {
-          'id': 'hello-world',
-          'icon': 'globe',
-          'title': 'Hello World',
-          'text': 'A Simple application that displays ‘Hello World’.'
+          id: "hello-world",
+          icon: "globe",
+          title: "Hello World",
+          text: "A Simple application that displays ‘Hello World’.",
         },
         {
-          'id': 'template',
-          'icon': 'notes',
-          'title': 'Template',
-          'text': 'Search and explore over 2,294 community-made templates to get you started.'
+          id: "template",
+          icon: "notes",
+          title: "Template",
+          text: "Search and explore over 2,294 community-made templates to get you started.",
         },
       ];
-    }
+    },
   },
   watch: {
     filter: debounce(function () {
-      this.filteredDeploymentTemplates = this.deploymentTemplates.filter(deploymentTemplate => deploymentTemplate.title.toLowerCase().indexOf(this.filter) !== -1);
+      this.filteredDeploymentTemplates = this.deploymentTemplates.filter(
+        (deploymentTemplate) =>
+          deploymentTemplate.title.toLowerCase().indexOf(this.filter) !== -1
+      );
     }, 500),
   },
   created() {
-    this.$store.commit('DeploymentModule/createDeployment');
-    if(this.$route.hash) {
-      if(this.$route.hash === '#template') {
-        this.clickType('template');
+    this.$store.commit("DeploymentModule/createDeployment");
+    if (this.$route.hash) {
+      if (this.$route.hash === "#template") {
+        this.clickType("template");
       }
     }
   },
   methods: {
     clickType(type) {
       this.selected = type;
-      if (type === 'template') {
-        this.align = 'top';
+      if (type === "template") {
+        this.align = "top";
       } else {
-        this.align = 'middle';
+        this.align = "middle";
       }
-      if (type === 'hello-world' || type === 'empty') {
+      if (type === "hello-world" || type === "empty") {
         this.selectDeploymentType();
       }
       location.hash = type;
     },
     selectDeploymentType() {
-      const sampleYaml = this.$store.getters['DeploymentModule/getSampleYamlTesting'];
-      this.$store.commit('DeploymentModule/setYaml', sampleYaml);
+      const sampleYaml =
+        this.$store.getters["DeploymentModule/getSampleYamlTesting"];
+      this.$store.commit("DeploymentModule/setYaml", sampleYaml);
 
-      this.$router.push('/packages');
+      this.$router.push("/packages");
     },
-  }
+  },
 };
 </script>
 
 <style lang="scss">
-@use 'element-plus/theme-chalk/src/mixins/function' as EPFunctions;
+@use "element-plus/theme-chalk/src/mixins/function" as EPFunctions;
 
 .add-deployment-back {
   z-index: 999;
@@ -237,8 +198,8 @@ export default {
   left: 1.5em;
   top: 5.5em;
   svg {
-    height:1.5em;
-    width:1.5em;
+    height: 1.5em;
+    width: 1.5em;
   }
 }
 
@@ -247,7 +208,7 @@ export default {
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 8px;
     cursor: pointer;
-    background-color: EPFunctions.getCssVar('bg-color', 'page');
+    background-color: EPFunctions.getCssVar("bg-color", "page");
 
     &:hover {
       transform: scale(1.05);
@@ -258,7 +219,6 @@ export default {
       padding-right: 0;
 
       .el-avatar {
-
         span {
           background-color: currentColor;
           width: 2em;
@@ -268,40 +228,40 @@ export default {
           background-color: rgba(137, 231, 192, 0.1);
 
           span {
-            mask-image: url('@/assets/icons/drafts.svg?base64');
-            -webkit-mask-image: url('@/assets/icons/drafts.svg?base64');
+            mask-image: url("@/assets/icons/drafts.svg?base64");
+            -webkit-mask-image: url("@/assets/icons/drafts.svg?base64");
           }
         }
         &.text {
           background-color: rgba(237, 209, 137, 0.1);
 
           span {
-            mask-image: url('@/assets/icons/text.svg?base64');
-            -webkit-mask-image: url('@/assets/icons/text.svg?base64');
+            mask-image: url("@/assets/icons/text.svg?base64");
+            -webkit-mask-image: url("@/assets/icons/text.svg?base64");
           }
         }
         &.link {
           background-color: rgba(237, 143, 137, 0.1);
 
           span {
-            mask-image: url('@/assets/icons/link.svg?base64');
-            -webkit-mask-image: url('@/assets/icons/link.svg?base64');
+            mask-image: url("@/assets/icons/link.svg?base64");
+            -webkit-mask-image: url("@/assets/icons/link.svg?base64");
           }
         }
         &.globe {
           background-color: rgba(227, 134, 151, 0.1);
 
           span {
-            mask-image: url('@/assets/icons/globe.svg?base64');
-            -webkit-mask-image: url('@/assets/icons/globe.svg?base64');
+            mask-image: url("@/assets/icons/globe.svg?base64");
+            -webkit-mask-image: url("@/assets/icons/globe.svg?base64");
           }
         }
         &.notes {
           background-color: rgba(137, 158, 231, 0.1);
 
           span {
-            mask-image: url('@/assets/icons/notes.svg?base64');
-            -webkit-mask-image: url('@/assets/icons/notes.svg?base64');
+            mask-image: url("@/assets/icons/notes.svg?base64");
+            -webkit-mask-image: url("@/assets/icons/notes.svg?base64");
           }
         }
       }
@@ -309,26 +269,27 @@ export default {
   }
 
   .upload-deployment {
-    width:30em;
-    height:16em;
+    width: 30em;
+    height: 16em;
     padding-bottom: 4.5em;
     margin: auto;
 
-    .el-upload, .el-upload-dragger {
-      height:100%;
+    .el-upload,
+    .el-upload-dragger {
+      height: 100%;
     }
     .el-upload-dragger {
-      padding-top:2em;
+      padding-top: 2em;
     }
 
     .el-upload__tip {
       .text-icon {
         svg {
-          zoom:150%;
+          zoom: 150%;
         }
       }
       svg.icon-ok {
-        height:1.5em;
+        height: 1.5em;
         color: var(--el-color-success);
       }
     }
@@ -343,8 +304,8 @@ export default {
       padding: 2em;
 
       .avatar {
-        height:56px;
-        width:56px;
+        height: 56px;
+        width: 56px;
       }
     }
   }

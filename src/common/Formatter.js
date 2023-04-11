@@ -1,5 +1,5 @@
 export class Formatter {
-  static byteLevels = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  static byteLevels = ["B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 
   /**
    * @param {BigInt} bytes
@@ -14,7 +14,7 @@ export class Formatter {
     while (quotient >= 1024n) {
       remainder = quotient & 1023n;
       quotient = quotient >> 10n; // same as quotient = quotient / 1024
-      shifts ++;
+      shifts++;
     }
 
     const unit = Formatter.byteLevels[shifts];
@@ -23,7 +23,7 @@ export class Formatter {
       return `${quotient} ${unit}`;
     }
 
-    remainder = remainder * BigInt(Math.pow(10, decimalPoints)) / 1024n;
+    remainder = (remainder * BigInt(Math.pow(10, decimalPoints))) / 1024n;
 
     return `${quotient}.${remainder} ${unit}`;
   }

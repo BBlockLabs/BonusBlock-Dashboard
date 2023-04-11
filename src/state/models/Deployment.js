@@ -4,12 +4,12 @@ export class Deployment extends Model {
   /**
    * @type {String}
    */
-  title = '';
+  title = "";
 
   /**
    * @type {String}
    */
-  yaml = '';
+  yaml = "";
 
   /**
    *
@@ -27,7 +27,7 @@ export class Deployment extends Model {
   constructor(options = {}) {
     super();
 
-    Object.keys(options).forEach(key => {
+    Object.keys(options).forEach((key) => {
       this[key] = options[key];
     });
   }

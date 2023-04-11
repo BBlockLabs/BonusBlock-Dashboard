@@ -1,8 +1,8 @@
 import ActionResponse from "@/common/ActionResponse";
-import Workspace from '@/state/models/Workspace';
+import Workspace from "@/state/models/Workspace";
 
 const sleep = async (milliseconds) => {
-  return new Promise(r => {
+  return new Promise((r) => {
     window.setTimeout(r, milliseconds);
   });
 };
@@ -37,7 +37,7 @@ export default {
 
       await sleep(500);
 
-      commit('addWorkspace', workspace);
+      commit("addWorkspace", workspace);
 
       return new ActionResponse(true, workspace);
     },

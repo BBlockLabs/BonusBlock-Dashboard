@@ -19,11 +19,7 @@ export default class ActionResponse {
    * @param {object|null} data
    * @param {object|null} errors
    */
-  constructor(
-    success,
-    data,
-    errors = null
-  ) {
+  constructor(success, data, errors = null) {
     this.success = success;
     this.data = data;
     this.errors = errors;

@@ -1,15 +1,15 @@
 import Model from "@/state/models/Model";
 
-export class Wallet extends Model{
+export class Wallet extends Model {
   /**
    * @type {String}
    */
-  id = '';
+  id = "";
 
   /**
    * @type {String}
    */
-  address = '';
+  address = "";
 
   /**
    * @type {Number}
@@ -32,7 +32,7 @@ export class Wallet extends Model{
   constructor(options = {}) {
     super();
 
-    Object.keys(options).forEach(key => {
+    Object.keys(options).forEach((key) => {
       this[key] = options[key];
     });
   }

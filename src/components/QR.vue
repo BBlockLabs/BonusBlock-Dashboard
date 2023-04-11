@@ -1,29 +1,16 @@
 <template>
   <el-row justify="center">
     <el-col v-loading="loading">
-      <img
-        class="br-round w-100"
-        :src="url"
-        :alt="text"
-      >
+      <img class="br-round w-100" :src="url" :alt="text" />
     </el-col>
 
-    <el-col
-      :span="-1"
-      class="mt-3 of-hidden"
-    >
+    <el-col :span="-1" class="mt-3 of-hidden">
       <div class="d-flex">
-        <div
-          class="float-l of-hidden"
-        >
+        <div class="float-l of-hidden">
           {{ text }}
         </div>
 
-        <el-button
-          link
-          type="primary"
-          @click="copyToClipboard(text)"
-        >
+        <el-button link type="primary" @click="copyToClipboard(text)">
           <copy class="icon-large" />
         </el-button>
       </div>
@@ -31,28 +18,23 @@
   </el-row>
 </template>
 
-
-text-overflow: ellipsis;
-width: 100%;
-overflow: hidden;
+text-overflow: ellipsis; width: 100%; overflow: hidden;
 
 <script>
-import {Copy} from 'iconoir-vue';
-import CopyToClipBoard from '@/mixins/CopyToClipBoard';
-import { AwesomeQR } from 'awesome-qr';
-import Logo from '@/assets/alter/ALTER.png';
+import { Copy } from "iconoir-vue";
+import CopyToClipBoard from "@/mixins/CopyToClipBoard";
+import { AwesomeQR } from "awesome-qr";
+import Logo from "@/assets/alter/ALTER.png";
 
 export default {
   components: {
-    Copy
+    Copy,
   },
-  mixins: [
-    CopyToClipBoard,
-  ],
+  mixins: [CopyToClipBoard],
   props: {
     text: {
       type: String,
-      default: '',
+      default: "",
     },
     options: {
       type: Object,
@@ -65,7 +47,7 @@ export default {
   },
   data() {
     return {
-      url: '',
+      url: "",
       loading: false,
     };
   },
@@ -85,7 +67,7 @@ export default {
       this.loading = true;
 
       this.url = await new AwesomeQR({
-        colorDark: '#6A6DCD',
+        colorDark: "#6A6DCD",
         correctLevel: 2,
         logoImage: Logo,
         margin: 15, //px

@@ -7,26 +7,18 @@
   >
     <el-row>
       <el-col class="d-flex">
-        <el-link
-          :underline="false"
-          @click="$router.go(-1)"
-        >
+        <el-link :underline="false" @click="$router.go(-1)">
           <nav-arrow-left class="icon my-auto" />
         </el-link>
-        <avatar
-          :file="null"
-          class="mx-2"
-        />
+        <avatar :file="null" class="mx-2" />
         {{ server.name }}
-        Username<br>
+        Username<br />
         Role
       </el-col>
     </el-row>
     <el-row>
       <el-col>
-        <h4 class="m-0">
-          Resources
-        </h4>
+        <h4 class="m-0">Resources</h4>
       </el-col>
     </el-row>
     <el-row>
@@ -64,9 +56,7 @@
     </el-row>
     <el-row>
       <el-col>
-        <h4 class="m-0">
-          Information
-        </h4>
+        <h4 class="m-0">Information</h4>
       </el-col>
     </el-row>
 
@@ -88,12 +78,12 @@
 </template>
 
 <script>
-import ResourceGauge from '@/components/ResourceGauge.vue';
-import WorldMap from '@/components/Map.vue';
-import Avatar from '@/components/Avatar.vue';
-import InfoItem from '@/components/InfoItem.vue';
-import {NavArrowLeft} from 'iconoir-vue';
-import Server from '@/state/models/Server';
+import ResourceGauge from "@/components/ResourceGauge.vue";
+import WorldMap from "@/components/WorldMap.vue";
+import Avatar from "@/components/AvatarImage.vue";
+import InfoItem from "@/components/InfoItem.vue";
+import { NavArrowLeft } from "iconoir-vue";
+import Server from "@/state/models/Server";
 
 export default {
   components: {
@@ -116,14 +106,18 @@ export default {
       }
 
       return [
-        ['Total Leasing', this.server.totalLeases],
-        ['Provided by', this.server.organization.name, this.server.organization.id],
-        ['Address', this.server.address, null, true],
-        ['Email', this.server.organization.name],
-        ['Phone Number', this.server.organization.phoneNumber],
-        ['Traffic', this.server.trafficBytes],
-        ['Uplink', this.server.uplinkBits],
-        ['Location', this.server.location.country],
+        ["Total Leasing", this.server.totalLeases],
+        [
+          "Provided by",
+          this.server.organization.name,
+          this.server.organization.id,
+        ],
+        ["Address", this.server.address, null, true],
+        ["Email", this.server.organization.name],
+        ["Phone Number", this.server.organization.phoneNumber],
+        ["Traffic", this.server.trafficBytes],
+        ["Uplink", this.server.uplinkBits],
+        ["Location", this.server.location.country],
       ];
     },
   },

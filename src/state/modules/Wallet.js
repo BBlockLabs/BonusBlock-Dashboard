@@ -8,12 +8,14 @@ export default {
      * @return {Wallet[]}
      */
     authUserWallets(state, getters, rootState, rootGetters) {
-      if (!rootGetters['Auth/isLoggedIn']) {
+      if (!rootGetters["Auth/isLoggedIn"]) {
         return [];
       }
 
-      return state.wallets.filter(wallet => wallet.userId = rootState.Auth.user.id);
-    }
+      return state.wallets.filter(
+        (wallet) => (wallet.userId = rootState.Auth.user.id)
+      );
+    },
   },
   mutations: {
     /**

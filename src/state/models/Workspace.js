@@ -1,10 +1,10 @@
 import Model from "@/state/models/Model";
 
-export class Workspace extends Model{
+export class Workspace extends Model {
   /**
    * @type {String}
    */
-  id = '';
+  id = "";
 
   /**
    * @type {Blob|null}
@@ -14,12 +14,12 @@ export class Workspace extends Model{
   /**
    * @type {String}
    */
-  name = '';
+  name = "";
 
   /**
    * @type {String}
    */
-  userId = '';
+  userId = "";
 
   /**
    * @param {{
@@ -32,7 +32,7 @@ export class Workspace extends Model{
   constructor(options = {}) {
     super();
 
-    Object.keys(options).forEach(key => {
+    Object.keys(options).forEach((key) => {
       this[key] = options[key];
     });
   }

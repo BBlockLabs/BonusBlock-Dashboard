@@ -1,20 +1,28 @@
 import Model from "@/state/models/Model";
 
-export class User extends Model{
-  static get LOGIN_METHOD_GITHUB() {return 1;}
-  static get LOGIN_METHOD_METAMASK() {return 2;}
-  static get LOGIN_METHOD_KEPLR() {return 3;}
-  static get LOGIN_METHOD_PASSWORD() {return 4;}
+export class User extends Model {
+  static get LOGIN_METHOD_GITHUB() {
+    return 1;
+  }
+  static get LOGIN_METHOD_METAMASK() {
+    return 2;
+  }
+  static get LOGIN_METHOD_KEPLR() {
+    return 3;
+  }
+  static get LOGIN_METHOD_PASSWORD() {
+    return 4;
+  }
 
   /**
    * @type {String}
    */
-  id = '';
+  id = "";
 
   /**
    * @type {String}
    */
-  username = '';
+  username = "";
 
   /**
    * @type {LOGIN_METHOD_GITHUB|LOGIN_METHOD_METAMASK|LOGIN_METHOD_KEPLR|LOGIN_METHOD_PASSWORD} User.LOGIN_METHOD_*
@@ -43,7 +51,7 @@ export class User extends Model{
   constructor(options = {}) {
     super();
 
-    Object.keys(options).forEach(key => {
+    Object.keys(options).forEach((key) => {
       this[key] = options[key];
     });
   }

@@ -1,20 +1,15 @@
 <template>
-  <el-container
-    v-loading="loading"
-    class="h-100 packages"
-  >
+  <el-container v-loading="loading" class="h-100 packages">
     <el-main class="pl-0">
       <el-row>
         <el-col>
-          <h1 class="mt-0">
-            Find a package
-          </h1>
+          <h1 class="mt-0">Find a package</h1>
         </el-col>
         <el-col>
           Choose a package from any validator to host your deployment.
 
-          <debug>{{ filter }}</debug>
-          <debug>Selected{{ selectedPackages }}</debug>
+          <debug-wrapper>{{ filter }}</debug-wrapper>
+          <debug-wrapper>Selected{{ selectedPackages }}</debug-wrapper>
         </el-col>
       </el-row>
 
@@ -22,11 +17,7 @@
         <el-col>
           <h2>Recommended</h2>
 
-          <el-space
-            fill
-            :size="24"
-            class="w-100"
-          >
+          <el-space fill :size="24" class="w-100">
             <package-box
               v-for="packageInstance in recommendedPackages"
               :key="packageInstance.id"
@@ -42,11 +33,7 @@
         <el-col>
           <h2>Other</h2>
 
-          <el-space
-            fill
-            :size="24"
-            class="w-100"
-          >
+          <el-space fill :size="24" class="w-100">
             <package-box
               v-for="packageInstance in otherPackages"
               :key="packageInstance.id"
@@ -59,16 +46,13 @@
       </el-row>
     </el-main>
 
-    <el-aside
-      v-if="!loading"
-      class="bl-solid h-100 packages-filters-aside"
-    >
+    <el-aside v-if="!loading" class="bl-solid h-100 packages-filters-aside">
       <package-filters
         v-model="filter"
         :filter-options="filterOptions"
         :selected="selectedPackages"
         :tab-opened="filterTab"
-        @remove-selected="packageId => toggleSelected(packageId)"
+        @remove-selected="(packageId) => toggleSelected(packageId)"
         @continue-select="continueClick()"
       />
     </el-aside>
@@ -76,9 +60,9 @@
 </template>
 
 <script>
-import PackageBox from '@/components/PackageBox.vue';
-import PackageFilter from '@/common/PackageFilter';
-import PackageFilters from '@/components/PackageFilters.vue';
+import PackageBox from "@/components/PackageBox.vue";
+import PackageFilter from "@/common/PackageFilter";
+import PackageFilters from "@/components/PackageFilters.vue";
 
 export default {
   components: {
@@ -91,7 +75,7 @@ export default {
        * @type PackageFilter
        */
       filter: new PackageFilter(),
-      filterTab: 'filters',
+      filterTab: "filters",
       filterOptions: false,
       /**
        * @type {[import('@/state/models/Package').Package]}
@@ -111,7 +95,9 @@ export default {
 
       recommendedFilter.endorsement = PackageFilter.ENDORSEMENT_RECOMMENDED;
 
-      return this.$store.getters['PackageModule/filteredPackages'](recommendedFilter);
+      return this.$store.getters["PackageModule/filteredPackages"](
+        recommendedFilter
+      );
     },
     /**
      * @return {[import('@/state/models/Package').Package]}
@@ -122,7 +108,7 @@ export default {
 
       otherFilter.endorsement = PackageFilter.ENDORSEMENT_OTHER;
 
-      return this.$store.getters['PackageModule/filteredPackages'](otherFilter);
+      return this.$store.getters["PackageModule/filteredPackages"](otherFilter);
     },
   },
   created() {
@@ -133,7 +119,9 @@ export default {
       this.loading = true;
 
       try {
-        const packagesResponse = await this.$store.dispatch('PackageModule/loadAllPackages');
+        const packagesResponse = await this.$store.dispatch(
+          "PackageModule/loadAllPackages"
+        );
 
         if (!packagesResponse.success) {
           console.error(packagesResponse.errors);
@@ -145,13 +133,11 @@ export default {
         let regions = [];
         let storageDriveTypes = [];
         let features = [];
-        for(let i in this.packages) {
-
-          if(this.packages[i].server.location) {
-
+        for (let i in this.packages) {
+          if (this.packages[i].server.location) {
             regions.push(this.packages[i].server.location.country);
             storageDriveTypes.push(this.packages[i].server.storageDriveType);
-            if(this.packages[i].features.length > 0) {
+            if (this.packages[i].features.length > 0) {
               features.push(...this.packages[i].features);
             }
           }
@@ -161,7 +147,6 @@ export default {
         this.filterOptions[1].options = [...new Set(regions)];
         this.filterOptions[2].options = [...new Set(features)];
         this.filterOptions[10].options = [...new Set(storageDriveTypes)];
-
       } catch (e) {
         console.error(e);
       } finally {
@@ -170,26 +155,31 @@ export default {
     },
     toggleSelected(packageId) {
       if (this.selectedPackages.includes(packageId)) {
-        this.selectedPackages = this.selectedPackages.filter(selectedId => selectedId !== packageId);
+        this.selectedPackages = this.selectedPackages.filter(
+          (selectedId) => selectedId !== packageId
+        );
       } else {
         this.selectedPackages.push(packageId);
       }
-      this.filterTab = this.selectedPackages.length > 0 ? 'selected' : 'filters';
+      this.filterTab =
+        this.selectedPackages.length > 0 ? "selected" : "filters";
     },
     continueClick() {
-      if(this.selectedPackages.length > 0) {
+      if (this.selectedPackages.length > 0) {
         let packages = [];
-        for(let p in this.selectedPackages) {
-          let pa = this.$store.getters['PackageModule/findById'](this.selectedPackages[p]);
+        for (let p in this.selectedPackages) {
+          let pa = this.$store.getters["PackageModule/findById"](
+            this.selectedPackages[p]
+          );
           packages.push(pa);
         }
-        if(packages.length > 0) {
-          this.$store.commit('DeploymentModule/setPackages', packages);
+        if (packages.length > 0) {
+          this.$store.commit("DeploymentModule/setPackages", packages);
         }
       }
 
-      this.$router.push('/confirm-deployment');
-    }
+      this.$router.push("/confirm-deployment");
+    },
   },
 };
 </script>
@@ -200,7 +190,7 @@ export default {
     padding-top: 0;
   }
   .packages-filters-aside {
-    margin-top:-1.5em;
+    margin-top: -1.5em;
   }
 }
 </style>

@@ -1,17 +1,7 @@
 <template>
-  <el-row
-    justify="center"
-    align="top"
-    class="organizations-list"
-  >
-    <el-col
-      :xl="14"
-      :sm="20"
-    >
-      <el-row
-        justify="space-between"
-        align="middle"
-      >
+  <el-row justify="center" align="top" class="organizations-list">
+    <el-col :xl="14" :sm="20">
+      <el-row justify="space-between" align="middle">
         <el-col :span="15">
           <h3>Find your organization</h3>
           Search though 964 providers with a total of 69,817 validators.
@@ -26,10 +16,7 @@
           />
         </el-col>
       </el-row>
-      <el-row
-        class="pt-4"
-        justify="space-between"
-      >
+      <el-row class="pt-4" justify="space-between">
         <template
           v-for="organization in filteredOrganizations"
           :key="organization.id"
@@ -45,12 +32,12 @@
 </template>
 
 <script>
-import OrganizationCard from '@/components/OrganizationCard.vue';
-import debounce from 'debounce';
+import OrganizationCard from "@/components/OrganizationCard.vue";
+import debounce from "debounce";
 
 export default {
   components: {
-    OrganizationCard
+    OrganizationCard,
   },
   data() {
     return {
@@ -68,7 +55,10 @@ export default {
   },
   watch: {
     filter: debounce(function () {
-      this.filteredOrganizations = this.organizations.filter(organization => organization.name.toLowerCase().indexOf(this.filter) !== -1);
+      this.filteredOrganizations = this.organizations.filter(
+        (organization) =>
+          organization.name.toLowerCase().indexOf(this.filter) !== -1
+      );
     }, 500),
   },
   created() {
@@ -79,7 +69,9 @@ export default {
       this.loading = true;
 
       try {
-        const organizationsResponse = await this.$store.dispatch('OrganizationModule/loadAllOrganizations');
+        const organizationsResponse = await this.$store.dispatch(
+          "OrganizationModule/loadAllOrganizations"
+        );
 
         if (!organizationsResponse.success) {
           console.error(organizationsResponse.errors);
@@ -95,9 +87,9 @@ export default {
       }
     },
     viewOrganization(organizationId) {
-      this.$router.push('/organizations/' + organizationId);
+      this.$router.push("/organizations/" + organizationId);
     },
-  }
+  },
 };
 </script>
 

@@ -1,13 +1,10 @@
 <template>
-  <el-avatar
-    v-bind="$attrs"
-    :src="imageUrl"
-  />
-  <debug>{{ imageUrl }}</debug>
+  <el-avatar v-bind="$attrs" :src="imageUrl" />
+  <debug-wrapper>{{ imageUrl }}</debug-wrapper>
 </template>
 
 <script>
-import baseAvatar from '@/assets/images/base-avatar.png';
+import baseAvatar from "@/assets/images/base-avatar.png";
 
 export default {
   props: {

@@ -1,7 +1,7 @@
-import {createRouter, createWebHistory} from 'vue-router';
-import routes from '@/router/routes';
-import RouteMeta from '@/router/RouteMeta';
-import store from '@/state/store';
+import { createRouter, createWebHistory } from "vue-router";
+import routes from "@/router/routes";
+import RouteMeta from "@/router/RouteMeta";
+import store from "@/state/store";
 
 /**
  * @param route
@@ -16,12 +16,18 @@ const authRedirectCheck = (route) => {
     return null;
   }
 
-  if (auth === RouteMeta.AUTH_ONLY_AUTHORIZED && !store.getters['Auth/isLoggedIn']) {
-    return {name: 'Login', query: {from: route.fullPath}};
+  if (
+    auth === RouteMeta.AUTH_ONLY_AUTHORIZED &&
+    !store.getters["Auth/isLoggedIn"]
+  ) {
+    return { name: "Login", query: { from: route.fullPath } };
   }
 
-  if (auth === RouteMeta.AUTH_ONLY_NON_AUTHORIZED && store.getters['Auth/isLoggedIn']) {
-    return {name: 'Home'};
+  if (
+    auth === RouteMeta.AUTH_ONLY_NON_AUTHORIZED &&
+    store.getters["Auth/isLoggedIn"]
+  ) {
+    return { name: "Home" };
   }
 
   return null;
@@ -32,14 +38,14 @@ const router = new createRouter({
   history: createWebHistory(),
   scrollBehavior(to, from, savedPosition) {
     if (!savedPosition) {
-      return {x: 0, y: 0};
+      return { x: 0, y: 0 };
     }
 
     return savedPosition;
   },
 });
 
-router.beforeEach((toRoute,fromRoute, next) => {
+router.beforeEach((toRoute, fromRoute, next) => {
   const redirect = authRedirectCheck(toRoute);
 
   if (redirect !== null) {
@@ -53,7 +59,9 @@ router.beforeEach((toRoute,fromRoute, next) => {
 
 router.afterEach((to) => {
   setTimeout(() => {
-    document.title = to.meta?.title ? to.meta.title + " | ALTER Network" : "ALTER Network";
+    document.title = to.meta?.title
+      ? to.meta.title + " | ALTER Network"
+      : "ALTER Network";
   }, 0);
 });
 

@@ -1,9 +1,6 @@
 <template>
   <label :for="$id('file-input')">
-    <avatar
-      v-bind="$attrs"
-      :file="file"
-    />
+    <avatar v-bind="$attrs" :file="file" />
 
     <input
       :id="$id('file-input')"
@@ -11,12 +8,12 @@
       accept="image/png,image/jpeg"
       type="file"
       @change="fileChange"
-    >
+    />
   </label>
 </template>
 
 <script>
-import Avatar from '@/components/Avatar.vue';
+import Avatar from "@/components/AvatarImage.vue";
 
 export default {
   components: {
@@ -28,9 +25,7 @@ export default {
       default: null,
     },
   },
-  emits: [
-    'update:modelValue',
-  ],
+  emits: ["update:modelValue"],
   data() {
     return {
       file: this.modelValue,
@@ -41,8 +36,8 @@ export default {
       this.file = this.modelValue;
     },
     file() {
-      this.$emit('update:modelValue', this.file);
-    }
+      this.$emit("update:modelValue", this.file);
+    },
   },
   methods: {
     fileChange(event) {
