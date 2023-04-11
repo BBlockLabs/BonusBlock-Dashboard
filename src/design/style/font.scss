@@ -1,0 +1,51 @@
+@use 'element-plus/theme-chalk/src/mixins/mixins' as EPMixins;
+@use 'element-plus/theme-chalk/src/mixins/function' as EPFunctions;
+@use '@/design/element-plus-theme.scss' as theme;
+
+html {
+  font-size: EPFunctions.getCssVar('font-size', 'base');
+  font-family: "Noto Sans", sans-serif;
+}
+
+h1 {
+  font-size: EPFunctions.getCssVar('font-size', 'extra-large');
+}
+
+h2 {
+  font-size: EPFunctions.getCssVar('font-size', 'large');
+}
+
+h3 {
+  font-size: EPFunctions.getCssVar('font-size', 'medium');
+}
+
+small {
+  font-size: EPFunctions.getCssVar('font-size', 'small');
+}
+
+svg.icon {
+  height: EPFunctions.getCssVar('font-size', 'base');
+
+  @each $name, $size in theme.$font-size {
+    &-#{$name} {
+      height: EPFunctions.getCssVar('font-size', $name);
+    }
+  }
+}
+
+@each $direction in (center, left, right) {
+  .align-#{$direction} {
+    text-align: $direction;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: var(--el-color-primary);
+  font-weight: bolder;
+
+  &:hover {
+    color: var(--el-color-primary-dark-2);
+  }
+}
+

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html data-build-timestamp-utc="<%= new Date().toISOString() %>" data-env="<%= NODE_ENV.toUpperCase() %>">
+<head>
+	<script>
+    /*save eyes ASAP, substitute with proper theming later*/
+    let savedTheme = window.localStorage.getItem('theme');
+
+    if (!savedTheme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        savedTheme = 'dark';
+        window.localStorage.setItem('theme', savedTheme);
+    }
+
+    if (savedTheme === 'dark') {
+        document.querySelector('html').classList.add('dark');
+    }
+	</script>
+	<title>ALTER Network</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<link rel="icon" href="<%= BASE_URL %>favicon.ico">
+	<!-- Primary Meta Tags -->
+	<meta name="title" content="ALTER Network">
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://app.altermail.live">
+	<meta property="og:title" content="ALTER - The most secure private messaging DApp">
+	<meta property="og:description" content="ALTER is a messaging DApp built on private blockchain technology powered by Secret Network's Private Smart Contracts and ECDH encryption">
+	<meta property="og:image" content="https://altermail.live/preview.png">
+
+	<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://app.altermail.live">
+	<meta property="twitter:title" content="ALTER - The most secure private messaging DApp">
+	<meta property="twitter:description" content="ALTER is a messaging DApp built on private blockchain technology powered by Secret Network's Private Smart Contracts and ECDH encryption">
+	<meta property="twitter:image" content="https://altermail.live/preview.png">
+
+  <style>
+    #loader {position: fixed;top: 50%;left: 0;right: 0;bottom: 0}
+    #loader > div {display: block;margin: -100px auto 0 auto;width: 200px;text-align: center;color: #777}
+    #loader span {display: block;margin-top: 0.5em;font-size: 2em;animation: fadein 2s}
+    @keyframes fadein {
+        from {opacity: 0}
+        to {opacity: 1}
+    }
+    html.dark {
+      background-color: #131313;
+    }
+</style>
+</head>
+<body>
+<noscript>
+	<strong>We're sorry but ALTER Network Swap doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+</noscript>
+<div id="app"></div>
+<div id="loader">
+	<div>
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 212.64 212.65">
+			<path fwl="currentColor" d="M159,167a8.47,8.47,0,0,1-15.62-.87L106.31,60.36,69.25,166.09a8.47,8.47,0,1,1-16-5.6L98.32,32a6.63,6.63,0,0,1,.36-.87,8.46,8.46,0,0,1,15.53.63l.09.24,45.07,128.51A8.45,8.45,0,0,1,159,167Z"/>
+		</svg>
+		<span>Loading...</span>
+	</div>
+</div>
+</body>
+</html>

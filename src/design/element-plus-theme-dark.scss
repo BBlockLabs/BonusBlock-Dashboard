@@ -1,0 +1,28 @@
+$text-color-base: #DEDEDE;
+
+@forward 'element-plus/theme-chalk/src/dark/var.scss' with (
+  $fill-color: (
+    '': #303030,
+    'light': #262626,
+    'lighter': #1d1d1d,
+    'extra-light': #191919,
+    'darker': #39393a,
+  ),
+  $card: (
+    'bg-color': transparent,
+  ),
+  $text-color: (
+    'primary': #FFF,
+    'regular': #FFF,
+    'secondary': rgba($text-color-base, 0.65),
+    'placeholder': rgba($text-color-base, 0.55),
+    'disabled': rgba($text-color-base, 0.4),
+  ),
+  $bg-color: (
+    'page': #131313,
+    '': transparent,
+  ),
+);
+
+@use "element-plus/theme-chalk/src/dark/css-vars.scss" as *;
+

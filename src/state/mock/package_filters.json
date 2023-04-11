@@ -1,0 +1,88 @@
+[
+  {
+    "id": "prices",
+    "title": "Price range",
+    "type": "slider",
+    "min": 10,
+    "max": 200,
+    "step": 10
+  },
+  {
+    "id": "region",
+    "title": "Region",
+    "type": "multiselect",
+    "options": []
+  },
+  {
+    "id": "features",
+    "title": "Features",
+    "collapsable": true,
+    "type": "checkbox",
+    "options": []
+  },
+  {
+    "id": "cpuName",
+    "title": "CPU",
+    "collapsable": true,
+    "type": "text",
+    "placeholder": "CPU name"
+  },
+  {
+    "id": "cpuCount",
+    "title": "Amount of Processors",
+    "collapsableParent": "cpuName",
+    "type": "slider",
+    "min": 1,
+    "max": 32,
+    "step": 1
+  },
+  {
+    "id": "cpuCores",
+    "title": "Amount of Cores",
+    "collapsableParent": "cpuName",
+    "type": "slider",
+    "min": 1,
+    "max": 32,
+    "step": 1
+  },
+  {
+    "id": "cpuSpeed",
+    "title": "Speed",
+    "collapsableParent": "cpuName",
+    "type": "slider",
+    "min": 1,
+    "max": 5,
+    "step": 1
+  },
+  {
+    "id": "ramAmount",
+    "title": "RAM amount",
+    "collapsable": true,
+    "type": "slider",
+    "min": 4,
+    "max": 128,
+    "step": 4
+  },
+  {
+    "id": "storage",
+    "title": "Storage",
+    "collapsable": true,
+    "type": "title"
+  },
+  {
+    "id": "storageAmount",
+    "title": "Amount",
+    "collapsableParent": "storage",
+    "type": "slider",
+    "min": 4,
+    "max": 512,
+    "step": 16
+  },
+  {
+    "id": "storageType",
+    "title": "Type",
+    "collapsableParent": "storage",
+    "type": "checkbox",
+    "options": []
+  }
+]

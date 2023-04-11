@@ -1,0 +1,46 @@
+$brand-color-1: #2F2A95;
+$brand-color-2: #4D49BE;
+$brand-color-3: #6A6DCD;
+$brand-color-4: #979CE7;
+$brand-color-5: #C2C5FF;
+$brand-color-6: #DCDCF5;
+
+$card-bg-color: #191919;
+
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $menu: (
+    'border-color': transparent,
+  ),
+  $colors: (
+    'primary': (
+      'base': $brand-color-3,
+    ),
+    'success': (
+      'base': #89E7C0,
+    ),
+    'warning': (
+      'base': #EDD189,
+    ),
+    'danger': (
+      'base': #E38686,
+    ),
+  ),
+  $border-radius: (
+    'base': 10px,
+    'small': 8px,
+    'round': 20px,
+    'circle': 100%,
+  ),
+  $bg-color: (
+    '': transparent,
+  ),
+  $card: (
+    'padding': 1.5em 1.5em 1.5em,
+    'border-radius': 0.75em,
+    'bg-color':$card-bg-color !important,
+    'border-color': $card-bg-color,
+  ),
+  $input: (
+    'border-radius': 0.5em,
+  )
+);

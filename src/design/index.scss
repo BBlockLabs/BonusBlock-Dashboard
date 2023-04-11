@@ -1,0 +1,23 @@
+@use '@/design/element-plus-theme.scss' as theme;
+@use '@/design/element-plus-theme-dark.scss' as themeDark;
+@use 'element-plus/theme-chalk/src/mixins/mixins' as EPMixins;
+@use 'element-plus/theme-chalk/src/mixins/function' as EPFunctions;
+@use "@/design/style/col.scss";
+@use "@/design/style/font.scss";
+@use "@/design/style/layout.scss";
+@use "@/design/style/cards.scss";
+@use "@/design/style/color.scss";
+
+body {
+  background-color: EPFunctions.getCssVar('bg-color', 'page');
+  color: EPFunctions.getCssVar('text-color', 'regular');
+  margin: 0;
+
+  #app {
+    min-height: 100vh;
+
+    &>.el-container {
+      min-height: 100vh;
+    }
+  }
+}

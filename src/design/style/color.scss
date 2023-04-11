@@ -1,0 +1,37 @@
+@use 'element-plus/theme-chalk/src/mixins/mixins' as EPMixins;
+@use 'element-plus/theme-chalk/src/mixins/function' as EPFunctions;
+@use '@/design/element-plus-theme.scss' as theme;
+
+.bg {
+  @each $type in theme.$types {
+    &-#{$type} {
+      background-color: EPFunctions.getCssVar('color', $type);
+
+      &-dark {
+        background-color: EPFunctions.getCssVar('color', $type, 'dark');
+      }
+
+      @for $i from 3 through 9 {
+        &-#{$i} {
+          background-color: EPFunctions.getCssVar('color', $type, 'light', $i);
+        }
+      }
+    }
+  }
+
+  &-fill {
+    background-color: EPFunctions.getCssVar('fill-color');
+
+    @each $type in (darker, dark, light lighter, extra-light, blank) {
+      &-#{$type} {
+        background-color: EPFunctions.getCssVar('fill-color', $type);
+      }
+    }
+  }
+}
+
+@each $type in (primary, regular, secondary, placeholder, disabled) {
+  .text-#{$type} {
+    color: EPFunctions.getCssVar('text-color', $type);
+  }
+}

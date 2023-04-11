@@ -1,0 +1,4 @@
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path shape-rendering="geometricPrecision" fill="currentColor" d="M21.5 15.5V20c0 .82-.68 1.5-1.5 1.5h-9A1.5 1.5 0 0 1 9.5 20v-9c0-.83.67-1.5 1.5-1.5h9c.82 0 1.5.67 1.5 1.5v4.5Zm1 0V11A2.5 2.5 0 0 0 20 8.5h-9A2.49 2.49 0 0 0 8.5 11v9a2.5 2.5 0 0 0 2.5 2.5h9a2.5 2.5 0 0 0 2.5-2.5v-4.5Z"/>
+    <path shape-rendering="geometricPrecision" fill="currentColor" d="M5 14.5H4A1.5 1.5 0 0 1 2.5 13V4c0-.83.67-1.5 1.5-1.5h9c.82 0 1.5.67 1.5 1.5v1c0 .27.22.5.5.5a.5.5 0 0 0 .5-.5V4A2.5 2.5 0 0 0 13 1.5H4A2.49 2.49 0 0 0 1.5 4v9A2.5 2.5 0 0 0 4 15.5h1a.5.5 0 0 0 .5-.5.5.5 0 0 0-.5-.5Z"/>
+</svg>

@@ -1,0 +1,27 @@
+[
+  {
+    "id": "user-1-space-1",
+    "name": "Mu workspace",
+    "userId": "user-1"
+  },
+  {
+    "id": "user-2-space-1",
+    "name": "Mu workspace",
+    "userId": "user-2"
+  },
+  {
+    "id": "user-3-space-1",
+    "name": "Mu workspace",
+    "userId": "user-3"
+  },
+  {
+    "id": "user-test-space-1",
+    "name": "Mu workspace",
+    "userId": "user-test"
+  },
+  {
+    "id": "user-mono-space-1",
+    "name": "Mu workspace",
+    "userId": "user-mono"
+  }
+]

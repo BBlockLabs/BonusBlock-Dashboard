@@ -1,0 +1,37 @@
+[
+  {
+    "id": "user-1",
+    "username": "Github user",
+    "password": "",
+    "loginMethod": 1,
+    "avatar": null
+  },
+  {
+    "id": "user-2",
+    "username": "Metamask user",
+    "password": "",
+    "loginMethod": 2,
+    "avatar": null
+  },
+  {
+    "id": "user-3",
+    "username": "Keplr user",
+    "password": "",
+    "loginMethod": 3,
+    "avatar": null
+  },
+  {
+    "id": "user-test",
+    "username": "test",
+    "password": "test",
+    "loginMethod": 4,
+    "avatar": null
+  },
+  {
+    "id": "user-mono",
+    "username": "mono",
+    "password": "test",
+    "loginMethod": 4,
+    "avatar": null
+  }
+]

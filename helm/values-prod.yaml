@@ -1,0 +1,26 @@
+fullnameOverride: "altermail-ui3"
+
+replicaCount: 3
+
+logFormat: nginx_ssl_reqid_upstream_time
+
+ingress:
+  enabled: true
+  hosts:
+    - host: new.app.alter.network
+      paths:
+        - path: /
+          backend:
+            service:
+              name: altermail-ui3-maintenance
+  tls:
+   - hosts:
+       - new.app.alter.network
+       - new.app.altermail.live
+     secretName: altermail-ui3-prod-ssl
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt"
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    external-dns.alpha.kubernetes.io/target: production.alter.network
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-add-reqid@kubernetescrd

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "1",
+    "title": "Template Name 1",
+    "url": "Github Repository name",
+    "shortText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Volutpat diam ut venenatis tellus. Aliquam malesuada bibendum arcu vitae elementum curabitur vitae nunc. Mauris rhoncus aenean vel elit scelerisque mauris pellentesque. Enim blandit volutpat maecenas volutpat blandit aliquam etiam erat. Sagittis id consectetur purus ut faucibus pulvinar. Eu lobortis elementum nibh tellus molestie nunc. Malesuada fames ac turpis egestas sed tempus urna et pharetra. Auctor neque vitae tempus quam pellentesque nec. Neque ornare aenean euismod elementum. Mollis nunc sed id semper risus in hendrerit gravida. Porta non pulvinar neque laoreet suspendisse interdum consectetur libero id. Eleifend mi in nulla posuere sollicitudin aliquam ultrices. Sit amet luctus venenatis lectus magna fringilla urna porttitor.",
+    "text": "Test connection speed to a provider. Lightweight and High Performance, OpenSpeedTest contains Only \"STATIC\" Files like HTML,CSS & JS. So you don't need to worry about Security Updates or Hidden Exploits that may compromise your secure environments.\u2028\nOpenSpeedTest is written in Pure JavaScript. No Third-Party frameworks or libraries were used. SpeedTest script file size is under 7kB gzip. The unexpected side effect of using Pure JavaScript is High Performance.",
+    "icon": null,
+    "updatedAt": null,
+    "contributors": 0,
+    "totalUses": 0,
+    "stars": 0,
+    "forks": 0,
+    "yaml": "abc: \"a deer, a male deer\"\n ray: \"a drop of golden sun\"\n pi: 3.14159\n xmas: true\n french-hens: 3\n calling-birds:\n   - huey\n   - dewey\n   - louie\n   - fred\n xmas-fifth-day:\n   calling-birds: four\n   french-hens: 3\n   golden-rings: 5\n   partridges:\n     count: 1\n     location: \"a pear tree\"\n   turtle-doves: two"
+  },
+  {
+    "id": "2",
+    "title": "Template Name 2",
+    "url": "Github Repository name",
+    "shortText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Volutpat diam ut venenatis tellus. Aliquam malesuada bibendum arcu vitae elementum curabitur vitae nunc. Mauris rhoncus aenean vel elit scelerisque mauris pellentesque. Enim blandit volutpat maecenas volutpat blandit aliquam etiam erat. Sagittis id consectetur purus ut faucibus pulvinar. Eu lobortis elementum nibh tellus molestie nunc. Malesuada fames ac turpis egestas sed tempus urna et pharetra. Auctor neque vitae tempus quam pellentesque nec. Neque ornare aenean euismod elementum. Mollis nunc sed id semper risus in hendrerit gravida. Porta non pulvinar neque laoreet suspendisse interdum consectetur libero id. Eleifend mi in nulla posuere sollicitudin aliquam ultrices. Sit amet luctus venenatis lectus magna fringilla urna porttitor.",
+    "text": "Test connection speed to a provider. Lightweight and High Performance, OpenSpeedTest contains Only \"STATIC\" Files like HTML,CSS & JS. So you don't need to worry about Security Updates or Hidden Exploits that may compromise your secure environments.\u2028\nOpenSpeedTest is written in Pure JavaScript. No Third-Party frameworks or libraries were used. SpeedTest script file size is under 7kB gzip. The unexpected side effect of using Pure JavaScript is High Performance.",
+    "icon": null,
+    "updatedAt": null,
+    "contributors": 0,
+    "totalUses": 0,
+    "stars": 0,
+    "forks": 0,
+    "yaml": "joe: \"a deer, a female deer\"\n ray: \"a drop of golden sun\"\n pi: 3.14159\n xmas: true\n french-hens: 3\n calling-birds:\n   - huey\n   - dewey\n   - louie\n   - fred\n xmas-fifth-day:\n   calling-birds: four\n   french-hens: 3\n   golden-rings: 5\n   partridges:\n     count: 1\n     location: \"a pear tree\"\n   turtle-doves: two"
+  },
+  {
+    "id": "3",
+    "title": "Template Name 3",
+    "url": "Github Repository name",
+    "shortText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Volutpat diam ut venenatis tellus. Aliquam malesuada bibendum arcu vitae elementum curabitur vitae nunc. Mauris rhoncus aenean vel elit scelerisque mauris pellentesque. Enim blandit volutpat maecenas volutpat blandit aliquam etiam erat. Sagittis id consectetur purus ut faucibus pulvinar. Eu lobortis elementum nibh tellus molestie nunc. Malesuada fames ac turpis egestas sed tempus urna et pharetra. Auctor neque vitae tempus quam pellentesque nec. Neque ornare aenean euismod elementum. Mollis nunc sed id semper risus in hendrerit gravida. Porta non pulvinar neque laoreet suspendisse interdum consectetur libero id. Eleifend mi in nulla posuere sollicitudin aliquam ultrices. Sit amet luctus venenatis lectus magna fringilla urna porttitor.",
+    "text": "Test connection speed to a provider. Lightweight and High Performance, OpenSpeedTest contains Only \"STATIC\" Files like HTML,CSS & JS. So you don't need to worry about Security Updates or Hidden Exploits that may compromise your secure environments.\u2028\nOpenSpeedTest is written in Pure JavaScript. No Third-Party frameworks or libraries were used. SpeedTest script file size is under 7kB gzip. The unexpected side effect of using Pure JavaScript is High Performance.",
+    "icon": null,
+    "updatedAt": null,
+    "contributors": 0,
+    "totalUses": 0,
+    "stars": 0,
+    "forks": 0,
+    "yaml": "jane: \"a deer, a deer\"\n ray: \"a drop of golden sun\"\n pi: 3.14159\n xmas: true\n french-hens: 3\n calling-birds:\n   - huey\n   - dewey\n   - louie\n   - fred\n xmas-fifth-day:\n   calling-birds: four\n   french-hens: 3\n   golden-rings: 5\n   partridges:\n     count: 1\n     location: \"a pear tree\"\n   turtle-doves: two"
+  },
+  {
+    "id": "4",
+    "title": "Template Name 4",
+    "url": "Github Repository name",
+    "shortText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Volutpat diam ut venenatis tellus. Aliquam malesuada bibendum arcu vitae elementum curabitur vitae nunc. Mauris rhoncus aenean vel elit scelerisque mauris pellentesque. Enim blandit volutpat maecenas volutpat blandit aliquam etiam erat. Sagittis id consectetur purus ut faucibus pulvinar. Eu lobortis elementum nibh tellus molestie nunc. Malesuada fames ac turpis egestas sed tempus urna et pharetra. Auctor neque vitae tempus quam pellentesque nec. Neque ornare aenean euismod elementum. Mollis nunc sed id semper risus in hendrerit gravida. Porta non pulvinar neque laoreet suspendisse interdum consectetur libero id. Eleifend mi in nulla posuere sollicitudin aliquam ultrices. Sit amet luctus venenatis lectus magna fringilla urna porttitor.",
+    "text": "Test connection speed to a provider. Lightweight and High Performance, OpenSpeedTest contains Only \"STATIC\" Files like HTML,CSS & JS. So you don't need to worry about Security Updates or Hidden Exploits that may compromise your secure environments.\u2028\nOpenSpeedTest is written in Pure JavaScript. No Third-Party frameworks or libraries were used. SpeedTest script file size is under 7kB gzip. The unexpected side effect of using Pure JavaScript is High Performance.",
+    "icon": null,
+    "updatedAt": null,
+    "contributors": 0,
+    "totalUses": 0,
+    "stars": 0,
+    "forks": 0,
+    "yaml": "doe: \"a deer, some deer\"\n ray: \"a drop of golden sun\"\n pi: 3.14159\n xmas: true\n french-hens: 3\n calling-birds:\n   - huey\n   - dewey\n   - louie\n   - fred\n xmas-fifth-day:\n   calling-birds: four\n   french-hens: 3\n   golden-rings: 5\n   partridges:\n     count: 1\n     location: \"a pear tree\"\n   turtle-doves: two"
+  }
+]

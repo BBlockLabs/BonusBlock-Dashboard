@@ -1,0 +1,38 @@
+[
+  {
+    "id":  "wallet-1",
+    "address": "alter1p92n6tg2eldx9k4eh8plsnu37zvpgxvm7qr7v1",
+    "balance":  1234,
+    "userId": "user-1"
+  },
+  {
+    "id":  "wallet-2",
+    "address": "alter1p92n6tg2eldx9k4eh8plsnu37zvpgxvm7qr7v2",
+    "balance":  3211,
+    "userId": "user-2"
+  },
+  {
+    "id":  "wallet-3",
+    "address": "alter1p92n6tg2eldx9k4eh8plsnu37zvpgxvm7qr7v3",
+    "balance":  34213,
+    "userId": "user-3"
+  },
+  {
+    "id":  "wallet-test-1",
+    "address": "alter1p92n6tg2eldx9k4eh8plsnu37zvpgxvm7qr7v3",
+    "balance":  100,
+    "userId": "user-test"
+  },
+  {
+    "id":  "wallet-mono-1",
+    "address": "alter1p92n6tg2eldx9k4eh8plsnu37zvpgxvm7qr7v7",
+    "balance":  2000,
+    "userId": "user-mono"
+  },
+  {
+    "id":  "wallet-mono-2",
+    "address": "alter1p92n6tg2eldx9k4eh8plsnu37zvpgxvm7qr7v8",
+    "balance":  3000,
+    "userId": "user-mono"
+  }
+]
