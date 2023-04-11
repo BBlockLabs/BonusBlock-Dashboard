@@ -14,13 +14,13 @@ export default defineConfig({
     vue(),
     vueJsx(),
     svgLoader({
-      svgo: false, // svgo causes svgs to break bu repeating ids and urls
+      svgo: false, // svgo causes svgs to break by repeating ids and urls
       defaultImport: "component",
     }),
     createHtmlPlugin({
       minify: true,
       entry: path.resolve("src/main.js"),
-      template: "public/index.html",
+      template: "./public/index.html",
       // inject: {
       //   data: {
       //     BUILD_DATE: new Date().toISOString(),

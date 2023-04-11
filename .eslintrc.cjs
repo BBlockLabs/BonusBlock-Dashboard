@@ -3,10 +3,9 @@ require("@rushstack/eslint-patch/modern-module-resolution");
 
 module.exports = {
   env: {
-    es2020: true, // <- activate “es2020” globals
+    es2020: true,
     browser: true,
     node: true,
-    mocha: true,
   },
   root: true,
   extends: [
