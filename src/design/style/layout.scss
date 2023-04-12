@@ -139,6 +139,38 @@ html .d {
   }
 }
 
+.align-items-start {
+  align-items: flex-start;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.align-items-end {
+  align-items: flex-end;
+}
+
+.align-items-baseline {
+  align-items: baseline;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.justify-content-evenly {
+  justify-content: space-evenly;
+}
+
+.justify-content-end {
+  justify-content: flex-end;
+}
+
 .float {
   float: none;
 

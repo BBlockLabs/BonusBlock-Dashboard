@@ -1,11 +1,4 @@
-$brand-color-1: #2F2A95;
-$brand-color-2: #4D49BE;
-$brand-color-3: #6A6DCD;
-$brand-color-4: #979CE7;
-$brand-color-5: #C2C5FF;
-$brand-color-6: #DCDCF5;
-
-$card-bg-color: #191919;
+@use '@/design/vars.scss' as v;
 
 @forward 'element-plus/theme-chalk/src/common/var.scss' with (
   $menu: (
@@ -13,17 +6,27 @@ $card-bg-color: #191919;
   ),
   $colors: (
     'primary': (
-      'base': $brand-color-3,
+      'base': v.$brand-color-3,
     ),
     'success': (
-      'base': #89E7C0,
+      'base': v.$color-success,
     ),
     'warning': (
-      'base': #EDD189,
+      'base': v.$color-warning,
     ),
     'danger': (
-      'base': #E38686,
+      'base': v.$color-danger,
     ),
+  ),
+  $text-color: (
+    'primary': v.$text-color-primary,
+    'regular': v.$text-color-regular,
+    'secondary': rgba(v.$text-color-base, 0.65),
+    'placeholder': rgba(v.$text-color-base, 0.55),
+    'disabled': rgba(v.$text-color-base, 0.4),
+  ),
+  $link: (
+    'text-color': v.$link-color,
   ),
   $border-radius: (
     'base': 10px,
@@ -33,12 +36,13 @@ $card-bg-color: #191919;
   ),
   $bg-color: (
     '': transparent,
+    'page': v.$bg-color-page,
   ),
   $card: (
     'padding': 1.5em 1.5em 1.5em,
     'border-radius': 0.75em,
-    'bg-color':$card-bg-color !important,
-    'border-color': $card-bg-color,
+    'bg-color': v.$card-bg-color !important,
+    'border-color': v.$card-bg-color,
   ),
   $input: (
     'border-radius': 0.5em,

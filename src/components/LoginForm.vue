@@ -10,7 +10,11 @@
             size="large"
             type="text"
             placeholder="Username"
-          />
+          >
+            <template #prefix>
+              <el-icon class="el-input__icon"><mail /></el-icon>
+            </template>
+          </el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -25,15 +29,25 @@
             size="large"
             type="password"
             placeholder="Password"
-          />
+          >
+            <template #prefix>
+              <el-icon class="el-input__icon"><lock /></el-icon>
+            </template>
+          </el-input>
         </el-form-item>
       </el-col>
     </el-row>
 
     <el-row justify="center">
+      <router-link to="/register">
+        Forgot your password?
+      </router-link>
+    </el-row>
+
+    <el-row justify="center" class="mt-4">
       <el-col :md="-1">
         <el-button round class="w-100" type="primary" @click="login">
-          Log in
+          Log in <el-icon class="ml-2"><right /></el-icon>
         </el-button>
       </el-col>
     </el-row>
@@ -44,8 +58,12 @@
 import Toast from "@/mixins/Toast";
 import Vuelidate from "@/mixins/Vuelidate";
 import { required, minLength } from "@vuelidate/validators";
+import Mail from "@/assets/icons/mail.svg";
 
 export default {
+  components: {
+      Mail
+  },
   mixins: [Toast, Vuelidate],
   emits: ["loginSuccess", "loginFailed", "loginError"],
   data() {
