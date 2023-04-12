@@ -41,8 +41,6 @@
           {{ $store.state.Auth.user.username }}
         </span>
       </div>
-
-      <router-link v-else class="my-auto" to="/login"> Log in</router-link>
     </el-col>
   </el-row>
 </template>

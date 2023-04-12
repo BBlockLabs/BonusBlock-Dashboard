@@ -24,3 +24,14 @@ body {
     }
   }
 }
+
+.img-home {
+  background-color: #fdf4e2;
+  background-image: url("@/assets/images/home.png");
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border: 1px solid black;
+  border-top-left-radius: 0;
+  border-bottom-right-radius: 0;
+}

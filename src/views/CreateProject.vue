@@ -69,7 +69,7 @@
               <el-button round type="primary" @click="nextStep">
                 Continue
               </el-button>
-              <el-button round type="default" @click="nextStep">
+              <el-button round type="default" @click="skipAll">
                 Skip
               </el-button>
             </el-row>
@@ -113,7 +113,7 @@
               <el-button round type="primary" @click="nextStep">
                 Continue
               </el-button>
-              <el-button round type="default" @click="nextStep">
+              <el-button round type="default" @click="skipAll">
                 Skip
               </el-button>
             </el-row>
@@ -191,9 +191,14 @@ export default {
 
         if (this.vuelidate.$errors.length > 0) {
           this.step = 1;
-          return;
         }
+      } else if (this.step === 3) {
+        this.skipAll();
       }
+    },
+    skipAll() {
+      this.$store.state.Auth.newUser = false;
+      this.$router.push("/");
     },
   },
   validations() {

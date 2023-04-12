@@ -69,28 +69,7 @@
           </el-row>
         </div>
       </el-row>
-
-      <el-row justify="space-between">
-        <el-col :span="12" class="align-left">
-          <social-links
-            :twitter="LinkTwitter"
-            :github="LinkGithub"
-            :telegram="LinkTelegram"
-            :reddit="LinkReddit"
-          />
-        </el-col>
-        <el-col :span="12" class="align-right">
-          <el-link href="/">
-            Contact us
-            <svg-telegram class="icon ml-1" />
-          </el-link>
-          <el-divider direction="vertical" />
-          <el-link>
-            Book a meeting
-            <calendar class="icon ml-1" />
-          </el-link>
-        </el-col>
-      </el-row>
+      <login-footer />
     </el-col>
   </el-row>
 </template>
@@ -101,26 +80,16 @@ import LoginForm from "@/components/LoginForm.vue";
 import Toast from "@/mixins/Toast";
 import User from "@/state/models/User";
 import BBlockLogo from "@/assets/bblock/logo.svg";
-import SocialLinks from "@/components/SocialLinks.vue";
-import SvgTelegram from "@/assets/icons/telegram.svg";
+import LoginFooter from "@/components/LoginFooter.vue";
 
 export default {
   components: {
     SsoLoginButton,
     LoginForm,
     BBlockLogo,
-    SocialLinks,
-    SvgTelegram,
+    LoginFooter,
   },
   mixins: [Toast],
-  data() {
-    return {
-      LinkGithub: import.meta.env.VITE_LINK_GITHUB,
-      LinkTwitter: import.meta.env.VITE_LINK_TWITTER,
-      LinkTelegram: import.meta.env.VITE_LINK_TELEGRAM,
-      LinkReddit: import.meta.env.VITE_LINK_REDDIT,
-    };
-  },
   computed: {
     User: () => User,
   },
@@ -136,16 +105,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.img-home {
-  background-color: #fdf4e2;
-  background-image: url("@/assets/images/home.png");
-  background-size: contain;
-  background-position: center center;
-  background-repeat: no-repeat;
-  border: 1px solid black;
-  border-top-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-</style>
