@@ -70,9 +70,11 @@
             </el-col>
           </el-row>
 
-          <el-row
+          <el-row  components: {
+      Mail
+  },
             justify="center"
-            class="mt-2"
+            class="mt-5 mb-5"
           >
             <el-col>
               <div class="d-flex">

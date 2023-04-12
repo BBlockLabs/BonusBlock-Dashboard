@@ -47,7 +47,7 @@
     <el-row justify="center" class="mt-4">
       <el-col :md="-1">
         <el-button round class="w-100" type="primary" @click="login">
-          Log in <el-icon class="ml-2"><Right /></el-icon>
+          Log in <el-icon class="ml-2"><right /></el-icon>
         </el-button>
       </el-col>
     </el-row>

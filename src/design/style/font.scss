@@ -50,3 +50,9 @@ a {
   }
 }
 
+.el-form-item.is-error {
+  .el-form-item__error {
+    font-weight: bolder;
+  }
+}
+
