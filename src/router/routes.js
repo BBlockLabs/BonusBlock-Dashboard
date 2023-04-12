@@ -2,6 +2,8 @@ import Home from "@/views/HomePage.vue";
 import RouteMeta from "@/router/RouteMeta";
 const AddBalance = () => import("@/views/AddBalance.vue");
 const CreateWorkspace = () => import("@/views/CreateWorkspace.vue");
+const CampaignIndex = () => import("@/views/CampaignIndex.vue");
+const CampaignAdd = () => import("@/views/CampaignAdd.vue");
 const Login = () => import("@/views/LoginPage.vue");
 const Packages = () => import("@/views/PackagesPage.vue");
 const Page404 = () => import("@/views/utility/404Page.vue");
@@ -41,6 +43,18 @@ export default [
     meta: new RouteMeta({
       auth: RouteMeta.AUTH_ONLY_NON_AUTHORIZED,
     }),
+  },
+  {
+    path: "/campaign",
+    component: CampaignIndex,
+    name: "Campaigns",
+    meta: new RouteMeta(),
+  },
+  {
+    path: "/campaign/add",
+    component: CampaignAdd,
+    name: "Campaign add",
+    meta: new RouteMeta(),
   },
   {
     path: "/create-workspace",

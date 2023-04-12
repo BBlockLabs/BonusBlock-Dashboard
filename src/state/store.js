@@ -8,6 +8,9 @@ import WorkspaceModule from "@/state/modules/Workspace";
 import OrganizationModule from "@/state/modules/Organization";
 import DeploymentTemplateModule from "@/state/modules/DeploymentTemplate";
 import DeploymentModule from "@/state/modules/Deployment";
+import Campaign from "@/state/modules/Campaign.js";
+import Token from "@/state/modules/Token.js";
+import Category from "@/state/modules/Category.js";
 
 export default new Vuex.Store({
   state: {
@@ -20,6 +23,8 @@ export default new Vuex.Store({
   },
   modules: {
     Auth,
+    Campaign,
+    Category,
     PackageModule,
     UserModule,
     ServerModule,
@@ -28,5 +33,6 @@ export default new Vuex.Store({
     OrganizationModule,
     DeploymentTemplateModule,
     DeploymentModule,
+    Token,
   },
 });

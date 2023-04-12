@@ -1,0 +1,37 @@
+[
+  {
+    "id": "1",
+    "version": 1,
+    "createdOn": "2023-04-12 14:30:00",
+    "modifiedOn": "2023-04-12 14:30:00",
+    "name": "Eth"
+  },
+  {
+    "id": "2",
+    "version": 1,
+    "createdOn": "2023-04-12 14:30:00",
+    "modifiedOn": "2023-04-12 14:30:00",
+    "name": "Bonus"
+  },
+  {
+    "id": "3",
+    "version": 1,
+    "createdOn": "2023-04-12 14:30:00",
+    "modifiedOn": "2023-04-12 14:30:00",
+    "name": "Secret"
+  },
+  {
+    "id": "4",
+    "version": 1,
+    "createdOn": "2023-04-12 14:30:00",
+    "modifiedOn": "2023-04-12 14:30:00",
+    "name": "Osmo"
+  },
+  {
+    "id": "5",
+    "version": 1,
+    "createdOn": "2023-04-12 14:30:00",
+    "modifiedOn": "2023-04-12 14:30:00",
+    "name": "Cosmos"
+  }
+]
