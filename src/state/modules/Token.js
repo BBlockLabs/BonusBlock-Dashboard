@@ -24,21 +24,25 @@ export default {
      * @param {TokenState} state
      * @returns {function({query: string | undefined, network: string | undefined}): Token[]}
      */
-    queryTokens: (state) => ({query, network}) => {
-      let tokens = state.tokens;
+    queryTokens:
+      (state) =>
+      ({ query, network }) => {
+        let tokens = state.tokens;
 
-      if (query) {
-        query = query.toLowerCase();
+        if (query) {
+          query = query.toLowerCase();
 
-        tokens = tokens.filter(token => token.name.toLowerCase().includes(query));
-      }
+          tokens = tokens.filter((token) =>
+            token.name.toLowerCase().includes(query)
+          );
+        }
 
-      if (network) {
-        tokens = tokens.filter(token => token.network === network);
-      }
+        if (network) {
+          tokens = tokens.filter((token) => token.network === network);
+        }
 
-      return tokens;
-    },
+        return tokens;
+      },
   },
   mutations: {
     /**
@@ -46,7 +50,9 @@ export default {
      * @param {Token} token
      */
     addToken(state, token) {
-      const stateToken = state.tokens.find(stateToken => stateToken.id === token.id);
+      const stateToken = state.tokens.find(
+        (stateToken) => stateToken.id === token.id
+      );
 
       if (stateToken) {
         return;
@@ -57,14 +63,13 @@ export default {
   },
   actions: {
     /**
-     * @param {TokenState} state
      * @param commit
      * @param getters
      * @param {string | undefined} query
      * @param {string | undefined} network
      * @returns {Promise<ActionResponse>}
      */
-    async queryTokens({state, commit, getters}, {query, network}) {
+    async queryTokens({ commit, getters }, { query, network }) {
       const currentTokenList = getters.queryTokens(query);
 
       if (currentTokenList.length >= 10) {
@@ -73,12 +78,15 @@ export default {
 
       await sleep(500);
 
-      if (query === 'fail') {
+      if (query === "fail") {
         return new ActionResponse(false, null, ["REQUEST_FAILED"]);
       }
 
       const apiTokens = tokensMock
-        .filter((mockToken) => !query || mockToken.name.toLowerCase().includes(query.toLowerCase()))
+        .filter(
+          (mockToken) =>
+            !query || mockToken.name.toLowerCase().includes(query.toLowerCase())
+        )
         .filter((mockToken) => !network || mockToken.network === network)
         .map((mockToken) => {
           const token = new Token();
@@ -93,8 +101,8 @@ export default {
           return token;
         });
 
-      apiTokens.forEach(token => {
-        commit('addToken', token)
+      apiTokens.forEach((token) => {
+        commit("addToken", token);
       });
 
       return new ActionResponse(true, apiTokens);

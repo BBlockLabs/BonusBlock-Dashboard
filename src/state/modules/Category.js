@@ -24,17 +24,21 @@ export default {
      * @param {CategoryState} state
      * @returns {function({query: string | undefined}): Category[]}
      */
-    queryCategories: (state) => ({query}) => {
-      let categories = state.categories;
+    queryCategories:
+      (state) =>
+      ({ query }) => {
+        let categories = state.categories;
 
-      if (query) {
-        query = query.toLowerCase();
+        if (query) {
+          query = query.toLowerCase();
 
-        categories = categories.filter(category => category.name.toLowerCase().includes(query));
-      }
+          categories = categories.filter((category) =>
+            category.name.toLowerCase().includes(query)
+          );
+        }
 
-      return categories;
-    },
+        return categories;
+      },
   },
   mutations: {
     /**
@@ -42,7 +46,9 @@ export default {
      * @param {Category} category
      */
     addCategory(state, category) {
-      const stateCategory = state.categories.find(stateCategory => stateCategory.id === category.id);
+      const stateCategory = state.categories.find(
+        (stateCategory) => stateCategory.id === category.id
+      );
 
       if (stateCategory) {
         return;
@@ -53,13 +59,12 @@ export default {
   },
   actions: {
     /**
-     * @param {CategoryState} state
      * @param commit
      * @param getters
      * @param {string | undefined} query
      * @returns {Promise<ActionResponse>}
      */
-    async queryCategories({state, commit, getters}, {query}) {
+    async queryCategories({ commit, getters }, { query }) {
       const currentCategoryList = getters.queryCategories(query);
 
       if (currentCategoryList.length >= 10) {
@@ -68,12 +73,16 @@ export default {
 
       await sleep(500);
 
-      if (query === 'fail') {
+      if (query === "fail") {
         return new ActionResponse(false, null, ["REQUEST_FAILED"]);
       }
 
       const apiCategories = categoriesMock
-        .filter((mockCategory) => !query || mockCategory.name.toLowerCase().includes(query.toLowerCase()))
+        .filter(
+          (mockCategory) =>
+            !query ||
+            mockCategory.name.toLowerCase().includes(query.toLowerCase())
+        )
         .map((mockCategory) => {
           const category = new Category();
 
@@ -86,8 +95,8 @@ export default {
           return category;
         });
 
-      apiCategories.forEach(category => {
-        commit('addCategory', category)
+      apiCategories.forEach((category) => {
+        commit("addCategory", category);
       });
 
       return new ActionResponse(true, apiCategories);

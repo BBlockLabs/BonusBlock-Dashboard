@@ -20,7 +20,7 @@ export default class Campaign extends Model {
   /**
    * @type {string}
    */
-  rewardPoolContract = ''
+  rewardPoolContract = "";
 
   /**
    * @type {Number}
@@ -59,12 +59,13 @@ export default class Campaign extends Model {
   /**
    * @type {"draft"|"confirmed"|"payed"|"running"|"ended"|"cancelled"|"deleted"}
    */
-  status = 'draft';
+  status = "draft";
 
   normalizeFrequencyRatios() {
-    const ratioSum = this.frequencyRatioDaily
-      + this.frequencyRatioWeekly
-      + this.frequencyRatioMonthly;
+    const ratioSum =
+      this.frequencyRatioDaily +
+      this.frequencyRatioWeekly +
+      this.frequencyRatioMonthly;
 
     if (ratioSum === 0) {
       return;

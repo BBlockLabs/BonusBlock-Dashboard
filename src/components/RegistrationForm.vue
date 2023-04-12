@@ -73,10 +73,10 @@ import { required, minLength, sameAs } from "@vuelidate/validators";
 import Mail from "@/assets/icons/mail.svg";
 
 export default {
-  mixins: [Toast, Vuelidate],
   components: {
-    Mail
+    Mail,
   },
+  mixins: [Toast, Vuelidate],
   emits: ["registerSuccess", "registerFailed", "registerError"],
   data() {
     return {

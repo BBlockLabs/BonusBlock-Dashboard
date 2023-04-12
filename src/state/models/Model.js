@@ -4,7 +4,7 @@ export class Model {
   /**
    * @type {string}
    */
-  id = ''
+  id = "";
 
   /**
    * @type {number}

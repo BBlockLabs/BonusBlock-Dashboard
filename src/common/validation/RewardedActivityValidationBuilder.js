@@ -1,12 +1,8 @@
-import {
-  integer,
-  required,
-  minValue,
-} from "@vuelidate/validators";
+import { integer, required, minValue } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import ValidationBuilder from "@/common/validation/ValidationBuilder.js";
 
-export default class RewardedActivityValidationBuilder extends ValidationBuilder{
+export default class RewardedActivityValidationBuilder extends ValidationBuilder {
   static validationRules = {
     minimumTransactionLimit: {
       required,
@@ -26,6 +22,9 @@ export default class RewardedActivityValidationBuilder extends ValidationBuilder
    * @return Ref<Validation>
    */
   static createValidation(validationObject) {
-    return useVuelidate(RewardedActivityValidationBuilder.validationRules, validationObject);
-  };
+    return useVuelidate(
+      RewardedActivityValidationBuilder.validationRules,
+      validationObject
+    );
+  }
 }

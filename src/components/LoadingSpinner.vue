@@ -6,8 +6,8 @@
 </template>
 
 <style lang="scss">
-$brand-color-2: #4D49BE;
-$brand-color-3: #6A6DCD;
+$brand-color-2: #4d49be;
+$brand-color-3: #6a6dcd;
 
 $spinnerSize: 80;
 svg.host-spinner {

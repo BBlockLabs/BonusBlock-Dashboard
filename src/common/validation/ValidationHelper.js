@@ -19,7 +19,7 @@ export default class ValidationHelper {
    * @param {import('@vuelidate/core').ErrorObject} error
    * @returns {string}
    */
-  static getErrorMessage(error){
+  static getErrorMessage(error) {
     switch (error.$validator) {
       case "required": {
         return "The field is required";
@@ -33,7 +33,7 @@ export default class ValidationHelper {
    * @param {import('@vuelidate/core').BaseValidation} validation
    * @returns {"error" | ""}
    */
-  static getValidateStatus(validation)  {
+  static getValidateStatus(validation) {
     if (validation.$error) {
       return "error";
     }

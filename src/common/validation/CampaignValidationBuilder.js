@@ -9,7 +9,7 @@ import {
 import { useVuelidate } from "@vuelidate/core";
 import ValidationBuilder from "@/common/validation/ValidationBuilder.js";
 
-export default class CampaignValidationBuilder extends ValidationBuilder{
+export default class CampaignValidationBuilder extends ValidationBuilder {
   static validationRules = {
     name: {
       required,
@@ -61,7 +61,7 @@ export default class CampaignValidationBuilder extends ValidationBuilder{
     return useVuelidate(
       CampaignValidationBuilder.validationRules,
       validationObject,
-      {$autoDirty: true},
+      { $autoDirty: true }
     );
-  };
+  }
 }

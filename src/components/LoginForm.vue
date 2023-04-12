@@ -39,9 +39,7 @@
     </el-row>
 
     <el-row justify="center">
-      <router-link to="/register">
-        Forgot your password?
-      </router-link>
+      <router-link to="/register"> Forgot your password? </router-link>
     </el-row>
 
     <el-row justify="center" class="mt-4">
@@ -62,7 +60,7 @@ import Mail from "@/assets/icons/mail.svg";
 
 export default {
   components: {
-      Mail
+    Mail,
   },
   mixins: [Toast, Vuelidate],
   emits: ["loginSuccess", "loginFailed", "loginError"],

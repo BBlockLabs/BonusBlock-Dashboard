@@ -27,13 +27,9 @@
           </el-col>
 
           <el-col>
-            <el-button @click="clearRewardedActivity">
-              Clear
-            </el-button>
+            <el-button @click="clearRewardedActivity"> Clear </el-button>
 
-            <el-button @click="addRewardedActivity">
-              Add activity
-            </el-button>
+            <el-button @click="addRewardedActivity"> Add activity </el-button>
           </el-col>
         </el-row>
       </div>
@@ -43,9 +39,7 @@
       <debug-wrapper>{{ campaign }}</debug-wrapper>
       <debug-wrapper>{{ rewardedActivities }}</debug-wrapper>
 
-      <el-button @click="goToNextStep">
-        Continue
-      </el-button>
+      <el-button @click="goToNextStep"> Continue </el-button>
     </el-aside>
   </el-container>
 </template>
@@ -60,6 +54,11 @@ import RewardedActivity from "@/state/models/RewardedActivity.js";
 import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
 
 export default {
+  components: {
+    DebugWrapper,
+    CampaignSetDetails,
+    CampaignCreateActivity,
+  },
   data() {
     return {
       lastActiveStep: 1,
@@ -72,13 +71,13 @@ export default {
     };
   },
   created() {
-    this.campaignValidation = CampaignValidationBuilder.createValidation(this.campaign);
-    this.rewardedActivityValidation = RewardedActivityValidationBuilder.createValidation(this.newRewardedActivity);
-  },
-  components: {
-    DebugWrapper,
-    CampaignSetDetails,
-    CampaignCreateActivity,
+    this.campaignValidation = CampaignValidationBuilder.createValidation(
+      this.campaign
+    );
+    this.rewardedActivityValidation =
+      RewardedActivityValidationBuilder.createValidation(
+        this.newRewardedActivity
+      );
   },
   methods: {
     addRewardedActivity() {
@@ -93,7 +92,10 @@ export default {
     },
     clearRewardedActivity() {
       this.newRewardedActivity = new RewardedActivity();
-      this.rewardedActivityValidation = RewardedActivityValidationBuilder.createValidation(this.newRewardedActivity);
+      this.rewardedActivityValidation =
+        RewardedActivityValidationBuilder.createValidation(
+          this.newRewardedActivity
+        );
     },
     setLastActiveStep() {
       this.lastActiveStep = Math.max(this.lastActiveStep, this.step);
@@ -108,7 +110,7 @@ export default {
       }
 
       while (this.step < step) {
-        if (!await this.goToNextStep()) {
+        if (!(await this.goToNextStep())) {
           this.lastActiveStep = this.step;
 
           break;
@@ -129,47 +131,43 @@ export default {
 
       this.campaign = response.data;
 
-      return true
+      return true;
     },
     /**
      * @return {Promise<boolean>}
      */
     async goToNextStep() {
       switch (this.step) {
-        case 1: {
-          const dirty = this.campaignValidation.$dirty;
+        case 1:
+          {
+            const dirty = this.campaignValidation.$dirty;
 
-          if (!await this.campaignValidation.$validate()) {
-            return false;
+            if (!(await this.campaignValidation.$validate())) {
+              return false;
+            }
+
+            this.campaignValidation.$reset();
+
+            if (!dirty && this.campaign.id) {
+              break;
+            }
+
+            this.campaign.normalizeFrequencyRatios();
+
+            if (!(await this.storeCampaign())) {
+              return false;
+            }
           }
-
-          this.campaignValidation.$reset();
-
-          if (!dirty && this.campaign.id) {
-            break;
-          }
-
-          this.campaign.normalizeFrequencyRatios();
-
-          if (!await this.storeCampaign()) {
-            return false;
-          }
-        }
-        break;
-        case 2: {
-
-        }
-        break;
-        case 3: {
-
-        }
-        break;
-        case 4: {
-
-        }
+          break;
+        case 2:
+          break;
+        case 3:
+          break;
+        case 4:
+          break;
       }
 
-      this.step ++;
+      this.step++;
 
       this.setLastActiveStep();
 

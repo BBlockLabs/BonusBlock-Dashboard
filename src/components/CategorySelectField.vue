@@ -20,7 +20,7 @@ export default {
     };
   },
   created() {
-    this.queryCategories('');
+    this.queryCategories("");
   },
   methods: {
     async queryCategories(query) {
@@ -30,7 +30,9 @@ export default {
 
       this.loading = true;
 
-      const response = await this.$store.dispatch('Category/queryCategories', {query});
+      const response = await this.$store.dispatch("Category/queryCategories", {
+        query,
+      });
 
       if (!response.success) {
         this.Toast("Failed to load categories", "", "error");
@@ -38,7 +40,10 @@ export default {
         return;
       }
 
-      this.options = response.data.map(category => ({value: category.id, label: category.name}));
+      this.options = response.data.map((category) => ({
+        value: category.id,
+        label: category.name,
+      }));
 
       this.loading = false;
     },

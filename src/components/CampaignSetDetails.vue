@@ -9,7 +9,11 @@
 
     <el-form-item label="Frequency ratio">
       <el-form-item
-        v-bind="ValidationHelper.getFormItemErrorAttributes(validate['frequencyRatioDaily'])"
+        v-bind="
+          ValidationHelper.getFormItemErrorAttributes(
+            validate['frequencyRatioDaily']
+          )
+        "
         label="Daily"
       >
         <el-input-number
@@ -22,7 +26,11 @@
       </el-form-item>
 
       <el-form-item
-        v-bind="ValidationHelper.getFormItemErrorAttributes(validate['frequencyRatioWeekly'])"
+        v-bind="
+          ValidationHelper.getFormItemErrorAttributes(
+            validate['frequencyRatioWeekly']
+          )
+        "
         label="Weekly"
       >
         <el-input-number
@@ -35,7 +43,11 @@
       </el-form-item>
 
       <el-form-item
-        v-bind="ValidationHelper.getFormItemErrorAttributes(validate['frequencyRatioMonthly'])"
+        v-bind="
+          ValidationHelper.getFormItemErrorAttributes(
+            validate['frequencyRatioMonthly']
+          )
+        "
         label="Monthly"
       >
         <el-input-number
@@ -49,18 +61,26 @@
     </el-form-item>
 
     <el-form-item
-      v-bind="ValidationHelper.getFormItemErrorAttributes(validate['rewardPoolTokenCount'])"
+      v-bind="
+        ValidationHelper.getFormItemErrorAttributes(
+          validate['rewardPoolTokenCount']
+        )
+      "
       label="Reward Pool"
     >
-      <token-select-field v-model="campaign.rewardPoolContract"/>
+      <token-select-field v-model="campaign.rewardPoolContract" />
       <el-input v-model="campaign.rewardPoolTokenCount" />
     </el-form-item>
 
     <el-form-item
       label="Campaign Period"
       v-bind="{
-        ...ValidationHelper.getFormItemErrorAttributes(validate['timeFrameFrom']),
-        ...ValidationHelper.getFormItemErrorAttributes(validate['timeFrameTill']),
+        ...ValidationHelper.getFormItemErrorAttributes(
+          validate['timeFrameFrom']
+        ),
+        ...ValidationHelper.getFormItemErrorAttributes(
+          validate['timeFrameTill']
+        ),
       }"
     >
       <el-date-picker v-model="timeFrame" type="daterange" />
@@ -68,21 +88,33 @@
 
     <el-form-item label="Other">
       <el-form-item
-        v-bind="ValidationHelper.getFormItemErrorAttributes(validate['expectedReturnOfInvestment'])"
+        v-bind="
+          ValidationHelper.getFormItemErrorAttributes(
+            validate['expectedReturnOfInvestment']
+          )
+        "
         label="Expected ROI"
       >
-        <el-input v-model="campaign.expectedReturnOfInvestment"/>
+        <el-input v-model="campaign.expectedReturnOfInvestment" />
       </el-form-item>
 
       <el-form-item
-        v-bind="ValidationHelper.getFormItemErrorAttributes(validate['weeklyEqualDistribution'])"
+        v-bind="
+          ValidationHelper.getFormItemErrorAttributes(
+            validate['weeklyEqualDistribution']
+          )
+        "
         label="Weekly equal distribution"
       >
         <el-switch v-model="campaign.weeklyEqualDistribution" />
       </el-form-item>
 
       <el-form-item
-        v-bind="ValidationHelper.getFormItemErrorAttributes(validate['qualityAudience'])"
+        v-bind="
+          ValidationHelper.getFormItemErrorAttributes(
+            validate['qualityAudience']
+          )
+        "
         label="Quality Audience (Verified by Cookie3)"
       >
         <el-switch v-model="campaign.qualityAudience" />
@@ -110,9 +142,10 @@ export default {
     },
     validation: {
       type: Object,
+      default: () => null,
     },
   },
-  emits: ['submit', 'update:modelValue'],
+  emits: ["submit", "update:modelValue"],
   /**
    * @returns {{campaign: Campaign, validate: Object}}
    */
@@ -121,17 +154,6 @@ export default {
       campaign: this.modelValue,
     };
   },
-  watch: {
-    modelValue() {
-      this.campaign = this.modelValue;
-    },
-    campaign: {
-      deep: true,
-      handler() {
-        this.$emit('update:modelValue', this.campaign)
-      }
-    },
-  },
   computed: {
     ValidationHelper: () => ValidationHelper,
     validate() {
@@ -139,21 +161,20 @@ export default {
         return this.validation;
       }
 
-      const validation = CampaignValidationBuilder.createValidation(this.campaign)
+      const validation = CampaignValidationBuilder.createValidation(
+        this.campaign
+      );
 
       validation.$lazy = true;
 
-      return validation
+      return validation;
     },
     timeFrame: {
       /**
        * @returns {[Date, Date]}
        */
       get() {
-        return [
-          this.campaign.timeFrameFrom,
-          this.campaign.timeFrameTill,
-        ];
+        return [this.campaign.timeFrameFrom, this.campaign.timeFrameTill];
       },
       /**
        * @param {[Date, Date]} val
@@ -161,8 +182,19 @@ export default {
       set(val) {
         this.campaign.timeFrameFrom = val[0];
         this.campaign.timeFrameTill = val[1];
-      }
-    }
+      },
+    },
   },
-}
+  watch: {
+    modelValue() {
+      this.campaign = this.modelValue;
+    },
+    campaign: {
+      deep: true,
+      handler() {
+        this.$emit("update:modelValue", this.campaign);
+      },
+    },
+  },
+};
 </script>

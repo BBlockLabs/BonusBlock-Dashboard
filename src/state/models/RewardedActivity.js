@@ -1,5 +1,4 @@
 import Model from "@/state/models/Model";
-import moment from "moment";
 
 export default class RewardedActivity extends Model {
   /**

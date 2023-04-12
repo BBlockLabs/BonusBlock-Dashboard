@@ -20,7 +20,7 @@ export default {
     };
   },
   created() {
-    this.queryTokens('');
+    this.queryTokens("");
   },
   methods: {
     async queryTokens(query) {
@@ -30,7 +30,9 @@ export default {
 
       this.loading = true;
 
-      const response = await this.$store.dispatch('Token/queryTokens', {query});
+      const response = await this.$store.dispatch("Token/queryTokens", {
+        query,
+      });
 
       if (!response.success) {
         this.Toast("Failed to load tokens", "", "error");
@@ -38,7 +40,10 @@ export default {
         return;
       }
 
-      this.options = response.data.map(token => ({value: token.id, label: token.name}));
+      this.options = response.data.map((token) => ({
+        value: token.id,
+        label: token.name,
+      }));
 
       this.loading = false;
     },
