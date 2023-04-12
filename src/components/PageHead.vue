@@ -35,14 +35,14 @@
           <git-compare class="icon-large my-auto" />
         </el-button>
 
-        <avatar class="ml-3 my-auto" />
+        <avatar class="ml-3 my-auto" :file="avatar" />
 
         <span class="ml-3 my-auto">
           {{ $store.state.Auth.user.username }}
         </span>
       </div>
 
-      <router-link v-else class="my-auto" to="/login"> Log in </router-link>
+      <router-link v-else class="my-auto" to="/login"> Log in</router-link>
     </el-col>
   </el-row>
 </template>
@@ -59,6 +59,14 @@ export default {
     IconBell,
     GitCompare,
     Avatar,
+  },
+  data() {
+    return {
+      avatar: {
+        data: "",
+        type: "",
+      },
+    };
   },
   computed: {
     currentRoute() {
