@@ -1,7 +1,7 @@
 import Home from "@/views/HomePage.vue";
 import RouteMeta from "@/router/RouteMeta";
 const AddBalance = () => import("@/views/AddBalance.vue");
-const CreateWorkspace = () => import("@/views/CreateWorkspace.vue");
+const CreateProject = () => import("@/views/CreateProject.vue");
 const CampaignIndex = () => import("@/views/CampaignIndex.vue");
 const CampaignAdd = () => import("@/views/CampaignAdd.vue");
 const Login = () => import("@/views/LoginPage.vue");
@@ -57,9 +57,9 @@ export default [
     meta: new RouteMeta(),
   },
   {
-    path: "/create-workspace",
-    component: CreateWorkspace,
-    name: "Create workspace",
+    path: "/create-project",
+    component: CreateProject,
+    name: "Create project",
     meta: new RouteMeta(),
   },
   {

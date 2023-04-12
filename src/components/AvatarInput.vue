@@ -1,33 +1,39 @@
 <template>
-  <label :for="$id('file-input')">
-    <avatar v-bind="$attrs" :file="file" />
-
-    <input
-      :id="$id('file-input')"
-      class="d-none"
-      accept="image/png,image/jpeg"
-      type="file"
-      @change="fileChange"
-    />
-  </label>
+  <el-upload
+    class="avatar-uploader"
+    drag
+    :show-file-list="false"
+    :before-upload="beforeAvatarUpload"
+  >
+    <el-icon class="el-icon--upload">
+      <upload-filled />
+    </el-icon>
+    <div class="el-upload__text">
+      Drop file here or <em>click to upload</em>
+    </div>
+    <template #tip>
+      <div class="el-upload__tip">
+        Avatar must be jpg/png with a size less than 500kb
+      </div>
+    </template>
+  </el-upload>
 </template>
 
 <script>
-import Avatar from "@/components/AvatarImage.vue";
+import Toast from "@/mixins/Toast";
 
 export default {
-  components: {
-    Avatar,
-  },
+  mixins: [Toast],
   props: {
     modelValue: {
-      type: [File, Blob],
+      type: Object,
       default: null,
     },
   },
   emits: ["update:modelValue"],
   data() {
     return {
+      imageUrl: false,
       file: this.modelValue,
     };
   },
@@ -40,21 +46,42 @@ export default {
     },
   },
   methods: {
-    fileChange(event) {
-      const fileset = event.target.files;
-
-      if (!fileset) {
-        this.file = null;
-        return;
+    beforeAvatarUpload(rawFile) {
+      if (rawFile.type !== "image/jpeg" && rawFile.type !== "image/png") {
+        this.Toast("Picture must be JPG or PNG format!", "", "error", 1500);
+        return false;
+      } else if (rawFile.size / 1024 > 500) {
+        this.Toast("Picture size can not exceed 500kb", "", "error", 1500);
+        return false;
       }
-
-      if (fileset.length === 0) {
-        this.file = null;
-        return;
-      }
-
-      this.file = fileset[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        this.file.data = reader.result.split(",")[1];
+        this.file.type = rawFile.type;
+      };
+      reader.readAsDataURL(rawFile);
+      return false;
     },
   },
 };
 </script>
+
+<style lang="scss">
+.avatar-uploader {
+  width: 100%;
+  max-width: 430px;
+
+  .el-upload {
+    border: 1px dashed var(--el-border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: var(--el-transition-duration-fast);
+  }
+
+  .el-upload:hover {
+    border-color: var(--el-color-primary);
+  }
+}
+</style>

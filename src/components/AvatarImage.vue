@@ -1,5 +1,5 @@
 <template>
-  <el-avatar v-bind="$attrs" :src="imageUrl" />
+  <img :src="'data:image/' + file.type + ';base64,' + file.data" alt="" />
   <debug-wrapper>{{ imageUrl }}</debug-wrapper>
 </template>
 
@@ -9,7 +9,7 @@ import baseAvatar from "@/assets/images/base-avatar.png";
 export default {
   props: {
     file: {
-      type: [File, Blob],
+      type: Object,
       default: null,
     },
   },

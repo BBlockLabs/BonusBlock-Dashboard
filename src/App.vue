@@ -9,7 +9,10 @@
     </el-aside>
 
     <el-container vertical>
-      <el-header v-if="$store.getters['Auth/isLoggedIn']" class="bb-solid">
+      <el-header
+        v-if="$store.getters['Auth/isLoggedIn'] && !$store.getters['Auth/isNew']"
+        class="bb-solid"
+      >
         <page-head />
       </el-header>
 

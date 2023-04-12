@@ -1,7 +1,7 @@
 <template>
   <el-row class="h-100" justify="center">
     <el-col :md="11" class="hidden-sm-and-down">
-      <el-card class="h-100 img-home" shadow="never"> </el-card>
+      <el-card class="h-100 img-home" shadow="never"></el-card>
     </el-col>
 
     <el-col class="hidden-sm-and-down" :md="1" />
@@ -12,7 +12,7 @@
           <h4 class="m-0">
             Not a project?
             <br />
-            <router-link to="/register"> Register as user </router-link>
+            <router-link to="/register"> Register as user</router-link>
           </h4>
         </el-col>
         <el-col :span="12" class="align-right bblock-logo">
@@ -31,7 +31,7 @@
           <el-row justify="center" class="mt-2">
             <el-col :span="-1">
               Not registered yet?
-              <router-link to="/register"> Sign up </router-link>
+              <router-link to="/register"> Sign up</router-link>
             </el-col>
           </el-row>
 
@@ -102,7 +102,7 @@ import Toast from "@/mixins/Toast";
 import User from "@/state/models/User";
 import BBlockLogo from "@/assets/bblock/logo.svg";
 import SocialLinks from "@/components/SocialLinks.vue";
-import SvgTelegram from "@/assets/icons/telegram.svg?component";
+import SvgTelegram from "@/assets/icons/telegram.svg";
 
 export default {
   components: {
