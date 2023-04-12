@@ -24,7 +24,8 @@ small {
 }
 
 svg.icon {
-  height: EPFunctions.getCssVar('font-size', 'base');
+  height: 1.5em; //EPFunctions.getCssVar('font-size', 'base');
+  width: auto;
 
   @each $name, $size in theme.$font-size {
     &-#{$name} {

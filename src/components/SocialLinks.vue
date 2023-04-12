@@ -49,10 +49,13 @@ const props = defineProps<Props>();
 
 <style lang="scss">
 @use 'element-plus/theme-chalk/src/mixins/function' as EPFunctions;
+@use '@/design/vars.scss' as v;
 
 .social-links {
   svg {
-    color: EPFunctions.getCssVar('icon-color');
+    height: 1.5em;
+    width: auto;
+    color: v.$social-svg-color;
     margin: 0;
   }
   .icon-discord {

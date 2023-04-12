@@ -108,12 +108,12 @@
         <el-col :span="12" class="align-right">
           <el-link href="/">
             Contact us
-            <svg-telegram />
+            <svg-telegram class="icon ml-1" />
           </el-link>
           <el-divider direction="vertical" />
           <el-link>
             Book a meeting
-            <calendar />
+            <calendar class="icon ml-1" />
           </el-link>
         </el-col>
       </el-row>

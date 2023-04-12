@@ -139,20 +139,11 @@ html .d {
   }
 }
 
-.align-self-start {
-  align-self: flex-start;
-}
-
-.align-self-end {
-  align-self: flex-end;
-}
-
 .align-items-start {
   align-items: flex-start;
 }
 
 .align-items-center {
-  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -179,7 +170,6 @@ html .d {
 .justify-content-end {
   justify-content: flex-end;
 }
-
 
 .float {
   float: none;

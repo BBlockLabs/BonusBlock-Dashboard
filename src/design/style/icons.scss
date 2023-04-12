@@ -1,23 +1,7 @@
 @use 'element-plus/theme-chalk/src/mixins/function' as EPFunctions;
 
-:root {
-  --el-icon-color: #1E1C4E;
-}
-
-svg	{
-	height: 1.5em;
-  width: auto;
-}
-
 .bblock-logo {
   svg {
     height: 3.5em;
-  }
-}
-
-.el-link {
-  svg {
-    margin-left: 0.5em;
-    color: EPFunctions.getCssVar('link-text-color')
   }
 }
