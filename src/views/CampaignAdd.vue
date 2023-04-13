@@ -88,7 +88,14 @@ export default {
       }
 
       this.rewardedActivities.push(this.newRewardedActivity);
+
+      const activity = this.newRewardedActivity.activity;
+      const action = this.newRewardedActivity.action;
+
       this.clearRewardedActivity();
+
+      this.newRewardedActivity.activity = activity;
+      this.newRewardedActivity.action = action;
     },
     clearRewardedActivity() {
       this.newRewardedActivity = new RewardedActivity();

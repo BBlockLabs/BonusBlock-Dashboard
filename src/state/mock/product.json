@@ -5,8 +5,8 @@
     "createdOn": "2023-04-12 14:30:00",
     "modifiedOn": "2023-04-12 14:30:00",
     "name": "UniSwap",
-    "Network": "1",
-    "Categories": ["1"]
+    "network": "1",
+    "categories": ["1"]
   },
   {
     "id": "2",
@@ -14,8 +14,8 @@
     "createdOn": "2023-04-12 14:30:00",
     "modifiedOn": "2023-04-12 14:30:00",
     "name": "Optimism",
-    "Network": "1",
-    "Categories": ["1", "2"]
+    "network": "1",
+    "categories": ["1", "2"]
   },
   {
     "id": "3",
@@ -23,8 +23,8 @@
     "createdOn": "2023-04-12 14:30:00",
     "modifiedOn": "2023-04-12 14:30:00",
     "name": "Kraken",
-    "Network": "1",
-    "Categories": ["2", "3"]
+    "network": "1",
+    "categories": ["2", "3"]
   },
   {
     "id": "4",
@@ -32,7 +32,7 @@
     "createdOn": "2023-04-12 14:30:00",
     "modifiedOn": "2023-04-12 14:30:00",
     "name": "Binance",
-    "Network": "1",
-    "Categories": ["1", "3"]
+    "network": "1",
+    "categories": ["1", "3"]
   }
 ]

@@ -1,4 +1,5 @@
 import Vuex from "vuex";
+import Activity from "@/state/modules/Activity.js";
 import Auth from "@/state/modules/Auth";
 import Campaign from "@/state/modules/Campaign.js";
 import Category from "@/state/modules/Category.js";
@@ -24,6 +25,7 @@ export default new Vuex.Store({
     },
   },
   modules: {
+    Activity,
     Auth,
     Campaign,
     Category,

@@ -4,17 +4,12 @@ export default class RewardedActivity extends Model {
   /**
    * @type {string}
    */
-  productId;
+  activity = null;
 
   /**
    * @type {string}
    */
-  activity;
-
-  /**
-   * @type {string}
-   */
-  action;
+  action = null;
 
   /**
    * @type {number}

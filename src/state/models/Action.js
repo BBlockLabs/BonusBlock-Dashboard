@@ -1,6 +1,6 @@
 import Model from "@/state/models/Model";
 
-export default class Product extends Model {
+export default class Action extends Model {
   /**
    * @type {string}
    */
@@ -9,10 +9,5 @@ export default class Product extends Model {
   /**
    * @type {string}
    */
-  network;
-
-  /**
-   * @type {Array<String>}
-   */
-  categories = [];
+  hash;
 }

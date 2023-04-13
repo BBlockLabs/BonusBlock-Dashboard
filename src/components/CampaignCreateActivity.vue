@@ -2,56 +2,37 @@
   <el-form>
     <el-form-item label="Select Product">
       <el-form-item label="Categories">
-        <category-select-field multiple />
+        <category-select-field v-model="campaignObject.categories" multiple />
       </el-form-item>
 
       <el-form-item label="Network">
-        <network-select-field />
+        <network-select-field v-model="campaignObject.network" />
       </el-form-item>
 
       <el-form-item label="Product">
-        <product-select-field />
+        <product-select-field
+          v-model="campaignObject.product"
+          :filters="{
+            network: campaignObject.network,
+            categories: campaignObject.categories,
+          }"
+        />
       </el-form-item>
     </el-form-item>
 
     <el-form-item
+      v-if="campaignObject.product"
       v-bind="ValidationHelper.getFormItemErrorAttributes(validate['activity'])"
       label="Select activity"
     >
-      <el-collapse v-model="rewardedActivity.activity" accordion>
-        <el-collapse-item
-          v-for="activity in activities"
-          :key="activity.hash"
-          :name="activity.hash"
-        >
-          <template #title>
-            {{ activity.name }} - {{ activity.hash }}
-          </template>
-
-          <el-row
-            v-for="action in activity.actions"
-            :key="action.hash"
-            justify="space-between"
-          >
-            <el-col :span="-1">
-              {{ action.name }}
-              <br />
-              {{ action.hash }} (function hash)
-            </el-col>
-
-            <el-col :span="-1">
-              <input
-                v-model="rewardedActivity.action"
-                type="radio"
-                :value="action.hash"
-              />
-            </el-col>
-          </el-row>
-        </el-collapse-item>
-      </el-collapse>
+      <activity-picker
+        v-model:activity="rewardedActivity.activity"
+        v-model:action="rewardedActivity.action"
+        :filters="{ product: campaignObject.product }"
+      />
     </el-form-item>
 
-    <el-form-item label="Set requirements">
+    <el-form-item v-if="rewardedActivity.action" label="Set requirements">
       <el-form-item
         v-bind="
           ValidationHelper.getFormItemErrorAttributes(
@@ -75,14 +56,21 @@ import ProductSelectField from "@/components/ProductSelectField.vue";
 import RewardedActivity from "@/state/models/RewardedActivity.js";
 import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
 import ValidationHelper from "@/common/validation/ValidationHelper.js";
+import Campaign from "@/state/models/Campaign.js";
+import ActivityPicker from "@/components/ActivityPicker.vue";
 
 export default {
   components: {
     CategorySelectField,
     NetworkSelectField,
     ProductSelectField,
+    ActivityPicker,
   },
   props: {
+    campaign: {
+      type: Campaign,
+      default: () => new Campaign(),
+    },
     modelValue: {
       type: RewardedActivity,
       default: () => new RewardedActivity(),
@@ -92,35 +80,14 @@ export default {
       default: () => null,
     },
   },
-  emits: ["submit", "update:modelValue"],
+  emits: ["submit", "update:modelValue", "update:campaign"],
   /**
    * @returns {{rewardedActivity: RewardedActivity, validate: Object}}
    */
   data() {
     return {
       rewardedActivity: this.modelValue,
-      activities: [
-        {
-          name: "ETH - ANT",
-          hash: "0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95",
-          actions: [
-            {
-              name: "Swap",
-              hash: "68027e43",
-            },
-          ],
-        },
-        {
-          name: "ETH - DAI",
-          hash: "0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d96",
-          actions: [
-            {
-              name: "Swap",
-              hash: "68027e43",
-            },
-          ],
-        },
-      ],
+      campaignObject: this.campaign,
     };
   },
   computed: {
@@ -147,6 +114,12 @@ export default {
       deep: true,
       handler() {
         this.$emit("update:modelValue", this.rewardedActivity);
+      },
+    },
+    campaignObject: {
+      deep: true,
+      handler() {
+        this.$emit("update:campaign", this.campaignObject);
       },
     },
   },

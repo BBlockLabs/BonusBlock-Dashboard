@@ -25,6 +25,14 @@ export default {
       options: [],
     };
   },
+  watch: {
+    filters: {
+      deep: true,
+      handler() {
+        this.queryProducts("");
+      },
+    },
+  },
   created() {
     this.queryProducts("");
   },
@@ -37,6 +45,7 @@ export default {
       this.loading = true;
 
       const response = await this.$store.dispatch("Product/queryProducts", {
+        ...this.filters,
         query,
       });
 

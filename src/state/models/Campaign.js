@@ -61,6 +61,21 @@ export default class Campaign extends Model {
    */
   status = "draft";
 
+  /**
+   * @type {Array<String>}
+   */
+  categories = [];
+
+  /**
+   * @type {string | null}
+   */
+  network;
+
+  /**
+   * @type {string | null}
+   */
+  product;
+
   normalizeFrequencyRatios() {
     const ratioSum =
       this.frequencyRatioDaily +
