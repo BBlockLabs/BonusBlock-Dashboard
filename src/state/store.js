@@ -9,6 +9,7 @@ import Network from "@/state/modules/Network.js";
 import OrganizationModule from "@/state/modules/Organization";
 import PackageModule from "@/state/modules/Package";
 import Product from "@/state/modules/Product.js";
+import RewardedActivity from "@/state/modules/RewardedActivity.js";
 import ServerModule from "@/state/modules/Server";
 import Token from "@/state/modules/Token.js";
 import UserModule from "@/state/modules/User";
@@ -35,6 +36,7 @@ export default new Vuex.Store({
     OrganizationModule,
     PackageModule,
     Product,
+    RewardedActivity,
     ServerModule,
     Token,
     UserModule,

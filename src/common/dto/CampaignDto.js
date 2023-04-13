@@ -1,80 +1,80 @@
-import moment from "moment";
-
 export default class CampaignDto {
   /**
    * @type {string}
    */
+  id = "";
+  /**
+   * @type {string}
+   */
+  version = "";
+  /**
+   * @type {string}
+   */
+  createdOn = "";
+  /**
+   * @type {string}
+   */
+  modifiedOn = "";
+  /**
+   * @type {string}
+   */
   name = "";
-
   /**
-   * @type {Date}
+   * @type {string}
    */
-  timeFrameFrom = moment().toDate();
-
+  timeFrameFrom = "";
   /**
-   * @type {Date}
+   * @type {string}
    */
-  timeFrameTill = moment().toDate();
-
+  timeFrameTill = "";
   /**
    * @type {string}
    */
   rewardPoolContract = "";
-
   /**
-   * @type {Number}
+   * @type {string}
    */
-  rewardPoolTokenCount = 0;
+  rewardPoolTokenCount = '0';
   /**
-   * @type {number}
+   * @type {string}
    */
-  frequencyRatioDaily = 0;
-
+  frequencyRatioDaily = '0';
   /**
-   * @type {number}
+   * @type {string}
    */
-  frequencyRatioWeekly = 0;
-
+  frequencyRatioWeekly = '0';
   /**
-   * @type {number}
+   * @type {string}
    */
-  frequencyRatioMonthly = 0;
-
+  frequencyRatioMonthly = '0';
   /**
-   * @type {number}
+   * @type {string}
    */
-  expectedReturnOfInvestment = 0;
-
+  expectedReturnOfInvestment = '0';
   /**
    * @type {boolean}
    */
   weeklyEqualDistribution = false;
-
   /**
    * @type {boolean}
    */
   qualityAudience = false;
-
   /**
    * @type {"draft"|"confirmed"|"payed"|"running"|"ended"|"cancelled"|"deleted"}
    */
   status = "draft";
-
   /**
    * @type {Array<String>}
    */
   categories = [];
-
   /**
    * @type {Array<RewardedActivityDto>}
    */
   rewardedActivities = [];
-
   /**
    * @type {string | null}
    */
   network = null;
-
   /**
    * @type {string | null}
    */

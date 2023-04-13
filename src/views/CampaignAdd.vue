@@ -72,10 +72,16 @@ export default {
       campaign: new Campaign(),
       campaignFormObject: new CampaignFormObject(),
       rewardedActivityFormObject: new RewardedActivityFormObject(),
-      rewardedActivities: [],
       campaignValidation: null,
       rewardedActivityValidation: null,
     };
+  },
+  computed: {
+    rewardedActivities() {
+      return this.$store.getters["RewardedActivity/getByCampaign"](
+        this.campaign.id
+      );
+    },
   },
   created() {
     this.campaignFormObject.setValuesFromCampaign(this.campaign);
@@ -101,8 +107,13 @@ export default {
       this.rewardedActivityFormObject.setRewardedActivityValues(
         rewardedActivity
       );
+      rewardedActivity.campaign = this.campaign.id;
 
-      this.rewardedActivities.push(rewardedActivity);
+      this.$store.commit(
+        "RewardedActivity/setRewardedActivity",
+        rewardedActivity
+      );
+
       this.rewardedActivityValidation.$reset();
     },
     clearRewardedActivity() {
@@ -140,18 +151,21 @@ export default {
 
       this.campaign.normalizeFrequencyRatios();
 
+      this.$store.commit('Campaign/setCampaign', this.campaign);
+
       const response = await this.$store.dispatch(
         "Campaign/storeCampaign",
-        this.campaign
+        this.campaign.id
       );
 
       if (!response.success) {
         this.Toast("Failed to save campaign", "", "error");
+        console.error(response.errors);
 
         return false;
       }
 
-      this.campaign = response.data;
+      this.campaign = this.$store.getters['Campaign/getCampaign'](response.data);
 
       this.campaignFormObject.setValuesFromCampaign(this.campaign);
       this.campaignFormObject.reset();
