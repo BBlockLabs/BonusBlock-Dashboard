@@ -1,16 +1,18 @@
 import Vuex from "vuex";
 import Auth from "@/state/modules/Auth";
+import Campaign from "@/state/modules/Campaign.js";
+import Category from "@/state/modules/Category.js";
+import DeploymentModule from "@/state/modules/Deployment";
+import DeploymentTemplateModule from "@/state/modules/DeploymentTemplate";
+import Network from "@/state/modules/Network.js";
+import OrganizationModule from "@/state/modules/Organization";
 import PackageModule from "@/state/modules/Package";
-import UserModule from "@/state/modules/User";
+import Product from "@/state/modules/Product.js";
 import ServerModule from "@/state/modules/Server";
+import Token from "@/state/modules/Token.js";
+import UserModule from "@/state/modules/User";
 import WalletModule from "@/state/modules/Wallet";
 import WorkspaceModule from "@/state/modules/Workspace";
-import OrganizationModule from "@/state/modules/Organization";
-import DeploymentTemplateModule from "@/state/modules/DeploymentTemplate";
-import DeploymentModule from "@/state/modules/Deployment";
-import Campaign from "@/state/modules/Campaign.js";
-import Token from "@/state/modules/Token.js";
-import Category from "@/state/modules/Category.js";
 
 export default new Vuex.Store({
   state: {
@@ -25,14 +27,16 @@ export default new Vuex.Store({
     Auth,
     Campaign,
     Category,
+    DeploymentModule,
+    DeploymentTemplateModule,
+    Network,
+    OrganizationModule,
     PackageModule,
-    UserModule,
+    Product,
     ServerModule,
+    Token,
+    UserModule,
     WalletModule,
     WorkspaceModule,
-    OrganizationModule,
-    DeploymentTemplateModule,
-    DeploymentModule,
-    Token,
   },
 });

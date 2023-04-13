@@ -4,34 +4,35 @@
     "version": 1,
     "createdOn": "2023-04-12 14:30:00",
     "modifiedOn": "2023-04-12 14:30:00",
-    "name": "DeFi"
+    "name": "UniSwap",
+    "Network": "1",
+    "Categories": ["1"]
   },
   {
     "id": "2",
     "version": 1,
     "createdOn": "2023-04-12 14:30:00",
     "modifiedOn": "2023-04-12 14:30:00",
-    "name": "Bonus"
+    "name": "Optimism",
+    "Network": "1",
+    "Categories": ["1", "2"]
   },
   {
     "id": "3",
     "version": 1,
     "createdOn": "2023-04-12 14:30:00",
     "modifiedOn": "2023-04-12 14:30:00",
-    "name": "Secret"
+    "name": "Kraken",
+    "Network": "1",
+    "Categories": ["2", "3"]
   },
   {
     "id": "4",
     "version": 1,
     "createdOn": "2023-04-12 14:30:00",
     "modifiedOn": "2023-04-12 14:30:00",
-    "name": "Osmo"
-  },
-  {
-    "id": "5",
-    "version": 1,
-    "createdOn": "2023-04-12 14:30:00",
-    "modifiedOn": "2023-04-12 14:30:00",
-    "name": "Cosmos"
+    "name": "Binance",
+    "Network": "1",
+    "Categories": ["1", "3"]
   }
 ]

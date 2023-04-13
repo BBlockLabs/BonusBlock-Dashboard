@@ -6,11 +6,11 @@
       </el-form-item>
 
       <el-form-item label="Network">
-        <el-select />
+        <network-select-field />
       </el-form-item>
 
       <el-form-item label="Product">
-        <el-select />
+        <product-select-field />
       </el-form-item>
     </el-form-item>
 
@@ -69,14 +69,18 @@
 </template>
 
 <script>
+import CategorySelectField from "@/components/CategorySelectField.vue";
+import NetworkSelectField from "@/components/NetworkSelectField.vue";
+import ProductSelectField from "@/components/ProductSelectField.vue";
+import RewardedActivity from "@/state/models/RewardedActivity.js";
 import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
 import ValidationHelper from "@/common/validation/ValidationHelper.js";
-import RewardedActivity from "@/state/models/RewardedActivity.js";
-import CategorySelectField from "@/components/CategorySelectField.vue";
 
 export default {
   components: {
     CategorySelectField,
+    NetworkSelectField,
+    ProductSelectField,
   },
   props: {
     modelValue: {
