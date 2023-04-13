@@ -17,35 +17,29 @@ export class User extends Model {
   /**
    * @type {String}
    */
-  id = "";
+  username = "";
 
   /**
    * @type {String}
    */
-  username = "";
+  network = "";
 
   /**
-   * @type {LOGIN_METHOD_GITHUB|LOGIN_METHOD_METAMASK|LOGIN_METHOD_KEPLR|LOGIN_METHOD_PASSWORD} User.LOGIN_METHOD_*
+   * @type {String}
+   */
+  walletAddress = "";
+
+  /**
+   * @type {number} User.LOGIN_METHOD_*
    */
   loginMethod = User.LOGIN_METHOD_PASSWORD;
 
   /**
-   * @type {Blob|File|null}
-   */
-  avatar = null;
-
-  /**
-   * @type {[Deployment]}
-   */
-  deployments = [];
-
-  /**
    * @param {{
-   *  id: String,
    *  username: String,
+   *  network: String,
+   *  walletAddress: String,
    *  loginMethod: LOGIN_METHOD_GITHUB|LOGIN_METHOD_METAMASK|LOGIN_METHOD_KEPLR|LOGIN_METHOD_PASSWORD,
-   *  avatar: Blob|File|null,
-   *  deployments: Array,
    * }} options
    */
   constructor(options = {}) {

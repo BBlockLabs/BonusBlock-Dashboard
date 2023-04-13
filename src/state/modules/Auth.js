@@ -1,14 +1,6 @@
 import ActionResponse from "@/common/ActionResponse";
 import User from "@/state/models/User";
-import Wallet from "@/state/models/Wallet";
 import userMock from "@/state/mock/users.json";
-import walletMock from "@/state/mock/wallets.json";
-
-const sleep = async (milliseconds) => {
-  return new Promise((r) => {
-    window.setTimeout(r, milliseconds);
-  });
-};
 
 export default {
   namespaced: true,
@@ -50,18 +42,38 @@ export default {
   },
   actions: {
     /**
-     * @param {function(String, any)} dispatch
+     * @param {function(String, any)} commit
      * @param {{username: String, password: String}} loginData
      * @return {Promise<ActionResponse>}
      */
-    async login({ dispatch }, loginData) {
-      const userData = userMock.find(
-        (user) =>
-          user.username === loginData.username &&
-          user.password === loginData.password
+    async login({ commit }, loginData) {
+      console.log(loginData);
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/auth/login`,
+        {
+          body: JSON.stringify(loginData),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+        }
       );
+      const jsonData = await response.json();
 
-      return dispatch("loginUser", userData);
+      if (!response.ok) {
+        return new ActionResponse(false, jsonData.errors);
+      }
+
+      if (!jsonData.payload || !jsonData.payload.account) {
+        return new ActionResponse(false, null);
+      }
+
+      const user = new User(jsonData.payload.account);
+      user.loginMethod = User.LOGIN_METHOD_PASSWORD;
+
+      commit("setUser", user);
+
+      return new ActionResponse(true, user);
     },
     /**
      * @param {function(String, any)} dispatch
@@ -76,53 +88,33 @@ export default {
     /**
      * @param {function(String, any)} commit
      * @param {{username: String, password: String}} registrationData
-     * @return {Promise<object>}
-     */
-    async register({ commit }, registrationData) {
-      const user = new User({
-        id: crypto.randomUUID(),
-        username: registrationData.username,
-        loginMethod: User.LOGIN_METHOD_PASSWORD,
-      });
-
-      const wallet = new Wallet({
-        id: crypto.randomUUID(),
-        userId: user.id,
-        address: "alter1p92n6tg2eldx9k4eh8plsnu37zvpgxvm7qr7v7",
-        balance: 1500,
-      });
-
-      await sleep(1000);
-
-      commit("setUser", user);
-      commit("WalletModule/addWallet", wallet, { root: true });
-
-      return new ActionResponse(true, user);
-    },
-    /**
-     * @param {function(String, any)} commit
-     * @param {Object} userData
      * @return {Promise<ActionResponse>}
      */
-    async loginUser({ commit }, userData) {
-      if (!userData) {
-        await sleep(500);
+    async register({ commit }, registrationData) {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/auth/register`,
+        {
+          body: JSON.stringify(registrationData),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+        }
+      );
+      const jsonData = await response.json();
 
+      if (!response.ok) {
+        return new ActionResponse(false, jsonData.errors);
+      }
+
+      if (!jsonData.payload || !jsonData.payload.account) {
         return new ActionResponse(false, null);
       }
 
-      const user = new User(userData);
-
-      const userWallets = walletMock
-        .filter((wallet) => wallet.userId === user.id)
-        .map((walletData) => new Wallet(walletData));
-
-      await sleep(250);
+      const user = new User(jsonData.payload.account);
+      user.loginMethod = User.LOGIN_METHOD_PASSWORD;
 
       commit("setUser", user);
-      userWallets.forEach((wallet) =>
-        commit("WalletModule/addWallet", wallet, { root: true })
-      );
 
       return new ActionResponse(true, user);
     },

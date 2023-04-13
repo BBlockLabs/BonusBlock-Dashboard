@@ -45,10 +45,10 @@
                 :type="User.LOGIN_METHOD_METAMASK"
                 @login-success="registered"
               />
-              <sso-login-button
+              <!--              <sso-login-button
                 :type="User.LOGIN_METHOD_GITHUB"
                 @login-success="registered"
-              />
+              />-->
             </el-col>
           </el-row>
 
