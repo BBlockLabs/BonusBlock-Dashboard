@@ -37,7 +37,12 @@ export default {
   methods: {
     async login() {
       try {
-        const response = await this.$store.dispatch("Auth/ssoLogin", this.type);
+        let response;
+        if (this.type === User.LOGIN_METHOD_KEPLR) {
+          response = await this.$store.dispatch("Auth/keplrLogin");
+        } else if (this.type === User.LOGIN_METHOD_METAMASK) {
+          response = await this.$store.dispatch("Auth/metaMaskLogin");
+        }
 
         if (!response.success) {
           this.Toast("Failed to login", "", "error");
