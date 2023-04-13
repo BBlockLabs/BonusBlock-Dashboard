@@ -34,23 +34,23 @@ export default class CampaignDto {
   /**
    * @type {string}
    */
-  rewardPoolTokenCount = '0';
+  rewardPoolTokenCount = "0";
   /**
    * @type {string}
    */
-  frequencyRatioDaily = '0';
+  frequencyRatioDaily = "0";
   /**
    * @type {string}
    */
-  frequencyRatioWeekly = '0';
+  frequencyRatioWeekly = "0";
   /**
    * @type {string}
    */
-  frequencyRatioMonthly = '0';
+  frequencyRatioMonthly = "0";
   /**
    * @type {string}
    */
-  expectedReturnOfInvestment = '0';
+  expectedReturnOfInvestment = "0";
   /**
    * @type {boolean}
    */

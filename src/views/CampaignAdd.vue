@@ -151,7 +151,7 @@ export default {
 
       this.campaign.normalizeFrequencyRatios();
 
-      this.$store.commit('Campaign/setCampaign', this.campaign);
+      this.$store.commit("Campaign/setCampaign", this.campaign);
 
       const response = await this.$store.dispatch(
         "Campaign/storeCampaign",
@@ -165,7 +165,9 @@ export default {
         return false;
       }
 
-      this.campaign = this.$store.getters['Campaign/getCampaign'](response.data);
+      this.campaign = this.$store.getters["Campaign/getCampaign"](
+        response.data
+      );
 
       this.campaignFormObject.setValuesFromCampaign(this.campaign);
       this.campaignFormObject.reset();

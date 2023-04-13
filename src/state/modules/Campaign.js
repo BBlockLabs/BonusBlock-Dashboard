@@ -67,7 +67,8 @@ export default {
         return new ActionResponse(false, null, ["CAMPAIGN_NOT_FOUND"]);
       }
 
-      const rewardedActivities = rootGetters['RewardedActivity/getByCampaign'](campaignId);
+      const rewardedActivities =
+        rootGetters["RewardedActivity/getByCampaign"](campaignId);
 
       campaignDto.rewardedActivities = rewardedActivities.map(
         (rewardedActivity) => rewardedActivity.toDto()
@@ -81,7 +82,7 @@ export default {
         campaignDto.status = "draft";
       }
 
-      campaignDto.rewardedActivities.forEach(rewardedActivityDto => {
+      campaignDto.rewardedActivities.forEach((rewardedActivityDto) => {
         if (rewardedActivityDto.id === null) {
           rewardedActivityDto.id = crypto.randomUUID();
         }
@@ -109,7 +110,9 @@ export default {
         .map(RewardedActivity.fromDto)
         .forEach((rewardedActivity) => {
           rewardedActivity.campaign = campaignDto.id;
-          commit("RewardedActivity/setRewardedActivity", rewardedActivity, { root: true });
+          commit("RewardedActivity/setRewardedActivity", rewardedActivity, {
+            root: true,
+          });
         });
 
       return new ActionResponse(true, campaignDto.id);
