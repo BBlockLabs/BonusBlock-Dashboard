@@ -99,9 +99,24 @@ export default {
       this.loading = true;
 
       try {
+        const passwordHash = await crypto.subtle
+          .digest(
+            "SHA-512",
+            new TextEncoder("utf-8").encode(
+              this.formData.username + this.formData.password
+            )
+          )
+          .then((buf) => {
+            return Array.prototype.map
+              .call(new Uint8Array(buf), (x) =>
+                ("00" + x.toString(16)).slice(-2)
+              )
+              .join("");
+          });
+
         const registrationData = {
           username: this.formData.username,
-          password: this.formData.password,
+          password: passwordHash,
         };
 
         const response = await this.$store.dispatch(
@@ -110,7 +125,7 @@ export default {
         );
 
         if (!response.success) {
-          this.Toast("Failed to register", "", "error");
+          this.Toast("Failed to register", response.data, "error");
           this.$emit("registerFailed", response.errors);
 
           return;

@@ -83,14 +83,29 @@ export default {
 
       this.loading = true;
 
+      const passwordHash = await crypto.subtle
+        .digest(
+          "SHA-512",
+          new TextEncoder("utf-8").encode(
+            this.formData.username + this.formData.password
+          )
+        )
+        .then((buf) => {
+          return Array.prototype.map
+            .call(new Uint8Array(buf), (x) => ("00" + x.toString(16)).slice(-2))
+            .join("");
+        });
+
+      const loginData = {
+        username: this.formData.username,
+        password: passwordHash,
+      };
+
       try {
-        const response = await this.$store.dispatch(
-          "Auth/login",
-          this.formData
-        );
+        const response = await this.$store.dispatch("Auth/login", loginData);
 
         if (!response.success) {
-          this.Toast("Failed to login", "", "error");
+          this.Toast("Failed to login", response.data, "error");
           this.$emit("loginFailed", response.errors);
 
           return;
