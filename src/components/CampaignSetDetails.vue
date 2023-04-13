@@ -4,7 +4,7 @@
       v-bind="ValidationHelper.getFormItemErrorAttributes(validate['name'])"
       label="Campaign Name"
     >
-      <el-input v-model="campaign.name" />
+      <el-input v-model="campaignFormObject.name" />
     </el-form-item>
 
     <el-form-item label="Frequency ratio">
@@ -16,13 +16,7 @@
         "
         label="Daily"
       >
-        <el-input-number
-          v-model="campaign.frequencyRatioDaily"
-          :max="1"
-          :min="0"
-          :precision="10"
-          :controls="false"
-        />
+        <el-input v-model="campaignFormObject.frequencyRatioDaily" />
       </el-form-item>
 
       <el-form-item
@@ -33,13 +27,7 @@
         "
         label="Weekly"
       >
-        <el-input-number
-          v-model="campaign.frequencyRatioWeekly"
-          :max="1"
-          :min="0"
-          :precision="10"
-          :controls="false"
-        />
+        <el-input v-model="campaignFormObject.frequencyRatioWeekly" />
       </el-form-item>
 
       <el-form-item
@@ -50,13 +38,7 @@
         "
         label="Monthly"
       >
-        <el-input-number
-          v-model="campaign.frequencyRatioMonthly"
-          :max="1"
-          :min="0"
-          :precision="10"
-          :controls="false"
-        />
+        <el-input v-model="campaignFormObject.frequencyRatioMonthly" />
       </el-form-item>
     </el-form-item>
 
@@ -68,22 +50,17 @@
       "
       label="Reward Pool"
     >
-      <token-select-field v-model="campaign.rewardPoolContract" />
-      <el-input v-model="campaign.rewardPoolTokenCount" />
+      <token-select-field v-model="campaignFormObject.rewardPoolContract" />
+      <el-input v-model="campaignFormObject.rewardPoolTokenCount" />
     </el-form-item>
 
     <el-form-item
+      v-bind="
+        ValidationHelper.getFormItemErrorAttributes(validate['timeFrame'])
+      "
       label="Campaign Period"
-      v-bind="{
-        ...ValidationHelper.getFormItemErrorAttributes(
-          validate['timeFrameFrom']
-        ),
-        ...ValidationHelper.getFormItemErrorAttributes(
-          validate['timeFrameTill']
-        ),
-      }"
     >
-      <el-date-picker v-model="timeFrame" type="daterange" />
+      <el-date-picker v-model="campaignFormObject.timeFrame" type="daterange" />
     </el-form-item>
 
     <el-form-item label="Other">
@@ -95,7 +72,7 @@
         "
         label="Expected ROI"
       >
-        <el-input v-model="campaign.expectedReturnOfInvestment" />
+        <el-input v-model="campaignFormObject.expectedReturnOfInvestment" />
       </el-form-item>
 
       <el-form-item
@@ -106,7 +83,7 @@
         "
         label="Weekly equal distribution"
       >
-        <el-switch v-model="campaign.weeklyEqualDistribution" />
+        <el-switch v-model="campaignFormObject.weeklyEqualDistribution" />
       </el-form-item>
 
       <el-form-item
@@ -117,19 +94,19 @@
         "
         label="Quality Audience (Verified by Cookie3)"
       >
-        <el-switch v-model="campaign.qualityAudience" />
+        <el-switch v-model="campaignFormObject.qualityAudience" />
       </el-form-item>
     </el-form-item>
 
-    <debug-wrapper>{{ campaign }}</debug-wrapper>
+    <debug-wrapper>{{ campaignFormObject }}</debug-wrapper>
   </el-form>
 </template>
 
 <script>
-import Campaign from "@/state/models/Campaign.js";
 import CampaignValidationBuilder from "@/common/validation/CampaignValidationBuilder.js";
 import ValidationHelper from "@/common/validation/ValidationHelper.js";
 import TokenSelectField from "@/components/TokenSelectField.vue";
+import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
 
 export default {
   components: {
@@ -137,8 +114,8 @@ export default {
   },
   props: {
     modelValue: {
-      type: Campaign,
-      default: () => new Campaign(),
+      type: CampaignFormObject,
+      default: () => new CampaignFormObject(),
     },
     validation: {
       type: Object,
@@ -147,11 +124,11 @@ export default {
   },
   emits: ["submit", "update:modelValue"],
   /**
-   * @returns {{campaign: Campaign, validate: Object}}
+   * @returns {{campaignFormObject: CampaignFormObject, validate: Object}}
    */
   data() {
     return {
-      campaign: this.modelValue,
+      campaignFormObject: this.modelValue,
     };
   },
   computed: {
@@ -162,37 +139,22 @@ export default {
       }
 
       const validation = CampaignValidationBuilder.createValidation(
-        this.campaign
+        this.campaignFormObject
       );
 
       validation.$lazy = true;
 
       return validation;
     },
-    timeFrame: {
-      /**
-       * @returns {[Date, Date]}
-       */
-      get() {
-        return [this.campaign.timeFrameFrom, this.campaign.timeFrameTill];
-      },
-      /**
-       * @param {[Date, Date]} val
-       */
-      set(val) {
-        this.campaign.timeFrameFrom = val[0];
-        this.campaign.timeFrameTill = val[1];
-      },
-    },
   },
   watch: {
     modelValue() {
-      this.campaign = this.modelValue;
+      this.campaignFormObject = this.modelValue;
     },
-    campaign: {
+    campaignFormObject: {
       deep: true,
       handler() {
-        this.$emit("update:modelValue", this.campaign);
+        this.$emit("update:modelValue", this.campaignFormObject);
       },
     },
   },

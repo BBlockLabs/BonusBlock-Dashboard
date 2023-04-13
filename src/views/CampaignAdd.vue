@@ -13,7 +13,7 @@
 
       <campaign-set-details
         v-if="step === 1"
-        v-model="campaign"
+        v-model="campaignFormObject"
         :validation="campaignValidation"
       />
 
@@ -21,7 +21,8 @@
         <el-row>
           <el-col>
             <campaign-create-activity
-              v-model="newRewardedActivity"
+              v-model:campaign="campaignFormObject"
+              v-model="rewardedActivityFormObject"
               :validation="rewardedActivityValidation"
             />
           </el-col>
@@ -52,6 +53,10 @@ import CampaignValidationBuilder from "@/common/validation/CampaignValidationBui
 import CampaignCreateActivity from "@/components/CampaignCreateActivity.vue";
 import RewardedActivity from "@/state/models/RewardedActivity.js";
 import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
+import Toast from "@/mixins/Toast.js";
+import MessageBox from "@/mixins/MessageBox.js";
+import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
+import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
 
 export default {
   components: {
@@ -59,50 +64,52 @@ export default {
     CampaignSetDetails,
     CampaignCreateActivity,
   },
+  mixins: [Toast, MessageBox],
   data() {
     return {
       lastActiveStep: 1,
       step: 1,
       campaign: new Campaign(),
-      newRewardedActivity: new RewardedActivity(),
+      campaignFormObject: new CampaignFormObject(),
+      rewardedActivityFormObject: new RewardedActivityFormObject(),
       rewardedActivities: [],
       campaignValidation: null,
       rewardedActivityValidation: null,
     };
   },
   created() {
+    this.campaignFormObject.setValuesFromCampaign(this.campaign);
+
     this.campaignValidation = CampaignValidationBuilder.createValidation(
-      this.campaign
+      this.campaignFormObject
     );
+
     this.rewardedActivityValidation =
       RewardedActivityValidationBuilder.createValidation(
-        this.newRewardedActivity
+        this.rewardedActivityFormObject
       );
   },
   methods: {
-    addRewardedActivity() {
-      this.rewardedActivityValidation.$touch();
-
-      if (this.rewardedActivityValidation.$error) {
+    async addRewardedActivity() {
+      if (!(await this.rewardedActivityValidation.$validate())) {
+        this.Toast("Form contains errors", null, "error");
         return;
       }
 
-      this.rewardedActivities.push(this.newRewardedActivity);
+      const rewardedActivity = new RewardedActivity();
 
-      const activity = this.newRewardedActivity.activity;
-      const action = this.newRewardedActivity.action;
+      this.rewardedActivityFormObject.setRewardedActivityValues(
+        rewardedActivity
+      );
 
-      this.clearRewardedActivity();
-
-      this.newRewardedActivity.activity = activity;
-      this.newRewardedActivity.action = action;
+      this.rewardedActivities.push(rewardedActivity);
+      this.rewardedActivityValidation.$reset();
     },
     clearRewardedActivity() {
-      this.newRewardedActivity = new RewardedActivity();
-      this.rewardedActivityValidation =
-        RewardedActivityValidationBuilder.createValidation(
-          this.newRewardedActivity
-        );
+      this.rewardedActivityFormObject.activity = null;
+      this.rewardedActivityFormObject.action = null;
+
+      this.rewardedActivityValidation.$reset();
     },
     setLastActiveStep() {
       this.lastActiveStep = Math.max(this.lastActiveStep, this.step);
@@ -125,6 +132,14 @@ export default {
       }
     },
     async storeCampaign() {
+      if (!this.campaignFormObject.dirty()) {
+        return true;
+      }
+
+      this.campaignFormObject.setCampaignValues(this.campaign);
+
+      this.campaign.normalizeFrequencyRatios();
+
       const response = await this.$store.dispatch(
         "Campaign/storeCampaign",
         this.campaign
@@ -138,6 +153,9 @@ export default {
 
       this.campaign = response.data;
 
+      this.campaignFormObject.setValuesFromCampaign(this.campaign);
+      this.campaignFormObject.reset();
+
       return true;
     },
     /**
@@ -147,19 +165,10 @@ export default {
       switch (this.step) {
         case 1:
           {
-            const dirty = this.campaignValidation.$dirty;
-
             if (!(await this.campaignValidation.$validate())) {
+              this.Toast("Form contains errors", null, "error");
               return false;
             }
-
-            this.campaignValidation.$reset();
-
-            if (!dirty && this.campaign.id) {
-              break;
-            }
-
-            this.campaign.normalizeFrequencyRatios();
 
             if (!(await this.storeCampaign())) {
               return false;
@@ -167,6 +176,19 @@ export default {
           }
           break;
         case 2:
+          {
+            if (this.rewardedActivities.length === 0) {
+              await this.MessageBoxInfo(
+                "Add at least one activity to continue"
+              );
+
+              return false;
+            }
+
+            if (!(await this.storeCampaign())) {
+              return false;
+            }
+          }
           break;
         case 3:
           break;

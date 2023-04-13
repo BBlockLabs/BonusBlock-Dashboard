@@ -1,10 +1,6 @@
 import { createApp } from "vue";
 
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
-// import 'element-plus/theme-chalk/base.css';
-// import 'element-plus/theme-chalk/display.css';
-// import '@/design/index.scss';
-// import 'default-passive-events';
 
 import moment from "moment";
 import axios from "axios";
@@ -63,3 +59,6 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 
 window.app = app;
+BigInt.prototype.toJSON = function () {
+  return this.toString();
+};

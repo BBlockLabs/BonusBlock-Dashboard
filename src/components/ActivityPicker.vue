@@ -83,8 +83,6 @@ export default {
         this.filters
       );
 
-      console.log(activitiesResponse);
-
       if (!activitiesResponse.success) {
         return;
       }

@@ -2,37 +2,43 @@
   <el-form>
     <el-form-item label="Select Product">
       <el-form-item label="Categories">
-        <category-select-field v-model="campaignObject.categories" multiple />
+        <category-select-field
+          v-model="campaignFormObject.categories"
+          multiple
+        />
       </el-form-item>
 
       <el-form-item label="Network">
-        <network-select-field v-model="campaignObject.network" />
+        <network-select-field v-model="campaignFormObject.network" />
       </el-form-item>
 
       <el-form-item label="Product">
         <product-select-field
-          v-model="campaignObject.product"
+          v-model="campaignFormObject.product"
           :filters="{
-            network: campaignObject.network,
-            categories: campaignObject.categories,
+            network: campaignFormObject.network,
+            categories: campaignFormObject.categories,
           }"
         />
       </el-form-item>
     </el-form-item>
 
     <el-form-item
-      v-if="campaignObject.product"
+      v-if="campaignFormObject.product"
       v-bind="ValidationHelper.getFormItemErrorAttributes(validate['activity'])"
       label="Select activity"
     >
       <activity-picker
-        v-model:activity="rewardedActivity.activity"
-        v-model:action="rewardedActivity.action"
-        :filters="{ product: campaignObject.product }"
+        v-model:activity="rewardedActivityFormObject.activity"
+        v-model:action="rewardedActivityFormObject.action"
+        :filters="{ product: campaignFormObject.product }"
       />
     </el-form-item>
 
-    <el-form-item v-if="rewardedActivity.action" label="Set requirements">
+    <el-form-item
+      v-if="rewardedActivityFormObject.action"
+      label="Set requirements"
+    >
       <el-form-item
         v-bind="
           ValidationHelper.getFormItemErrorAttributes(
@@ -41,23 +47,25 @@
         "
         label="Set minimum transaction limit"
       >
-        <el-input-number v-model="rewardedActivity.minimumTransactionLimit" />
+        <el-input
+          v-model="rewardedActivityFormObject.minimumTransactionLimit"
+        />
       </el-form-item>
     </el-form-item>
   </el-form>
 
-  <debug-wrapper>{{ rewardedActivity }}</debug-wrapper>
+  <debug-wrapper>{{ rewardedActivityFormObject }}</debug-wrapper>
 </template>
 
 <script>
 import CategorySelectField from "@/components/CategorySelectField.vue";
 import NetworkSelectField from "@/components/NetworkSelectField.vue";
 import ProductSelectField from "@/components/ProductSelectField.vue";
-import RewardedActivity from "@/state/models/RewardedActivity.js";
 import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
 import ValidationHelper from "@/common/validation/ValidationHelper.js";
-import Campaign from "@/state/models/Campaign.js";
 import ActivityPicker from "@/components/ActivityPicker.vue";
+import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
+import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
 
 export default {
   components: {
@@ -68,12 +76,12 @@ export default {
   },
   props: {
     campaign: {
-      type: Campaign,
-      default: () => new Campaign(),
+      type: CampaignFormObject,
+      default: () => new CampaignFormObject(),
     },
     modelValue: {
-      type: RewardedActivity,
-      default: () => new RewardedActivity(),
+      type: RewardedActivityFormObject,
+      default: () => new RewardedActivityFormObject(),
     },
     validation: {
       type: Object,
@@ -82,12 +90,15 @@ export default {
   },
   emits: ["submit", "update:modelValue", "update:campaign"],
   /**
-   * @returns {{rewardedActivity: RewardedActivity, validate: Object}}
+   * @returns {{
+   *  rewardedActivityFormObject: RewardedActivity,
+   *  campaignFormObject: CampaignFormObject
+   * }}
    */
   data() {
     return {
-      rewardedActivity: this.modelValue,
-      campaignObject: this.campaign,
+      rewardedActivityFormObject: this.modelValue,
+      campaignFormObject: this.campaign,
     };
   },
   computed: {
@@ -98,7 +109,7 @@ export default {
       }
 
       const validation = RewardedActivityValidationBuilder.createValidation(
-        this.rewardedActivity
+        this.rewardedActivityFormObject
       );
 
       validation.$lazy = true;
@@ -108,18 +119,18 @@ export default {
   },
   watch: {
     modelValue() {
-      this.rewardedActivity = this.modelValue;
+      this.rewardedActivityFormObject = this.modelValue;
     },
-    rewardedActivity: {
+    rewardedActivityFormObject: {
       deep: true,
       handler() {
-        this.$emit("update:modelValue", this.rewardedActivity);
+        this.$emit("update:modelValue", this.rewardedActivityFormObject);
       },
     },
-    campaignObject: {
+    campaignFormObject: {
       deep: true,
       handler() {
-        this.$emit("update:campaign", this.campaignObject);
+        this.$emit("update:campaign", this.campaignFormObject);
       },
     },
   },

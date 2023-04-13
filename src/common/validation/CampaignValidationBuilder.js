@@ -35,12 +35,14 @@ export default class CampaignValidationBuilder extends ValidationBuilder {
       required,
       integer,
     },
-    timeFrameFrom: {
-      required,
-    },
-    timeFrameTill: {
-      required,
-    },
+    timeFrame: [
+      {
+        required,
+      },
+      {
+        required,
+      },
+    ],
     weeklyEqualDistribution: {
       required,
     },

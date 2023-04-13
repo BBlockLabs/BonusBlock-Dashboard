@@ -27,5 +27,28 @@ export default {
         return false;
       }
     },
+    /**
+     * Wrapper for ElMessageBox.confirm
+     *
+     * ElMessageBox.confirm is wrapped since on cancel it throws an exception
+     * and on confirm it returns a string
+     *
+     * @param {String} message
+     * @param {Object} options
+     * @return {Promise<void>}
+     */
+    async MessageBoxInfo(message, options) {
+      try {
+        await ElMessageBox.confirm(message, {
+          center: true,
+          showClose: true,
+          showCancelButton: false,
+          cancelButtonClass: "is-plain",
+          ...options,
+        });
+      } catch (e) {
+        return;
+      }
+    },
   },
 };
