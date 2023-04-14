@@ -63,12 +63,16 @@ export class HttpRequest {
   }
   /**
    * @param {String} token
-   * @param {moment} expiresOn
+   * @param {moment.Moment} expiresOn
    */
   static setSession(token, expiresOn) {
-    this.session = new UserSessionDto({
-      token: token,
-      expiresOn: expiresOn,
-    });
+    if (token == null && expiresOn == null) {
+      this.session = null;
+    } else {
+      this.session = new UserSessionDto({
+        token: token,
+        expiresOn: expiresOn,
+      });
+    }
   }
 }

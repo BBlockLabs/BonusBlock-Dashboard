@@ -2,9 +2,7 @@ import ActionResponse from "@/common/ActionResponse";
 import User from "@/state/models/User";
 import detectEthereumProvider from "@metamask/detect-provider";
 import { MetamaskClient } from "@/common/MetamaskClient.js";
-import KeplrLoginSignDoc, {
-  LoginSignOptions,
-} from "@/common/KeplrLoginSignDoc.js";
+import KeplrLoginSignDoc, { LoginSignOptions } from "@/common/KeplrLoginSignDoc.js";
 import { HttpRequest } from "@/common/HttpRequest.js";
 import moment from "moment";
 
@@ -21,13 +19,6 @@ export default {
      */
     isLoggedIn(state) {
       return state.user !== null;
-    },
-    /**
-     * @param {object} state
-     * @return {Boolean}
-     */
-    isNew(state) {
-      return state.user && state.newUser === true;
     },
   },
   mutations: {
@@ -48,8 +39,7 @@ export default {
   },
   actions: {
     /**
-     * @param dispatch
-     * @param {function(String, any)} commit
+     * @param {function(String, any, any? )} commit
      * @param {{username: String, password: String}} loginData
      * @return {Promise<ActionResponse>}
      */
@@ -64,9 +54,17 @@ export default {
       user.loginMethod = User.LOGIN_METHOD_PASSWORD;
 
       commit("setUser", user);
+      if (response.payload.project && response.payload.project.title !== null) {
+        commit("Project/setProject", response.payload.project, { root: true });
+      }
 
       return new ActionResponse(true, user);
     },
+    /**
+     * @param {function(String, any)} context
+     * @param {String} nonce
+     * @return {Promise<*|boolean>}
+     */
     async getTicket(context, nonce) {
       const response = await HttpRequest.makeRequest("auth/get-auth-ticket", {
         nonce: nonce,
@@ -80,7 +78,7 @@ export default {
     },
     /**
      * @param {function(String, any)} dispatch
-     * @param commit
+     * @param {function(String, any, any? )} commit
      * @return {Promise<ActionResponse>}
      */
     async keplrLogin({ dispatch, commit }) {
@@ -138,12 +136,15 @@ export default {
       user.loginMethod = User.LOGIN_METHOD_KEPLR;
 
       commit("setUser", user);
+      if (response.payload.project && response.payload.project.title !== null) {
+        commit("Project/setProject", response.payload.project, { root: true });
+      }
 
       return new ActionResponse(true, user);
     },
     /**
      * @param {function(String, any)} dispatch
-     * @param commit
+     * @param {function(String, any, any? )}commit
      * @return {Promise<ActionResponse>}
      */
     async metaMaskLogin({ dispatch, commit }) {
@@ -177,6 +178,9 @@ export default {
       user.loginMethod = User.LOGIN_METHOD_METAMASK;
 
       commit("setUser", user);
+      if (response.payload.project && response.payload.project.title !== null) {
+        commit("Project/setProject", response.payload.project, { root: true });
+      }
 
       return new ActionResponse(true, user);
     },
@@ -203,7 +207,7 @@ export default {
       return new ActionResponse(true, user);
     },
     /**
-     * @param {function(String, any)} commit
+     * @param {function(String, any, any? )} commit
      * @return {Promise<ActionResponse>}
      */
     async logout({ commit }) {
@@ -214,14 +218,17 @@ export default {
       }
 
       commit("setUser", null);
+      commit("Project/setProject", null, { root: true });
 
       await localStorage.removeItem("token");
       await localStorage.removeItem("tokenExpire");
 
+      HttpRequest.setSession(null, null);
+
       return new ActionResponse(true, null);
     },
     /**
-     * @param {function(String, any)} commit
+     * @param {function(String, any, any?)} commit
      * @return {null}
      */
     async checkLocalStorageForSession({ commit }) {
@@ -245,6 +252,9 @@ export default {
         user.loginMethod = User.LOGIN_METHOD_PASSWORD;
 
         commit("setUser", user);
+        if (response.payload.project && response.payload.project.title !== null) {
+          commit("Project/setProject", response.payload.project, { root: true });
+        }
       } else {
         localStorage.removeItem("token");
         localStorage.removeItem("tokenExpire");

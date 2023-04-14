@@ -53,10 +53,10 @@
             <el-row justify="center">
               <el-col>
                 <el-form-item
-                  :error="getVuelidateErrorMessage(vuelidate.formData.name)"
+                  :error="getVuelidateErrorMessage(vuelidate.formData.title)"
                 >
                   <el-input
-                    v-model="formData.name"
+                    v-model="formData.title"
                     size="large"
                     type="text"
                     placeholder="Project name"
@@ -69,9 +69,9 @@
               <el-button round type="primary" @click="nextStep">
                 Continue
               </el-button>
-              <el-button round type="default" @click="skipAll">
+              <!--el-button round type="default" @click="skipAll">
                 Skip
-              </el-button>
+              </el-button-->
             </el-row>
           </template>
 
@@ -94,7 +94,7 @@
             </el-row>
 
             <el-row>
-              <avatar-select v-model="formData.avatar" />
+              <avatar-select v-model="formData.image" />
             </el-row>
 
             <el-row>
@@ -104,7 +104,7 @@
             <el-row justify="center">
               <el-col>
                 <el-form-item class="d-flex">
-                  <avatar-input v-model="formData.avatar" />
+                  <avatar-input v-model="formData.image" />
                 </el-form-item>
               </el-col>
             </el-row>
@@ -113,9 +113,9 @@
               <el-button round type="primary" @click="nextStep">
                 Continue
               </el-button>
-              <el-button round type="default" @click="skipAll">
+              <!--el-button round type="default" @click="skipAll">
                 Skip
-              </el-button>
+              </el-button-->
             </el-row>
           </template>
         </div>
@@ -136,9 +136,7 @@
       >
         <el-card shadow="never" class="new-project-card align-center">
           <img
-            :src="
-              'data:' + formData.avatar.type + ';base64,' + formData.avatar.data
-            "
+            :src="'data:' + formData.image.type + ';base64,' + formData.image.data"
             alt=""
           />
           <h3>{{ formData.name }}</h3>
@@ -175,13 +173,19 @@ export default {
     return {
       step: 0,
       formData: {
-        avatar: {
+        image: {
           data: window.btoa(SvgAvatar1),
           type: "image/svg+xml",
         },
-        name: "",
+        title: "",
       },
     };
+  },
+  created() {
+    if (this.$store.getters["Project/getProject"]) {
+      this.$router.push("/dashboard");
+    }
+    this.$store.state.hideMenus = true;
   },
   methods: {
     nextStep() {
@@ -193,18 +197,31 @@ export default {
           this.step = 1;
         }
       } else if (this.step === 3) {
-        this.skipAll();
+        this.done();
       }
     },
-    skipAll() {
-      this.$store.state.Auth.newUser = false;
-      this.$router.push("/");
+    async done() {
+      const response = await this.$store.dispatch(
+        "Project/createProject",
+        this.formData
+      );
+
+      if (!response.success) {
+        this.Toast("Failed to create project", response.data, "error");
+
+        return;
+      }
+
+      this.Toast("Project created successfully", "", "success");
+
+      this.$store.state.hideMenus = false;
+      this.$router.push("/dashboard");
     },
   },
   validations() {
     return {
       formData: {
-        name: {
+        title: {
           minLength: minLength(4),
           required,
         },

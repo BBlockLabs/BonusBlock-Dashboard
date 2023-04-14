@@ -1,7 +1,7 @@
 <template>
   <el-container v-cloak>
     <el-aside
-      v-if="$store.getters['Auth/isLoggedIn'] && !$store.getters['Auth/isNew']"
+      v-if="$store.getters['Auth/isLoggedIn'] && !$store.state.hideMenus"
       class="br-solid d-flex flex-column"
       width="auto"
     >
@@ -10,9 +10,7 @@
 
     <el-container vertical>
       <el-header
-        v-if="
-          $store.getters['Auth/isLoggedIn'] && !$store.getters['Auth/isNew']
-        "
+        v-if="$store.getters['Auth/isLoggedIn'] && !$store.state.hideMenus"
         class="bb-solid"
       >
         <page-head />
@@ -48,7 +46,12 @@ export default {
     await this.$store.dispatch("Auth/checkLocalStorageForSession");
 
     if (this.$store.getters["Auth/isLoggedIn"]) {
-      this.$router.push("/dashboard");
+      if (this.$store.getters["Project/getProject"]) {
+        this.$router.push("/dashboard");
+      } else {
+        this.$store.state.Auth.newUser = true;
+        this.$router.push("/create-project");
+      }
     } else {
       this.$router.push("/login");
     }

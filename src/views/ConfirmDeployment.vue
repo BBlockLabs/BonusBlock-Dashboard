@@ -12,9 +12,6 @@
           <h3>Deployment Details</h3>
         </el-col>
         <el-col :span="12" class="align-right">
-          <el-button v-if="!$store.getters['Auth/isNew']" round>
-            Cancel
-          </el-button>
           <el-button type="primary" round @click="finishDeployment()">
             Confirm and Deploy
           </el-button>

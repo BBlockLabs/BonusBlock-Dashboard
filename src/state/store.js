@@ -15,10 +15,12 @@ import Token from "@/state/modules/Token.js";
 import UserModule from "@/state/modules/User";
 import WalletModule from "@/state/modules/Wallet";
 import WorkspaceModule from "@/state/modules/Workspace";
+import Project from "@/state/modules/Project";
 
 export default new Vuex.Store({
   state: {
     debug: false,
+    hideMenus: false,
   },
   mutations: {
     toggleDebug(state) {
@@ -42,5 +44,6 @@ export default new Vuex.Store({
     UserModule,
     WalletModule,
     WorkspaceModule,
+    Project,
   },
 });
