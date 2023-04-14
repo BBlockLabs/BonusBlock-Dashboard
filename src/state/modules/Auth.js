@@ -1,11 +1,12 @@
 import ActionResponse from "@/common/ActionResponse";
 import User from "@/state/models/User";
-import userMock from "@/state/mock/users.json";
 import detectEthereumProvider from "@metamask/detect-provider";
 import { MetamaskClient } from "@/common/MetamaskClient.js";
 import KeplrLoginSignDoc, {
   LoginSignOptions,
 } from "@/common/KeplrLoginSignDoc.js";
+import { HttpRequest } from "@/common/HttpRequest.js";
+import moment from "moment";
 
 export default {
   namespaced: true,
@@ -47,33 +48,19 @@ export default {
   },
   actions: {
     /**
+     * @param dispatch
      * @param {function(String, any)} commit
      * @param {{username: String, password: String}} loginData
      * @return {Promise<ActionResponse>}
      */
     async login({ commit }, loginData) {
-      console.log(loginData);
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/login`,
-        {
-          body: JSON.stringify(loginData),
-          headers: {
-            "Content-Type": "application/json",
-          },
-          method: "POST",
-        }
-      );
-      const jsonData = await response.json();
+      const response = await HttpRequest.makeRequest("auth/login", loginData);
 
-      if (!response.ok) {
-        return new ActionResponse(false, jsonData.errors);
+      if (response.error) {
+        return new ActionResponse(false, response.error);
       }
 
-      if (!jsonData.payload || !jsonData.payload.account) {
-        return new ActionResponse(false, null);
-      }
-
-      const user = new User(jsonData.payload.account);
+      const user = new User(response.payload.account);
       user.loginMethod = User.LOGIN_METHOD_PASSWORD;
 
       commit("setUser", user);
@@ -81,23 +68,15 @@ export default {
       return new ActionResponse(true, user);
     },
     async getTicket(context, nonce) {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/get-auth-ticket`,
-        {
-          body: JSON.stringify({ nonce: nonce }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-          method: "POST",
-        }
-      );
-      const jsonData = await response.json();
+      const response = await HttpRequest.makeRequest("auth/get-auth-ticket", {
+        nonce: nonce,
+      });
 
-      if (!jsonData.payload) {
+      if (response.error) {
         return false;
       }
 
-      return jsonData.payload;
+      return response.payload;
     },
     /**
      * @param {function(String, any)} dispatch
@@ -117,7 +96,7 @@ export default {
       try {
         await keplr.enable("pulsar-2");
       } catch (e) {
-        return new ActionResponse(false, `Could not authorize against network`);
+        return new ActionResponse(false, "Could not authorize against network");
       }
 
       const offlineSigner = await keplr.getOfflineSignerOnlyAmino("pulsar-2");
@@ -125,7 +104,7 @@ export default {
       const accounts = await offlineSigner.getAccounts();
 
       if (accounts.length === 0) {
-        return new ActionResponse(false, `Could not authorize against network`);
+        return new ActionResponse(false, "Could not authorize against network");
       }
 
       const nonce = crypto.randomUUID();
@@ -140,42 +119,23 @@ export default {
           new LoginSignOptions()
         );
       } catch (e) {
-        if (e.message === "Request rejected") {
-        } else {
-          console.error(e);
-        }
+        console.error(e);
+        return new ActionResponse(false, e.toString());
       }
-
-      console.log(signResponse);
 
       const authData = {
         walletName: "keplr",
         signedObject: JSON.stringify(signResponse),
         nonce: nonce,
       };
+      const response = await HttpRequest.makeRequest("auth/wallet", authData);
 
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/wallet`,
-        {
-          body: JSON.stringify(authData),
-          headers: {
-            "Content-Type": "application/json",
-          },
-          method: "POST",
-        }
-      );
-      const jsonData = await response.json();
-
-      if (!response.ok) {
-        return new ActionResponse(false, jsonData.errors);
+      if (response.error) {
+        return new ActionResponse(false, response.errors);
       }
 
-      if (!jsonData.payload || !jsonData.payload.account) {
-        return new ActionResponse(false, null);
-      }
-
-      const user = new User(jsonData.payload.account);
-      user.loginMethod = User.LOGIN_METHOD_PASSWORD;
+      const user = new User(response.payload.account);
+      user.loginMethod = User.LOGIN_METHOD_KEPLR;
 
       commit("setUser", user);
 
@@ -207,43 +167,18 @@ export default {
         signedObject: signedMessage,
         nonce: nonce,
       };
+      const response = await HttpRequest.makeRequest("auth/wallet", authData);
 
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/wallet`,
-        {
-          body: JSON.stringify(authData),
-          headers: {
-            "Content-Type": "application/json",
-          },
-          method: "POST",
-        }
-      );
-      const jsonData = await response.json();
-
-      if (!response.ok) {
-        return new ActionResponse(false, jsonData.errors);
+      if (response.error) {
+        return new ActionResponse(false, response.errors);
       }
 
-      if (!jsonData.payload || !jsonData.payload.account) {
-        return new ActionResponse(false, null);
-      }
-
-      const user = new User(jsonData.payload.account);
-      user.loginMethod = User.LOGIN_METHOD_PASSWORD;
+      const user = new User(response.payload.account);
+      user.loginMethod = User.LOGIN_METHOD_METAMASK;
 
       commit("setUser", user);
 
       return new ActionResponse(true, user);
-    },
-    /**
-     * @param {function(String, any)} dispatch
-     * @param {Number} ssoClient
-     * @return {Promise<ActionResponse>}
-     */
-    async ssoLogin({ dispatch }, ssoClient) {
-      const userData = userMock.find((user) => user.id === `user-${ssoClient}`);
-
-      return dispatch("loginUser", userData);
     },
     /**
      * @param {function(String, any)} commit
@@ -251,32 +186,69 @@ export default {
      * @return {Promise<ActionResponse>}
      */
     async register({ commit }, registrationData) {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/register`,
-        {
-          body: JSON.stringify(registrationData),
-          headers: {
-            "Content-Type": "application/json",
-          },
-          method: "POST",
-        }
+      const response = await HttpRequest.makeRequest(
+        "auth/register",
+        registrationData
       );
-      const jsonData = await response.json();
 
-      if (!response.ok) {
-        return new ActionResponse(false, jsonData.errors);
+      if (response.error) {
+        return new ActionResponse(false, response.errors);
       }
 
-      if (!jsonData.payload || !jsonData.payload.account) {
-        return new ActionResponse(false, null);
-      }
-
-      const user = new User(jsonData.payload.account);
+      const user = new User(response.payload.account);
       user.loginMethod = User.LOGIN_METHOD_PASSWORD;
 
       commit("setUser", user);
 
       return new ActionResponse(true, user);
+    },
+    /**
+     * @param {function(String, any)} commit
+     * @return {Promise<ActionResponse>}
+     */
+    async logout({ commit }) {
+      const response = await HttpRequest.makeRequest("auth/logout");
+
+      if (response.error) {
+        return new ActionResponse(false, response.errors);
+      }
+
+      commit("setUser", null);
+
+      await localStorage.removeItem("token");
+      await localStorage.removeItem("tokenExpire");
+
+      return new ActionResponse(true, null);
+    },
+    /**
+     * @param {function(String, any)} commit
+     * @return {null}
+     */
+    async checkLocalStorageForSession({ commit }) {
+      const token = localStorage.getItem("token");
+      const tokenExpire = localStorage.getItem("tokenExpire");
+
+      if (token == null || tokenExpire == null) {
+        return;
+      }
+
+      const expireMoment = moment(tokenExpire);
+      if (!expireMoment.isBefore(moment())) {
+        HttpRequest.setSession(token, expireMoment);
+        const response = await HttpRequest.makeRequest("get-status");
+
+        if (response.error) {
+          return;
+        }
+
+        const user = new User(response.payload.account);
+        user.loginMethod = User.LOGIN_METHOD_PASSWORD;
+
+        commit("setUser", user);
+      } else {
+        localStorage.removeItem("token");
+        localStorage.removeItem("tokenExpire");
+      }
     },
   },
 };

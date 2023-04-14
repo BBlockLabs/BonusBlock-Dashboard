@@ -1,33 +1,4 @@
-import { ElMessageBox } from "element-plus";
-
 export class MetamaskClient {
-  static async metamaskLogin(store, referrer = null) {
-    // if (!MetamaskClient.isMetamaskAgent() && MetamaskClient.canSwitchAgent()) {
-    //   window.location.href = `https://metamask.app.link/dapp/${window.location.href}?metamask-login`;
-    //
-    //   return;
-    // }
-
-    store.commit("setLoading", true);
-
-    try {
-      await store.dispatch("UserModule/metamaskLogin", referrer);
-    } catch (e) {
-      console.error(e);
-      await ElMessageBox.alert(
-        "There was an error connecting your wallet, please try again.",
-        "Error",
-        {
-          center: true,
-        }
-      );
-
-      return Promise.reject();
-    } finally {
-      store.commit("setLoading", false);
-    }
-  }
-
   static async requestAccounts(provider) {
     const accounts = await provider.request({
       method: "eth_accounts",

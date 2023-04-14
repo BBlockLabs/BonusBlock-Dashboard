@@ -36,10 +36,22 @@ export default {
     PageHead,
     Navigation,
   },
-  mounted() {
+  async mounted() {
     this.$nextTick(() => {
       document.getElementById("loader").style.display = "none";
     });
+
+    if (this.$store.getters["Auth/isLoggedIn"]) {
+      return;
+    }
+
+    await this.$store.dispatch("Auth/checkLocalStorageForSession");
+
+    if (this.$store.getters["Auth/isLoggedIn"]) {
+      this.$router.push("/dashboard");
+    } else {
+      this.$router.push("/login");
+    }
   },
 };
 </script>
