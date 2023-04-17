@@ -1,5 +1,6 @@
 import moment from "moment/moment.js";
 import UserSessionDto from "@/common/dto/UserSessionDto.js";
+import token from "@/state/modules/Token.js";
 
 export class HttpRequest {
   /**
@@ -32,6 +33,7 @@ export class HttpRequest {
     );
 
     if (response.status === 401) {
+      // user is logged out
       this.session = null;
     }
 
@@ -46,14 +48,16 @@ export class HttpRequest {
     }
 
     if (!jsonData.payload) {
+      // requests with empty response
       return {};
     }
 
     if (jsonData.payload.session) {
-      this.session = new UserSessionDto({
-        token: jsonData.payload.session.token,
-        expiresOn: moment(jsonData.payload.session.expiresOn),
-      });
+      // auto-populate session info from server response
+      HttpRequest.setSession(
+        jsonData.payload.session.token,
+        moment(jsonData.payload.session.expiresOn)
+      );
 
       localStorage.setItem("token", this.session.token);
       localStorage.setItem("tokenExpire", this.session.expiresOn.toString());

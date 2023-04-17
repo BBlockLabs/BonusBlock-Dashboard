@@ -91,14 +91,21 @@ export default {
       }
 
       const keplr = window.keplr;
+      const chainData = JSON.parse(
+        import.meta.env.VITE_BONUSBLOCK_KEPLR_CONFIG
+      );
 
       try {
-        await keplr.enable("pulsar-2");
+        await keplr.experimentalSuggestChain(chainData);
+        await keplr.enable(chainData.chainId);
       } catch (e) {
+        console.error(e);
         return new ActionResponse(false, "Could not authorize against network");
       }
 
-      const offlineSigner = await keplr.getOfflineSignerOnlyAmino("pulsar-2");
+      const offlineSigner = await keplr.getOfflineSignerOnlyAmino(
+        chainData.chainId
+      );
 
       const accounts = await offlineSigner.getAccounts();
 
@@ -112,9 +119,13 @@ export default {
       let signResponse;
       try {
         signResponse = await window.keplr.signAmino(
-          "pulsar-2",
+          chainData.chainId,
           accounts[0].address,
-          new KeplrLoginSignDoc("pulsar-2", "SCRT", ticket),
+          new KeplrLoginSignDoc(
+            chainData.chainId,
+            chainData.currencies[0].coinMinimalDenom,
+            ticket
+          ),
           new LoginSignOptions()
         );
       } catch (e) {
