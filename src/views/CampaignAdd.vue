@@ -34,11 +34,32 @@
           </el-col>
         </el-row>
       </div>
+
+      <div v-if="step === 3">
+        <h2>Create an announcement</h2>
+
+        <announcement-form />
+
+        <debug-wrapper>{{ announcementFormObject }}</debug-wrapper>
+      </div>
     </el-main>
 
     <el-aside class="bl-solid" width="200px">
-      <debug-wrapper>{{ campaign }}</debug-wrapper>
-      <debug-wrapper>{{ rewardedActivities }}</debug-wrapper>
+      <pre>{{ campaign }}</pre>
+
+      <div v-for="activity in rewardedActivities" :key="activity.id">
+        <pre>{{ activity }}</pre>
+        <el-button
+          @click="
+            $store.commit(
+              'RewardedActivity/removeRewardedActivity',
+              activity.id
+            )
+          "
+        >
+          remove
+        </el-button>
+      </div>
 
       <el-button @click="goToNextStep"> Continue </el-button>
     </el-aside>
@@ -48,7 +69,6 @@
 <script>
 import CampaignSetDetails from "@/components/CampaignSetDetails.vue";
 import Campaign from "@/state/models/Campaign.js";
-import DebugWrapper from "@/components/DebugWrapper.vue";
 import CampaignValidationBuilder from "@/common/validation/CampaignValidationBuilder.js";
 import CampaignCreateActivity from "@/components/CampaignCreateActivity.vue";
 import RewardedActivity from "@/state/models/RewardedActivity.js";
@@ -57,12 +77,16 @@ import Toast from "@/mixins/Toast.js";
 import MessageBox from "@/mixins/MessageBox.js";
 import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
 import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
+import AnnouncementForm from "@/components/AnnouncementForm.vue";
+import AnnouncementFormObject from "@/common/Form/AnnouncementFormObject.js";
+import DebugWrapper from "@/components/DebugWrapper.vue";
 
 export default {
   components: {
     DebugWrapper,
     CampaignSetDetails,
     CampaignCreateActivity,
+    AnnouncementForm,
   },
   mixins: [Toast, MessageBox],
   data() {
@@ -72,6 +96,7 @@ export default {
       campaign: new Campaign(),
       campaignFormObject: new CampaignFormObject(),
       rewardedActivityFormObject: new RewardedActivityFormObject(),
+      announcementFormObject: new AnnouncementFormObject(),
       campaignValidation: null,
       rewardedActivityValidation: null,
     };

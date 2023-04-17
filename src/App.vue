@@ -35,26 +35,14 @@ export default {
     Navigation,
   },
   async mounted() {
-    this.$nextTick(() => {
-      document.getElementById("loader").style.display = "none";
-    });
-
-    if (this.$store.getters["Auth/isLoggedIn"]) {
-      return;
-    }
-
-    await this.$store.dispatch("Auth/checkLocalStorageForSession");
-
-    if (this.$store.getters["Auth/isLoggedIn"]) {
-      if (this.$store.getters["Project/getProject"]) {
-        this.$router.push("/dashboard");
-      } else {
-        this.$store.state.Auth.newUser = true;
-        this.$router.push("/create-project");
-      }
-    } else {
-      this.$router.push("/login");
-    }
+    this.removeLoader();
+  },
+  methods: {
+    removeLoader() {
+      this.$nextTick(() => {
+        document.getElementById("loader").style.display = "none";
+      });
+    },
   },
 };
 </script>

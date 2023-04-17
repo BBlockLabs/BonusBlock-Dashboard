@@ -77,6 +77,8 @@ export default {
       // simulate request
       await sleep(500);
 
+      console.log(JSON.stringify(campaignDto));
+
       if (!campaignDto.id) {
         campaignDto.id = crypto.randomUUID();
         campaignDto.status = "draft";

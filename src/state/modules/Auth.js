@@ -2,7 +2,9 @@ import ActionResponse from "@/common/ActionResponse";
 import User from "@/state/models/User";
 import detectEthereumProvider from "@metamask/detect-provider";
 import { MetamaskClient } from "@/common/MetamaskClient.js";
-import KeplrLoginSignDoc, { LoginSignOptions } from "@/common/KeplrLoginSignDoc.js";
+import KeplrLoginSignDoc, {
+  LoginSignOptions,
+} from "@/common/KeplrLoginSignDoc.js";
 import { HttpRequest } from "@/common/HttpRequest.js";
 import moment from "moment";
 
@@ -10,7 +12,6 @@ export default {
   namespaced: true,
   state: {
     user: null,
-    newUser: false,
   },
   getters: {
     /**
@@ -229,9 +230,10 @@ export default {
     },
     /**
      * @param {function(String, any, any?)} commit
+     * @param {any} state
      * @return {null}
      */
-    async checkLocalStorageForSession({ commit }) {
+    async checkLocalStorageForSession({ commit, state }) {
       const token = localStorage.getItem("token");
       const tokenExpire = localStorage.getItem("tokenExpire");
 
@@ -240,24 +242,34 @@ export default {
       }
 
       const expireMoment = moment(tokenExpire);
-      if (!expireMoment.isBefore(moment())) {
-        HttpRequest.setSession(token, expireMoment);
-        const response = await HttpRequest.makeRequest("get-status");
 
-        if (response.error) {
-          return;
-        }
-
-        const user = new User(response.payload.account);
-        user.loginMethod = User.LOGIN_METHOD_PASSWORD;
-
-        commit("setUser", user);
-        if (response.payload.project && response.payload.project.title !== null) {
-          commit("Project/setProject", response.payload.project, { root: true });
-        }
-      } else {
+      if (expireMoment.isBefore(moment())) {
         localStorage.removeItem("token");
         localStorage.removeItem("tokenExpire");
+
+        return;
+      }
+
+      if (state.user !== null) {
+        return;
+      }
+
+      HttpRequest.setSession(token, expireMoment);
+
+      const response = await HttpRequest.makeRequest("get-status");
+
+      if (response.error) {
+        return;
+      }
+
+      const user = new User(response.payload.account);
+
+      user.loginMethod = User.LOGIN_METHOD_PASSWORD;
+
+      commit("setUser", user);
+
+      if (response.payload.project && response.payload.project.title !== null) {
+        commit("Project/setProject", response.payload.project, { root: true });
       }
     },
   },

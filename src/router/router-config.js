@@ -30,6 +30,10 @@ const authRedirectCheck = (route) => {
     return { name: "Home" };
   }
 
+  if (route.name !== "Create project" && !store.getters["Project/getProject"]) {
+    return { name: "Create project" };
+  }
+
   return null;
 };
 
@@ -45,7 +49,9 @@ const router = new createRouter({
   },
 });
 
-router.beforeEach((toRoute, fromRoute, next) => {
+router.beforeEach(async (toRoute, fromRoute, next) => {
+  await store.dispatch("Auth/checkLocalStorageForSession");
+
   const redirect = authRedirectCheck(toRoute);
 
   if (redirect !== null) {

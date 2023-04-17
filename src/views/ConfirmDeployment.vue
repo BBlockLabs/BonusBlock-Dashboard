@@ -91,7 +91,6 @@ export default {
         this.$store.commit("DeploymentModule/setTitle", this.deployment.title);
         await this.$store.dispatch("DeploymentModule/commitDeployment");
         this.$store.commit("Auth/addDeployment", this.deployment);
-        this.$store.state.Auth.newUser = false;
 
         this.$router.push("/dashboard");
       } catch (e) {

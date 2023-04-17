@@ -93,7 +93,6 @@ export default {
   },
   methods: {
     registered() {
-      this.$store.state.Auth.newUser = true;
       this.$router.push("/create-project");
     },
   },

@@ -136,7 +136,9 @@
       >
         <el-card shadow="never" class="new-project-card align-center">
           <img
-            :src="'data:' + formData.image.type + ';base64,' + formData.image.data"
+            :src="
+              'data:' + formData.image.type + ';base64,' + formData.image.data
+            "
             alt=""
           />
           <h3>{{ formData.name }}</h3>

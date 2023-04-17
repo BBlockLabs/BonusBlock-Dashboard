@@ -103,7 +103,6 @@ export default {
       if (this.$store.getters["Project/getProject"]) {
         this.$router.push("/dashboard");
       } else {
-        this.$store.state.Auth.newUser = true;
         this.$router.push("/create-project");
       }
     },
