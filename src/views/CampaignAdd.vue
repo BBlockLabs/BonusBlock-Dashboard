@@ -45,6 +45,12 @@
 
         <debug-wrapper>{{ announcementFormObject }}</debug-wrapper>
       </div>
+
+      <div v-if="step === 4">
+        <h2>Campaign Summary</h2>
+
+        <campaign-summary :campaign-id="campaign.id" />
+      </div>
     </el-main>
 
     <el-aside class="bl-solid" width="200px">
@@ -72,28 +78,30 @@
 </template>
 
 <script>
-import CampaignSetDetails from "@/components/CampaignSetDetails.vue";
-import Campaign from "@/state/models/Campaign.js";
-import CampaignValidationBuilder from "@/common/validation/CampaignValidationBuilder.js";
-import CampaignCreateActivity from "@/components/CampaignCreateActivity.vue";
-import RewardedActivity from "@/state/models/RewardedActivity.js";
-import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
-import Toast from "@/mixins/Toast.js";
-import MessageBox from "@/mixins/MessageBox.js";
-import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
-import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
+import Announcement from "@/state/models/Announcement.js";
 import AnnouncementForm from "@/components/AnnouncementForm.vue";
 import AnnouncementFormObject from "@/common/Form/AnnouncementFormObject.js";
-import DebugWrapper from "@/components/DebugWrapper.vue";
 import AnnouncementFormValidationBuilder from "@/common/validation/AnnouncementFormValidationBuilder.js";
-import Announcement from "@/state/models/Announcement.js";
+import Campaign from "@/state/models/Campaign.js";
+import CampaignCreateActivity from "@/components/CampaignCreateActivity.vue";
+import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
+import CampaignSetDetails from "@/components/CampaignSetDetails.vue";
+import CampaignSummary from "@/components/CampaignSummary.vue";
+import CampaignValidationBuilder from "@/common/validation/CampaignValidationBuilder.js";
+import DebugWrapper from "@/components/DebugWrapper.vue";
+import MessageBox from "@/mixins/MessageBox.js";
+import RewardedActivity from "@/state/models/RewardedActivity.js";
+import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
+import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
+import Toast from "@/mixins/Toast.js";
 
 export default {
   components: {
-    DebugWrapper,
-    CampaignSetDetails,
-    CampaignCreateActivity,
     AnnouncementForm,
+    CampaignCreateActivity,
+    CampaignSetDetails,
+    CampaignSummary,
+    DebugWrapper,
   },
   mixins: [Toast, MessageBox],
   data() {
