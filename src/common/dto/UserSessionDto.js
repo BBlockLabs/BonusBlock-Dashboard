@@ -1,6 +1,6 @@
 export default class UserSessionDto {
   /**
-   * @type {moment}
+   * @type {Moment}
    */
   expiresOn = null;
 

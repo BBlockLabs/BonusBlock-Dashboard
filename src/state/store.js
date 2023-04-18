@@ -1,5 +1,6 @@
 import Vuex from "vuex";
 import Activity from "@/state/modules/Activity.js";
+import Announcement from "@/state/modules/Announcement.js";
 import Auth from "@/state/modules/Auth";
 import Campaign from "@/state/modules/Campaign.js";
 import Category from "@/state/modules/Category.js";
@@ -9,13 +10,13 @@ import Network from "@/state/modules/Network.js";
 import OrganizationModule from "@/state/modules/Organization";
 import PackageModule from "@/state/modules/Package";
 import Product from "@/state/modules/Product.js";
+import Project from "@/state/modules/Project";
 import RewardedActivity from "@/state/modules/RewardedActivity.js";
 import ServerModule from "@/state/modules/Server";
 import Token from "@/state/modules/Token.js";
 import UserModule from "@/state/modules/User";
 import WalletModule from "@/state/modules/Wallet";
 import WorkspaceModule from "@/state/modules/Workspace";
-import Project from "@/state/modules/Project";
 
 export default new Vuex.Store({
   state: {
@@ -29,6 +30,7 @@ export default new Vuex.Store({
   },
   modules: {
     Activity,
+    Announcement,
     Auth,
     Campaign,
     Category,
@@ -38,12 +40,12 @@ export default new Vuex.Store({
     OrganizationModule,
     PackageModule,
     Product,
+    Project,
     RewardedActivity,
     ServerModule,
     Token,
     UserModule,
     WalletModule,
     WorkspaceModule,
-    Project,
   },
 });

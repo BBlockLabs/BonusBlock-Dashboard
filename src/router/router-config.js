@@ -16,24 +16,22 @@ const authRedirectCheck = (route) => {
     return null;
   }
 
-  if (
-    auth === RouteMeta.AUTH_ONLY_AUTHORIZED &&
-    !store.getters["Auth/isLoggedIn"]
-  ) {
-    return { name: "Login", query: { from: route.fullPath } };
-  }
+  if (store.getters["Auth/isLoggedIn"]) {
+    if (auth === RouteMeta.AUTH_ONLY_NON_AUTHORIZED) {
+      return { name: "Home" };
+    }
 
-  if (
-    auth === RouteMeta.AUTH_ONLY_NON_AUTHORIZED &&
-    store.getters["Auth/isLoggedIn"]
-  ) {
-    return { name: "Home" };
+    if (
+      route.name !== "Create project" &&
+      !store.getters["Project/getProject"]
+    ) {
+      return { name: "Create project" };
+    }
+  } else {
+    if (auth === RouteMeta.AUTH_ONLY_AUTHORIZED) {
+      return { name: "Login", query: { from: route.fullPath } };
+    }
   }
-
-  if (route.name !== "Create project" && !store.getters["Project/getProject"]) {
-    return { name: "Create project" };
-  }
-
   return null;
 };
 

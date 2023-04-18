@@ -1,4 +1,5 @@
 import formObject from "@/common/Form/FormObject.js";
+import Social from "@/state/models/Social.js";
 
 export default class AnnouncementFormObject extends formObject {
   /**
@@ -18,6 +19,19 @@ export default class AnnouncementFormObject extends formObject {
    * @type {Array<Social>}
    */
   socials = [];
+
+  constructor() {
+    super();
+
+    this.socials = [
+      new Social(),
+      new Social(),
+      new Social(),
+      new Social(),
+      new Social(),
+      new Social(),
+    ];
+  }
 
   /**
    * @param {Announcement} announcement

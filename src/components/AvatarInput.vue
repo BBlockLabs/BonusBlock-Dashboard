@@ -21,6 +21,7 @@
 
 <script>
 import Toast from "@/mixins/Toast";
+import FileParser from "@/common/FileParser.js";
 
 export default {
   mixins: [Toast],
@@ -50,16 +51,17 @@ export default {
       if (rawFile.type !== "image/jpeg" && rawFile.type !== "image/png") {
         this.Toast("Picture must be JPG or PNG format!", "", "error", 1500);
         return false;
-      } else if (rawFile.size / 1024 > 500) {
+      }
+
+      if (rawFile.size / 1024 > 500) {
         this.Toast("Picture size can not exceed 500kb", "", "error", 1500);
         return false;
       }
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        this.file.data = reader.result.split(",")[1];
-        this.file.type = rawFile.type;
-      };
-      reader.readAsDataURL(rawFile);
+
+      FileParser.fileToFileObject(rawFile).then((fileObject) => {
+        this.file = fileObject;
+      });
+
       return false;
     },
   },

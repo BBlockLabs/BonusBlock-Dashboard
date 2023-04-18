@@ -96,8 +96,11 @@ export default {
 
       //////////////////////
 
-      if (campaignDto.id === null) {
+      if (campaignDto.id !== campaignId) {
         commit("removeCampaign", campaignId);
+        commit("Announcement/updateCampaignId", [campaignId, campaignDto.id], {
+          root: true,
+        });
       }
 
       rewardedActivities.forEach(({ id }) => {

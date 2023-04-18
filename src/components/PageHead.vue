@@ -50,6 +50,7 @@ import NavigationList from "@/common/Navigation";
 import MenuItem from "@/components/MenuItem.vue";
 import Avatar from "@/components/AvatarImage.vue";
 import { Bell as IconBell, GitCompare } from "iconoir-vue";
+import { FileObject } from "@/common/FileObject.js";
 
 export default {
   components: {
@@ -60,10 +61,7 @@ export default {
   },
   data() {
     return {
-      avatar: {
-        data: "",
-        type: "",
-      },
+      avatar: new FileObject(),
     };
   },
   computed: {

@@ -38,7 +38,10 @@
       <div v-if="step === 3">
         <h2>Create an announcement</h2>
 
-        <announcement-form />
+        <announcement-form
+          v-model="announcementFormObject"
+          :validation="announcementFormValidation"
+        />
 
         <debug-wrapper>{{ announcementFormObject }}</debug-wrapper>
       </div>
@@ -61,6 +64,8 @@
         </el-button>
       </div>
 
+      <pre>{{ announcement }}</pre>
+
       <el-button @click="goToNextStep"> Continue </el-button>
     </el-aside>
   </el-container>
@@ -80,6 +85,8 @@ import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject
 import AnnouncementForm from "@/components/AnnouncementForm.vue";
 import AnnouncementFormObject from "@/common/Form/AnnouncementFormObject.js";
 import DebugWrapper from "@/components/DebugWrapper.vue";
+import AnnouncementFormValidationBuilder from "@/common/validation/AnnouncementFormValidationBuilder.js";
+import Announcement from "@/state/models/Announcement.js";
 
 export default {
   components: {
@@ -92,13 +99,16 @@ export default {
   data() {
     return {
       lastActiveStep: 1,
-      step: 1,
+      step: 3,
       campaign: new Campaign(),
+      announcement: new Announcement(),
+      announcementId: new Announcement(),
       campaignFormObject: new CampaignFormObject(),
       rewardedActivityFormObject: new RewardedActivityFormObject(),
       announcementFormObject: new AnnouncementFormObject(),
       campaignValidation: null,
       rewardedActivityValidation: null,
+      announcementFormValidation: null,
     };
   },
   computed: {
@@ -118,6 +128,11 @@ export default {
     this.rewardedActivityValidation =
       RewardedActivityValidationBuilder.createValidation(
         this.rewardedActivityFormObject
+      );
+
+    this.announcementFormValidation =
+      AnnouncementFormValidationBuilder.createValidation(
+        this.announcementFormObject
       );
   },
   methods: {
@@ -199,39 +214,76 @@ export default {
 
       return true;
     },
+    async storeAnnouncement() {
+      if (!this.announcementFormObject.dirty()) {
+        return true;
+      }
+
+      this.announcementFormObject.setAnnouncementValues(this.announcement);
+
+      this.announcement.campaign = this.campaign.id;
+
+      this.$store.commit("Announcement/setAnnouncement", this.announcement);
+
+      const response = await this.$store.dispatch(
+        "Announcement/storeAnnouncement",
+        this.announcement.id
+      );
+
+      if (!response.success) {
+        this.Toast("Failed to save announcement", "", "error");
+        console.error(response.errors);
+
+        return false;
+      }
+
+      this.announcement = this.$store.getters["Announcement/getAnnouncement"](
+        response.data
+      );
+
+      this.announcementFormObject.setValuesFromAnnouncement(this.announcement);
+      this.announcementFormObject.reset();
+
+      return true;
+    },
     /**
      * @return {Promise<boolean>}
      */
     async goToNextStep() {
       switch (this.step) {
         case 1:
-          {
-            if (!(await this.campaignValidation.$validate())) {
-              this.Toast("Form contains errors", null, "error");
-              return false;
-            }
-
-            if (!(await this.storeCampaign())) {
-              return false;
-            }
+          if (!(await this.campaignValidation.$validate())) {
+            this.Toast("Form contains errors", null, "error");
+            return false;
           }
+
+          if (!(await this.storeCampaign())) {
+            return false;
+          }
+
           break;
         case 2:
-          {
-            if (this.rewardedActivities.length === 0) {
-              await this.MessageBoxInfo(
-                "Add at least one activity to continue"
-              );
+          if (this.rewardedActivities.length === 0) {
+            await this.MessageBoxInfo("Add at least one activity to continue");
 
-              return false;
-            }
-
-            if (!(await this.storeCampaign())) {
-              return false;
-            }
+            return false;
           }
+
+          if (!(await this.storeCampaign())) {
+            return false;
+          }
+
           break;
         case 3:
+          if (!(await this.announcementFormValidation.$validate())) {
+            this.Toast("Form contains errors", null, "error");
+            return false;
+          }
+
+          if (!(await this.storeAnnouncement())) {
+            return false;
+          }
+
           break;
         case 4:
           break;

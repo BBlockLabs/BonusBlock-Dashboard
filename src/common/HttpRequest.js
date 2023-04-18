@@ -1,6 +1,5 @@
 import moment from "moment/moment.js";
 import UserSessionDto from "@/common/dto/UserSessionDto.js";
-import token from "@/state/modules/Token.js";
 
 export class HttpRequest {
   /**
@@ -60,7 +59,7 @@ export class HttpRequest {
       );
 
       localStorage.setItem("token", this.session.token);
-      localStorage.setItem("tokenExpire", this.session.expiresOn.toString());
+      localStorage.setItem("tokenExpire", this.session.expiresOn.toISOString());
     }
 
     return { payload: jsonData.payload };

@@ -1,13 +1,25 @@
 <template>
-  <img :src="'data:image/' + file.type + ';base64,' + file.data" alt="" />
+  <img :src="src" alt="" />
 </template>
 
 <script>
+import FileParser from "@/common/FileParser.js";
+import { FileObject } from "@/common/FileObject.js";
+
 export default {
   props: {
     file: {
-      type: Object,
+      type: FileObject,
       default: null,
+    },
+  },
+  computed: {
+    src() {
+      if (this.file === null) {
+        return null;
+      }
+
+      return FileParser.fileObjectSrc(this.file);
     },
   },
 };
