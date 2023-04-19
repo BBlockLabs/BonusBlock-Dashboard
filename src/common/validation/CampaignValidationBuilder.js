@@ -5,6 +5,7 @@ import {
   between,
   minLength,
   maxLength,
+  minValue,
 } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import ValidationBuilder from "@/common/validation/ValidationBuilder.js";
@@ -34,6 +35,7 @@ export default class CampaignValidationBuilder extends ValidationBuilder {
     rewardPoolTokenCount: {
       required,
       integer,
+      min: minValue(1),
     },
     timeFrame: [
       {

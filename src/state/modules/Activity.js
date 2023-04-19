@@ -11,9 +11,9 @@ const sleep = async (milliseconds) => {
 
 export class ActivityState {
   /**
-   * @type {Activity[]}
+   * @type {Map<String, Activity>}
    */
-  activities = [];
+  activities = new Map();
 }
 
 export default {
@@ -21,21 +21,35 @@ export default {
   state: new ActivityState(),
   getters: {
     /**
+     * @param state
+     * @returns {function(string): Announcement | null}
+     */
+    getActivity: (state) => (activityId) => {
+      if (!state.activities.has(activityId)) {
+        return null;
+      }
+
+      return state.activities.get(activityId);
+    },
+    /**
      * @param {ActivityState} state
      * @returns {function({query?: string | undefined}): Activity[]}
      */
     queryActivities:
       (state) =>
       (filters = {}) => {
-        let activities = state.activities;
+        const activities = [];
 
-        if (filters.query) {
-          filters.query = filters.query.toLowerCase();
+        state.activities.forEach((activity) => {
+          if (!filters.query) {
+            activities.push(activity);
+            return;
+          }
 
-          activities = activities.filter((activity) =>
-            activity.name.toLowerCase().includes(filters.query)
-          );
-        }
+          if (activity.name.toLowerCase().includes(filters.query)) {
+            activities.push(activity);
+          }
+        });
 
         return activities;
       },
@@ -45,16 +59,8 @@ export default {
      * @param {ActivityState} state
      * @param {Activity} activity
      */
-    addActivity(state, activity) {
-      const stateActivity = state.activities.find(
-        (stateActivity) => stateActivity.id === activity.id
-      );
-
-      if (stateActivity) {
-        return;
-      }
-
-      state.activities.push(activity);
+    setActivity(state, activity) {
+      state.activities.set(activity.id, activity);
     },
   },
   actions: {
@@ -100,7 +106,7 @@ export default {
         });
 
       apiActivities.forEach((activity) => {
-        commit("addActivity", activity);
+        commit("setActivity", activity);
       });
 
       return new ActionResponse(true, apiActivities);

@@ -11,9 +11,9 @@ const sleep = async (milliseconds) => {
 
 export class CategoryState {
   /**
-   * @type {Category[]}
+   * @type {Map<String, Category>}
    */
-  categories = [];
+  categories = new Map();
 }
 
 export default {
@@ -21,21 +21,34 @@ export default {
   state: new CategoryState(),
   getters: {
     /**
+     * @param state
+     * @returns {function(string): Campaign | null}
+     */
+    getCategory: (state) => (categoryId) => {
+      if (!state.categories.has(categoryId)) {
+        return null;
+      }
+
+      return state.categories.get(categoryId);
+    },
+    /**
      * @param {CategoryState} state
      * @returns {function({query: string | undefined}): Category[]}
      */
     queryCategories:
       (state) =>
       ({ query }) => {
-        let categories = state.categories;
+        const categories = [];
 
-        if (query) {
-          query = query.toLowerCase();
+        state.categories.forEach((category) => {
+          if (!query) {
+            categories.push(category);
+          }
 
-          categories = categories.filter((category) =>
-            category.name.toLowerCase().includes(query)
-          );
-        }
+          if (category.name.toLowerCase().includes(query)) {
+            categories.push(category);
+          }
+        });
 
         return categories;
       },
@@ -45,16 +58,8 @@ export default {
      * @param {CategoryState} state
      * @param {Category} category
      */
-    addCategory(state, category) {
-      const stateCategory = state.categories.find(
-        (stateCategory) => stateCategory.id === category.id
-      );
-
-      if (stateCategory) {
-        return;
-      }
-
-      state.categories.push(category);
+    setCategory(state, category) {
+      state.categories.set(category.id, category);
     },
   },
   actions: {
@@ -96,7 +101,7 @@ export default {
         });
 
       apiCategories.forEach((category) => {
-        commit("addCategory", category);
+        commit("setCategory", category);
       });
 
       return new ActionResponse(true, apiCategories);

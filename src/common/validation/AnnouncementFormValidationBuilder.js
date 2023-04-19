@@ -1,4 +1,4 @@
-import { required, minLength, maxLength } from "@vuelidate/validators";
+import { required, minLength, maxLength, url } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import ValidationBuilder from "@/common/validation/ValidationBuilder.js";
 
@@ -15,16 +15,19 @@ export default class AnnouncementFormValidationBuilder extends ValidationBuilder
     description: {
       required,
     },
-    socials: [
-      {
+    socials: {
+      required,
+      minLength: minLength(1),
+      $each: {
         type: {
           required,
         },
         link: {
           required,
+          url,
         },
       },
-    ],
+    },
   };
 
   /**

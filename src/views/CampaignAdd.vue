@@ -47,32 +47,17 @@
       </div>
 
       <div v-if="step === 4">
-        <h2>Campaign Summary</h2>
+        <h2>Create an announcement</h2>
 
         <campaign-summary :campaign-id="campaign.id" />
       </div>
     </el-main>
 
     <el-aside class="bl-solid" width="200px">
-      <pre>{{ campaign }}</pre>
+      <campaign-side-summary v-if="step !== 4" :campaign-id="campaign.id" />
+      <campaign-side-launch v-else :campaign-id="campaign.id" />
 
-      <div v-for="activity in rewardedActivities" :key="activity.id">
-        <pre>{{ activity }}</pre>
-        <el-button
-          @click="
-            $store.commit(
-              'RewardedActivity/removeRewardedActivity',
-              activity.id
-            )
-          "
-        >
-          remove
-        </el-button>
-      </div>
-
-      <pre>{{ announcement }}</pre>
-
-      <el-button @click="goToNextStep"> Continue </el-button>
+      <el-button v-if="step !== 4" @click="goToNextStep"> Continue </el-button>
     </el-aside>
   </el-container>
 </template>
@@ -94,14 +79,18 @@ import RewardedActivity from "@/state/models/RewardedActivity.js";
 import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
 import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
 import Toast from "@/mixins/Toast.js";
+import CampaignSideSummary from "@/components/CampaignSideSummary.vue";
+import CampaignSideLaunch from "@/components/CampaignSideLaunch.vue";
 
 export default {
   components: {
+    CampaignSideLaunch,
     AnnouncementForm,
     CampaignCreateActivity,
     CampaignSetDetails,
-    CampaignSummary,
     DebugWrapper,
+    CampaignSummary,
+    CampaignSideSummary,
   },
   mixins: [Toast, MessageBox],
   data() {

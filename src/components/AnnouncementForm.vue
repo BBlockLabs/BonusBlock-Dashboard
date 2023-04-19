@@ -24,18 +24,19 @@
     </el-form-item>
 
     <el-form-item
-      v-for="(social, idx) in value.socials"
-      :key="idx"
-      v-bind="
-        validate['socials'][idx]
-          ? ValidationHelper.getFormItemErrorAttributes(
-              validate['socials'][idx]
-            )
-          : {}
-      "
-      :label="`Social ${social.type || 'X'}`"
+      label="socials"
+      v-bind="ValidationHelper.getFormItemErrorAttributes(validate['socials'])"
     >
-      <social-input v-model="value.socials[idx]" />
+      <el-form-item
+        v-for="(social, idx) in value.socials"
+        v-bind="
+          ValidationHelper.getFormItemErrorAttributes(validate['socials'])
+        "
+        :key="idx"
+        :label="`Social ${social.type || 'X'}`"
+      >
+        <social-input v-model="value.socials[idx]" />
+      </el-form-item>
     </el-form-item>
   </el-form>
 </template>

@@ -2,8 +2,8 @@
   <el-collapse v-model="activityValue" accordion>
     <el-collapse-item
       v-for="activityObject in activities"
-      :key="activityObject.hash"
-      :name="activityObject.hash"
+      :key="activityObject.id"
+      :name="activityObject.id"
     >
       <template #title>
         {{ activityObject.name }} - {{ activityObject.hash }}
@@ -21,11 +21,7 @@
         </el-col>
 
         <el-col :span="-1">
-          <input
-            v-model="actionValue"
-            type="radio"
-            :value="actionObject.hash"
-          />
+          <input v-model="actionValue" type="radio" :value="actionObject.id" />
         </el-col>
       </el-row>
     </el-collapse-item>

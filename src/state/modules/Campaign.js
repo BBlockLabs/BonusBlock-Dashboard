@@ -55,6 +55,34 @@ export default {
   actions: {
     /**
      * @param getters
+     * @param commit
+     * @param {string} campaignId
+     * @param {"draft"|"confirmed"|"payed"|"running"|"ended"|"cancelled"|"deleted"} status
+     * @returns {Promise<ActionResponse>}
+     */
+    async changeStatus({ getters, commit }, { campaignId, status }) {
+      const campaignDto = getters["getCampaign"](campaignId)?.toDto() || null;
+
+      if (campaignDto === null) {
+        return new ActionResponse(false, null, ["CAMPAIGN_NOT_FOUND"]);
+      }
+
+      // simulate request
+      await sleep(500);
+
+      campaignDto.status = status;
+      ///////
+
+      commit("setCampaign", Campaign.fromDto(campaignDto));
+
+      if (campaignDto.name === "fail") {
+        return new ActionResponse(false, null, ["REQUEST_FAILED"]);
+      }
+
+      return new ActionResponse(true, campaignDto.id);
+    },
+    /**
+     * @param getters
      * @param rootGetters
      * @param commit
      * @param {string} campaignId

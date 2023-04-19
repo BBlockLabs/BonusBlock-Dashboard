@@ -11,9 +11,9 @@ const sleep = async (milliseconds) => {
 
 export class NetworkState {
   /**
-   * @type {Network[]}
+   * @type {Map<String, Network>}
    */
-  networks = [];
+  networks = new Map();
 }
 
 export default {
@@ -21,21 +21,36 @@ export default {
   state: new NetworkState(),
   getters: {
     /**
+     * @param state
+     * @returns {function(string): Campaign | null}
+     */
+    getNetwork: (state) => (networkId) => {
+      if (!state.networks.has(networkId)) {
+        return null;
+      }
+
+      return state.networks.get(networkId);
+    },
+    /**
      * @param {NetworkState} state
      * @returns {function({query: string | undefined}): Network[]}
      */
     queryNetworks:
       (state) =>
       ({ query }) => {
-        let networks = state.networks;
+        const networks = [];
 
-        if (query) {
-          query = query.toLowerCase();
+        state.networks.forEach((network) => {
+          if (!query) {
+            networks.push(network);
 
-          networks = networks.filter((network) =>
-            network.name.toLowerCase().includes(query)
-          );
-        }
+            return;
+          }
+
+          if (network.name.toLowerCase().includes(query)) {
+            networks.push(network);
+          }
+        });
 
         return networks;
       },
@@ -45,16 +60,8 @@ export default {
      * @param {NetworkState} state
      * @param {Network} network
      */
-    addNetwork(state, network) {
-      const stateNetwork = state.networks.find(
-        (stateNetwork) => stateNetwork.id === network.id
-      );
-
-      if (stateNetwork) {
-        return;
-      }
-
-      state.networks.push(network);
+    setNetwork(state, network) {
+      state.networks.set(network.id, network);
     },
   },
   actions: {
@@ -96,7 +103,7 @@ export default {
         });
 
       apiNetworks.forEach((network) => {
-        commit("addNetwork", network);
+        commit("setNetwork", network);
       });
 
       return new ActionResponse(true, apiNetworks);

@@ -11,9 +11,9 @@ const sleep = async (milliseconds) => {
 
 export class ProductState {
   /**
-   * @type {Product[]}
+   * @type {Map<String, Product>}
    */
-  products = [];
+  products = new Map();
 }
 
 export default {
@@ -21,21 +21,35 @@ export default {
   state: new ProductState(),
   getters: {
     /**
+     * @param state
+     * @returns {function(string): Campaign | null}
+     */
+    getProduct: (state) => (productId) => {
+      if (!state.products.has(productId)) {
+        return null;
+      }
+
+      return state.products.get(productId);
+    },
+    /**
      * @param {ProductState} state
      * @returns {function({query: string | undefined}): Product[]}
      */
     queryProducts:
       (state) =>
       ({ query }) => {
-        let products = state.products;
+        const products = [];
 
-        if (query) {
-          query = query.toLowerCase();
+        state.products.forEach((product) => {
+          if (!query) {
+            products.push(product);
+            return;
+          }
 
-          products = products.filter((product) =>
-            product.name.toLowerCase().includes(query)
-          );
-        }
+          if (product.name.toLowerCase().includes(query)) {
+            products.push(product);
+          }
+        });
 
         return products;
       },
@@ -45,16 +59,8 @@ export default {
      * @param {ProductState} state
      * @param {Product} product
      */
-    addProduct(state, product) {
-      const stateProduct = state.products.find(
-        (stateProduct) => stateProduct.id === product.id
-      );
-
-      if (stateProduct) {
-        return;
-      }
-
-      state.products.push(product);
+    setProduct(state, product) {
+      state.products.set(product.id, product);
     },
   },
   actions: {
@@ -107,7 +113,7 @@ export default {
         });
 
       apiProducts.forEach((product) => {
-        commit("addProduct", product);
+        commit("setProduct", product);
       });
 
       return new ActionResponse(true, apiProducts);

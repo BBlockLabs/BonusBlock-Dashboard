@@ -29,6 +29,17 @@ export default {
 
       return state.announcements.get(announcementId);
     },
+    getByCampaign: (state) => (campaignId) => {
+      const announcements = [];
+
+      state.announcements.forEach((rewardedActivity) => {
+        if (rewardedActivity.campaign === campaignId) {
+          announcements.push(rewardedActivity);
+        }
+      });
+
+      return announcements;
+    },
   },
   mutations: {
     /**
