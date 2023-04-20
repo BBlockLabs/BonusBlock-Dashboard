@@ -1,13 +1,8 @@
 import ActionResponse from "@/common/ActionResponse";
-import networksMock from "@/state/mock/network.json";
 import Network from "@/state/models/Network.js";
-import moment from "moment";
-
-const sleep = async (milliseconds) => {
-  return new Promise((r) => {
-    window.setTimeout(r, milliseconds);
-  });
-};
+import { HttpRequest } from "@/common/HttpRequest.js";
+import CategoriesNetworksResponse from "@/common/Http/CategoriesNetworksResponse.js";
+import Category from "@/state/models/Category.js";
 
 export class NetworkState {
   /**
@@ -65,48 +60,32 @@ export default {
     },
   },
   actions: {
-    /**
-     * @param commit
-     * @param getters
-     * @param {string | undefined} query
-     * @returns {Promise<ActionResponse>}
-     */
-    async queryNetworks({ commit, getters }, { query }) {
-      const currentNetworkList = getters.queryNetworks(query);
+    async preloadNetworks({ commit }) {
+      const response = await HttpRequest.makeRequest("get/categories-networks");
 
-      if (currentNetworkList.length >= 10) {
-        return new ActionResponse(true, currentNetworkList);
+      if (!response.success) {
+        return new ActionResponse(false, null, response.errors);
       }
 
-      await sleep(500);
+      /**
+       * @type {CategoriesNetworksResponse}
+       */
+      const payload = Object.assign(
+        new CategoriesNetworksResponse(),
+        response.payload
+      );
 
-      if (query === "fail") {
-        return new ActionResponse(false, null, ["REQUEST_FAILED"]);
-      }
-
-      const apiNetworks = networksMock
-        .filter(
-          (mockNetwork) =>
-            !query ||
-            mockNetwork.name.toLowerCase().includes(query.toLowerCase())
-        )
-        .map((mockNetwork) => {
-          const network = new Network();
-
-          network.id = mockNetwork.id;
-          network.name = mockNetwork.name;
-          network.version = mockNetwork.version;
-          network.createdOn = moment(mockNetwork.createdOn);
-          network.modifiedOn = moment(mockNetwork.modifiedOn);
-
-          return network;
-        });
-
-      apiNetworks.forEach((network) => {
-        commit("setNetwork", network);
+      payload.networks.forEach((network) => {
+        commit("setNetwork", Network.fromDto(network));
       });
 
-      return new ActionResponse(true, apiNetworks);
+      payload.categories.forEach((category) => {
+        commit("Category/setCategory", Category.fromDto(category), {
+          root: true,
+        });
+      });
+
+      return new ActionResponse(true, null);
     },
   },
 };

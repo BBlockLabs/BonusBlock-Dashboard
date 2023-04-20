@@ -12,26 +12,34 @@
         <network-select-field v-model="campaignFormObject.network" />
       </el-form-item>
 
-      <el-form-item label="Product">
+      <el-form-item
+        v-if="
+          campaignFormObject.network &&
+          campaignFormObject.categories.length >= 1
+        "
+        label="Product"
+      >
         <product-select-field
           v-model="campaignFormObject.product"
-          :filters="{
-            network: campaignFormObject.network,
-            categories: campaignFormObject.categories,
-          }"
+          :filters="
+            new ProductFilters(campaignFormObject.categories, [
+              campaignFormObject.network,
+            ])
+          "
         />
       </el-form-item>
     </el-form-item>
 
     <el-form-item
-      v-if="campaignFormObject.product"
+      v-if="campaignFormObject.product && campaignFormObject.network"
       v-bind="ValidationHelper.getFormItemErrorAttributes(validate['activity'])"
       label="Select activity"
     >
       <activity-picker
         v-model:activity="rewardedActivityFormObject.activity"
         v-model:action="rewardedActivityFormObject.action"
-        :filters="{ product: campaignFormObject.product }"
+        :product="campaignFormObject.product"
+        :network="campaignFormObject.network"
       />
     </el-form-item>
 
@@ -66,6 +74,7 @@ import ValidationHelper from "@/common/validation/ValidationHelper.js";
 import ActivityPicker from "@/components/ActivityPicker.vue";
 import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
 import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
+import ProductFilters from "@/common/Http/ProductFilters.js";
 
 export default {
   components: {
@@ -102,6 +111,7 @@ export default {
     };
   },
   computed: {
+    ProductFilters: () => ProductFilters,
     ValidationHelper: () => ValidationHelper,
     validate() {
       if (this.validation) {

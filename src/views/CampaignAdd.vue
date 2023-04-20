@@ -116,6 +116,8 @@ export default {
     },
   },
   created() {
+    this.$store.dispatch("Network/preloadNetworks");
+
     this.campaignFormObject.setValuesFromCampaign(this.campaign);
 
     this.campaignValidation = CampaignValidationBuilder.createValidation(

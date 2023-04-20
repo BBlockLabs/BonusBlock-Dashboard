@@ -4,15 +4,32 @@ export default class Product extends Model {
   /**
    * @type {string}
    */
-  name;
-
+  id = "";
   /**
    * @type {string}
    */
-  network;
-
+  name = "";
   /**
-   * @type {Array<String>}
+   * @type {Array<string>}
    */
   categories = [];
+  /**
+   * @type {Array<string>}
+   */
+  networks = [];
+
+  /**
+   * @param {ProductDto} dto
+   * @return {Product}
+   */
+  static fromDto(dto) {
+    const product = new Product();
+
+    product.id = dto.id;
+    product.name = dto.name;
+    product.categories = dto.categories.map((category) => category.id);
+    product.networks = dto.networks.map((network) => network.id);
+
+    return product;
+  }
 }

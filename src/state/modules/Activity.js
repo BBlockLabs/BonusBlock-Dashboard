@@ -1,19 +1,17 @@
 import ActionResponse from "@/common/ActionResponse";
-import activityMock from "@/state/mock/activity.json";
-import moment from "moment";
 import Activity from "@/state/models/Activity.js";
-
-const sleep = async (milliseconds) => {
-  return new Promise((r) => {
-    window.setTimeout(r, milliseconds);
-  });
-};
+import { HttpRequest } from "@/common/HttpRequest.js";
+import Action from "@/state/models/Action.js";
 
 export class ActivityState {
   /**
    * @type {Map<String, Activity>}
    */
   activities = new Map();
+  /**
+   * @type {Map<String, Action>}
+   */
+  actions = new Map();
 }
 
 export default {
@@ -21,8 +19,19 @@ export default {
   state: new ActivityState(),
   getters: {
     /**
-     * @param state
-     * @returns {function(string): Announcement | null}
+     * @param {ActivityState} state
+     * @returns {function(string): Action | null}
+     */
+    getAction: (state) => (actionId) => {
+      if (!state.actions.has(actionId)) {
+        return null;
+      }
+
+      return state.actions.get(actionId);
+    },
+    /**
+     * @param {ActivityState} state
+     * @returns {function(string): Activity | null}
      */
     getActivity: (state) => (activityId) => {
       if (!state.activities.has(activityId)) {
@@ -33,22 +42,32 @@ export default {
     },
     /**
      * @param {ActivityState} state
-     * @returns {function({query?: string | undefined}): Activity[]}
+     * @returns {function(network: string, product: string, queryString: string): Array<Activity>}
      */
     queryActivities:
       (state) =>
-      (filters = {}) => {
+      (networkId, productId, queryString = "") => {
         const activities = [];
 
         state.activities.forEach((activity) => {
-          if (!filters.query) {
-            activities.push(activity);
+          if (activity.network !== networkId) {
             return;
           }
 
-          if (activity.name.toLowerCase().includes(filters.query)) {
-            activities.push(activity);
+          if (activity.product !== productId) {
+            return;
           }
+
+          if (
+            queryString &&
+            activity.hash !== queryString &&
+            activity.hash !== `0x${queryString}` &&
+            !activity.name.toLowerCase().includes(queryString.toLowerCase())
+          ) {
+            return;
+          }
+
+          activities.push(activity);
         });
 
         return activities;
@@ -62,54 +81,59 @@ export default {
     setActivity(state, activity) {
       state.activities.set(activity.id, activity);
     },
+    /**
+     * @param {ActivityState} state
+     * @param {Action} action
+     */
+    setAction(state, action) {
+      state.actions.set(action.id, action);
+    },
   },
   actions: {
     /**
      * @param commit
      * @param getters
-     * @param {{query?: string}} filters
+     * @param {{filterString?: string, product: string, network: string}} filters
      * @returns {Promise<ActionResponse>}
      */
     async queryActivities({ commit, getters }, filters) {
-      const currentActivityList = getters.queryActivities(filters.query);
+      const response = await HttpRequest.makeRequest(
+        `product/${filters.product}`,
+        filters
+      );
 
-      if (currentActivityList.length >= 10) {
-        return new ActionResponse(true, currentActivityList);
+      if (!response.success) {
+        return new ActionResponse(false, null, response.errors);
       }
 
-      await sleep(500);
+      /**
+       * @type {Array<ActivityDto>}
+       */
+      const payload = response.payload;
 
-      if (filters.query === "fail") {
-        return new ActionResponse(false, null, ["REQUEST_FAILED"]);
-      }
+      payload.forEach((activityDto) => {
+        const activity = Activity.fromDto(activityDto);
 
-      const apiActivities = activityMock
-        .filter(
-          (mockActivity) =>
-            !filters.query ||
-            mockActivity.name
-              .toLowerCase()
-              .includes(filters.query.toLowerCase())
-        )
-        .map((mockActivity) => {
-          const activity = new Activity();
+        activity.network = filters.network;
+        activity.product = filters.product;
 
-          activity.id = mockActivity.id;
-          activity.name = mockActivity.name;
-          activity.hash = mockActivity.hash;
-          activity.actions = mockActivity.actions;
-          activity.version = mockActivity.version;
-          activity.createdOn = moment(mockActivity.createdOn);
-          activity.modifiedOn = moment(mockActivity.modifiedOn);
+        activityDto.actions.forEach((actionDto) => {
+          const action = Action.fromDto(actionDto);
 
-          return activity;
+          commit("setAction", action);
         });
 
-      apiActivities.forEach((activity) => {
         commit("setActivity", activity);
       });
 
-      return new ActionResponse(true, apiActivities);
+      return new ActionResponse(
+        true,
+        getters["queryActivities"](
+          filters.network,
+          filters.product,
+          filters.filterString
+        )
+      );
     },
   },
 };
