@@ -117,6 +117,7 @@ export default {
   },
   created() {
     this.$store.dispatch("Network/preloadNetworks");
+    this.$store.dispatch("Contract/preloadContracts");
 
     this.campaignFormObject.setValuesFromCampaign(this.campaign);
 

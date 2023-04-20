@@ -1,7 +1,6 @@
 <template>
   <el-input v-model="filterString" />
 
-  {{ $data }}
   <el-collapse
     v-model="activityValue"
     v-infinite-scroll="netxPage"

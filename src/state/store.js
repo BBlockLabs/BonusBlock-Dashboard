@@ -3,12 +3,12 @@ import Announcement from "@/state/modules/Announcement.js";
 import Auth from "@/state/modules/Auth";
 import Campaign from "@/state/modules/Campaign.js";
 import Category from "@/state/modules/Category.js";
+import Contract from "@/state/modules/Contract.js";
 import Network from "@/state/modules/Network.js";
 import Payment from "@/state/modules/Payment.js";
 import Product from "@/state/modules/Product.js";
 import Project from "@/state/modules/Project";
 import RewardedActivity from "@/state/modules/RewardedActivity.js";
-import Token from "@/state/modules/Token.js";
 import Vuex from "vuex";
 
 export default new Vuex.Store({
@@ -27,11 +27,11 @@ export default new Vuex.Store({
     Auth,
     Campaign,
     Category,
+    Contract,
     Network,
     Payment,
     Product,
     Project,
     RewardedActivity,
-    Token,
   },
 });
