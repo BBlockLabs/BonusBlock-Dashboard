@@ -185,9 +185,10 @@ export default {
   },
   created() {
     if (this.$store.getters["Project/getProject"]) {
-      this.$router.push("/dashboard");
+      this.$router.push("/");
+    } else {
+      this.$store.state.hideMenus = true;
     }
-    this.$store.state.hideMenus = true;
   },
   methods: {
     nextStep() {
@@ -217,7 +218,7 @@ export default {
       this.Toast("Project created successfully", "", "success");
 
       this.$store.state.hideMenus = false;
-      this.$router.push("/dashboard");
+      this.$router.push("/");
     },
   },
   validations() {

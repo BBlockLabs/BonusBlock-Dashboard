@@ -9,11 +9,11 @@
     <el-col :md="11" class="d-flex flex-column justify-content-between">
       <el-row justify="space-between">
         <el-col :span="12" class="align-left">
-          <h4 class="m-0">
+          <!--h4 class="m-0">
             Not a project?
             <br />
             <router-link to="/register"> Register as user</router-link>
-          </h4>
+          </h4-->
         </el-col>
         <el-col :span="12" class="align-right bblock-logo">
           <b-block-logo />
@@ -101,7 +101,7 @@ export default {
       }
 
       if (this.$store.getters["Project/getProject"]) {
-        this.$router.push("/dashboard");
+        this.$router.push("/");
       } else {
         this.$router.push("/create-project");
       }

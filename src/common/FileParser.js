@@ -28,6 +28,6 @@ export default class FileParser {
    * @return {string}
    */
   static fileObjectSrc(fileObject) {
-    return `data:image/${fileObject.type};base64,${fileObject.data}`;
+    return `data:${fileObject.type};base64,${fileObject.data}`;
   }
 }

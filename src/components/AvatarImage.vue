@@ -1,21 +1,20 @@
 <template>
-  <img :src="src" alt="" />
+  <img :src="src" alt="" style="height: 2.5em" />
 </template>
 
 <script>
 import FileParser from "@/common/FileParser.js";
-import { FileObject } from "@/common/FileObject.js";
 
 export default {
   props: {
     file: {
-      type: FileObject,
+      type: Object,
       default: null,
     },
   },
   computed: {
     src() {
-      if (this.file === null) {
+      if (!this.file || !this.file.data) {
         return null;
       }
 

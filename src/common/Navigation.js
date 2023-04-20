@@ -36,7 +36,7 @@ export class NavigationItem {
 }
 
 export default [
-  new NavigationItem("Dashboard", null, DashboardSpeed),
+  new NavigationItem("Home", null, DashboardSpeed),
   new NavigationItem("Templates", null, Notes),
   new NavigationItem("Provider", null, Server),
   new NavigationItem("Packages", "Provider"),

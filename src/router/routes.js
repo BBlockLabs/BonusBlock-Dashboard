@@ -1,5 +1,6 @@
 import Home from "@/views/HomePage.vue";
 import RouteMeta from "@/router/RouteMeta";
+
 const CreateProject = () => import("@/views/CreateProject.vue");
 const CampaignIndex = () => import("@/views/CampaignIndex.vue");
 const CampaignAdd = () => import("@/views/CampaignAdd.vue");
@@ -14,7 +15,15 @@ export default [
     component: Home,
     name: "Home",
     meta: new RouteMeta({
-      auth: RouteMeta.AUTH_ANY,
+      auth: RouteMeta.AUTH_ONLY_AUTHORIZED,
+    }),
+  },
+  {
+    path: "/",
+    component: Login,
+    name: "Login",
+    meta: new RouteMeta({
+      auth: RouteMeta.AUTH_ONLY_NON_AUTHORIZED,
     }),
   },
   {

@@ -38,9 +38,9 @@
       </el-col>
     </el-row>
 
-    <el-row justify="center">
+    <!--el-row justify="center">
       <router-link to="/register"> Forgot your password? </router-link>
-    </el-row>
+    </el-row-->
 
     <el-row justify="center" class="mt-4">
       <el-col :md="-1">

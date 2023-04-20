@@ -12,9 +12,15 @@ export class Project extends Model {
   image = "";
 
   /**
+   * @type {String}
+   */
+  imageType = "";
+
+  /**
    * @param {{
    *  title: String,
    *  image: String,
+   *  imageType: String,
    * }} options
    */
   constructor(options = {}) {

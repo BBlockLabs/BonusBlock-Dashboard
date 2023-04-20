@@ -35,10 +35,10 @@
           <git-compare class="icon-large my-auto" />
         </el-button>
 
-        <avatar class="ml-3 my-auto" :file="avatar" />
+        <avatar class="ml-3 my-auto" :file="projectImage" />
 
         <span class="ml-3 my-auto">
-          {{ $store.state.Auth.user.username }}
+          {{ $store.state.Project.currentProject.title }}
         </span>
       </div>
     </el-col>
@@ -50,7 +50,6 @@ import NavigationList from "@/common/Navigation";
 import MenuItem from "@/components/MenuItem.vue";
 import Avatar from "@/components/AvatarImage.vue";
 import { Bell as IconBell, GitCompare } from "iconoir-vue";
-import { FileObject } from "@/common/FileObject.js";
 
 export default {
   components: {
@@ -59,12 +58,14 @@ export default {
     GitCompare,
     Avatar,
   },
-  data() {
-    return {
-      avatar: new FileObject(),
-    };
-  },
+  data() {},
   computed: {
+    projectImage() {
+      return {
+        data: this.$store.state.Project.currentProject.image,
+        type: this.$store.state.Project.currentProject.imageType,
+      };
+    },
     currentRoute() {
       return (
         NavigationList.find((route) => route.name === this.$route.name) || null
