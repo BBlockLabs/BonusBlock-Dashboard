@@ -3,7 +3,11 @@
     v-bind="$attrs"
     remote
     filterable
-    :remote-method="(query) => {filterString = query}"
+    :remote-method="
+      (query) => {
+        filterString = query;
+      }
+    "
     clearable
     :options="options"
     placeholder="Please enter a keyword"

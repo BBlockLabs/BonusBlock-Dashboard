@@ -46,6 +46,12 @@ export default [
     meta: new RouteMeta(),
   },
   {
+    path: "/campaign/:id/edit",
+    component: CampaignAdd,
+    name: "Campaign edit",
+    meta: new RouteMeta(),
+  },
+  {
     path: "/create-project",
     component: CreateProject,
     name: "Create project",

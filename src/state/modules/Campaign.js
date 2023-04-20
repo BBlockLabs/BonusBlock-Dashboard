@@ -1,7 +1,9 @@
 import ActionResponse from "@/common/ActionResponse";
 import Campaign from "@/state/models/Campaign.js";
-import RewardedActivity from "@/state/models/RewardedActivity.js";
-import Model from "@/state/models/Model.js";
+import { HttpRequest } from "@/common/HttpRequest.js";
+import Contract from "@/state/models/Contract.js";
+import Network from "@/state/models/Network.js";
+import Product from "@/state/models/Product.js";
 
 const sleep = async (milliseconds) => {
   return new Promise((r) => {
@@ -21,7 +23,20 @@ export default {
   state: new CampaignState(),
   getters: {
     /**
-     * @param state
+     * @param {CampaignState} state
+     * @returns {Array<Campaign>}
+     */
+    getAllCampaigns(state) {
+      const campaigns = [];
+
+      state.campaigns.forEach((campaign) => {
+        campaigns.push(campaign);
+      });
+
+      return campaigns;
+    },
+    /**
+     * @param {CampaignState} state
      * @returns {function(string): Campaign | null}
      */
     getCampaign: (state) => (campaignId) => {
@@ -57,7 +72,7 @@ export default {
      * @param getters
      * @param commit
      * @param {string} campaignId
-     * @param {"draft"|"confirmed"|"payed"|"running"|"ended"|"cancelled"|"deleted"} status
+     * @param {"DRAFT"|"confirmed"|"payed"|"running"|"ended"|"cancelled"|"deleted"} status
      * @returns {Promise<ActionResponse>}
      */
     async changeStatus({ getters, commit }, { campaignId, status }) {
@@ -81,6 +96,44 @@ export default {
 
       return new ActionResponse(true, campaignDto.id);
     },
+    async loadCampaigns({ commit }) {
+      const response = await HttpRequest.makeRequest("campaign/list");
+
+      if (!response.success) {
+        return new ActionResponse(false, null, response.errors);
+      }
+
+      /**
+       * @type {Array<CampaignDto>}
+       */
+      const payload = response.payload;
+
+      payload.forEach((campaignDto) => {
+        if (campaignDto.rewardPool) {
+          commit(
+            "Contract/setContract",
+            Contract.fromDto(campaignDto.rewardPool),
+            { root: true }
+          );
+        }
+
+        if (campaignDto.network) {
+          commit("Network/setNetwork", Network.fromDto(campaignDto.network), {
+            root: true,
+          });
+        }
+
+        if (campaignDto.product) {
+          commit("Product/setProduct", Product.fromDto(campaignDto.product), {
+            root: true,
+          });
+        }
+
+        commit("setCampaign", Campaign.fromDto(campaignDto));
+      });
+
+      return new ActionResponse(false, null, response.errors);
+    },
     /**
      * @param getters
      * @param rootGetters
@@ -89,66 +142,50 @@ export default {
      * @returns {Promise<ActionResponse>}
      */
     async storeCampaign({ getters, rootGetters, commit }, campaignId) {
-      const campaignDto = getters["getCampaign"](campaignId)?.toDto() || null;
+      const campaign = getters["getCampaign"](campaignId);
 
-      if (campaignDto === null) {
+      if (campaign === null) {
         return new ActionResponse(false, null, ["CAMPAIGN_NOT_FOUND"]);
       }
 
-      const rewardedActivities =
-        rootGetters["RewardedActivity/getByCampaign"](campaignId);
+      const campaignDto = campaign.toDto() || null;
 
-      campaignDto.rewardedActivities = rewardedActivities.map(
-        (rewardedActivity) => rewardedActivity.toDto()
-      );
+      campaignDto.actions = rootGetters["RewardedActivity/getByCampaign"](
+        campaignId
+      ).map((rewardedActivity) => rewardedActivity.toDto());
+      // campaignDto.rewardPool = rootGetters["Contract/getContract"](campaign.rewardPoolContract)?.toDto() || null;
+      campaignDto.network = rootGetters["Network/getNetwork"](campaign.network);
+      campaignDto.product = rootGetters["Product/getProduct"](campaign.product);
 
-      // simulate request
-      await sleep(500);
+      const endpoint =
+        campaign.getId() !== null
+          ? `campaign/${campaign.id}/update`
+          : "campaign/create";
 
-      console.log(JSON.stringify(campaignDto));
+      const response = await HttpRequest.makeRequest(endpoint, campaignDto);
 
-      if (!campaignDto.id) {
-        campaignDto.id = crypto.randomUUID();
-        campaignDto.status = "draft";
+      if (!response.success) {
+        return new ActionResponse(false, null, response.errors);
       }
 
-      campaignDto.rewardedActivities.forEach((rewardedActivityDto) => {
-        if (rewardedActivityDto.id === null) {
-          rewardedActivityDto.id = crypto.randomUUID();
-        }
-      });
+      if (response.payload !== campaignId) {
+        campaign.id = response.payload;
 
-      if (campaignDto.name === "fail") {
-        return new ActionResponse(false, null, ["REQUEST_FAILED"]);
-      }
-
-      //////////////////////
-
-      if (campaignDto.id !== campaignId) {
         commit("removeCampaign", campaignId);
-        commit("Announcement/updateCampaignId", [campaignId, campaignDto.id], {
-          root: true,
-        });
+        commit("setCampaign", campaign);
+
+        rootGetters["RewardedActivity/getByCampaign"](campaignId).forEach(
+          (rewardedActivity) => {
+            rewardedActivity.campaign = campaign.id;
+
+            commit("RewardedActivity/setRewardedActivity", rewardedActivity, {
+              root: true,
+            });
+          }
+        );
       }
 
-      rewardedActivities.forEach(({ id }) => {
-        if (id.includes(Model.TEMPORARY_PREFIX)) {
-          commit("RewardedActivity/removeRewardedActivity", id, { root: true });
-        }
-      });
-
-      commit("setCampaign", Campaign.fromDto(campaignDto));
-
-      campaignDto.rewardedActivities
-        .map(RewardedActivity.fromDto)
-        .forEach((rewardedActivity) => {
-          rewardedActivity.campaign = campaignDto.id;
-          commit("RewardedActivity/setRewardedActivity", rewardedActivity, {
-            root: true,
-          });
-        });
-
-      return new ActionResponse(true, campaignDto.id);
+      return new ActionResponse(true, campaign.id);
     },
   },
 };

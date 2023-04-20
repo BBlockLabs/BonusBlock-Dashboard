@@ -1,5 +1,5 @@
 <template>
-  <el-form @submit="() => $emit('submit', ...arguments)">
+  <el-form label-position="top" @submit="() => $emit('submit', ...arguments)">
     <el-form-item
       v-bind="ValidationHelper.getFormItemErrorAttributes(validate['name'])"
       label="Campaign Name"

@@ -1,12 +1,6 @@
 import ActionResponse from "@/common/ActionResponse";
 import Contract from "@/state/models/Contract.js";
-import {HttpRequest} from "@/common/HttpRequest.js";
-
-const sleep = async (milliseconds) => {
-  return new Promise((r) => {
-    window.setTimeout(r, milliseconds);
-  });
-};
+import { HttpRequest } from "@/common/HttpRequest.js";
 
 export class ContractState {
   /**
@@ -19,6 +13,17 @@ export default {
   namespaced: true,
   state: new ContractState(),
   getters: {
+    /**
+     * @param state
+     * @returns {function(string): Contract | null}
+     */
+    getContract: (state) => (contractId) => {
+      if (!state.contracts.has(contractId)) {
+        return null;
+      }
+
+      return state.contracts.get(contractId);
+    },
     /**
      * @param {ContractState} state
      * @returns {function(filterString: string): Array<Contract>}
@@ -52,11 +57,8 @@ export default {
       const response = await HttpRequest.makeRequest("get/reward-pools");
 
       if (!response.success) {
-        console.log(response);
         return new ActionResponse(false, null, response.errors);
       }
-
-      console.log(response.payload);
 
       /**
        * @type {Array<ContractDto>}

@@ -16,6 +16,26 @@ export default class RewardedActivity extends Model {
   /**
    * @type {number}
    */
+  minumumTransactionLimit = 0;
+
+  /**
+   * @type {number}
+   */
+  additionalRewardTransactionLimit = 0;
+
+  /**
+   * @type {number}
+   */
+  minimumTransactionCount = 0;
+
+  /**
+   * @type {number}
+   */
+  additionalRewardTransactionCount = 0;
+
+  /**
+   * @type {number}
+   */
   minimumTransactionLimit = 0;
 
   /**

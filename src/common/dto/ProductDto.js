@@ -8,11 +8,11 @@ export class ProductDto {
    */
   name = "";
   /**
-   * @type {Array<CategoryDto>}
+   * @type {Array<CategoryDto> | undefined}
    */
-  categories = [];
+  categories;
   /**
-   * @type {Array<NetworkDto>}
+   * @type {Array<NetworkDto> | undefined}
    */
-  networks = [];
+  networks;
 }

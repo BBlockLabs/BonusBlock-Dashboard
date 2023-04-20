@@ -96,7 +96,7 @@ export default {
   data() {
     return {
       lastActiveStep: 1,
-      step: 3,
+      step: 1,
       campaign: new Campaign(),
       announcement: new Announcement(),
       announcementId: new Announcement(),
@@ -116,6 +116,7 @@ export default {
     },
   },
   created() {
+    this.loadCampaign();
     this.$store.dispatch("Network/preloadNetworks");
     this.$store.dispatch("Contract/preloadContracts");
 
@@ -136,6 +137,15 @@ export default {
       );
   },
   methods: {
+    async loadCampaign() {
+      if (this.$store.getters["Campaign/getCampaign"](this.$route.params.id)) {
+        this.campaign = this.$store.getters["Campaign/getCampaign"](
+          this.$route.params.id
+        );
+
+        return;
+      }
+    },
     async addRewardedActivity() {
       if (!(await this.rewardedActivityValidation.$validate())) {
         this.Toast("Form contains errors", null, "error");

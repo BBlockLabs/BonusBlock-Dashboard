@@ -1,68 +1,76 @@
 export default class CampaignDto {
   /**
-   * @type {string}
+   * @type {string | undefined}
    */
-  id = "";
+  id;
+  /**
+   * @type {string | undefined}
+   */
+  campaignId;
+  /**
+   * @type {"DRAFT"|"confirmed"|"payed"|"running"|"ended"|"cancelled"|"deleted" | undefined}
+   */
+  status;
   /**
    * @type {string}
    */
-  version = "";
+  title = "";
   /**
    * @type {string}
    */
-  createdOn = "";
+  periodFrom = "";
   /**
    * @type {string}
    */
-  modifiedOn = "";
+  periodTill = "";
+  /**
+   * @type {number}
+   */
+  rateDaily = 0;
+  /**
+   * @type {number}
+   */
+  rateWeekly = 0;
+  /**
+   * @type {number}
+   */
+  rateMonthly = 0;
+  /**
+   * @type {number}
+   */
+  maxUserReward = 0;
+  /**
+   * @type {number}
+   */
+  minUserReward = 0;
   /**
    * @type {string}
    */
-  name = "";
+  rewardPoolAmount = "0";
   /**
-   * @type {string}
+   * @type {number}
    */
-  timeFrameFrom = "";
+  expectedROI = 0;
   /**
-   * @type {string}
+   * @type {Boolean}
    */
-  timeFrameTill = "";
+  weeklyEqDistribution = false;
   /**
-   * @type {string}
-   */
-  rewardPoolContract = "";
-  /**
-   * @type {string}
-   */
-  rewardPoolTokenCount = "0";
-  /**
-   * @type {string}
-   */
-  frequencyRatioDaily = "0";
-  /**
-   * @type {string}
-   */
-  frequencyRatioWeekly = "0";
-  /**
-   * @type {string}
-   */
-  frequencyRatioMonthly = "0";
-  /**
-   * @type {string}
-   */
-  expectedReturnOfInvestment = "0";
-  /**
-   * @type {boolean}
-   */
-  weeklyEqualDistribution = false;
-  /**
-   * @type {boolean}
+   * @type {Boolean}
    */
   qualityAudience = false;
   /**
-   * @type {"draft"|"confirmed"|"payed"|"running"|"ended"|"cancelled"|"deleted"}
+   * @type {NetworkDto | null}
    */
-  status = "draft";
+  network = null;
+  /**
+   * @type {ProductDto | null}
+   */
+  product = null;
+  /**
+   * @type {ContractDto | null}
+   */
+  rewardPool = null;
   /**
    * @type {Array<String>}
    */
@@ -70,13 +78,5 @@ export default class CampaignDto {
   /**
    * @type {Array<RewardedActivityDto>}
    */
-  rewardedActivities = [];
-  /**
-   * @type {string | null}
-   */
-  network = null;
-  /**
-   * @type {string | null}
-   */
-  product = null;
+  actions = [];
 }

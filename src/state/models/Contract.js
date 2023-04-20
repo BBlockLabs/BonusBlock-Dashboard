@@ -1,4 +1,5 @@
 import Model from "@/state/models/Model";
+import ContractDto from "@/common/dto/ContractDto.js";
 
 export default class Contract extends Model {
   /**
@@ -35,5 +36,20 @@ export default class Contract extends Model {
     contract.denom = dto.denom;
 
     return contract;
+  }
+
+  /**
+   * @return {ContractDto}
+   */
+  toDto() {
+    const dto = new ContractDto();
+
+    dto.id = this.id;
+    dto.networkName = this.network;
+    dto.smartContractAddress = this.address;
+    dto.decimal = this.decimalSpaces;
+    dto.denom = this.denom;
+
+    return dto;
   }
 }

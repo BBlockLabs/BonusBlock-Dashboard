@@ -58,9 +58,9 @@ export default class Campaign extends Model {
   qualityAudience = false;
 
   /**
-   * @type {"draft"|"confirmed"|"payed"|"running"|"ended"|"cancelled"|"deleted"}
+   * @type {"DRAFT"|"confirmed"|"payed"|"running"|"ended"|"cancelled"|"deleted"}
    */
-  status = "draft";
+  status = "DRAFT";
 
   /**
    * @type {Array<String>}
@@ -99,32 +99,29 @@ export default class Campaign extends Model {
   static fromDto(campaignDto) {
     const campaign = new Campaign();
 
-    campaign.id = campaignDto.id;
+    if (campaignDto.id !== undefined) {
+      campaign.id = campaignDto.id;
+    }
 
-    campaign.version = parseInt(campaignDto.version);
-    campaign.createdOn = moment(campaignDto.createdOn);
-    campaign.modifiedOn = moment(campaignDto.modifiedOn);
-    campaign.name = campaignDto.name;
-    campaign.timeFrameFrom = moment(campaignDto.timeFrameFrom).toDate();
-    campaign.timeFrameTill = moment(campaignDto.timeFrameTill).toDate();
-    campaign.rewardPoolContract = campaignDto.rewardPoolContract;
-    campaign.rewardPoolTokenCount = BigInt(campaignDto.rewardPoolTokenCount);
-    campaign.frequencyRatioDaily = parseFloat(campaignDto.frequencyRatioDaily);
-    campaign.frequencyRatioWeekly = parseFloat(
-      campaignDto.frequencyRatioWeekly
-    );
-    campaign.frequencyRatioMonthly = parseFloat(
-      campaignDto.frequencyRatioMonthly
-    );
-    campaign.expectedReturnOfInvestment = parseInt(
-      campaignDto.expectedReturnOfInvestment
-    );
-    campaign.weeklyEqualDistribution = campaignDto.weeklyEqualDistribution;
-    campaign.qualityAudience = campaignDto.qualityAudience;
+    if (campaignDto.status !== undefined) {
+      campaign.status = campaignDto.status;
+    }
+
+    campaign.name = campaignDto.title;
+    campaign.timeFrameFrom = moment(campaignDto.periodFrom).toDate();
+    campaign.timeFrameTill = moment(campaignDto.periodTill).toDate();
+    campaign.frequencyRatioDaily = campaignDto.rateDaily / 100;
+    campaign.frequencyRatioWeekly = campaignDto.rateWeekly / 100;
+    campaign.frequencyRatioMonthly = campaignDto.rateMonthly / 100;
     campaign.status = campaignDto.status;
     campaign.categories = campaignDto.categories;
-    campaign.network = campaignDto.network;
-    campaign.product = campaignDto.product;
+    campaign.rewardPoolContract = campaignDto.rewardPool?.id || null;
+    campaign.network = campaignDto.network?.id || null;
+    campaign.product = campaignDto.product?.id || null;
+    campaign.weeklyEqualDistribution = campaignDto.weeklyEqDistribution;
+    campaign.qualityAudience = campaignDto.qualityAudience;
+    campaign.rewardPoolTokenCount = BigInt(campaignDto.rewardPoolAmount || 0);
+    campaign.expectedReturnOfInvestment = campaignDto.expectedROI;
 
     return campaign;
   }
@@ -135,25 +132,19 @@ export default class Campaign extends Model {
   toDto() {
     const dto = new CampaignDto();
 
-    dto.id = this.getId();
-    dto.version = this.version.toString();
-    dto.createdOn = this.createdOn.toISOString();
-    dto.modifiedOn = this.modifiedOn.toISOString();
-    dto.name = this.name;
-    dto.timeFrameFrom = this.timeFrameFrom.toISOString();
-    dto.timeFrameTill = this.timeFrameTill.toISOString();
-    dto.rewardPoolContract = this.rewardPoolContract.toString();
-    dto.rewardPoolTokenCount = this.rewardPoolTokenCount.toString();
-    dto.frequencyRatioDaily = this.frequencyRatioDaily.toString();
-    dto.frequencyRatioWeekly = this.frequencyRatioWeekly.toString();
-    dto.frequencyRatioMonthly = this.frequencyRatioMonthly.toString();
-    dto.expectedReturnOfInvestment = this.expectedReturnOfInvestment.toString();
-    dto.weeklyEqualDistribution = this.weeklyEqualDistribution;
-    dto.qualityAudience = this.qualityAudience;
-    dto.status = this.status;
+    dto.campaignId = this.getId() || undefined;
+    dto.title = this.name;
+    dto.periodFrom = this.timeFrameFrom.toISOString();
+    dto.periodTill = this.timeFrameTill.toISOString();
+    dto.rateDaily = Math.round(this.frequencyRatioDaily * 100);
+    dto.rateWeekly = Math.round(this.frequencyRatioWeekly * 100);
+    dto.rateMonthly = Math.round(this.frequencyRatioMonthly * 100);
     dto.categories = this.categories;
-    dto.network = this.network;
-    dto.product = this.product;
+    dto.weeklyEqDistribution = this.weeklyEqualDistribution;
+    dto.qualityAudience = this.qualityAudience;
+    dto.rewardPoolAmount = this.rewardPoolTokenCount.toString();
+    dto.expectedROI = this.expectedReturnOfInvestment;
+    dto.rewardPool = this.rewardPoolContract;
 
     return dto;
   }
