@@ -19,14 +19,6 @@ export default [
     }),
   },
   {
-    path: "/",
-    component: Login,
-    name: "Login",
-    meta: new RouteMeta({
-      auth: RouteMeta.AUTH_ONLY_NON_AUTHORIZED,
-    }),
-  },
-  {
     path: "/login",
     component: Login,
     name: "Login",
