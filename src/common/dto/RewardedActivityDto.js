@@ -1,6 +1,6 @@
 export default class RewardedActivityDto {
   /**
-   * @type {string}
+   * @type {ActionDto | string}
    */
   productActivityAction = "";
   /**

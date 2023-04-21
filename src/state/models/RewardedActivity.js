@@ -1,5 +1,4 @@
 import Model from "@/state/models/Model";
-import moment from "moment";
 import RewardedActivityDto from "@/common/dto/RewardedActivityDto.js";
 
 export default class RewardedActivity extends Model {
@@ -16,7 +15,7 @@ export default class RewardedActivity extends Model {
   /**
    * @type {number}
    */
-  minumumTransactionLimit = 0;
+  minimumTransactionLimit = 0;
 
   /**
    * @type {number}
@@ -34,31 +33,23 @@ export default class RewardedActivity extends Model {
   additionalRewardTransactionCount = 0;
 
   /**
-   * @type {number}
-   */
-  minimumTransactionLimit = 0;
-
-  /**
    * @type {string}
    */
   campaign = null;
 
   /**
-   * @param {RewardedActivityDto} rewardedActivityDto
+   * @param {RewardedActivityDto} dto
    * @return {RewardedActivity}
    */
-  static fromDto(rewardedActivityDto) {
+  static fromDto(dto) {
     const rewardedActivity = new RewardedActivity();
 
-    rewardedActivity.id = rewardedActivityDto.id;
-    rewardedActivity.version = parseInt(rewardedActivityDto.version);
-    rewardedActivity.createdOn = moment(rewardedActivityDto.createdOn);
-    rewardedActivity.modifiedOn = moment(rewardedActivityDto.modifiedOn);
-    rewardedActivity.activity = rewardedActivityDto.activity;
-    rewardedActivity.action = rewardedActivityDto.action;
-    rewardedActivity.minimumTransactionLimit = parseInt(
-      rewardedActivityDto.minimumTransactionLimit
-    );
+    rewardedActivity.minimumTransactionLimit = dto.minTrxLimit;
+    rewardedActivity.additionalRewardTransactionLimit = dto.addTrxLimit;
+    rewardedActivity.minimumTransactionCount = dto.minTrxAmount;
+    rewardedActivity.additionalRewardTransactionCount = dto.addTrxAmount;
+    rewardedActivity.action =
+      dto.productActivityAction?.id || dto.productActivityAction;
 
     return rewardedActivity;
   }
@@ -69,13 +60,11 @@ export default class RewardedActivity extends Model {
   toDto() {
     const dto = new RewardedActivityDto();
 
-    dto.id = this.getId();
-    dto.version = this.version.toString();
-    dto.createdOn = this.createdOn.toISOString();
-    dto.modifiedOn = this.modifiedOn.toISOString();
-    dto.activity = this.activity;
-    dto.action = this.action;
-    dto.minimumTransactionLimit = this.minimumTransactionLimit.toString();
+    dto.minTrxLimit = this.minimumTransactionLimit;
+    dto.addTrxLimit = this.additionalRewardTransactionLimit;
+    dto.minTrxAmount = this.minimumTransactionCount;
+    dto.addTrxAmount = this.additionalRewardTransactionCount;
+    dto.productActivityAction = this.action;
 
     return dto;
   }

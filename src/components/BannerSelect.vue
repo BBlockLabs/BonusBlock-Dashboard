@@ -12,11 +12,7 @@
       }
     "
   >
-    <img
-      v-if="value"
-      :src="FileParser.fileObjectSrc(value)"
-      class="h-100 w-100"
-    />
+    <img v-if="value" :src="fileUrl" class="h-100 w-100" alt="Banner" />
 
     <div v-else class="el-upload__text h-100">
       Drop file here or <em>click to upload</em>
@@ -32,7 +28,6 @@
 </template>
 
 <script>
-import { FileObject } from "@/common/FileObject.js";
 import FileParser from "@/common/FileParser.js";
 import Toast from "@/mixins/Toast.js";
 
@@ -40,14 +35,15 @@ export default {
   mixins: [Toast],
   props: {
     modelValue: {
-      type: FileObject,
-      default: () => new FileObject(),
+      type: File,
+      default: null,
     },
   },
   emits: ["update:modelValue"],
   data() {
     return {
       value: this.modelValue,
+      fileUrl: null,
     };
   },
   computed: {
@@ -68,16 +64,25 @@ export default {
       deep: true,
       handler() {
         this.value = this.modelValue;
+        this.setFileUrl();
       },
     },
     value: {
       deep: true,
       handler() {
         this.$emit("update:modelValue", this.value);
+        this.setFileUrl();
       },
     },
   },
   methods: {
+    async setFileUrl() {
+      if (!this.value) {
+        this.fileUrl = null;
+      }
+
+      this.fileUrl = await FileParser.fileToBase64(this.value);
+    },
     getFileList() {
       if (this.value === null) {
         return [];
@@ -119,9 +124,7 @@ export default {
         return;
       }
 
-      const fileObject = await FileParser.fileToFileObject(file);
-
-      const image = await this.getImageFromFileObject(fileObject);
+      const image = await this.getImageFromFileObject(file);
 
       if (!this.validateMinImageSize(image)) {
         invalidHandler("The banner must be no less than 1200x675 pixels!");
@@ -135,7 +138,7 @@ export default {
         return;
       }
 
-      this.value = fileObject;
+      this.value = file;
     },
     invalidFileHandle(message) {
       this.Toast(message, "", "error", 5000);
@@ -167,10 +170,12 @@ export default {
       );
     },
     /**
-     * @param {FileObject} fileObject
+     * @param {File} file
      * @returns {Promise<Image>}
      */
-    async getImageFromFileObject(fileObject) {
+    async getImageFromFileObject(file) {
+      const base64 = await FileParser.fileToBase64(file);
+
       return new Promise((resolve) => {
         const image = new Image();
 
@@ -178,7 +183,7 @@ export default {
           resolve(image);
         };
 
-        image.src = FileParser.fileObjectSrc(fileObject);
+        image.src = base64;
       });
     },
   },

@@ -72,7 +72,7 @@ export default class CampaignDto {
    */
   rewardPool = null;
   /**
-   * @type {Array<String>}
+   * @type {Array<CategoryDto>}
    */
   categories = [];
   /**

@@ -114,7 +114,7 @@ export default class Campaign extends Model {
     campaign.frequencyRatioWeekly = campaignDto.rateWeekly / 100;
     campaign.frequencyRatioMonthly = campaignDto.rateMonthly / 100;
     campaign.status = campaignDto.status;
-    campaign.categories = campaignDto.categories;
+    campaign.categories = campaignDto.categories.map(({ id }) => id);
     campaign.rewardPoolContract = campaignDto.rewardPool?.id || null;
     campaign.network = campaignDto.network?.id || null;
     campaign.product = campaignDto.product?.id || null;
@@ -145,6 +145,8 @@ export default class Campaign extends Model {
     dto.rewardPoolAmount = this.rewardPoolTokenCount.toString();
     dto.expectedROI = this.expectedReturnOfInvestment;
     dto.rewardPool = this.rewardPoolContract;
+    dto.network = this.network;
+    dto.product = this.product;
 
     return dto;
   }

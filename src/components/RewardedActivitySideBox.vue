@@ -14,6 +14,10 @@
       >
         remove
       </el-button>
+
+      <debug-wrapper>
+        {{ rewardedActivity }}
+      </debug-wrapper>
     </el-col>
   </el-row>
 </template>
@@ -21,8 +25,10 @@
 <script>
 import Action from "@/state/models/Action.js";
 import Activity from "@/state/models/Activity.js";
+import DebugWrapper from "@/components/DebugWrapper.vue";
 
 export default {
+  components: { DebugWrapper },
   props: {
     rewardedActivityId: {
       type: String,
@@ -39,9 +45,9 @@ export default {
     },
     action() {
       return (
-        this.activity.actions.find((action) => {
-          return action.id === this.rewardedActivity.action;
-        }) || new Action()
+        this.$store.getters["Activity/getAction"](
+          this.rewardedActivity.action
+        ) || new Action()
       );
     },
     rewardedActivity() {

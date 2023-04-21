@@ -30,4 +30,40 @@ export default class FileParser {
   static fileObjectSrc(fileObject) {
     return `data:image/${fileObject.type};base64,${fileObject.data}`;
   }
+
+  /**
+   * @param {File} file
+   * @return Promise<string>
+   */
+  static fileToBase64(file) {
+    return new Promise((resolve, error) => {
+      const reader = new FileReader();
+
+      reader.onload = function () {
+        resolve(reader.result);
+      };
+
+      reader.onerror = error;
+
+      reader.readAsDataURL(file);
+    });
+  }
+
+  /**
+   * @param {String} base64
+   * @return {Promise<File>}
+   */
+  static async base64ToFile(base64) {
+    const response = await fetch(base64);
+
+    const arrayBuffer = await response.arrayBuffer();
+
+    if (!response.headers.has("content-type")) {
+      return new File([arrayBuffer], `file${Date.now()}`);
+    }
+
+    return new File([arrayBuffer], `file${Date.now()}`, {
+      type: response.headers.get("content-type"),
+    });
+  }
 }

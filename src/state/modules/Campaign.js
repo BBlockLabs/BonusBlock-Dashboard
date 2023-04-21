@@ -4,6 +4,9 @@ import { HttpRequest } from "@/common/HttpRequest.js";
 import Contract from "@/state/models/Contract.js";
 import Network from "@/state/models/Network.js";
 import Product from "@/state/models/Product.js";
+import Category from "@/state/models/Category.js";
+import RewardedActivity from "@/state/models/RewardedActivity.js";
+import Action from "@/state/models/Action.js";
 
 const sleep = async (milliseconds) => {
   return new Promise((r) => {
@@ -129,6 +132,29 @@ export default {
           });
         }
 
+        campaignDto.categories.forEach((categoryDto) => {
+          commit("Category/setCategory", Category.fromDto(categoryDto), {
+            root: true,
+          });
+        });
+
+        campaignDto.actions.forEach((rewardedActivityDto) => {
+          const rewardedActivity =
+            RewardedActivity.fromDto(rewardedActivityDto);
+
+          rewardedActivity.campaign = campaignDto.id;
+
+          commit(
+            "Activity/setAction",
+            Action.fromDto(rewardedActivityDto.productActivityAction),
+            { root: true }
+          );
+
+          commit("RewardedActivity/setRewardedActivity", rewardedActivity, {
+            root: true,
+          });
+        });
+
         commit("setCampaign", Campaign.fromDto(campaignDto));
       });
 
@@ -153,9 +179,6 @@ export default {
       campaignDto.actions = rootGetters["RewardedActivity/getByCampaign"](
         campaignId
       ).map((rewardedActivity) => rewardedActivity.toDto());
-      // campaignDto.rewardPool = rootGetters["Contract/getContract"](campaign.rewardPoolContract)?.toDto() || null;
-      campaignDto.network = rootGetters["Network/getNetwork"](campaign.network);
-      campaignDto.product = rootGetters["Product/getProduct"](campaign.product);
 
       const endpoint =
         campaign.getId() !== null
