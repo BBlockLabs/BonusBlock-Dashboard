@@ -1,21 +1,21 @@
-fullnameOverride: "altermail-ui3-staging"
+fullnameOverride: "bonusblock-project-dashboard-staging"
 replicaCount: 1
 logFormat: nginx_ssl_reqid_upstream_time
 
 ingress:
   enabled: true
   hosts:
-    - host: ui3.staging.alter.network
+    - host: dashboard.staging.alter.network
       paths:
         - path: /
 # Uncomment 3 lines before for maintenance mode
 #          backend:
 #            service:
-#              name: altermail-ui3-maintenance
+#              name: bonusblock-project-dashboard-maintenance
   tls:
     - hosts:
-        - ui3.staging.alter.network
-      secretName: altermail-ui3-staging-ssl
+        - dashboard.staging.alter.network
+      secretName: bonusblock-project-dashboard-staging-ssl
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt"
     traefik.ingress.kubernetes.io/router.tls: "true"

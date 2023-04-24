@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "altermail-ui3.fullname" . }}
+  name: {{ include "bonusblock-project-dashboard.fullname" . }}
   labels:
-    {{- include "altermail-ui3.labels" . | nindent 4 }}
+    {{- include "bonusblock-project-dashboard.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "altermail-ui3.fullname" . }}
+    name: {{ include "bonusblock-project-dashboard.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
