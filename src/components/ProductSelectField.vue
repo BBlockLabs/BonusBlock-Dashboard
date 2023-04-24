@@ -3,7 +3,7 @@
     v-bind="$attrs"
     remote
     filterable
-    :remote-method="queryProducts"
+    :remote-method="(query) => (searchString = query)"
     clearable
     :options="options"
     :loading="loading"
@@ -12,42 +12,50 @@
 </template>
 
 <script>
+import Toast from "@/mixins/Toast.js";
+import ProductFilters from "@/common/Http/ProductFilters.js";
+
 export default {
+  mixins: [Toast],
   props: {
     filters: {
-      type: Object,
-      default: () => ({}),
+      type: ProductFilters,
+      default: () => new ProductFilters(),
     },
   },
   data() {
     return {
       loading: false,
-      options: [],
+      filteredOptions: [],
+      searchString: "",
     };
+  },
+  computed: {
+    options() {
+      return this.filteredOptions.filter((option) =>
+        option.label.toLowerCase().includes(this.searchString.toLowerCase())
+      );
+    },
   },
   watch: {
     filters: {
       deep: true,
       handler() {
-        this.queryProducts("");
+        this.loadFilteredProducts();
       },
     },
   },
   created() {
-    this.queryProducts("");
+    this.loadFilteredProducts();
   },
   methods: {
-    async queryProducts(query) {
-      if (this.loading) {
-        return;
-      }
-
+    async loadFilteredProducts() {
       this.loading = true;
 
-      const response = await this.$store.dispatch("Product/queryProducts", {
-        ...this.filters,
-        query,
-      });
+      const response = await this.$store.dispatch(
+        "Product/queryProducts",
+        this.filters
+      );
 
       if (!response.success) {
         this.Toast("Failed to load products", "", "error");
@@ -55,7 +63,7 @@ export default {
         return;
       }
 
-      this.options = response.data.map((product) => ({
+      this.filteredOptions = response.data.map((product) => ({
         value: product.id,
         label: product.name,
       }));

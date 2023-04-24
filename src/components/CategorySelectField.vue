@@ -30,17 +30,11 @@ export default {
 
       this.loading = true;
 
-      const response = await this.$store.dispatch("Category/queryCategories", {
+      const categories = await this.$store.getters["Category/queryCategories"]({
         query,
       });
 
-      if (!response.success) {
-        this.Toast("Failed to load categories", "", "error");
-
-        return;
-      }
-
-      this.options = response.data.map((category) => ({
+      this.options = categories.map((category) => ({
         value: category.id,
         label: category.name,
       }));

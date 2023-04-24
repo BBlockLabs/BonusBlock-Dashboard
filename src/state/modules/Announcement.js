@@ -1,11 +1,6 @@
 import ActionResponse from "@/common/ActionResponse";
+import { HttpRequest } from "@/common/HttpRequest.js";
 import Announcement from "@/state/models/Announcement.js";
-
-const sleep = async (milliseconds) => {
-  return new Promise((r) => {
-    window.setTimeout(r, milliseconds);
-  });
-};
 
 export class AnnouncementState {
   /**
@@ -78,6 +73,30 @@ export default {
     },
   },
   actions: {
+    async loadCampaignAnnouncements({ commit }, campaignId) {
+      const response = await HttpRequest.makeRequest(
+        `announcement/${campaignId}/list`
+      );
+
+      if (!response.success) {
+        return new ActionResponse(false, null, response.errors);
+      }
+
+      /**
+       * @type {Array<AnnouncementDto>}
+       */
+      const payload = response.payload;
+
+      for (const announcementDto of payload) {
+        const announcement = await Announcement.fromDto(announcementDto);
+
+        announcement.campaign = campaignId;
+
+        commit("setAnnouncement", announcement);
+      }
+
+      return new ActionResponse(true, null);
+    },
     /**
      * @param getters
      * @param commit
@@ -85,37 +104,39 @@ export default {
      * @returns {Promise<ActionResponse>}
      */
     async storeAnnouncement({ getters, commit }, announcementId) {
-      const announcementDto =
-        getters["getAnnouncement"](announcementId)?.toDto() || null;
+      const announcement = getters["getAnnouncement"](announcementId);
 
-      if (announcementDto === null) {
+      if (announcement === null) {
         return new ActionResponse(false, null, ["ANNOUNCEMENT_NOT_FOUND"]);
       }
 
-      // simulate request
-      await sleep(500);
+      const endpoint =
+        announcement.getId() !== null
+          ? `announcement/${announcement.campaign}/${announcement.id}/update`
+          : `announcement/${announcement.campaign}/create`;
 
-      console.log(JSON.stringify(announcementDto));
+      const response = await HttpRequest.makeRequest(
+        endpoint,
+        await announcement.toDto()
+      );
 
-      if (!announcementDto.id) {
-        announcementDto.id = crypto.randomUUID();
+      if (!response.success) {
+        return new ActionResponse(false, null, response.errors);
       }
 
-      if (announcementDto.title === "fail") {
-        return new ActionResponse(false, null, ["REQUEST_FAILED"]);
-      }
+      /**
+       * @type {string}
+       */
+      const newId = response.payload;
 
-      console.log(announcementDto.id, announcementId);
+      if (newId !== announcementId) {
+        announcement.id = newId;
 
-      //////////////////////
-
-      if (announcementDto.id !== announcementId) {
         commit("removeAnnouncement", announcementId);
+        commit("setAnnouncement", announcement);
       }
 
-      commit("setAnnouncement", Announcement.fromDto(announcementDto));
-
-      return new ActionResponse(true, announcementDto.id);
+      return new ActionResponse(true, newId);
     },
   },
 };

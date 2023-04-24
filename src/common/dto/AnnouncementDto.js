@@ -1,24 +1,16 @@
 export default class AnnouncementDto {
   /**
-   * @type {string}
+   * @type {string | undefined}
    */
-  id = "";
+  id;
   /**
-   * @type {string}
+   * @type {String}
    */
-  version = "";
+  image;
   /**
-   * @type {string}
+   * @type {String}
    */
-  createdOn = "";
-  /**
-   * @type {string}
-   */
-  modifiedOn = "";
-  /**
-   * @type {FileObject}
-   */
-  banner;
+  imageType;
   /**
    * @type {string}
    */
@@ -28,11 +20,11 @@ export default class AnnouncementDto {
    */
   description;
   /**
-   * @type {Array<Social>}
+   * @type {String}
    */
-  socials = [];
+  socials = "";
   /**
-   * @type {string}
+   * @type {String | undefined}
    */
   campaign;
 }

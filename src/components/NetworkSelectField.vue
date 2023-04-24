@@ -30,17 +30,11 @@ export default {
 
       this.loading = true;
 
-      const response = await this.$store.dispatch("Network/queryNetworks", {
+      const networks = await this.$store.getters["Network/queryNetworks"]({
         query,
       });
 
-      if (!response.success) {
-        this.Toast("Failed to load networks", "", "error");
-
-        return;
-      }
-
-      this.options = response.data.map((network) => ({
+      this.options = networks.map((network) => ({
         value: network.id,
         label: network.name,
       }));

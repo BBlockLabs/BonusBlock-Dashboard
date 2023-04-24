@@ -1,5 +1,6 @@
 import moment from "moment/moment.js";
 import UserSessionDto from "@/common/dto/UserSessionDto.js";
+import { HttpResponse } from "@/common/HttpResponse.js";
 
 export class HttpRequest {
   /**
@@ -9,7 +10,7 @@ export class HttpRequest {
   /**
    * @param {String} endpoint
    * @param {Object} data
-   * @return {Object}
+   * @return {HttpResponse}
    */
   static async makeRequest(endpoint, data = null) {
     let request = {
@@ -37,18 +38,20 @@ export class HttpRequest {
     }
 
     if (!response.ok) {
-      return { error: "response error" };
+      return new HttpResponse(false, null, ["response error"], moment());
     }
 
     const jsonData = await response.json();
 
-    if (jsonData.error) {
-      return { error: jsonData.errors };
-    }
+    const responseBody = new HttpResponse(
+      jsonData.success,
+      jsonData.payload,
+      jsonData.errors,
+      moment(jsonData.now)
+    );
 
-    if (!jsonData.payload) {
-      // requests with empty response
-      return {};
+    if (!responseBody.success) {
+      return responseBody;
     }
 
     if (jsonData.payload.session) {
@@ -62,7 +65,7 @@ export class HttpRequest {
       localStorage.setItem("tokenExpire", this.session.expiresOn.toISOString());
     }
 
-    return { payload: jsonData.payload };
+    return responseBody;
   }
   /**
    * @param {String} token

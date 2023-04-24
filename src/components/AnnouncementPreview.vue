@@ -1,6 +1,7 @@
 <template>
   <el-card :body-style="{ padding: '0px' }">
-    <img :src="FileParser.fileObjectSrc(announcement.banner)" />
+    <img :src="fileUrl" alt="Banner" />
+
     <div style="padding: 14px">
       <h1>{{ announcement.title }}</h1>
       <div>
@@ -21,14 +22,35 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      fileUrl: null,
+    };
+  },
   computed: {
-    FileParser: () => FileParser,
     announcement() {
       const announcement = this.$store.getters["Announcement/getAnnouncement"](
         this.announcementId
       );
 
       return announcement || new Announcement();
+    },
+  },
+  watch: {
+    announcement() {
+      this.setFileUrl();
+    },
+  },
+  created() {
+    this.setFileUrl();
+  },
+  methods: {
+    async setFileUrl() {
+      if (!this.announcement) {
+        this.fileUrl = null;
+      }
+
+      this.fileUrl = await FileParser.fileToBase64(this.announcement.banner);
     },
   },
 };

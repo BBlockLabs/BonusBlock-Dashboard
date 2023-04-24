@@ -1,5 +1,5 @@
 <template>
-  <el-form @submit="() => $emit('submit', ...arguments)">
+  <el-form label-position="top" @submit="() => $emit('submit', ...arguments)">
     <el-form-item
       v-bind="ValidationHelper.getFormItemErrorAttributes(validate['name'])"
       label="Campaign Name"
@@ -50,7 +50,7 @@
       "
       label="Reward Pool"
     >
-      <token-select-field v-model="campaignFormObject.rewardPoolContract" />
+      <contract-select-field v-model="campaignFormObject.rewardPoolContract" />
       <el-input v-model="campaignFormObject.rewardPoolTokenCount" />
     </el-form-item>
 
@@ -105,12 +105,12 @@
 <script>
 import CampaignValidationBuilder from "@/common/validation/CampaignValidationBuilder.js";
 import ValidationHelper from "@/common/validation/ValidationHelper.js";
-import TokenSelectField from "@/components/TokenSelectField.vue";
+import ContractSelectField from "@/components/ContractSelectField.vue";
 import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
 
 export default {
   components: {
-    TokenSelectField,
+    ContractSelectField,
   },
   props: {
     modelValue: {

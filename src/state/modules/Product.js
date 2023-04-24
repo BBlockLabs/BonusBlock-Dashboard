@@ -1,13 +1,6 @@
 import ActionResponse from "@/common/ActionResponse";
-import productsMock from "@/state/mock/product.json";
 import Product from "@/state/models/Product.js";
-import moment from "moment";
-
-const sleep = async (milliseconds) => {
-  return new Promise((r) => {
-    window.setTimeout(r, milliseconds);
-  });
-};
+import { HttpRequest } from "@/common/HttpRequest.js";
 
 export class ProductState {
   /**
@@ -33,26 +26,35 @@ export default {
     },
     /**
      * @param {ProductState} state
-     * @returns {function({query: string | undefined}): Product[]}
+     * @returns {function(query: ProductFilters): Product[]}
      */
-    queryProducts:
-      (state) =>
-      ({ query }) => {
-        const products = [];
+    queryProducts: (state) => (query) => {
+      const products = [];
 
-        state.products.forEach((product) => {
-          if (!query) {
-            products.push(product);
-            return;
-          }
+      state.products.forEach((product) => {
+        if (
+          query.categoriesIds.length > 0 &&
+          !product.categories.find((categoryId) =>
+            query.categoriesIds.includes(categoryId)
+          )
+        ) {
+          return;
+        }
 
-          if (product.name.toLowerCase().includes(query)) {
-            products.push(product);
-          }
-        });
+        if (
+          query.networksIds.length > 0 &&
+          !product.networks.find((networkId) =>
+            query.networksIds.includes(networkId)
+          )
+        ) {
+          return;
+        }
 
-        return products;
-      },
+        products.push(product);
+      });
+
+      return products;
+    },
   },
   mutations: {
     /**
@@ -67,56 +69,26 @@ export default {
     /**
      * @param commit
      * @param getters
-     * @param {string | undefined} query
-     * @param {string | undefined} network
-     * @param {Array<string> | undefined} categories
+     * @param {ProductFilters} query
      * @returns {Promise<ActionResponse>}
      */
-    async queryProducts({ commit, getters }, { query, network, categories }) {
-      const currentProductList = getters.queryProducts(query);
+    async queryProducts({ commit, getters }, query) {
+      const response = await HttpRequest.makeRequest("get/products", query);
 
-      if (currentProductList.length >= 10) {
-        return new ActionResponse(true, currentProductList);
+      if (!response.success) {
+        return new ActionResponse(false, null, response.errors);
       }
 
-      await sleep(500);
+      /**
+       * @type {Array<ProductDto>}
+       */
+      const payload = response.payload;
 
-      if (query === "fail") {
-        return new ActionResponse(false, null, ["REQUEST_FAILED"]);
-      }
-
-      const apiProducts = productsMock
-        .filter(
-          (mockProduct) =>
-            !query ||
-            mockProduct.name.toLowerCase().includes(query.toLowerCase())
-        )
-        .filter((mockProduct) => !network || mockProduct.network === network)
-        .filter(
-          (mockProduct) =>
-            !categories ||
-            categories.length === 0 ||
-            mockProduct.categories.find((cat) => categories.includes(cat))
-        )
-        .map((mockProduct) => {
-          const product = new Product();
-
-          product.id = mockProduct.id;
-          product.name = mockProduct.name;
-          product.network = mockProduct.network;
-          product.categories = mockProduct.categories;
-          product.version = mockProduct.version;
-          product.createdOn = moment(mockProduct.createdOn);
-          product.modifiedOn = moment(mockProduct.modifiedOn);
-
-          return product;
-        });
-
-      apiProducts.forEach((product) => {
-        commit("setProduct", product);
+      payload.forEach((productDto) => {
+        commit("setProduct", Product.fromDto(productDto));
       });
 
-      return new ActionResponse(true, apiProducts);
+      return new ActionResponse(true, getters["queryProducts"](query));
     },
   },
 };

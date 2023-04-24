@@ -3,7 +3,7 @@ import Social from "@/state/models/Social.js";
 
 export default class AnnouncementFormObject extends formObject {
   /**
-   * @type {string | null}
+   * @type {File | null}
    */
   banner = null;
   /**

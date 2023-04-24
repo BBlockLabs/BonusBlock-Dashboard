@@ -1,30 +1,22 @@
 export default class RewardedActivityDto {
   /**
-   * @type {string}
+   * @type {ActionDto | string}
    */
-  id = "";
+  productActivityAction = "";
   /**
-   * @type {string}
+   * @type {number}
    */
-  version = "";
+  minTrxLimit = 0;
   /**
-   * @type {string}
+   * @type {number}
    */
-  createdOn = "";
+  addTrxLimit = 0;
   /**
-   * @type {string}
+   * @type {number}
    */
-  modifiedOn = "";
+  minTrxAmount = 0;
   /**
-   * @type {string}
+   * @type {number}
    */
-  activity = "";
-  /**
-   * @type {string}
-   */
-  action = "";
-  /**
-   * @type {string}
-   */
-  minimumTransactionLimit = "";
+  addTrxAmount = 0;
 }
