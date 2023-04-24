@@ -116,9 +116,16 @@ export default {
     },
   },
   created() {
-    this.loadCampaign();
     this.$store.dispatch("Network/preloadNetworks");
     this.$store.dispatch("Contract/preloadContracts");
+
+    if (this.$route.params.id) {
+      this.campaign = this.$store.getters["Campaign/getCampaign"](
+        this.$route.params.id
+      );
+
+      this.loadAnnouncement();
+    }
 
     this.campaignFormObject.setValuesFromCampaign(this.campaign);
 
@@ -137,14 +144,24 @@ export default {
       );
   },
   methods: {
-    async loadCampaign() {
-      if (this.$store.getters["Campaign/getCampaign"](this.$route.params.id)) {
-        this.campaign = this.$store.getters["Campaign/getCampaign"](
-          this.$route.params.id
-        );
+    async loadAnnouncement() {
+      const campaignId = this.$route.params.id;
 
+      await this.$store.dispatch(
+        "Announcement/loadCampaignAnnouncements",
+        campaignId
+      );
+
+      const announcements =
+        this.$store.getters["Announcement/getByCampaign"](campaignId);
+
+      if (announcements.length === 0) {
         return;
       }
+
+      this.announcement = announcements[0];
+      this.announcementFormObject.setValuesFromAnnouncement(this.announcement);
+      this.announcementFormObject.reset();
     },
     async addRewardedActivity() {
       if (!(await this.rewardedActivityValidation.$validate())) {

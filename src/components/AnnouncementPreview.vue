@@ -37,16 +37,20 @@ export default {
     },
   },
   watch: {
-    announcement: "setFileUrl",
+    announcement() {
+      this.setFileUrl();
+    },
   },
-  created: "setFileUrl",
+  created() {
+    this.setFileUrl();
+  },
   methods: {
     async setFileUrl() {
       if (!this.announcement) {
         this.fileUrl = null;
       }
 
-      this.fileUrl = FileParser.fileToBase64(this.announcement.banner);
+      this.fileUrl = await FileParser.fileToBase64(this.announcement.banner);
     },
   },
 };

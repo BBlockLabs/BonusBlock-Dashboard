@@ -8,10 +8,10 @@ import Category from "@/state/models/Category.js";
 import RewardedActivity from "@/state/models/RewardedActivity.js";
 import Action from "@/state/models/Action.js";
 
-const sleep = async (milliseconds) => {
-  return new Promise((r) => {
-    window.setTimeout(r, milliseconds);
-  });
+const endpointStatuses = {
+  confirmed: "confirm",
+  cancelled: "cancel",
+  deleted: "delete",
 };
 
 export class CampaignState {
@@ -79,25 +79,31 @@ export default {
      * @returns {Promise<ActionResponse>}
      */
     async changeStatus({ getters, commit }, { campaignId, status }) {
-      const campaignDto = getters["getCampaign"](campaignId)?.toDto() || null;
+      const endpointStatus = endpointStatuses[status] || null;
 
-      if (campaignDto === null) {
-        return new ActionResponse(false, null, ["CAMPAIGN_NOT_FOUND"]);
+      if (endpointStatus === null) {
+        return new ActionResponse(false, null, ["UNSUPPORTED_STATUS"]);
       }
 
-      // simulate request
-      await sleep(500);
+      const response = await HttpRequest.makeRequest(
+        `campaign/${campaignId}/${endpointStatus}`
+      );
 
-      campaignDto.status = status;
-      ///////
-
-      commit("setCampaign", Campaign.fromDto(campaignDto));
-
-      if (campaignDto.name === "fail") {
-        return new ActionResponse(false, null, ["REQUEST_FAILED"]);
+      if (!response.success) {
+        return new ActionResponse(false, null, response.errors);
       }
 
-      return new ActionResponse(true, campaignDto.id);
+      const campaign = getters["getCampaign"](campaignId);
+
+      if (campaign === null) {
+        return new ActionResponse(false, null, "CAMPAIGN_NOT_FOUND");
+      }
+
+      campaign.status = status;
+
+      commit("setCampaign", campaign);
+
+      return new ActionResponse(true, null);
     },
     async loadCampaigns({ commit }) {
       const response = await HttpRequest.makeRequest("campaign/list");

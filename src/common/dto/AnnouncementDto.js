@@ -2,11 +2,15 @@ export default class AnnouncementDto {
   /**
    * @type {string | undefined}
    */
-  announcementId;
+  id;
   /**
    * @type {String}
    */
   image;
+  /**
+   * @type {String}
+   */
+  imageType;
   /**
    * @type {string}
    */
@@ -19,4 +23,8 @@ export default class AnnouncementDto {
    * @type {String}
    */
   socials = "";
+  /**
+   * @type {String | undefined}
+   */
+  campaign;
 }

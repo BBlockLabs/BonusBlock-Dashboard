@@ -3,7 +3,7 @@
     v-model:file-list="fileList"
     class="banner-upload"
     drag
-    :limit="1"
+    :limit="2"
     :auto-upload="false"
     :show-file-list="false"
     :on-remove="
@@ -60,20 +60,17 @@ export default {
     },
   },
   watch: {
-    modelValue: {
-      deep: true,
-      handler() {
-        this.value = this.modelValue;
-        this.setFileUrl();
-      },
+    modelValue() {
+      this.value = this.modelValue;
+      this.setFileUrl();
     },
-    value: {
-      deep: true,
-      handler() {
-        this.$emit("update:modelValue", this.value);
-        this.setFileUrl();
-      },
+    value() {
+      this.$emit("update:modelValue", this.value);
+      this.setFileUrl();
     },
+  },
+  created() {
+    this.setFileUrl();
   },
   methods: {
     async setFileUrl() {

@@ -1,5 +1,6 @@
 import ActionResponse from "@/common/ActionResponse";
 import { HttpRequest } from "@/common/HttpRequest.js";
+import Announcement from "@/state/models/Announcement.js";
 
 export class AnnouncementState {
   /**
@@ -72,6 +73,30 @@ export default {
     },
   },
   actions: {
+    async loadCampaignAnnouncements({ commit }, campaignId) {
+      const response = await HttpRequest.makeRequest(
+        `announcement/${campaignId}/list`
+      );
+
+      if (!response.success) {
+        return new ActionResponse(false, null, response.errors);
+      }
+
+      /**
+       * @type {Array<AnnouncementDto>}
+       */
+      const payload = response.payload;
+
+      for (const announcementDto of payload) {
+        const announcement = await Announcement.fromDto(announcementDto);
+
+        announcement.campaign = campaignId;
+
+        commit("setAnnouncement", announcement);
+      }
+
+      return new ActionResponse(true, null);
+    },
     /**
      * @param getters
      * @param commit
