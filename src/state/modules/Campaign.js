@@ -7,11 +7,12 @@ import Product from "@/state/models/Product.js";
 import Category from "@/state/models/Category.js";
 import RewardedActivity from "@/state/models/RewardedActivity.js";
 import Action from "@/state/models/Action.js";
+import Payment from "@/state/models/Payment.js";
 
 const endpointStatuses = {
-  confirmed: "confirm",
-  cancelled: "cancel",
-  deleted: "delete",
+  CONFIRMED: "confirm",
+  CANCELLED: "cancel",
+  DELETED: "delete",
 };
 
 export class CampaignState {
@@ -75,7 +76,7 @@ export default {
      * @param getters
      * @param commit
      * @param {string} campaignId
-     * @param {"DRAFT"|"confirmed"|"payed"|"running"|"ended"|"cancelled"|"deleted"} status
+     * @param {"DRAFT"|"confirmed"|"payed"|"running"|"ended"|"CANCELLED"|"DELETED"} status
      * @returns {Promise<ActionResponse>}
      */
     async changeStatus({ getters, commit }, { campaignId, status }) {
@@ -102,6 +103,18 @@ export default {
       campaign.status = status;
 
       commit("setCampaign", campaign);
+
+      if (response.payload === null) {
+        return new ActionResponse(true, null);
+      }
+
+      if (response.payload.payment) {
+        const payment = Payment.fromDto(response.payload.payment);
+
+        payment.campaignId = campaignId;
+
+        commit("Payment/setPayment", payment, { root: true });
+      }
 
       return new ActionResponse(true, null);
     },
@@ -143,6 +156,14 @@ export default {
             root: true,
           });
         });
+
+        if (campaignDto.payment !== null) {
+          const payment = Payment.fromDto(campaignDto.payment);
+
+          payment.campaignId = campaignDto.id;
+
+          commit("Payment/setPayment", payment, { root: true });
+        }
 
         campaignDto.actions.forEach((rewardedActivityDto) => {
           const rewardedActivity =

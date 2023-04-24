@@ -31,18 +31,21 @@
   </el-card>
 
   <el-row
-    v-if="campaign.status === 'draft'"
+    v-if="campaign.status === 'DRAFT' || campaign.status === 'CANCELLED'"
     v-loading="loading"
     justify="center"
   >
     <el-col :span="-1">
-      <el-button type="primary" @click="setStatus('confirmed')">
+      <el-button type="primary" @click="setStatus('CONFIRMED')">
         Pay & Launch Campaign
       </el-button>
     </el-col>
   </el-row>
 
-  <payment-component />
+  <payment-component
+    v-if="campaign.status === 'CONFIRMED' && payments.length > 0"
+    :payment-id="payments[0].id"
+  />
 
   <h3>Announcement Preview</h3>
 
@@ -75,6 +78,9 @@ export default {
     };
   },
   computed: {
+    payments() {
+      return this.$store.getters["Payment/getByCampaign"](this.campaignId);
+    },
     campaign() {
       const campaign = this.$store.getters["Campaign/getCampaign"](
         this.campaignId
@@ -88,7 +94,7 @@ export default {
   },
   methods: {
     /**
-     * @param {"confirmed"} status
+     * @param {"CONFIRMED"} status
      * @returns {Promise<void>}
      */
     async setStatus(status) {

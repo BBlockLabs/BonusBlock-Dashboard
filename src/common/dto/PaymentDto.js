@@ -1,46 +1,32 @@
+import FeeDto from "@/common/dto/FeeDto.js";
+
 export default class PaymentDto {
   /**
-   * @type {string}
+   * @type {string | null}
    */
-  id = "";
+  comment = "";
   /**
    * @type {string}
    */
-  version = "";
+  destinationAddress = "";
+  /**
+   * @type {string | null}
+   */
+  externalId = "";
+  /**
+   * @type {number}
+   */
+  payAmount = 0;
   /**
    * @type {string}
    */
-  createdOn = "";
+  payCurrency = "";
   /**
-   * @type {string}
+   * @type {"INITIATED"}
    */
-  modifiedOn = "";
+  status = "INITIATED";
   /**
-   * @type {string}
+   * @type {FeeDto}
    */
-  wallet = "";
-  /**
-   * @type {string}
-   */
-  memo = "";
-  /**
-   * @type {string}
-   */
-  ammount = "";
-  /**
-   * @type {String}
-   */
-  currency = "";
-  /**
-   * @type {string}
-   */
-  deadline = "";
-  /**
-   * @type {string}
-   */
-  status = "";
-  /**
-   * @type {string}
-   */
-  campaignId = "";
+  fee = new FeeDto();
 }

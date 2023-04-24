@@ -128,6 +128,7 @@ export default {
     }
 
     this.campaignFormObject.setValuesFromCampaign(this.campaign);
+    this.campaignFormObject.reset();
 
     this.campaignValidation = CampaignValidationBuilder.createValidation(
       this.campaignFormObject

@@ -58,7 +58,7 @@ export default class Campaign extends Model {
   qualityAudience = false;
 
   /**
-   * @type {"DRAFT"|"confirmed"|"payed"|"running"|"ended"|"cancelled"|"deleted"}
+   * @type {"DRAFT"|"CONFIRMED"|"PAYED"|"RUNNING"|"ENDED"|"CANCELLED"|"DELETED"}
    */
   status = "DRAFT";
 

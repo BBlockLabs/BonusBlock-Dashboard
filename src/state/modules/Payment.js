@@ -10,7 +10,7 @@ export default {
   state: new PaymentState(),
   getters: {
     /**
-     * @param state
+     * @param {PaymentState} state
      * @returns {function(string): Payment | null}
      */
     getPayment: (state) => (paymentId) => {
@@ -19,6 +19,21 @@ export default {
       }
 
       return state.payments.get(paymentId);
+    },
+    /**
+     * @param {PaymentState} state
+     * @return {function(string): Payment[]}
+     */
+    getByCampaign: (state) => (campaignId) => {
+      const payments = [];
+
+      for (const payment of state.payments.values()) {
+        if (payment.campaignId === campaignId) {
+          payments.push(payment);
+        }
+      }
+
+      return payments;
     },
   },
   mutations: {

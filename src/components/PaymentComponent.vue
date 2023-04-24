@@ -1,5 +1,5 @@
 <template>
-  <el-row>
+  <el-row v-loading="loading">
     <el-col>
       <el-button @click="payWithMetamask"> Deposit with Metamask </el-button>
     </el-col>
@@ -26,14 +26,14 @@
       {{ minutesLeft }} minutes left.
     </p>
 
-    <el-row justify="space-around">
+    <el-row justify="space-between">
       <el-col :span="-1"> Payment status check in 28 seconds </el-col>
-      <el-col :span="-1"> loading </el-col>
+      <el-col v-loading="true" :span="-1">test</el-col>
     </el-row>
 
     <el-row justify="center">
       <el-col>
-        <el-button>Cancel Payment</el-button>
+        <el-button @click="cancelPayment">Cancel Payment</el-button>
       </el-col>
     </el-row>
   </el-row>
@@ -69,6 +69,12 @@ export default {
   methods: {
     async cancelPayment() {
       this.loading = true;
+
+      this.$store.dispatch("Campaign/changeStatus", {
+        campaignId: this.payment.campaignId,
+        status: "CANCELLED",
+      });
+
       this.loading = false;
     },
     async payWithKeplr() {

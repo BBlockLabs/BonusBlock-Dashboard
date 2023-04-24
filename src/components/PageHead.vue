@@ -58,7 +58,6 @@ export default {
     GitCompare,
     Avatar,
   },
-  data() {},
   computed: {
     projectImage() {
       return {

@@ -54,7 +54,7 @@ export class HttpRequest {
       return responseBody;
     }
 
-    if (jsonData.payload.session) {
+    if (jsonData.payload && jsonData.payload.session) {
       // auto-populate session info from server response
       HttpRequest.setSession(
         jsonData.payload.session.token,
