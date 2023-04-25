@@ -1,52 +1,63 @@
 <template>
-  <el-form>
-    <el-form-item label="Select Product">
-      <el-form-item label="Categories">
-        <category-select-field
-          v-model="campaignFormObject.categories"
-          multiple
-        />
-      </el-form-item>
+  <el-form
+    label-position="top"
+    @submit.prevent="() => $emit('submit', ...arguments)"
+  >
+    <h1><b>Select Product</b></h1>
 
-      <el-form-item label="Network">
-        <network-select-field v-model="campaignFormObject.network" />
-      </el-form-item>
-
-      <el-form-item
-        v-if="
-          campaignFormObject.network &&
-          campaignFormObject.categories.length >= 1
-        "
-        label="Product"
-      >
-        <product-select-field
-          v-model="campaignFormObject.product"
-          :filters="
-            new ProductFilters(campaignFormObject.categories, [
-              campaignFormObject.network,
-            ])
-          "
-        />
-      </el-form-item>
+    <el-form-item label="Categories">
+      <category-select-field
+        v-model="campaignFormObject.categories"
+        class="w-100"
+        multiple
+      />
     </el-form-item>
 
-    <el-form-item
-      v-if="campaignFormObject.product && campaignFormObject.network"
-      v-bind="ValidationHelper.getFormItemErrorAttributes(validate['activity'])"
-      label="Select activity"
-    >
-      <activity-picker
-        v-model:activity="rewardedActivityFormObject.activity"
-        v-model:action="rewardedActivityFormObject.action"
-        :product="campaignFormObject.product"
-        :network="campaignFormObject.network"
+    <el-form-item label="Network">
+      <network-select-field
+        v-model="campaignFormObject.network"
+        class="w-100"
       />
     </el-form-item>
 
     <el-form-item
-      v-if="rewardedActivityFormObject.action"
-      label="Set requirements"
+      v-if="
+        campaignFormObject.network && campaignFormObject.categories.length >= 1
+      "
+      label="Product"
     >
+      <product-select-field
+        v-model="campaignFormObject.product"
+        class="w-100"
+        :filters="
+          new ProductFilters(campaignFormObject.categories, [
+            campaignFormObject.network,
+          ])
+        "
+      />
+    </el-form-item>
+
+    <div v-if="campaignFormObject.product && campaignFormObject.network">
+      <h1><b>Select activity</b></h1>
+
+      <el-form-item
+        v-if="campaignFormObject.product && campaignFormObject.network"
+        v-bind="
+          ValidationHelper.getFormItemErrorAttributes(validate['activity'])
+        "
+      >
+        <activity-picker
+          v-model:activity="rewardedActivityFormObject.activity"
+          v-model:action="rewardedActivityFormObject.action"
+          :product="campaignFormObject.product"
+          :network="campaignFormObject.network"
+        />
+      </el-form-item>
+    </div>
+
+    <div v-if="rewardedActivityFormObject.action">
+      <h1><b>Set requirements</b></h1>
+
       <el-form-item
         v-bind="
           ValidationHelper.getFormItemErrorAttributes(
@@ -58,8 +69,63 @@
         <el-input
           v-model="rewardedActivityFormObject.minimumTransactionLimit"
         />
+        <sup class="text-secondary"
+          >Set minimum amount of tokens for the activity to count towards the
+          reward.</sup
+        >
       </el-form-item>
-    </el-form-item>
+
+      <el-form-item
+        v-bind="
+          ValidationHelper.getFormItemErrorAttributes(
+            validate['additionalRewardTransactionLimit']
+          )
+        "
+        label="Set additional reward transaction limit"
+      >
+        <el-input
+          v-model="rewardedActivityFormObject.additionalRewardTransactionLimit"
+        />
+        <sup class="text-secondary"
+          >Set an amount of tokens for which the user gets an additional
+          reward.</sup
+        >
+      </el-form-item>
+
+      <el-form-item
+        v-bind="
+          ValidationHelper.getFormItemErrorAttributes(
+            validate['minimumTransactionCount']
+          )
+        "
+        label="Set minimum transaction amount"
+      >
+        <el-input
+          v-model="rewardedActivityFormObject.minimumTransactionCount"
+        />
+        <sup class="text-secondary"
+          >Set minimum amount of transactions for the activity to count towards
+          the reward.</sup
+        >
+      </el-form-item>
+
+      <el-form-item
+        v-bind="
+          ValidationHelper.getFormItemErrorAttributes(
+            validate['additionalRewardTransactionCount']
+          )
+        "
+        label="Set additional reward transaction amount"
+      >
+        <el-input
+          v-model="rewardedActivityFormObject.additionalRewardTransactionCount"
+        />
+        <sup class="text-secondary"
+          >Set an amount of transactions for which the user gets an additional
+          reward.</sup
+        >
+      </el-form-item>
+    </div>
   </el-form>
 
   <debug-wrapper>{{ rewardedActivityFormObject }}</debug-wrapper>

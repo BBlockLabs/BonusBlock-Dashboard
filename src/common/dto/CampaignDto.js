@@ -36,6 +36,14 @@ export default class CampaignDto {
    */
   rateMonthly = 0;
   /**
+   * @type {string}
+   */
+  minimumPerUserAward = "0";
+  /**
+   * @type {string}
+   */
+  maximumPerUserAward = "0";
+  /**
    * @type {number}
    */
   maxUserReward = 0;

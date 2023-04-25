@@ -1,35 +1,52 @@
 <template>
-  <el-input v-model="filterString" />
+  <el-input
+    v-model="filterString"
+    placeholder="Search for activity"
+    class="mb-3"
+  />
 
   <el-collapse
     v-model="activityValue"
     v-infinite-scroll="netxPage"
     accordion
-    class="of-scroll"
+    class="of-scroll w-100 b-solid br-base"
     style="max-height: 500px"
   >
     <el-collapse-item
       v-for="activityObject in activities"
       :key="activityObject.id"
       :name="activityObject.id"
+      class="bb-solid"
     >
       <template #title>
-        {{ activityObject.name }} - {{ activityObject.hash }}
+        <div class="d-flex flex-column p-3">
+          <b>{{ activityObject.name }}</b>
+          <span class="text-secondary">
+            {{ activityObject.hash }}
+          </span>
+        </div>
       </template>
 
       <el-row
         v-for="actionId in activityObject.actions"
         :key="actionId"
         justify="space-between"
+        class="bt-solid px-3 py-2"
       >
-        <el-col :span="-1">
+        <el-col :span="-1" class="d-flex flex-column">
           {{ $store.getters["Activity/getAction"](actionId).name }}
-          <br />
-          {{ $store.getters["Activity/getAction"](actionId).hash }}
+          <span class="text-secondary">
+            {{ $store.getters["Activity/getAction"](actionId).hash }}
+          </span>
         </el-col>
 
-        <el-col :span="-1">
-          <input v-model="actionValue" type="radio" :value="actionId" />
+        <el-col :span="-1" class="d-flex">
+          <input
+            v-model="actionValue"
+            class="my-auto"
+            type="radio"
+            :value="actionId"
+          />
         </el-col>
       </el-row>
     </el-collapse-item>

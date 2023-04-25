@@ -4,6 +4,12 @@
   $menu: (
     'border-color': transparent,
   ),
+  $collapse: (
+    'border-color': transparent,
+    'header-height': auto,
+    'header-font-size': 1em,
+    'content-font-size': 1em,
+  ),
   $colors: (
     'primary': (
       'base': v.$brand-color-3,
@@ -24,7 +30,6 @@
   $text-color: (
     'primary': v.$text-color-primary,
     'regular': v.$text-color-regular,
-    'secondary': rgba(v.$text-color-base, 0.65),
     'placeholder': rgba(v.$text-color-base, 0.55),
     'disabled': rgba(v.$text-color-base, 0.4),
   ),

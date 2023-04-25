@@ -1,5 +1,7 @@
 <template>
-  <el-form>
+  <el-form label-position="top">
+    <h1><b>Create an announcement</b></h1>
+
     <el-form-item
       v-bind="ValidationHelper.getFormItemErrorAttributes(validate['banner'])"
       label="Banner"
@@ -24,18 +26,20 @@
     </el-form-item>
 
     <el-form-item
-      label="socials"
       v-bind="ValidationHelper.getFormItemErrorAttributes(validate['socials'])"
     >
       <el-form-item
-        v-for="(social, idx) in value.socials"
+        v-for="idx in 10"
         v-bind="
-          ValidationHelper.getFormItemErrorAttributes(validate['socials'])
+          ValidationHelper.getFormItemErrorAttributes(
+            validate['socials'][idx - 1]
+          )
         "
-        :key="idx"
-        :label="`Social ${social.type || 'X'}`"
+        :key="idx - 1"
+        class="w-100"
+        :label="`Social ${value.socials[idx - 1]?.type || 'X'}`"
       >
-        <social-input v-model="value.socials[idx]" />
+        <social-input v-model="value.socials[idx - 1]" />
       </el-form-item>
     </el-form-item>
   </el-form>

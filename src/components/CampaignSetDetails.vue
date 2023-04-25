@@ -1,5 +1,8 @@
 <template>
-  <el-form label-position="top" @submit="() => $emit('submit', ...arguments)">
+  <el-form
+    label-position="top"
+    @submit.prevent="() => $emit('submit', ...arguments)"
+  >
     <h1>Set your Campaign Details</h1>
 
     <el-form-item

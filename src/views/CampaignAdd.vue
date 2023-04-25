@@ -24,24 +24,23 @@
             />
           </el-col>
 
-          <el-col>
-            <el-button @click="clearRewardedActivity"> Clear </el-button>
+          <el-col class="d-flex">
+            <el-button class="ml-auto" round @click="clearRewardedActivity">
+              Clear
+            </el-button>
 
-            <el-button @click="addRewardedActivity"> Add activity </el-button>
+            <el-button round type="primary" @click="addRewardedActivity">
+              Add activity
+            </el-button>
           </el-col>
         </el-row>
       </div>
 
-      <div v-if="step === 3">
-        <h2>Create an announcement</h2>
-
-        <announcement-form
-          v-model="announcementFormObject"
-          :validation="announcementFormValidation"
-        />
-
-        <debug-wrapper>{{ announcementFormObject }}</debug-wrapper>
-      </div>
+      <announcement-form
+        v-if="step === 3"
+        v-model="announcementFormObject"
+        :validation="announcementFormValidation"
+      />
 
       <div v-if="step === 4">
         <h2>Create an announcement</h2>
@@ -70,7 +69,6 @@ import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
 import CampaignSetDetails from "@/components/CampaignSetDetails.vue";
 import CampaignSummary from "@/components/CampaignSummary.vue";
 import CampaignValidationBuilder from "@/common/validation/CampaignValidationBuilder.js";
-import DebugWrapper from "@/components/DebugWrapper.vue";
 import MessageBox from "@/mixins/MessageBox.js";
 import RewardedActivity from "@/state/models/RewardedActivity.js";
 import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
@@ -85,7 +83,6 @@ export default {
     AnnouncementForm,
     CampaignCreateActivity,
     CampaignSetDetails,
-    DebugWrapper,
     CampaignSummary,
     CampaignSideSummary,
   },

@@ -18,14 +18,46 @@ export default class AnnouncementFormValidationBuilder extends ValidationBuilder
     socials: {
       required,
       minLength: minLength(1),
-      $each: {
-        type: {
-          required,
-        },
-        link: {
-          required,
-          url,
-        },
+      // I don't like that vuelidate removed $each..
+      0: {
+        type: { required },
+        link: { required, url },
+      },
+      1: {
+        type: {},
+        link: { url },
+      },
+      2: {
+        type: {},
+        link: { url },
+      },
+      3: {
+        type: {},
+        link: { url },
+      },
+      4: {
+        type: {},
+        link: { url },
+      },
+      5: {
+        type: {},
+        link: { url },
+      },
+      6: {
+        type: {},
+        link: { url },
+      },
+      7: {
+        type: {},
+        link: { url },
+      },
+      8: {
+        type: {},
+        link: { url },
+      },
+      9: {
+        type: {},
+        link: { url },
       },
     },
   };

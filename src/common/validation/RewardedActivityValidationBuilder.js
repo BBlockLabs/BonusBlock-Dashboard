@@ -4,16 +4,31 @@ import ValidationBuilder from "@/common/validation/ValidationBuilder.js";
 
 export default class RewardedActivityValidationBuilder extends ValidationBuilder {
   static validationRules = {
-    minimumTransactionLimit: {
-      required,
-      integer,
-      minValue: new minValue(0),
-    },
     activity: {
       required,
     },
     action: {
       required,
+    },
+    minimumTransactionLimit: {
+      required,
+      integer,
+      minValue: new minValue(0),
+    },
+    additionalRewardTransactionLimit: {
+      required,
+      integer,
+      minValue: new minValue(0),
+    },
+    minimumTransactionCount: {
+      required,
+      integer,
+      minValue: new minValue(0),
+    },
+    additionalRewardTransactionCount: {
+      required,
+      integer,
+      minValue: new minValue(0),
     },
   };
 
