@@ -1,4 +1,4 @@
-fullnameOverride: "altermail-ui3"
+fullnameOverride: "bonusblock-project-dashboard"
 
 replicaCount: 3
 
@@ -7,17 +7,16 @@ logFormat: nginx_ssl_reqid_upstream_time
 ingress:
   enabled: true
   hosts:
-    - host: new.app.alter.network
+    - host: dashboard.bonusblock.io
       paths:
         - path: /
           backend:
             service:
-              name: altermail-ui3-maintenance
+              name: bonusblock-project-dashboard
   tls:
    - hosts:
-       - new.app.alter.network
-       - new.app.altermail.live
-     secretName: altermail-ui3-prod-ssl
+       - dashboard.bonusblock.io
+     secretName: bonusblock-project-dashboard-prod-ssl
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt"
     traefik.ingress.kubernetes.io/router.tls: "true"

@@ -1,60 +1,46 @@
-FROM node:hydrogen-bullseye AS builder
+FROM node:18 AS builder
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-#RUN npm config set registry https://nexus.internal.altermail.live/repository/npm-proxy/
-RUN npm install --force
+RUN npm install
 
-COPY .eslint*.js ./
-COPY babel*.js ./
-COPY no-prod*.js ./
-COPY vue*.js ./
-COPY src ./src
-COPY public ./public
+COPY . .
+
+FROM nginx:1.21-alpine AS package
+
+WORKDIR /app
+
+COPY ./nginx/default.conf /etc/nginx/conf.d/
+
+EXPOSE 8080
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
 
 FROM builder AS build-development
+
 COPY .env.kubernetes_dev ./.env
-ENV NODE_OPTIONS=--openssl-legacy-provider
-RUN npm run buildDev
 
-FROM nginx:1.21.6 AS package-development
-
-WORKDIR /app
-
-COPY ./nginx/default.conf /etc/nginx/conf.d/
-COPY --from=build-development /usr/src/app/dist /app/
-
-EXPOSE 8080
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+RUN npm run build-dev
 
 FROM builder AS build-staging
+
 COPY .env.kubernetes_staging ./.env
-ENV NODE_OPTIONS=--openssl-legacy-provider
-RUN npm run build
 
-FROM nginx:1.21.6 AS package-staging
-
-WORKDIR /app
-
-COPY ./nginx/default.conf /etc/nginx/conf.d/
-COPY --from=build-staging /usr/src/app/dist /app/
-
-EXPOSE 8080
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+RUN npm run build-only
 
 FROM builder AS build-production
 COPY .env.kubernetes ./.env
-ENV NODE_OPTIONS=--openssl-legacy-provider
-RUN npm run buildStaging
 
-FROM nginx:1.21.6 AS package-production
+RUN npm run build-only
 
-WORKDIR /app
+FROM package AS package-development
 
-COPY ./nginx/default.conf /etc/nginx/conf.d/
+COPY --from=build-development /usr/src/app/dist /app/
+
+FROM package AS package-staging
+
+COPY --from=build-staging /usr/src/app/dist /app/
+
+FROM package AS package-production
+
 COPY --from=build-production /usr/src/app/dist /app/
-
-EXPOSE 8080
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
-
