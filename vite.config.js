@@ -21,13 +21,13 @@ export default defineConfig({
       minify: true,
       entry: path.resolve("src/main.js"),
       template: "./public/index.html",
-      // inject: {
-      //   data: {
-      //     BUILD_DATE: new Date().toISOString(),
-      //     // @ts-ignore
-      //     BUILD_ENV: process.env.NODE_ENV.toUpperCase(),
-      //   },
-      // },
+      inject: {
+        data: {
+          BUILD_DATE: new Date().toISOString(),
+          // @ts-ignore
+          BUILD_ENV: process.env.NODE_ENV.toUpperCase(),
+        },
+      },
     }),
   ],
   resolve: {
