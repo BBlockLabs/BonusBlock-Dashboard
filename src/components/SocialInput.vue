@@ -6,8 +6,11 @@
   >
     <template #prepend>
       <el-select v-model="value.type" placeholder="Select">
-        <el-option label="Discord" value="discord" />
         <el-option label="Twitter" value="twitter" />
+        <el-option label="Telegram" value="telegram" />
+        <el-option label="Discord" value="discord" />
+        <el-option label="YouTube" value="youtube" />
+        <el-option label="Reddit" value="reddit" />
       </el-select>
     </template>
   </el-input>

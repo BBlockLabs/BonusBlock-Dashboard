@@ -1,12 +1,43 @@
 <template>
-  <el-card :body-style="{ padding: '0px' }">
+  <el-card :body-style="{ padding: '0px' }" class="b-solid" shadow="never">
     <img :src="fileUrl" alt="Banner" />
 
-    <div style="padding: 14px">
-      <h1>{{ announcement.title }}</h1>
+    <div class="p-3">
       <div>
-        {{ announcement.description }}
+        <h1>{{ announcement.title }}</h1>
+        <div>
+          {{ announcement.description }}
+        </div>
       </div>
+
+      <el-row justify="space-between">
+        <el-col :span="-1" class="d-flex">
+          <el-row class="my-auto" :gutter="5">
+            <el-col
+              v-for="(social, idx) in announcement.socials.filter(
+                ({ link }) => link
+              )"
+              :key="idx"
+              :span="-1"
+            >
+              <el-link :href="social.link" target="_blank">
+                <social-icon :type="social.type" />
+              </el-link>
+            </el-col>
+          </el-row>
+        </el-col>
+
+        <el-col
+          v-if="announcement.buttonUrl && announcement.buttonLabel"
+          :span="-1"
+        >
+          <a :href="announcement.buttonUrl" target="_blank">
+            <el-button>
+              {{ announcement.buttonLabel }}
+            </el-button>
+          </a>
+        </el-col>
+      </el-row>
     </div>
   </el-card>
 </template>
@@ -14,8 +45,12 @@
 <script>
 import Announcement from "@/state/models/Announcement.js";
 import FileParser from "@/common/FileParser.js";
+import SocialIcon from "@/components/SocialIcon.vue";
 
 export default {
+  components: {
+    SocialIcon,
+  },
   props: {
     announcementId: {
       type: String,

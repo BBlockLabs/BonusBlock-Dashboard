@@ -123,11 +123,11 @@ export default class Campaign extends Model {
     campaign.frequencyRatioDaily = campaignDto.rateDaily / 100;
     campaign.frequencyRatioWeekly = campaignDto.rateWeekly / 100;
     campaign.frequencyRatioMonthly = campaignDto.rateMonthly / 100;
-    campaign.minimumPerUserAward = campaignDto.minimumPerUserAward
-      ? BigInt(campaignDto.minimumPerUserAward)
+    campaign.maximumPerUserAward = campaignDto.maxUserReward
+      ? BigInt(campaignDto.maxUserReward)
       : null;
-    campaign.maximumPerUserAward = campaignDto.maximumPerUserAward
-      ? BigInt(campaignDto.maximumPerUserAward)
+    campaign.minimumPerUserAward = campaignDto.minUserReward
+      ? BigInt(campaignDto.minUserReward)
       : null;
     campaign.status = campaignDto.status;
     campaign.categories = campaignDto.categories.map(({ id }) => id);
@@ -155,8 +155,8 @@ export default class Campaign extends Model {
     dto.rateDaily = Math.round(this.frequencyRatioDaily * 100);
     dto.rateWeekly = Math.round(this.frequencyRatioWeekly * 100);
     dto.rateMonthly = Math.round(this.frequencyRatioMonthly * 100);
-    dto.minimumPerUserAward = this.minimumPerUserAward?.toString() || "0";
-    dto.maximumPerUserAward = this.maximumPerUserAward?.toString() || "0";
+    dto.minUserReward = this.minimumPerUserAward?.toString() || "0";
+    dto.maxUserReward = this.maximumPerUserAward?.toString() || "0";
     dto.categories = this.categories;
     dto.weeklyEqDistribution = this.weeklyEqualDistribution;
     dto.qualityAudience = this.qualityAudience;

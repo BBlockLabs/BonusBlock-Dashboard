@@ -22,7 +22,7 @@
   &-fill {
     background-color: EPFunctions.getCssVar('fill-color');
 
-    @each $type in (darker, dark, light lighter, extra-light, blank) {
+    @each $type in (darker, dark, light, lighter, extra-light, blank) {
       &-#{$type} {
         background-color: EPFunctions.getCssVar('fill-color', $type);
       }

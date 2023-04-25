@@ -14,7 +14,14 @@ export default class AnnouncementFormObject extends formObject {
    * @type {string}
    */
   description = "";
-
+  /**
+   * @type {string}
+   */
+  buttonLabel = "";
+  /**
+   * @type {string}
+   */
+  buttonUrl = "";
   /**
    * @type {Array<Social>}
    */
@@ -23,14 +30,8 @@ export default class AnnouncementFormObject extends formObject {
   constructor() {
     super();
 
-    this.socials = [
-      new Social(),
-      new Social(),
-      new Social(),
-      new Social(),
-      new Social(),
-      new Social(),
-    ];
+    this.socials.length = 10;
+    this.socials = this.socials.map(() => new Social());
   }
 
   /**
@@ -40,7 +41,9 @@ export default class AnnouncementFormObject extends formObject {
     announcement.banner = this.banner;
     announcement.title = this.title;
     announcement.description = this.description;
-    announcement.socials = this.socials;
+    announcement.socials = this.socials.filter(({ link }) => link);
+    announcement.buttonLabel = this.buttonLabel;
+    announcement.buttonUrl = this.buttonUrl;
   }
 
   /**
@@ -50,6 +53,13 @@ export default class AnnouncementFormObject extends formObject {
     this.banner = announcement.banner;
     this.title = announcement.title;
     this.description = announcement.description;
-    this.socials = announcement.socials;
+
+    this.socials = [...announcement.socials];
+
+    for (let i = this.socials.length; i < 10; i++) {
+      this.socials.push(new Social());
+    }
+    this.buttonLabel = announcement.buttonLabel;
+    this.buttonUrl = announcement.buttonUrl;
   }
 }

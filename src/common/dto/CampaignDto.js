@@ -38,19 +38,11 @@ export default class CampaignDto {
   /**
    * @type {string}
    */
-  minimumPerUserAward = "0";
+  maxUserReward = "0";
   /**
    * @type {string}
    */
-  maximumPerUserAward = "0";
-  /**
-   * @type {number}
-   */
-  maxUserReward = 0;
-  /**
-   * @type {number}
-   */
-  minUserReward = 0;
+  minUserReward = "0";
   /**
    * @type {string}
    */

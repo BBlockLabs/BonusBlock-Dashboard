@@ -9,12 +9,12 @@
       />
     </el-col>
     <el-col :span="15" class="align-right">
-      <el-link href="/">
+      <el-link type="primary" href="/">
         Contact us
         <svg-telegram class="icon ml-1" />
       </el-link>
       <el-divider direction="vertical" />
-      <el-link>
+      <el-link type="primary">
         Book a meeting
         <calendar class="icon ml-1" />
       </el-link>

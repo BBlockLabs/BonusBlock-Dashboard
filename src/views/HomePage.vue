@@ -77,13 +77,13 @@
         </el-col>
       </el-row>
       <el-row justify="end" class="mt-3">
-        <el-link>
+        <el-link type="primary">
           <svg-telegram />
         </el-link>
-        <el-link>
+        <el-link type="primary">
           <svg-email />
         </el-link>
-        <el-link>
+        <el-link type="primary">
           <svg-phone />
         </el-link>
       </el-row>

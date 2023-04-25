@@ -23,6 +23,25 @@
       label="Description"
     >
       <el-input v-model="value.description" type="textarea" />
+      <sup class="text-secondary">Max 300 Characters</sup>
+    </el-form-item>
+
+    <el-form-item
+      label="Button Label"
+      v-bind="
+        ValidationHelper.getFormItemErrorAttributes(validate['buttonLabel'])
+      "
+    >
+      <el-input v-model="value.buttonLabel" />
+    </el-form-item>
+
+    <el-form-item
+      label="Button Link"
+      v-bind="
+        ValidationHelper.getFormItemErrorAttributes(validate['buttonUrl'])
+      "
+    >
+      <el-input v-model="value.buttonUrl" />
     </el-form-item>
 
     <el-form-item

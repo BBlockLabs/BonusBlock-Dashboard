@@ -3,6 +3,7 @@
     <el-link
       v-if="props.github"
       :href="props.github"
+      type="primary"
       target="_blank"
       :underline="false"
     >
@@ -12,6 +13,7 @@
     <el-link
       v-if="props.twitter"
       :href="props.twitter"
+      type="primary"
       target="_blank"
       :underline="false"
     >
@@ -21,6 +23,7 @@
     <el-link
       v-if="props.telegram"
       :href="props.telegram"
+      type="primary"
       target="_blank"
       :underline="false"
     >
@@ -30,6 +33,7 @@
     <el-link
       v-if="props.reddit"
       :href="props.reddit"
+      type="primary"
       target="_blank"
       :underline="false"
     >
@@ -39,6 +43,7 @@
     <el-link
       v-if="props.discord"
       :href="props.discord"
+      type="primary"
       target="_blank"
       :underline="false"
       class="icon-discord"
@@ -49,6 +54,7 @@
     <el-link
       v-if="props.youtube"
       :href="props.youtube"
+      type="primary"
       target="_blank"
       :underline="false"
       class="icon-youtube"

@@ -20,6 +20,16 @@ export default class Announcement extends Model {
   description;
 
   /**
+   * @type {string}
+   */
+  buttonLabel;
+
+  /**
+   * @type {string}
+   */
+  buttonUrl;
+
+  /**
    * @type {Array<Social>}
    */
   socials = [];
@@ -40,9 +50,27 @@ export default class Announcement extends Model {
       announcement.id = dto.id;
     }
 
+    if (dto.campaign) {
+      announcement.campaign = dto.campaign;
+    }
+
     announcement.title = dto.title;
     announcement.description = dto.description;
-    announcement.socials = JSON.parse(dto.socials)?.map(Social.fromDto);
+
+    const socials = JSON.parse(dto.socials)?.map(Social.fromDto);
+
+    announcement.socials = socials.filter(
+      ({ type }) => type !== "main-label" && type !== "main-link"
+    );
+
+    // This part would be nicer if we would add these fields in backend..
+    const buttonLabel = socials.find(({ type }) => type === "main-label");
+    const buttonLink = socials.find(({ type }) => type === "main-link");
+
+    if (buttonLabel && buttonLink) {
+      announcement.buttonLabel = buttonLabel.link;
+      announcement.buttonUrl = buttonLink.link;
+    }
 
     try {
       announcement.banner = await FileParser.base64ToFile(
@@ -64,7 +92,19 @@ export default class Announcement extends Model {
     dto.id = this.getId() || undefined;
     dto.title = this.title;
     dto.description = this.description;
-    dto.socials = JSON.stringify(this.socials);
+
+    const socials = [...this.socials];
+
+    socials.push(
+      Social.fromDto({ type: "main-label", link: this.buttonLabel })
+    );
+    socials.push(Social.fromDto({ type: "main-link", link: this.buttonUrl }));
+
+    dto.socials = JSON.stringify(socials);
+
+    if (this.campaign) {
+      dto.campaign = this.campaign;
+    }
 
     try {
       dto.imageType = this.banner.type;
