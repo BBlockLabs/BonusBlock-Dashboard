@@ -1,40 +1,37 @@
 <!DOCTYPE html>
-<html data-build-timestamp-utc="<%= new Date().toISOString() %>" data-env="<%= NODE_ENV.toUpperCase() %>">
+<html lang="en" data-build-timestamp-utc="<%- BUILD_DATE %>" data-env="<%- BUILD_ENV %>">
 <head>
-	<script>
-    /*save eyes ASAP, substitute with proper theming later*/
-    let savedTheme = window.localStorage.getItem('theme');
-
-    if (!savedTheme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        savedTheme = 'dark';
-        window.localStorage.setItem('theme', savedTheme);
-    }
-
-    if (savedTheme === 'dark') {
-        document.querySelector('html').classList.add('dark');
-    }
-	</script>
+  <!--  @formatter:off -->
 	<title>BonusBlock Network</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0">
-	<link rel="icon" href="<%= BASE_URL %>favicon.ico">
-	<!-- Primary Meta Tags -->
 	<meta name="title" content="BonusBlock Network">
+  <meta name="description" content="An strategy that rewards users for supporting protocols, CEXs, and dApp on-chain activity growth! No quests, integrations, or spamming of social networks! Use the products frequently to earn rewards!"/>
 
-	<!-- Open Graph / Facebook -->
-	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://app.altermail.live">
-	<meta property="og:title" content="ALTER - The most secure private messaging DApp">
-	<meta property="og:description" content="ALTER is a messaging DApp built on private blockchain technology powered by Secret Network's Private Smart Contracts and ECDH encryption">
-	<meta property="og:image" content="https://altermail.live/preview.png">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://app.bonusblock.io"/>
+  <meta property="og:title" content="BonusBlock Network - Create an account, link your wallets, and start earning rewards every week!"/>
+  <meta property="og:description" content="An strategy that rewards users for supporting protocols, CEXs, and dApp on-chain activity growth! No quests, integrations, or spamming of social networks! Use the products frequently to earn rewards!"/>
+  <meta property="og:image" content="https://app.bonusblock.io/preview.png"/>
+  <meta property="og:image:alt" content="BonusBlock Network"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="600"/>
 
 	<!-- Twitter -->
-	<meta property="twitter:card" content="summary_large_image">
-	<meta property="twitter:url" content="https://app.altermail.live">
-	<meta property="twitter:title" content="ALTER - The most secure private messaging DApp">
-	<meta property="twitter:description" content="ALTER is a messaging DApp built on private blockchain technology powered by Secret Network's Private Smart Contracts and ECDH encryption">
-	<meta property="twitter:image" content="https://altermail.live/preview.png">
+  <meta property="twitter:card" content="summary_large_image"/>
+  <meta property="twitter:url" content="https://app.bonusblock.io"/>
+  <meta property="twitter:title" content="BonusBlock Network - Create an account, link your wallets, and start earning rewards every week!"/>
+  <meta property="twitter:description" content="An strategy that rewards users for supporting protocols, CEXs, and dApp on-chain activity growth! No quests, integrations, or spamming of social networks! Use the products frequently to earn rewards!"/>
+  <meta property="twitter:image" content="https://app.bonusblock.io/preview.png"/>
+  <meta property="twitter:image:src" content="https://app.bonusblock.io/preview.png"/>
+
+  <!-- WHIP-002 App Name -->
+  <meta name="application-name" content="BonusBlock Network - Be rewarded for your everyday on-chain activity with BonusBlock!"/>
+  <!-- WHIP-002 App Icon -->
+  <link rel="icon" type="image/svg+xml" href="/logo.svg"/>
+  <!--  @formatter:on -->
 
   <style>
     #loader {position: fixed;top: 50%;left: 0;right: 0;bottom: 0}
@@ -43,9 +40,6 @@
     @keyframes fadein {
         from {opacity: 0}
         to {opacity: 1}
-    }
-    html.dark {
-      background-color: #131313;
     }
 </style>
 </head>
