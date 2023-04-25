@@ -1,19 +1,23 @@
 <template>
-  <el-row>
-    <el-col>
-      Campaign Index
-      <router-link to="/campaign/add">Add new</router-link>
+  <el-row justify="space-between">
+    <el-col :span="-1">
+      <h1 class="m-0"><b>Your Campaigns</b></h1>
+      Here are all of your campaigns.
+    </el-col>
 
-      <el-row v-for="campaign in campaigns" :key="campaign.id">
-        <el-col>
-          <router-link :to="`/campaign/${campaign.id}/edit`">
-            open
-          </router-link>
-          <pre>
-            {{ campaign }}
-          </pre>
-        </el-col>
-      </el-row>
+    <el-col :span="-1">
+      <router-link to="/campaign/add">
+        <el-button round type="primary"> + Create new Campaign </el-button>
+      </router-link>
+    </el-col>
+  </el-row>
+
+  <el-row v-for="campaign in campaigns" :key="campaign.id">
+    <el-col>
+      <router-link :to="`/campaign/${campaign.id}/edit`"> open </router-link>
+      <pre>
+        {{ campaign }}
+      </pre>
     </el-col>
   </el-row>
 </template>

@@ -1,11 +1,15 @@
 <template>
   <el-row v-loading="loading">
     <el-col>
-      <el-button @click="payWithMetamask"> Deposit with Metamask </el-button>
+      <el-button type="primary" class="w-100" @click="payWithMetamask">
+        Deposit with Metamask
+      </el-button>
     </el-col>
 
     <el-col>
-      <el-button @click="payWithKeplr"> Deposit with Keplr </el-button>
+      <el-button type="primary" class="w-100" @click="payWithKeplr">
+        Deposit with Keplr
+      </el-button>
     </el-col>
 
     <el-divider content-position="center">or</el-divider>

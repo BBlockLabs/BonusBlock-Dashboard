@@ -32,6 +32,14 @@ export default class CampaignValidationBuilder extends ValidationBuilder {
       numeric,
       between: between(0, 1),
     },
+    minimumPerUserAward: {
+      integer,
+      min: minValue(0),
+    },
+    maximumPerUserAward: {
+      integer,
+      min: minValue(0),
+    },
     rewardPoolTokenCount: {
       required,
       integer,

@@ -1,14 +1,14 @@
 <template>
-  <el-row justify="space-between">
+  <el-row justify="space-between" class="mt-4 mb-3">
     <el-col :span="-1">
-      <h1>Launch Campaign</h1>
+      <h1 class="m-0">Launch Campaign</h1>
     </el-col>
     <el-col :span="-1">
-      <h3>7,500.00 $UNI</h3>
+      <h3 class="m-0">7,500.00 $UNI</h3>
     </el-col>
   </el-row>
 
-  <el-card>
+  <el-card class="mt-3 mb-4">
     <el-row justify="space-between">
       <el-col :span="-1">Reward Amount</el-col>
       <el-col :span="-1">{{ campaign.rewardPoolTokenCount }}</el-col>
@@ -33,6 +33,7 @@
   <el-row
     v-if="campaign.status === 'DRAFT' || campaign.status === 'CANCELLED'"
     v-loading="loading"
+    class="mt-4"
     justify="center"
   >
     <el-col :span="-1">
@@ -44,6 +45,7 @@
 
   <payment-component
     v-if="campaign.status === 'CONFIRMED' && payments.length > 0"
+    class="mt-4"
     :payment-id="payments[0].id"
   />
 

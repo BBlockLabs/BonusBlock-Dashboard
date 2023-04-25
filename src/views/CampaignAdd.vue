@@ -1,15 +1,12 @@
 <template>
   <el-container class="h-100">
     <el-main>
-      <el-button
-        v-for="idx in 4"
-        :key="idx"
-        :disabled="idx > lastActiveStep"
-        :type="idx === step ? 'success' : ''"
-        @click="goToStep(idx)"
-      >
-        {{ idx }}
-      </el-button>
+      <el-steps :active="step - 1" align-center>
+        <el-step title="Set campaign" />
+        <el-step title="Create activities" />
+        <el-step title="Create your announcement" />
+        <el-step title="Launch!" />
+      </el-steps>
 
       <campaign-set-details
         v-if="step === 1"
@@ -53,7 +50,7 @@
       </div>
     </el-main>
 
-    <el-aside class="bl-solid" width="200px">
+    <el-aside class="bl-solid px-4" width="360px">
       <campaign-side-summary v-if="step !== 4" :campaign-id="campaign.id" />
       <campaign-side-launch v-else :campaign-id="campaign.id" />
 
@@ -192,23 +189,6 @@ export default {
     },
     setLastActiveStep() {
       this.lastActiveStep = Math.max(this.lastActiveStep, this.step);
-    },
-    /**
-     * @param {number} step
-     */
-    async goToStep(step) {
-      if (step <= this.step) {
-        this.step = step;
-        return;
-      }
-
-      while (this.step < step) {
-        if (!(await this.goToNextStep())) {
-          this.lastActiveStep = this.step;
-
-          break;
-        }
-      }
     },
     async storeCampaign() {
       if (!this.campaignFormObject.dirty()) {

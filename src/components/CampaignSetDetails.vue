@@ -1,57 +1,12 @@
 <template>
   <el-form label-position="top" @submit="() => $emit('submit', ...arguments)">
+    <h1>Set your Campaign Details</h1>
+
     <el-form-item
       v-bind="ValidationHelper.getFormItemErrorAttributes(validate['name'])"
       label="Campaign Name"
     >
       <el-input v-model="campaignFormObject.name" />
-    </el-form-item>
-
-    <el-form-item label="Frequency ratio">
-      <el-form-item
-        v-bind="
-          ValidationHelper.getFormItemErrorAttributes(
-            validate['frequencyRatioDaily']
-          )
-        "
-        label="Daily"
-      >
-        <el-input v-model="campaignFormObject.frequencyRatioDaily" />
-      </el-form-item>
-
-      <el-form-item
-        v-bind="
-          ValidationHelper.getFormItemErrorAttributes(
-            validate['frequencyRatioWeekly']
-          )
-        "
-        label="Weekly"
-      >
-        <el-input v-model="campaignFormObject.frequencyRatioWeekly" />
-      </el-form-item>
-
-      <el-form-item
-        v-bind="
-          ValidationHelper.getFormItemErrorAttributes(
-            validate['frequencyRatioMonthly']
-          )
-        "
-        label="Monthly"
-      >
-        <el-input v-model="campaignFormObject.frequencyRatioMonthly" />
-      </el-form-item>
-    </el-form-item>
-
-    <el-form-item
-      v-bind="
-        ValidationHelper.getFormItemErrorAttributes(
-          validate['rewardPoolTokenCount']
-        )
-      "
-      label="Reward Pool"
-    >
-      <contract-select-field v-model="campaignFormObject.rewardPoolContract" />
-      <el-input v-model="campaignFormObject.rewardPoolTokenCount" />
     </el-form-item>
 
     <el-form-item
@@ -63,40 +18,119 @@
       <el-date-picker v-model="campaignFormObject.timeFrame" type="daterange" />
     </el-form-item>
 
-    <el-form-item label="Other">
-      <el-form-item
-        v-bind="
-          ValidationHelper.getFormItemErrorAttributes(
-            validate['expectedReturnOfInvestment']
-          )
-        "
-        label="Expected ROI"
-      >
-        <el-input v-model="campaignFormObject.expectedReturnOfInvestment" />
-      </el-form-item>
+    <h1>Set rewards</h1>
 
-      <el-form-item
-        v-bind="
-          ValidationHelper.getFormItemErrorAttributes(
-            validate['weeklyEqualDistribution']
-          )
-        "
-        label="Weekly equal distribution"
-      >
-        <el-switch v-model="campaignFormObject.weeklyEqualDistribution" />
-      </el-form-item>
+    <el-form-item
+      v-bind="
+        ValidationHelper.getFormItemErrorAttributes(
+          validate['rewardPoolTokenCount']
+        )
+      "
+      label="Reward Pool"
+    >
+      <el-row class="w-100" :gutter="12">
+        <el-col :span="12">
+          <contract-select-field
+            v-model="campaignFormObject.rewardPoolContract"
+            class="w-100"
+          />
+        </el-col>
 
-      <el-form-item
-        v-bind="
-          ValidationHelper.getFormItemErrorAttributes(
-            validate['qualityAudience']
-          )
-        "
-        label="Quality Audience (Verified by Cookie3)"
-      >
-        <el-switch v-model="campaignFormObject.qualityAudience" />
-      </el-form-item>
+        <el-col :span="12">
+          <el-input v-model="campaignFormObject.rewardPoolTokenCount" />
+        </el-col>
+      </el-row>
     </el-form-item>
+
+    <h3>Reward frequency ratio</h3>
+
+    <el-form-item
+      v-bind="
+        ValidationHelper.getFormItemErrorAttributes(
+          validate['frequencyRatioDaily']
+        )
+      "
+      label="Daily"
+    >
+      <el-input v-model="campaignFormObject.frequencyRatioDaily" />
+    </el-form-item>
+
+    <el-form-item
+      v-bind="
+        ValidationHelper.getFormItemErrorAttributes(
+          validate['frequencyRatioWeekly']
+        )
+      "
+      label="Weekly"
+    >
+      <el-input v-model="campaignFormObject.frequencyRatioWeekly" />
+    </el-form-item>
+
+    <el-form-item
+      v-bind="
+        ValidationHelper.getFormItemErrorAttributes(
+          validate['frequencyRatioMonthly']
+        )
+      "
+      label="Monthly"
+    >
+      <el-input v-model="campaignFormObject.frequencyRatioMonthly" />
+    </el-form-item>
+
+    <el-form-item
+      v-bind="
+        ValidationHelper.getFormItemErrorAttributes(
+          validate['minimumPerUserAward']
+        )
+      "
+      label="Minimum reward per user"
+    >
+      <el-input v-model="campaignFormObject.minimumPerUserAward" />
+    </el-form-item>
+
+    <el-form-item
+      v-bind="
+        ValidationHelper.getFormItemErrorAttributes(
+          validate['maximumPerUserAward']
+        )
+      "
+      label="Maximum reward per user"
+    >
+      <el-input v-model="campaignFormObject.maximumPerUserAward" />
+    </el-form-item>
+
+    <h1>Other</h1>
+
+    <el-row :gutter="12">
+      <el-col :span="13">
+        <el-form-item
+          v-bind="
+            ValidationHelper.getFormItemErrorAttributes(
+              validate['expectedReturnOfInvestment']
+            )
+          "
+          label="Expected ROI"
+        >
+          <el-input v-model="campaignFormObject.expectedReturnOfInvestment" />
+        </el-form-item>
+      </el-col>
+
+      <el-col :span="11">
+        <el-form-item class="m-0">
+          <el-switch
+            v-model="campaignFormObject.weeklyEqualDistribution"
+            active-text="Weekly equal distribution"
+          />
+        </el-form-item>
+
+        <el-form-item>
+          <el-switch
+            v-model="campaignFormObject.qualityAudience"
+            active-text="Quality Audience (Verified by Cookie3)"
+          />
+        </el-form-item>
+      </el-col>
+    </el-row>
 
     <debug-wrapper>{{ campaignFormObject }}</debug-wrapper>
   </el-form>

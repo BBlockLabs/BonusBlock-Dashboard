@@ -1,0 +1,9 @@
+@use 'element-plus/theme-chalk/src/mixins/mixins' as EPMixins;
+@use 'element-plus/theme-chalk/src/mixins/function' as EPFunctions;
+
+@include EPMixins.b(form-item) {
+  @include EPMixins.e(label) {
+    font-weight: bold;
+    color: EPFunctions.getCssVar('text-color', 'primary');
+  }
+}

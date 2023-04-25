@@ -1,0 +1,58 @@
+@use 'element-plus/theme-chalk/src/mixins/mixins' as EPMixins;
+@use 'element-plus/theme-chalk/src/mixins/function' as EPFunctions;
+
+@include EPMixins.b(step) {
+  @include EPMixins.e(icon) {
+    background: white;
+  }
+
+  @include EPMixins.e(head) {
+    @include EPMixins.when(process) {
+      color: EPMixins.getCssVar('color-primary');
+      border-color: EPMixins.getCssVar('color-primary');
+
+      @include EPMixins.e(icon) {
+        background-color: EPMixins.getCssVar('color-primary-light-9');
+      }
+    }
+
+    @include EPMixins.when(wait) {
+      color: EPMixins.getCssVar('text-color', 'secondary');
+      border-color: EPMixins.getCssVar('text-color', 'secondary');
+    }
+
+    @include EPMixins.when(finish) {
+      color: EPMixins.getCssVar('color-white');
+      border-color: EPMixins.getCssVar('color-primary');
+
+      @include EPMixins.e(icon) {
+        background-color: EPMixins.getCssVar('color-primary');
+      }
+
+      @include EPMixins.e(line-inner) {
+        transition-delay: 0ms !important;
+        border-width: 1px !important;
+        width: 100% !important;
+      }
+    }
+  }
+
+  @include EPMixins.e(title) {
+    line-height: 22px;
+
+    @include EPMixins.when(process) {
+      color: EPMixins.getCssVar('color-primary');
+      font-weight: normal;
+    }
+
+    @include EPMixins.when(wait) {
+      color: EPMixins.getCssVar('text-color', 'secondary');
+    }
+  }
+
+  @include EPMixins.e(description) {
+    @include EPMixins.when(wait) {
+      color: EPMixins.getCssVar('text-color', 'secondary');
+    }
+  }
+}

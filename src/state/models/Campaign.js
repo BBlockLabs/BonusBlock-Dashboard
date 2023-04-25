@@ -38,6 +38,16 @@ export default class Campaign extends Model {
   frequencyRatioWeekly = 2 / 3;
 
   /**
+   * @type {bigint | null}
+   */
+  minimumPerUserAward = null;
+
+  /**
+   * @type {bigint | null}
+   */
+  maximumPerUserAward = null;
+
+  /**
    * @type {number}
    */
   frequencyRatioMonthly = 1 / 3;

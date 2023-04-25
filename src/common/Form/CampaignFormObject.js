@@ -21,6 +21,14 @@ export default class CampaignFormObject extends formObject {
   /**
    * @type {string}
    */
+  minimumPerUserAward = "0";
+  /**
+   * @type {string}
+   */
+  maximumPerUserAward = "0";
+  /**
+   * @type {string}
+   */
   rewardPoolContract = "";
   /**
    * @type {string}
@@ -43,7 +51,7 @@ export default class CampaignFormObject extends formObject {
    */
   qualityAudience = false;
   /**
-   * @type {Array<String>>}
+   * @type {Array<String>}
    */
   categories = [];
   /**
@@ -62,6 +70,15 @@ export default class CampaignFormObject extends formObject {
     campaign.frequencyRatioDaily = parseFloat(this.frequencyRatioDaily);
     campaign.frequencyRatioWeekly = parseFloat(this.frequencyRatioWeekly);
     campaign.frequencyRatioMonthly = parseFloat(this.frequencyRatioMonthly);
+
+    if (this.minimumPerUserAward) {
+      campaign.minimumPerUserAward = BigInt(this.minimumPerUserAward);
+    }
+
+    if (this.maximumPerUserAward) {
+      campaign.maximumPerUserAward = BigInt(this.maximumPerUserAward);
+    }
+
     campaign.rewardPoolContract = this.rewardPoolContract;
     campaign.rewardPoolTokenCount = BigInt(this.rewardPoolTokenCount);
     campaign.timeFrameFrom = this.timeFrame[0];
@@ -84,6 +101,8 @@ export default class CampaignFormObject extends formObject {
     this.frequencyRatioDaily = campaign.frequencyRatioDaily.toString();
     this.frequencyRatioWeekly = campaign.frequencyRatioWeekly.toString();
     this.frequencyRatioMonthly = campaign.frequencyRatioMonthly.toString();
+    this.minimumPerUserAward = campaign.minimumPerUserAward?.toString() || "";
+    this.maximumPerUserAward = campaign.maximumPerUserAward?.toString() || "";
     this.rewardPoolContract = campaign.rewardPoolContract;
     this.rewardPoolTokenCount = campaign.rewardPoolTokenCount.toString();
     this.timeFrame[0] = campaign.timeFrameFrom;
