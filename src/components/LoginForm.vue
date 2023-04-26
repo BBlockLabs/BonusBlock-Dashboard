@@ -1,5 +1,5 @@
 <template>
-  <el-form v-loading="loading" @submit.prevent="login">
+  <el-form @submit.prevent="login">
     <el-row justify="center">
       <el-col>
         <el-form-item
@@ -63,14 +63,13 @@ export default {
     Mail,
   },
   mixins: [Toast, Vuelidate],
-  emits: ["loginSuccess", "loginFailed", "loginError"],
+  emits: ["loginSuccess", "loginFailed", "loginError", "loginLoading"],
   data() {
     return {
       formData: {
         username: "",
         password: "",
       },
-      loading: false,
     };
   },
   methods: {
@@ -80,8 +79,6 @@ export default {
       if (this.vuelidate.$errors.length > 0) {
         return;
       }
-
-      this.loading = true;
 
       const passwordHash = await crypto.subtle
         .digest(
@@ -101,17 +98,16 @@ export default {
         password: passwordHash,
       };
 
+      this.$emit("loginLoading", true);
+
       try {
         const response = await this.$store.dispatch("Auth/login", loginData);
 
         if (!response.success) {
           this.Toast("Failed to login", response.data, "error");
           this.$emit("loginFailed", response.errors);
-
           return;
         }
-
-        this.Toast("Log in successfully", "", "success");
 
         this.$emit("loginSuccess", response.data);
       } catch (e) {
@@ -119,7 +115,7 @@ export default {
         this.ToastError(e, "login");
         console.error(e);
       } finally {
-        this.loading = false;
+        this.$emit("loginLoading", false);
       }
     },
   },

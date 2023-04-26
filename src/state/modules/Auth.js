@@ -30,13 +30,6 @@ export default {
     setUser(state, user) {
       state.user = user;
     },
-    /**
-     * @param {object} state
-     * @param {import('@/state/models/Deployment').Deployment} deployment
-     */
-    addDeployment(state, deployment) {
-      state.user.deployments.push(deployment);
-    },
   },
   actions: {
     /**
@@ -47,8 +40,8 @@ export default {
     async login({ commit }, loginData) {
       const response = await HttpRequest.makeRequest("auth/login", loginData);
 
-      if (response.error) {
-        return new ActionResponse(false, response.error);
+      if (!response.success) {
+        return new ActionResponse(false, response.errors, "error");
       }
 
       const user = new User(response.payload.account);
@@ -71,7 +64,7 @@ export default {
         nonce: nonce,
       });
 
-      if (response.error) {
+      if (!response.success) {
         return false;
       }
 
@@ -86,7 +79,8 @@ export default {
       if (!window.keplr) {
         return new ActionResponse(
           false,
-          "Keplr extension not reachable. Enable or install it first and reload the page."
+          "Keplr extension not reachable. Enable or install it first and reload the page.",
+          "error"
         );
       }
 
@@ -100,7 +94,11 @@ export default {
         await keplr.enable(chainData.chainId);
       } catch (e) {
         console.error(e);
-        return new ActionResponse(false, "Could not authorize against network");
+        return new ActionResponse(
+          false,
+          "Could not authorize against network",
+          "error"
+        );
       }
 
       const offlineSigner = await keplr.getOfflineSignerOnlyAmino(
@@ -110,7 +108,11 @@ export default {
       const accounts = await offlineSigner.getAccounts();
 
       if (accounts.length === 0) {
-        return new ActionResponse(false, "Could not authorize against network");
+        return new ActionResponse(
+          false,
+          "Could not authorize against network",
+          "error"
+        );
       }
 
       const nonce = crypto.randomUUID();
@@ -130,7 +132,7 @@ export default {
         );
       } catch (e) {
         console.error(e);
-        return new ActionResponse(false, e.toString());
+        return new ActionResponse(false, e.toString(), "error");
       }
 
       const authData = {
@@ -140,8 +142,8 @@ export default {
       };
       const response = await HttpRequest.makeRequest("auth/wallet", authData);
 
-      if (response.error) {
-        return new ActionResponse(false, response.errors);
+      if (!response.success) {
+        return new ActionResponse(false, response.errors, "error");
       }
 
       const user = new User(response.payload.account);
@@ -182,8 +184,8 @@ export default {
       };
       const response = await HttpRequest.makeRequest("auth/wallet", authData);
 
-      if (response.error) {
-        return new ActionResponse(false, response.errors);
+      if (!response.success) {
+        return new ActionResponse(false, response.errors, "error");
       }
 
       const user = new User(response.payload.account);
@@ -207,8 +209,8 @@ export default {
         registrationData
       );
 
-      if (response.error) {
-        return new ActionResponse(false, response.errors);
+      if (!response.success) {
+        return new ActionResponse(false, response.errors, "error");
       }
 
       const user = new User(response.payload.account);
@@ -225,8 +227,8 @@ export default {
     async logout({ commit }) {
       const response = await HttpRequest.makeRequest("auth/logout");
 
-      if (response.error) {
-        return new ActionResponse(false, response.errors);
+      if (!response.success) {
+        return new ActionResponse(false, response.errors, "error");
       }
 
       commit("setUser", null);
@@ -269,7 +271,7 @@ export default {
 
       const response = await HttpRequest.makeRequest("get-status");
 
-      if (response.error) {
+      if (!response.success) {
         return;
       }
 

@@ -42,8 +42,8 @@ export default {
         requestBody
       );
 
-      if (response.error) {
-        return new ActionResponse(false, response.error);
+      if (!response.success) {
+        return new ActionResponse(false, response.errors, "error");
       }
 
       const project = new Project(response.payload.project);

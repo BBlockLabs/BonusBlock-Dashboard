@@ -215,8 +215,6 @@ export default {
         return;
       }
 
-      this.Toast("Project created successfully", "", "success");
-
       this.$store.state.hideMenus = false;
       this.$router.push("/");
     },
@@ -225,7 +223,7 @@ export default {
     return {
       formData: {
         title: {
-          minLength: minLength(4),
+          minLength: minLength(6),
           required,
         },
       },
