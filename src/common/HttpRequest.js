@@ -37,7 +37,8 @@ export class HttpRequest {
       this.session = null;
     }
 
-    if (!response.ok) {
+    if (!response.ok && response.status !== 400) {
+      // return this on non-400 error response
       return new HttpResponse(false, null, ["response error"], moment());
     }
 

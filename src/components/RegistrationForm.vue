@@ -1,5 +1,5 @@
 <template>
-  <el-form v-loading="loading" @submit.prevent="register">
+  <el-form @submit.prevent="register">
     <el-row justify="center">
       <el-col>
         <el-form-item :error="getErrorMessage(vuelidate.formData.username)">
@@ -77,7 +77,7 @@ export default {
     Mail,
   },
   mixins: [Toast, Vuelidate],
-  emits: ["registerSuccess", "registerFailed", "registerError"],
+  emits: ["registerSuccess", "registerFailed", "registerError", "loginLoading"],
   data() {
     return {
       formData: {
@@ -96,7 +96,7 @@ export default {
         return;
       }
 
-      this.loading = true;
+      this.$emit("loginLoading", true);
 
       try {
         const passwordHash = await crypto.subtle
@@ -127,11 +127,8 @@ export default {
         if (!response.success) {
           this.Toast("Failed to register", response.data, "error");
           this.$emit("registerFailed", response.errors);
-
           return;
         }
-
-        this.Toast("Registration successfully", "", "success");
 
         this.$emit("registerSuccess", response.data);
       } catch (e) {
@@ -139,7 +136,7 @@ export default {
         this.ToastError(e, "register");
         console.error(e);
       } finally {
-        this.loading = false;
+        this.$emit("loginLoading", false);
       }
     },
     /**
@@ -162,15 +159,15 @@ export default {
     return {
       formData: {
         username: {
-          minLength: minLength(4),
+          minLength: minLength(6),
           required,
         },
         password: {
-          minLength: minLength(4),
+          minLength: minLength(8),
           required,
         },
         passwordRepeat: {
-          sameAsPassword: sameAs(this.formData.passwordRepeat),
+          sameAsPassword: sameAs(this.formData.password),
           required,
         },
       },

@@ -20,7 +20,7 @@
         </el-col>
       </el-row>
 
-      <el-row>
+      <el-row v-loading="loading">
         <div class="m-auto w-50">
           <el-row justify="center">
             <el-col :span="-1">
@@ -40,10 +40,12 @@
               <sso-login-button
                 :type="User.LOGIN_METHOD_KEPLR"
                 @login-success="loggedIn"
+                @login-loading="loadingState"
               />
               <sso-login-button
                 :type="User.LOGIN_METHOD_METAMASK"
                 @login-success="loggedIn"
+                @login-loading="loadingState"
               />
               <!--              <sso-login-button
                 :type="User.LOGIN_METHOD_GITHUB"
@@ -64,7 +66,10 @@
 
           <el-row justify="center" class="mt-2">
             <el-col>
-              <login-form @login-success="loggedIn" />
+              <login-form
+                @login-success="loggedIn"
+                @login-loading="loadingState"
+              />
             </el-col>
           </el-row>
         </div>
@@ -77,7 +82,6 @@
 <script>
 import SsoLoginButton from "@/components/SsoLoginButton.vue";
 import LoginForm from "@/components/LoginForm.vue";
-import Toast from "@/mixins/Toast";
 import User from "@/state/models/User";
 import BBlockLogo from "@/assets/bblock/logo.svg";
 import LoginFooter from "@/components/LoginFooter.vue";
@@ -89,11 +93,18 @@ export default {
     BBlockLogo,
     LoginFooter,
   },
-  mixins: [Toast],
+  data() {
+    return {
+      loading: false,
+    };
+  },
   computed: {
     User: () => User,
   },
   methods: {
+    loadingState(state) {
+      this.loading = state;
+    },
     loggedIn() {
       if (this.$route.query?.from) {
         this.$router.push(this.$route.query.from);

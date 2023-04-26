@@ -19,7 +19,7 @@ export default {
       required: true,
     },
   },
-  emits: ["loginSuccess", "loginFailed", "loginError"],
+  emits: ["loginSuccess", "loginFailed", "loginError", "loginLoading"],
   computed: {
     icon() {
       switch (this.type) {
@@ -36,6 +36,7 @@ export default {
   },
   methods: {
     async login() {
+      this.$emit("loginLoading", true);
       try {
         let response;
         if (this.type === User.LOGIN_METHOD_KEPLR) {
@@ -45,20 +46,19 @@ export default {
         }
 
         if (!response.success) {
-          this.Toast("Failed to login", "", "error");
-
+          this.Toast("Failed to login", response.errors, "error");
           this.$emit("loginFailed", response.errors);
-
           return;
         }
 
         this.Toast("Logged in successfully", "", "success", 1500);
-
         this.$emit("loginSuccess", response.data);
       } catch (e) {
         this.$emit("loginError", e);
         this.ToastError(e, "login");
         console.error(e);
+      } finally {
+        this.$emit("loginLoading", false);
       }
     },
   },

@@ -191,7 +191,7 @@ export default {
   }
 
   .home-icon {
-    width: 4em;
+    width: 100%;
     height: 4em;
     background-color: v.$color-primary-light-7;
     display: flex;

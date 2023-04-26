@@ -20,7 +20,7 @@
         </el-col>
       </el-row>
 
-      <el-row>
+      <el-row v-loading="loading">
         <div class="m-auto w-50">
           <el-row justify="center">
             <el-col :span="-1">
@@ -40,10 +40,12 @@
               <sso-login-button
                 :type="User.LOGIN_METHOD_KEPLR"
                 @login-success="registered"
+                @login-loading="loadingState"
               />
               <sso-login-button
                 :type="User.LOGIN_METHOD_METAMASK"
                 @login-success="registered"
+                @login-loading="loadingState"
               />
               <!--              <sso-login-button
                 :type="User.LOGIN_METHOD_GITHUB"
@@ -64,7 +66,10 @@
 
           <el-row justify="center" class="mt-2">
             <el-col>
-              <registration-form @register-success="registered" />
+              <registration-form
+                @register-success="registered"
+                @login-loading="loadingState"
+              />
             </el-col>
           </el-row>
         </div>
@@ -88,10 +93,18 @@ export default {
     BBlockLogo,
     LoginFooter,
   },
+  data() {
+    return {
+      loading: false,
+    };
+  },
   computed: {
     User: () => User,
   },
   methods: {
+    loadingState(state) {
+      this.loading = state;
+    },
     registered() {
       this.$router.push("/create-project");
     },
