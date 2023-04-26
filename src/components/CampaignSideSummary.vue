@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-fill-lighter py-3 px-4 br-base">
+  <box-wrapper class="px-4">
     <h3 class="m-0">{{ campaign.name || "Unnamed campaign" }}</h3>
     {{ announcements.length }} announcements
-  </div>
+  </box-wrapper>
 
   <div v-if="announcements.length > 0" class="my-3">
     <h3 class="m-0"><b>Announcement Preview</b></h3>
@@ -15,10 +15,7 @@
     />
   </div>
 
-  <div
-    v-if="categories.length > 0 || network || product"
-    class="bg-fill-lighter p-3 my-3 br-base"
-  >
+  <box-wrapper v-if="categories.length > 0 || network || product" class="my-3">
     <el-row v-if="categories.length > 0" justify="space-between">
       <el-col :span="-1">
         <b>Categories</b>
@@ -55,31 +52,33 @@
         {{ product.name || "-" }}
       </el-col>
     </el-row>
-  </div>
+  </box-wrapper>
 
   <div v-if="rewardedActivities.length > 0">
     <h3><b>Activities</b></h3>
 
-    <div
+    <box-wrapper
       v-for="rewardedActivity in rewardedActivities"
       :key="rewardedActivity.id"
-      class="bg-fill-lighter p-3 br-base my-3"
+      class="my-3"
     >
       <rewarded-activity-side-box :rewarded-activity-id="rewardedActivity.id" />
-    </div>
+    </box-wrapper>
   </div>
 </template>
 
 <script>
+import AnnouncementPreview from "@/components/AnnouncementPreview.vue";
+import BoxWrapper from "@/components/BoxWrapper.vue";
 import Campaign from "@/state/models/Campaign.js";
 import FileParser from "@/common/FileParser.js";
-import AnnouncementPreview from "@/components/AnnouncementPreview.vue";
 import RewardedActivitySideBox from "@/components/RewardedActivitySideBox.vue";
 
 export default {
   components: {
-    RewardedActivitySideBox,
     AnnouncementPreview,
+    BoxWrapper,
+    RewardedActivitySideBox,
   },
   props: {
     campaignId: {

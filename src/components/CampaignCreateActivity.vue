@@ -3,7 +3,7 @@
     label-position="top"
     @submit.prevent="() => $emit('submit', ...arguments)"
   >
-    <h1><b>Select Product</b></h1>
+    <h1 class="mt-0"><b>Select Product</b></h1>
 
     <el-form-item label="Categories">
       <category-select-field

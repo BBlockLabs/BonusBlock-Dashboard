@@ -1,12 +1,22 @@
 <template>
   <el-container class="h-100">
     <el-main>
-      <el-steps :active="step - 1" align-center>
-        <el-step title="Set campaign" />
-        <el-step title="Create activities" />
-        <el-step title="Create your announcement" />
-        <el-step title="Launch!" />
-      </el-steps>
+      <el-row>
+        <el-col :span="-1">
+          <el-button link @click="back">
+            <svg-nav-arrow-left class="icon" />
+          </el-button>
+        </el-col>
+
+        <el-col :span="-1">
+          <el-steps :active="step - 1" align-center class="mb-5">
+            <el-step title="Set campaign" />
+            <el-step title="Create activities" />
+            <el-step title="Create your announcement" />
+            <el-step title="Launch!" />
+          </el-steps>
+        </el-col>
+      </el-row>
 
       <campaign-set-details
         v-if="step === 1"
@@ -42,18 +52,16 @@
         :validation="announcementFormValidation"
       />
 
-      <div v-if="step === 4">
-        <h2>Create an announcement</h2>
-
-        <campaign-summary :campaign-id="campaign.id" />
-      </div>
+      <campaign-summary v-if="step === 4" :campaign-id="campaign.id" />
     </el-main>
 
     <el-aside class="bl-solid px-4" width="360px">
       <campaign-side-summary v-if="step !== 4" :campaign-id="campaign.id" />
       <campaign-side-launch v-else :campaign-id="campaign.id" />
 
-      <el-button v-if="step !== 4" @click="goToNextStep"> Continue </el-button>
+      <el-button v-if="step !== 4" class="mt-3" @click="goToNextStep">
+        Continue
+      </el-button>
     </el-aside>
   </el-container>
 </template>
@@ -67,24 +75,26 @@ import Campaign from "@/state/models/Campaign.js";
 import CampaignCreateActivity from "@/components/CampaignCreateActivity.vue";
 import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
 import CampaignSetDetails from "@/components/CampaignSetDetails.vue";
+import CampaignSideLaunch from "@/components/CampaignSideLaunch.vue";
+import CampaignSideSummary from "@/components/CampaignSideSummary.vue";
 import CampaignSummary from "@/components/CampaignSummary.vue";
 import CampaignValidationBuilder from "@/common/validation/CampaignValidationBuilder.js";
 import MessageBox from "@/mixins/MessageBox.js";
 import RewardedActivity from "@/state/models/RewardedActivity.js";
 import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
 import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
+import SvgNavArrowLeft from "@/assets/icons/nav-arrow-left.svg";
 import Toast from "@/mixins/Toast.js";
-import CampaignSideSummary from "@/components/CampaignSideSummary.vue";
-import CampaignSideLaunch from "@/components/CampaignSideLaunch.vue";
 
 export default {
   components: {
-    CampaignSideLaunch,
     AnnouncementForm,
     CampaignCreateActivity,
     CampaignSetDetails,
-    CampaignSummary,
+    CampaignSideLaunch,
     CampaignSideSummary,
+    CampaignSummary,
+    SvgNavArrowLeft,
   },
   mixins: [Toast, MessageBox],
   data() {
@@ -139,6 +149,13 @@ export default {
       );
   },
   methods: {
+    back() {
+      if (this.step > 1) {
+        this.step--;
+      } else {
+        this.$router.push("/campaign");
+      }
+    },
     async loadAnnouncement() {
       const campaignId = this.$route.params.id;
 

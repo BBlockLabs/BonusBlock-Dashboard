@@ -1,3 +1,6 @@
+import { HttpRequest } from "@/common/HttpRequest.js";
+import ActionResponse from "@/common/ActionResponse.js";
+
 export class PaymentState {
   /**
    * @type {Map<String, Payment>}
@@ -50,6 +53,41 @@ export default {
      */
     removePayment(state, paymentId) {
       state.payments.remove(paymentId);
+    },
+  },
+  actions: {
+    /**
+     * @param getters
+     * @param commit
+     * @param {string} campaignId
+     * @param {string} paymentId
+     * @return {Promise<ActionResponse>}
+     */
+    async getPaymentInfo({ getters, commit }, { campaignId, paymentId }) {
+      const payment = getters["getPayment"](paymentId);
+
+      if (!payment) {
+        return new ActionResponse(false, null, "PAYMENT_NOT_FOUND");
+      }
+
+      const response = await HttpRequest.makeRequest(
+        `campaign/${campaignId}/payment-info`
+      );
+
+      if (!response.success) {
+        return new ActionResponse(false, null, response.errors);
+      }
+
+      /**
+       * @type {PaymentDto}
+       */
+      const payload = response.payload;
+
+      payment.status = payload.status;
+
+      commit("setPayment", payment);
+
+      return new ActionResponse(true, null);
     },
   },
 };

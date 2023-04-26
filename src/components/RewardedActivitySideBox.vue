@@ -40,19 +40,14 @@
 
   <el-row justify="end">
     <el-col :span="-1">
-      <el-button
-        plain
-        circle
-        type="danger"
+      <delete-button
         @click="
           $store.commit(
             'RewardedActivity/removeRewardedActivity',
             rewardedActivity.id
           )
         "
-      >
-        <svg-trash />
-      </el-button>
+      />
     </el-col>
   </el-row>
 
@@ -65,12 +60,12 @@
 import Action from "@/state/models/Action.js";
 import Activity from "@/state/models/Activity.js";
 import DebugWrapper from "@/components/DebugWrapper.vue";
-import SvgTrash from "@/assets/icons/trash.svg";
+import DeleteButton from "@/components/DeleteButton.vue";
 
 export default {
   components: {
     DebugWrapper,
-    SvgTrash,
+    DeleteButton,
   },
   props: {
     rewardedActivityId: {

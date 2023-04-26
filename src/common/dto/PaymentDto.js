@@ -22,7 +22,7 @@ export default class PaymentDto {
    */
   payCurrency = "";
   /**
-   * @type {"INITIATED"}
+   * @type {"INITIATED" | "SUCCESS"}
    */
   status = "INITIATED";
   /**

@@ -1,6 +1,7 @@
 import ActionResponse from "@/common/ActionResponse";
 import Contract from "@/state/models/Contract.js";
 import { HttpRequest } from "@/common/HttpRequest.js";
+import Fee from "@/state/models/Fee.js";
 
 export class ContractState {
   /**
@@ -66,7 +67,14 @@ export default {
       const payload = response.payload;
 
       payload.forEach((contractDto) => {
-        commit("setContract", Contract.fromDto(contractDto));
+        const contract = Contract.fromDto(contractDto);
+
+        const fee = Fee.fromDto(contractDto.fee);
+
+        fee.contract = contract.id;
+
+        commit("setContract", contract);
+        commit("Fee/setFee", fee, { root: true });
       });
 
       return new ActionResponse(true, null);

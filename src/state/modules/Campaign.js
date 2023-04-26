@@ -8,6 +8,7 @@ import Category from "@/state/models/Category.js";
 import RewardedActivity from "@/state/models/RewardedActivity.js";
 import Action from "@/state/models/Action.js";
 import Payment from "@/state/models/Payment.js";
+import Fee from "@/state/models/Fee.js";
 
 const endpointStatuses = {
   CONFIRMED: "confirm",
@@ -132,11 +133,13 @@ export default {
 
       payload.forEach((campaignDto) => {
         if (campaignDto.rewardPool) {
-          commit(
-            "Contract/setContract",
-            Contract.fromDto(campaignDto.rewardPool),
-            { root: true }
-          );
+          const contract = Contract.fromDto(campaignDto.rewardPool);
+          const fee = Fee.fromDto(campaignDto.rewardPool.fee);
+
+          fee.contract = contract.id;
+
+          commit("Contract/setContract", contract, { root: true });
+          commit("Fee/setFee", fee, { root: true });
         }
 
         if (campaignDto.network) {
@@ -159,10 +162,13 @@ export default {
 
         if (campaignDto.payment !== null) {
           const payment = Payment.fromDto(campaignDto.payment);
+          const fee = Fee.fromDto(campaignDto.payment.fee);
 
           payment.campaignId = campaignDto.id;
+          fee.payment = payment.id;
 
           commit("Payment/setPayment", payment, { root: true });
+          commit("Fee/setFee", fee, { root: true });
         }
 
         campaignDto.actions.forEach((rewardedActivityDto) => {

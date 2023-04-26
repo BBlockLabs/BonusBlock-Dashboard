@@ -3,7 +3,7 @@
     label-position="top"
     @submit.prevent="() => $emit('submit', ...arguments)"
   >
-    <h1>Set your Campaign Details</h1>
+    <h1 class="mt-0"><b>Set your Campaign Details</b></h1>
 
     <el-form-item
       v-bind="ValidationHelper.getFormItemErrorAttributes(validate['name'])"

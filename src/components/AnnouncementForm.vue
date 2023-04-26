@@ -1,6 +1,6 @@
 <template>
   <el-form label-position="top">
-    <h1><b>Create an announcement</b></h1>
+    <h1 class="mt-0"><b>Create an announcement</b></h1>
 
     <el-form-item
       v-bind="ValidationHelper.getFormItemErrorAttributes(validate['banner'])"

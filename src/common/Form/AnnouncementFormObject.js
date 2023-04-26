@@ -30,8 +30,9 @@ export default class AnnouncementFormObject extends formObject {
   constructor() {
     super();
 
-    this.socials.length = 10;
-    this.socials = this.socials.map(() => new Social());
+    for (let i = 0; i < 10; i++) {
+      this.socials.push(new Social());
+    }
   }
 
   /**
@@ -59,6 +60,7 @@ export default class AnnouncementFormObject extends formObject {
     for (let i = this.socials.length; i < 10; i++) {
       this.socials.push(new Social());
     }
+
     this.buttonLabel = announcement.buttonLabel;
     this.buttonUrl = announcement.buttonUrl;
   }

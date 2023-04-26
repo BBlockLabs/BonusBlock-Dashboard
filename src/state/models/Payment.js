@@ -27,7 +27,7 @@ export default class Payment extends Model {
   deadline;
 
   /**
-   * @type {"INITIATED"}
+   * @type {"INITIATED" | "SUCCESS"}
    */
   status;
 

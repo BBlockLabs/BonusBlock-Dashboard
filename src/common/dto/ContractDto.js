@@ -19,4 +19,9 @@ export default class ContractDto {
    * @type {number}
    */
   decimal = 0;
+
+  /**
+   * @type {FeeDto}
+   */
+  fee = null;
 }
