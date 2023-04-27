@@ -18,8 +18,8 @@
       :key="campaign.id"
       class="py-3"
       :md="12"
-      :lg="3"
-      :xl="4"
+      :lg="8"
+      :xl="6"
     >
       <campaign-card :campaign-id="campaign.id" />
     </el-col>

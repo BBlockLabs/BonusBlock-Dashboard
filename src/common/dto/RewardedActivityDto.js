@@ -4,13 +4,13 @@ export default class RewardedActivityDto {
    */
   productActivityAction = "";
   /**
-   * @type {number}
+   * @type {string}
    */
-  minTrxLimit = 0;
+  minTrxLimit = "0";
   /**
-   * @type {number}
+   * @type {string}
    */
-  addTrxLimit = 0;
+  addTrxLimit = "0";
   /**
    * @type {number}
    */

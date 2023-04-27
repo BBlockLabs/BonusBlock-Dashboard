@@ -6,8 +6,7 @@
       </el-col>
       <el-col :span="-1">
         <h3 class="m-0">
-          {{ campaign.rewardPoolTokenCount }}
-          {{ contract.address }}
+          {{ Formatter.token(campaign.rewardPoolTokenCount, contract, 2) }}
         </h3>
       </el-col>
     </el-row>
@@ -15,23 +14,31 @@
     <box-wrapper class="my-3">
       <el-row justify="space-between">
         <el-col :span="-1">Reward Amount</el-col>
-        <el-col :span="-1">{{ paymentPreview?.baseAmount || "-" }}</el-col>
+        <el-col :span="-1">
+          {{ Formatter.token(paymentPreview?.baseAmount || 0, contract, 2) }}
+        </el-col>
       </el-row>
 
       <el-row justify="space-between">
         <el-col :span="-1">Gas Fees</el-col>
-        <el-col :span="-1">{{ paymentPreview?.gasFee || "-" }}</el-col>
+        <el-col :span="-1">
+          {{ Formatter.token(paymentPreview?.gasFee || 0, contract, 2) }}
+        </el-col>
       </el-row>
 
       <el-row justify="space-between">
         <el-col :span="-1">Commission Fees</el-col>
-        <el-col :span="-1">{{ paymentPreview?.commissionFee || "-" }}</el-col>
+        <el-col :span="-1">
+          {{ Formatter.token(paymentPreview?.commissionFee || 0, contract, 2) }}
+        </el-col>
       </el-row>
 
       <el-row justify="space-between">
         <el-col :span="-1"><b>Total</b></el-col>
         <el-col :span="-1">
-          <b>{{ paymentPreview?.totalAmount || "-" }}</b>
+          <b>
+            {{ Formatter.token(paymentPreview?.totalAmount || 0, contract, 2) }}
+          </b>
         </el-col>
       </el-row>
     </box-wrapper>
@@ -74,6 +81,7 @@ import Campaign from "@/state/models/Campaign.js";
 import AnnouncementPreview from "@/components/AnnouncementPreview.vue";
 import PaymentComponent from "@/components/PaymentComponent.vue";
 import BoxWrapper from "@/components/BoxWrapper.vue";
+import { Formatter } from "@/common/Formatter.js";
 
 export default {
   components: {
@@ -93,6 +101,7 @@ export default {
     };
   },
   computed: {
+    Formatter: () => Formatter,
     paymentPreview() {
       return this.$store.getters["PaymentPreview/getPaymentPreview"](
         this.campaignId

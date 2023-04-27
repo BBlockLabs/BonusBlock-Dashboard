@@ -51,8 +51,7 @@
     <el-row justify="space-between">
       <el-col :span="-1"><b>Reward Pool and total amount</b></el-col>
       <el-col :span="-1">
-        {{ campaign.rewardPoolTokenCount }}
-        {{ contract.address }}
+        {{ Formatter.token(campaign.rewardPoolTokenCount, contract, 2) }}
       </el-col>
     </el-row>
 
@@ -123,6 +122,7 @@ import Campaign from "@/state/models/Campaign.js";
 import DeleteButton from "@/components/DeleteButton.vue";
 import Toast from "@/mixins/Toast.js";
 import moment from "moment";
+import { Formatter } from "@/common/Formatter.js";
 
 export default {
   components: {
@@ -137,6 +137,7 @@ export default {
     },
   },
   computed: {
+    Formatter: () => Formatter,
     moment: () => moment,
     mostRewardedInteraction() {
       if (

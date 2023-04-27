@@ -119,7 +119,7 @@ export default {
 
       return new ActionResponse(true, null);
     },
-    async loadCampaigns({ commit }) {
+    async loadCampaigns({ commit, rootGetters }) {
       const response = await HttpRequest.makeRequest("campaign/list");
 
       if (!response.success) {
@@ -171,6 +171,13 @@ export default {
           commit("Fee/setFee", fee, { root: true });
         }
 
+        rootGetters["RewardedActivity/getByCampaign"](campaignDto.id).forEach(
+          ({ id }) => {
+            commit("RewardedActivity/removeRewardedActivity", id, {
+              root: true,
+            });
+          }
+        );
         campaignDto.actions.forEach((rewardedActivityDto) => {
           const rewardedActivity =
             RewardedActivity.fromDto(rewardedActivityDto);

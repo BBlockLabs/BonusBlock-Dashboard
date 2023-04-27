@@ -1,5 +1,5 @@
 <template>
-  <el-container class="h-100">
+  <el-container class="h-100" v-loading="loading">
     <el-main>
       <el-row>
         <el-col :span="-1">
@@ -99,7 +99,7 @@ export default {
   mixins: [Toast, MessageBox],
   data() {
     return {
-      lastActiveStep: 1,
+      loading: false,
       step: 1,
       campaign: new Campaign(),
       announcement: new Announcement(),
@@ -120,19 +120,10 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("Network/preloadNetworks");
-    this.$store.dispatch("Contract/preloadContracts");
-
-    if (this.$route.params.id) {
-      this.campaign = this.$store.getters["Campaign/getCampaign"](
-        this.$route.params.id
-      );
-
-      this.loadAnnouncement();
-    }
-
     this.campaignFormObject.setValuesFromCampaign(this.campaign);
     this.campaignFormObject.reset();
+
+    this.loadData();
 
     this.campaignValidation = CampaignValidationBuilder.createValidation(
       this.campaignFormObject
@@ -149,6 +140,36 @@ export default {
       );
   },
   methods: {
+    async loadData() {
+      this.loading = true;
+
+      const promises = [
+        this.$store.dispatch("Network/preloadNetworks"),
+        this.$store.dispatch("Contract/preloadContracts"),
+      ];
+
+      if (this.$route.params.id) {
+        const campaign = this.$store.getters["Campaign/getCampaign"](
+          this.$route.params.id
+        );
+
+        if (!campaign) {
+          this.$router.push("/campaign");
+          return;
+        }
+
+        this.campaign = campaign;
+
+        this.campaignFormObject.setValuesFromCampaign(this.campaign);
+        this.campaignFormObject.reset();
+
+        promises.push(this.loadAnnouncement());
+      }
+
+      await Promise.all(promises);
+
+      this.loading = false;
+    },
     back() {
       if (this.step > 1) {
         this.step--;
@@ -200,9 +221,6 @@ export default {
       this.rewardedActivityFormObject.action = null;
 
       this.rewardedActivityValidation.$reset();
-    },
-    setLastActiveStep() {
-      this.lastActiveStep = Math.max(this.lastActiveStep, this.step);
     },
     async storeCampaign() {
       if (!this.campaignFormObject.dirty()) {
@@ -272,14 +290,20 @@ export default {
      * @return {Promise<boolean>}
      */
     async goToNextStep() {
+      this.loading = true;
+
       switch (this.step) {
         case 1:
           if (!(await this.campaignValidation.$validate())) {
             this.Toast("Form contains errors", null, "error");
+            this.loading = false;
+
             return false;
           }
 
           if (!(await this.storeCampaign())) {
+            this.loading = false;
+
             return false;
           }
 
@@ -287,11 +311,14 @@ export default {
         case 2:
           if (this.rewardedActivities.length === 0) {
             await this.MessageBoxInfo("Add at least one activity to continue");
+            this.loading = false;
 
             return false;
           }
 
           if (!(await this.storeCampaign())) {
+            this.loading = false;
+
             return false;
           }
 
@@ -299,10 +326,14 @@ export default {
         case 3:
           if (!(await this.announcementFormValidation.$validate())) {
             this.Toast("Form contains errors", null, "error");
+            this.loading = false;
+
             return false;
           }
 
           if (!(await this.storeAnnouncement())) {
+            this.loading = false;
+
             return false;
           }
 
@@ -311,9 +342,8 @@ export default {
           break;
       }
 
+      this.loading = false;
       this.step++;
-
-      this.setLastActiveStep();
 
       return true;
     },

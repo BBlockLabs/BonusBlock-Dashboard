@@ -1,18 +1,18 @@
 export default class PaymentPreviewDto {
   /**
-   * @type {number}
+   * @type {string}
    */
-  gasFee = 0;
+  gasFee = "";
   /**
-   * @type {number}
+   * @type {string}
    */
-  commissionFee = 0;
+  commissionFee = "";
   /**
-   * @type {number}
+   * @type {string}
    */
-  baseAmount = 0;
+  baseAmount = "";
   /**
-   * @type {number}
+   * @type {string}
    */
-  totalAmount = 0;
+  totalAmount = "";
 }

@@ -33,10 +33,10 @@ export default class RewardedActivityFormObject extends formObject {
     rewardedActivity.activity = this.activity;
     rewardedActivity.action = this.action;
 
-    rewardedActivity.minimumTransactionLimit = parseInt(
+    rewardedActivity.minimumTransactionLimit = BigInt(
       this.minimumTransactionLimit
     );
-    rewardedActivity.additionalRewardTransactionLimit = parseInt(
+    rewardedActivity.additionalRewardTransactionLimit = BigInt(
       this.additionalRewardTransactionLimit
     );
     rewardedActivity.minimumTransactionCount = parseInt(

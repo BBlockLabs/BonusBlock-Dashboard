@@ -35,60 +35,22 @@
     </el-row>
 
     <el-row :gutter="12">
-      <el-col :xs="24" :md="12" :lg="6" class="py-2">
+      <el-col
+        v-for="(block, idx) in blocks"
+        :key="idx"
+        :xs="24"
+        :md="12"
+        class="py-2"
+      >
         <box-wrapper type="darker" class="info-box">
           <el-row justify="space-between">
-            <el-col :span="-1"><b>Time Left</b></el-col>
-            <el-col :span="-1"> days </el-col>
+            <el-col :span="-1"><b>{{ block.left }}</b></el-col>
+            <el-col :span="-1"> {{ block.right }} </el-col>
           </el-row>
 
           <el-row justify="end">
             <el-col :span="-1">
-              {{ moment(campaign.timeFrameTill).diff(moment(), "days") }}
-            </el-col>
-          </el-row>
-        </box-wrapper>
-      </el-col>
-
-      <el-col :xs="24" :md="12" :lg="6" class="py-2">
-        <box-wrapper type="darker" class="info-box">
-          <el-row justify="space-between">
-            <el-col :span="-1"><b>Reward pool</b></el-col>
-            <el-col :span="-1">size</el-col>
-          </el-row>
-
-          <el-row justify="end">
-            <el-col :span="-1">
-              {{ campaign.rewardPoolTokenCount }}
-              {{ contract?.address || "-" }}
-            </el-col>
-          </el-row>
-        </box-wrapper>
-      </el-col>
-
-      <el-col :xs="24" :md="12" :lg="6" class="py-2">
-        <box-wrapper type="darker" class="info-box">
-          <el-row justify="space-between">
-            <el-col :span="-1"><b>Users</b></el-col>
-            <el-col :span="-1">monthly</el-col>
-          </el-row>
-
-          <el-row justify="end">
-            <el-col :span="-1"> - </el-col>
-          </el-row>
-        </box-wrapper>
-      </el-col>
-
-      <el-col :xs="24" :md="12" :lg="6" class="py-2">
-        <box-wrapper type="darker" class="info-box">
-          <el-row justify="space-between">
-            <el-col :span="-1"><b>ROI</b></el-col>
-            <el-col :span="-1">per user</el-col>
-          </el-row>
-
-          <el-row justify="end">
-            <el-col :span="-1">
-              {{ campaign.expectedReturnOfInvestment }}
+              <h1 class="w-100 of-hidden">{{ block.bottom }}</h1>
             </el-col>
           </el-row>
         </box-wrapper>
@@ -101,6 +63,7 @@
 import Campaign from "@/state/models/Campaign.js";
 import moment from "moment";
 import BoxWrapper from "@/components/BoxWrapper.vue";
+import { Formatter } from "@/common/Formatter.js";
 
 export default {
   components: {
@@ -114,7 +77,36 @@ export default {
     },
   },
   computed: {
-    moment: () => moment,
+    blocks() {
+      return [
+        {
+          left: "Time Left",
+          right: "days",
+          bottom: moment(this.campaign.timeFrameTill).diff(moment(), "days"),
+        },
+        {
+          left: "Reward pool",
+          right: "size",
+          bottom: this.contract
+            ? Formatter.token(
+                this.campaign.rewardPoolTokenCount,
+                this.contract,
+                2
+              )
+            : "-",
+        },
+        {
+          left: "Users",
+          right: "monthly",
+          bottom: "-",
+        },
+        {
+          left: "ROI",
+          right: "per user",
+          bottom: this.campaign.expectedReturnOfInvestment,
+        },
+      ];
+    },
     campaign() {
       const campaign = this.$store.getters["Campaign/getCampaign"](
         this.campaignId

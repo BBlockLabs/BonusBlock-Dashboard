@@ -1,4 +1,5 @@
-import moment from "moment/moment.js";
+import moment from "moment";
+import jsonBigint from "json-bigint";
 import UserSessionDto from "@/common/dto/UserSessionDto.js";
 import { HttpResponse } from "@/common/HttpResponse.js";
 
@@ -42,7 +43,9 @@ export class HttpRequest {
       return new HttpResponse(false, null, ["response error"], moment());
     }
 
-    const jsonData = await response.json();
+    const responseText = await response.text()
+
+    const jsonData = jsonBigint.parse(responseText);
 
     const responseBody = new HttpResponse(
       jsonData.success,

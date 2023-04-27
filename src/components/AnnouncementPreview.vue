@@ -4,7 +4,7 @@
 
     <div class="p-3">
       <div>
-        <h1>{{ announcement.title }}</h1>
+        <h1 class="my-3">{{ announcement.title }}</h1>
         <div>
           {{ announcement.description }}
         </div>
