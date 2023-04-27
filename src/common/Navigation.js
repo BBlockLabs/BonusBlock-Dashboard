@@ -1,4 +1,4 @@
-import { DashboardSpeed, Server, Settings, Notes } from "iconoir-vue";
+import { DashboardSpeed, Settings, Notes } from "iconoir-vue";
 
 export class NavigationItem {
   /**
@@ -37,12 +37,6 @@ export class NavigationItem {
 
 export default [
   new NavigationItem("Home", null, DashboardSpeed),
-  new NavigationItem("Templates", null, Notes),
-  new NavigationItem("Provider", null, Server),
-  new NavigationItem("Packages", "Provider"),
-  new NavigationItem("Server", "Provider", null, false),
-  new NavigationItem("Organizations", "Provider"),
-  new NavigationItem("Organization", "Provider", null, false),
-  new NavigationItem("Servers Map", "Provider"),
+  new NavigationItem("Campaigns", null, Notes),
   new NavigationItem("Settings", null, Settings),
 ];
