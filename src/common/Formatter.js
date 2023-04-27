@@ -1,6 +1,7 @@
 export class Formatter {
   static TEN = BigInt(10);
   static ZERO = BigInt(0);
+  static FIVE = BigInt(5);
 
   /**
    *
@@ -37,33 +38,39 @@ export class Formatter {
       return division.toString() + ".".padEnd(precision + 1, "0");
     }
 
-    decimals /= Formatter.TEN ** BigInt(precision);
-
-    while (
-      remainder > Number.MAX_SAFE_INTEGER ||
-      decimals > Number.MAX_SAFE_INTEGER
-    ) {
-      remainder /= Formatter.TEN;
-      decimals /= Formatter.TEN;
-
-      if (remainder === Formatter.ZERO || decimals === Formatter.ZERO) {
-        return division.toString() + ".".padEnd(precision + 1, "0");
-      }
+    if (precision >= decimalSpaces) {
+      return (
+        division.toString() +
+        "." +
+        remainder.toString().padStart(precision, "0")
+      );
     }
 
-    remainder = Number(remainder);
-    decimals = Number(decimals);
+    // Ugly, but works
 
-    remainder = Math.round(remainder / decimals).toString();
+    let precisionDifference = decimalSpaces - precision;
 
-    if (remainder.length > precision) {
-      division++;
+    if (precisionDifference <= 0) {
+      return (
+        division.toString() +
+        "." +
+        remainder.toString().padStart(precision, "0")
+      );
+    }
 
-      return division.toString() + ".".padEnd(precision + 1, "0");
+    // Round and remove numbers smaller than precision
+    for (precisionDifference; precisionDifference > 0; precisionDifference--) {
+      remainder += Formatter.FIVE;
+      remainder /= Formatter.TEN;
+    }
+
+    // Case when rounding .999 goes to 1.000
+    if (remainder.toString().length > precision) {
+      return (++division).toString() + ".".padEnd(precision + 1, "0");
     }
 
     return (
-      division.toString() + "." + remainder.padStart(precision, "0")
+      division.toString() + "." + remainder.toString().padStart(precision, "0")
     );
   }
 }

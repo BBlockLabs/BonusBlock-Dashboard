@@ -41,6 +41,19 @@
 
         <el-col :span="12">
           <el-input v-model="campaignFormObject.rewardPoolTokenCount" />
+          <sup v-if="contract">
+            {{
+              Formatter.token(
+                BigInt(
+                  !isNaN(campaignFormObject.rewardPoolTokenCount)
+                    ? campaignFormObject.rewardPoolTokenCount
+                    : 0
+                ),
+                contract,
+                contract.decimalSpaces
+              )
+            }}
+          </sup>
         </el-col>
       </el-row>
     </el-form-item>
@@ -144,6 +157,7 @@ import CampaignValidationBuilder from "@/common/validation/CampaignValidationBui
 import ValidationHelper from "@/common/validation/ValidationHelper.js";
 import ContractSelectField from "@/components/ContractSelectField.vue";
 import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
+import { Formatter } from "@/common/Formatter.js";
 
 export default {
   components: {
@@ -169,7 +183,13 @@ export default {
     };
   },
   computed: {
+    Formatter: () => Formatter,
     ValidationHelper: () => ValidationHelper,
+    contract() {
+      return this.$store.getters["Contract/getContract"](
+        this.campaignFormObject.rewardPoolContract
+      );
+    },
     validate() {
       if (this.validation) {
         return this.validation;

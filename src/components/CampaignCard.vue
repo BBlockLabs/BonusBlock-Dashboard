@@ -44,7 +44,9 @@
       >
         <box-wrapper type="darker" class="info-box">
           <el-row justify="space-between">
-            <el-col :span="-1"><b>{{ block.left }}</b></el-col>
+            <el-col :span="-1"
+              ><b>{{ block.left }}</b></el-col
+            >
             <el-col :span="-1"> {{ block.right }} </el-col>
           </el-row>
 

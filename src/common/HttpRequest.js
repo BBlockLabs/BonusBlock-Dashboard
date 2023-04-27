@@ -43,7 +43,7 @@ export class HttpRequest {
       return new HttpResponse(false, null, ["response error"], moment());
     }
 
-    const responseText = await response.text()
+    const responseText = await response.text();
 
     const jsonData = jsonBigint.parse(responseText);
 

@@ -1,5 +1,5 @@
 <template>
-  <el-container class="h-100" v-loading="loading">
+  <el-container v-loading="loading" class="h-100">
     <el-main>
       <el-row>
         <el-col :span="-1">
