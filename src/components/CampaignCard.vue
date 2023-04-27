@@ -6,7 +6,7 @@
       </el-col>
 
       <el-col :span="-1">
-        <el-tag>
+        <el-tag class="mr-1">
           {{ campaign.status }}
         </el-tag>
 
@@ -28,9 +28,11 @@
       <el-col>
         <b>Categories:</b>
 
-        <el-tag v-for="category in categories" :key="category">
+        <el-tag v-for="category in categories" :key="category" class="mx-1">
           {{ category.name }}
         </el-tag>
+
+        <span v-if="categories.length === 0">-</span>
       </el-col>
     </el-row>
 
