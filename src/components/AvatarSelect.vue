@@ -4,6 +4,7 @@
       <img
         :src="'data:image/svg+xml;base64,' + avatar"
         alt=""
+        :class="{ selected: file.data === avatar }"
         @click="selectAvatar(avatar)"
       />
     </template>
@@ -57,9 +58,16 @@ export default {
 </script>
 
 <style lang="scss">
+@use "@/design/vars.scss" as v;
+
 .avatar-select {
   img {
     cursor: pointer;
+    border-radius: 19px;
+    border: 3px solid #ffffff;
+    &.selected {
+      border-color: v.$color-avatar-selected;
+    }
   }
 }
 </style>

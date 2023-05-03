@@ -23,6 +23,11 @@ export default class Contract extends Model {
   denom;
 
   /**
+   * @type {string}
+   */
+  title;
+
+  /**
    * @param {ContractDto} dto
    * @return {Contract}
    */
@@ -34,6 +39,7 @@ export default class Contract extends Model {
     contract.address = dto.smartContractAddress;
     contract.decimalSpaces = dto.decimal;
     contract.denom = dto.denom;
+    contract.title = dto.title;
 
     return contract;
   }
@@ -49,6 +55,7 @@ export default class Contract extends Model {
     dto.smartContractAddress = this.address;
     dto.decimal = this.decimalSpaces;
     dto.denom = this.denom;
+    dto.title = this.title;
 
     return dto;
   }

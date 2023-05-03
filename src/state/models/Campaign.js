@@ -24,33 +24,33 @@ export default class Campaign extends Model {
   rewardPoolContract = "";
 
   /**
-   * @type {bigint}
+   * @type {bigint | string}
    */
-  rewardPoolTokenCount = 0;
+  rewardPoolTokenCount = "";
   /**
-   * @type {number}
+   * @type {number | string}
    */
-  frequencyRatioDaily = 1;
+  frequencyRatioDaily = "";
 
   /**
-   * @type {number}
+   * @type {number | string}
    */
-  frequencyRatioWeekly = 2 / 3;
+  frequencyRatioWeekly = "";
 
   /**
-   * @type {number}
+   * @type {number | string}
    */
-  frequencyRatioMonthly = 1 / 3;
+  frequencyRatioMonthly = "";
 
   /**
-   * @type {bigint | null}
+   * @type {bigint | string}
    */
-  minimumPerUserAward = null;
+  minimumPerUserAward = "";
 
   /**
-   * @type {bigint | null}
+   * @type {bigint | string}
    */
-  maximumPerUserAward = null;
+  maximumPerUserAward = "";
 
   /**
    * @type {number}
@@ -120,9 +120,9 @@ export default class Campaign extends Model {
     campaign.name = campaignDto.title;
     campaign.timeFrameFrom = moment(campaignDto.periodFrom).toDate();
     campaign.timeFrameTill = moment(campaignDto.periodTill).toDate();
-    campaign.frequencyRatioDaily = campaignDto.rateDaily / 100;
-    campaign.frequencyRatioWeekly = campaignDto.rateWeekly / 100;
-    campaign.frequencyRatioMonthly = campaignDto.rateMonthly / 100;
+    campaign.frequencyRatioDaily = campaignDto.rateDaily;
+    campaign.frequencyRatioWeekly = campaignDto.rateWeekly;
+    campaign.frequencyRatioMonthly = campaignDto.rateMonthly;
     campaign.maximumPerUserAward = campaignDto.maxUserReward
       ? BigInt(campaignDto.maxUserReward)
       : null;
@@ -152,9 +152,9 @@ export default class Campaign extends Model {
     dto.title = this.name;
     dto.periodFrom = this.timeFrameFrom.toISOString();
     dto.periodTill = this.timeFrameTill.toISOString();
-    dto.rateDaily = Math.round(this.frequencyRatioDaily * 100);
-    dto.rateWeekly = Math.round(this.frequencyRatioWeekly * 100);
-    dto.rateMonthly = Math.round(this.frequencyRatioMonthly * 100);
+    dto.rateDaily = this.frequencyRatioDaily;
+    dto.rateWeekly = this.frequencyRatioWeekly;
+    dto.rateMonthly = this.frequencyRatioMonthly;
     dto.minUserReward = this.minimumPerUserAward?.toString() || "0";
     dto.maxUserReward = this.maximumPerUserAward?.toString() || "0";
     dto.categories = this.categories;

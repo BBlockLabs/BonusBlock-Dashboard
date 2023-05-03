@@ -56,7 +56,16 @@
     </div>
 
     <div v-if="rewardedActivityFormObject.action">
-      <h1><b>Set requirements</b></h1>
+      <h1>
+        <b>
+          Set requirements for
+          {{
+            $store.getters["Activity/getAction"](
+              rewardedActivityFormObject.action
+            ).name
+          }}
+        </b>
+      </h1>
 
       <el-form-item
         v-bind="
@@ -75,7 +84,7 @@
         >
       </el-form-item>
 
-      <el-form-item
+      <!--el-form-item
         v-bind="
           ValidationHelper.getFormItemErrorAttributes(
             validate['additionalRewardTransactionLimit']
@@ -90,7 +99,7 @@
           >Set an amount of tokens for which the user gets an additional
           reward.</sup
         >
-      </el-form-item>
+      </el-form-item-->
 
       <el-form-item
         v-bind="
@@ -100,16 +109,14 @@
         "
         label="Set minimum transaction amount"
       >
-        <el-input
-          v-model="rewardedActivityFormObject.minimumTransactionCount"
-        />
+        <el-input v-model="minimumTransactionCountDisplayValue" />
         <sup class="text-secondary"
           >Set minimum amount of transactions for the activity to count towards
           the reward.</sup
         >
       </el-form-item>
 
-      <el-form-item
+      <!--el-form-item
         v-bind="
           ValidationHelper.getFormItemErrorAttributes(
             validate['additionalRewardTransactionCount']
@@ -118,13 +125,13 @@
         label="Set additional reward transaction amount"
       >
         <el-input
-          v-model="rewardedActivityFormObject.additionalRewardTransactionCount"
+          v-model="this.rewardedActivityFormObject.additionalRewardTransactionCount"
         />
         <sup class="text-secondary"
           >Set an amount of transactions for which the user gets an additional
           reward.</sup
         >
-      </el-form-item>
+      </el-form-item-->
     </div>
   </el-form>
 
@@ -177,6 +184,20 @@ export default {
     };
   },
   computed: {
+    minimumTransactionCountDisplayValue: {
+      get: function () {
+        return this.rewardedActivityFormObject.minimumTransactionCount + " $";
+      },
+      set: function (modifiedValue) {
+        // Recalculate value after ignoring "$" and "," in user input
+        let newValue = parseFloat(modifiedValue.replace(/[^\d.]/g, ""));
+        // Ensure that it is not NaN
+        if (isNaN(newValue)) {
+          newValue = 0;
+        }
+        this.rewardedActivityFormObject.minimumTransactionCount = newValue;
+      },
+    },
     ProductFilters: () => ProductFilters,
     ValidationHelper: () => ValidationHelper,
     validate() {

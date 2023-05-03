@@ -38,7 +38,7 @@
         <avatar class="ml-3 my-auto" :file="projectImage" />
 
         <span class="ml-3 my-auto">
-          {{ $store.state.Project.currentProject.title }}
+          {{ $store.state.Project.currentProject?.title }}
         </span>
       </div>
     </el-col>
@@ -61,8 +61,8 @@ export default {
   computed: {
     projectImage() {
       return {
-        data: this.$store.state.Project.currentProject.image,
-        type: this.$store.state.Project.currentProject.imageType,
+        data: this.$store.state.Project.currentProject?.image,
+        type: this.$store.state.Project.currentProject?.imageType,
       };
     },
     currentRoute() {

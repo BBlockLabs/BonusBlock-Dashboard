@@ -32,8 +32,12 @@ export default {
     queryContracts: (state) => (filterString) => {
       const cotnracts = [];
 
+      filterString = filterString.toLowerCase();
       state.contracts.forEach((contract) => {
-        if (filterString && !contract.address.includes(filterString)) {
+        if (
+          filterString &&
+          !contract.title.toLowerCase().includes(filterString)
+        ) {
           return;
         }
 

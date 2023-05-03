@@ -2,13 +2,13 @@
   <el-container v-loading="loading" class="h-100">
     <el-main>
       <el-row>
-        <el-col :span="-1">
+        <el-col :span="1">
           <el-button link @click="back">
             <svg-nav-arrow-left class="icon" />
           </el-button>
         </el-col>
 
-        <el-col :span="-1">
+        <el-col :span="23">
           <el-steps :active="step - 1" align-center class="mb-5">
             <el-step title="Set campaign" />
             <el-step title="Create activities" />
@@ -215,6 +215,7 @@ export default {
       );
 
       this.rewardedActivityValidation.$reset();
+      this.Toast("Activity added", null, "success");
     },
     clearRewardedActivity() {
       this.rewardedActivityFormObject.activity = null;

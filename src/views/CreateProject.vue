@@ -141,7 +141,7 @@
             "
             alt=""
           />
-          <h3>{{ formData.name }}</h3>
+          <h3>{{ formData.title }}</h3>
           1 member
         </el-card>
       </div>

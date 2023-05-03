@@ -33,21 +33,25 @@
         justify="space-between"
         class="bt-solid px-3 py-2"
       >
-        <el-col :span="-1" class="d-flex flex-column">
+        <el-col
+          :span="-1"
+          class="d-flex flex-column pointer"
+          @click="actionValue = actionId"
+        >
           {{ $store.getters["Activity/getAction"](actionId).name }}
           <span class="text-secondary">
             {{ $store.getters["Activity/getAction"](actionId).hash }}
           </span>
         </el-col>
 
-        <el-col :span="-1" class="d-flex">
+        <!--el-col :span="-1" class="d-flex">
           <input
             v-model="actionValue"
             class="my-auto"
             type="radio"
             :value="actionId"
           />
-        </el-col>
+        </el-col-->
       </el-row>
     </el-collapse-item>
   </el-collapse>

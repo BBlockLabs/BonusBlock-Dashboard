@@ -20,7 +20,7 @@ export class HttpResponse {
    * @param {boolean} success
    * @param {any} payload
    * @param {Array<string>} errors
-   * @param {Moment} now
+   * @param {moment.Moment} now
    */
   constructor(success, payload, errors, now) {
     this.errors = errors;

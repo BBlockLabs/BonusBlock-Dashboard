@@ -28,7 +28,7 @@ export default {
     options() {
       return this.$store.getters["Contract/queryContracts"](
         this.filterString
-      ).map((contract) => ({ label: contract.address, value: contract.id }));
+      ).map((contract) => ({ label: contract.title, value: contract.id }));
     },
   },
 };

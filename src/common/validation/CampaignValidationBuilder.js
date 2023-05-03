@@ -20,17 +20,17 @@ export default class CampaignValidationBuilder extends ValidationBuilder {
     frequencyRatioDaily: {
       required,
       numeric,
-      between: between(0, 1),
+      between: between(1, 100),
     },
     frequencyRatioWeekly: {
       required,
       numeric,
-      between: between(0, 1),
+      between: between(1, 100),
     },
     frequencyRatioMonthly: {
       required,
       numeric,
-      between: between(0, 1),
+      between: between(1, 100),
     },
     minimumPerUserAward: {
       integer,
@@ -40,11 +40,11 @@ export default class CampaignValidationBuilder extends ValidationBuilder {
       integer,
       min: minValue(0),
     },
-    rewardPoolTokenCount: {
+    /*rewardPoolTokenCount: {
       required,
       integer,
       min: minValue(1),
-    },
+    },*/
     timeFrame: [
       {
         required,

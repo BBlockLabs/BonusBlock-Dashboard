@@ -24,4 +24,8 @@ export default class ContractDto {
    * @type {FeeDto}
    */
   fee = null;
+  /**
+   * @type {string}
+   */
+  title = "";
 }

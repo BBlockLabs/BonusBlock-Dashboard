@@ -129,11 +129,11 @@ export default {
         return;
       }
 
-      if (!this.validateAspectRatio(image)) {
+      /*if (!this.validateAspectRatio(image)) {
         invalidHandler("The banner must be 16:9 Aspect ratio!");
 
         return;
-      }
+      }*/
 
       this.value = file;
     },

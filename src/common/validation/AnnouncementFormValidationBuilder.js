@@ -82,7 +82,7 @@ export default class AnnouncementFormValidationBuilder extends ValidationBuilder
     return useVuelidate(
       AnnouncementFormValidationBuilder.validationRules,
       validationObject,
-      { $autoDirty: true }
+      { $autoDirty: false }
     );
   }
 }

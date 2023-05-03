@@ -13,6 +13,7 @@
 @use "@/design/style/icons.scss";
 @use "@/design/style/layout.scss";
 @use "@/design/style/steps.scss";
+@use "@/design/style/toasts.scss";
 
 body {
   background-color: EPFunctions.getCssVar('bg-color', 'page');
@@ -37,4 +38,8 @@ body {
   border: 1px solid black;
   border-top-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+.pointer {
+  cursor: pointer;
 }

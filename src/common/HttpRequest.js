@@ -2,6 +2,9 @@ import moment from "moment";
 import jsonBigint from "json-bigint";
 import UserSessionDto from "@/common/dto/UserSessionDto.js";
 import { HttpResponse } from "@/common/HttpResponse.js";
+import store from "@/state/store";
+import router from "../router/router-config";
+import Toast from "@/mixins/Toast.js";
 
 export class HttpRequest {
   /**
@@ -33,9 +36,13 @@ export class HttpRequest {
       request
     );
 
-    if (response.status === 401) {
+    if (response.status !== 200) {
       // user is logged out
       this.session = null;
+      store.commit("Auth/setUser", null);
+      store.commit("Project/setProject", null);
+      await router.push("/");
+      Toast.methods.Toast("Session timeout", "", "warning");
     }
 
     if (!response.ok && response.status !== 400) {

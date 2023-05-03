@@ -9,28 +9,53 @@
       v-bind="ValidationHelper.getFormItemErrorAttributes(validate['name'])"
       label="Campaign Name"
     >
-      <el-input v-model="campaignFormObject.name" />
+      <el-input v-model="campaignFormObject.name" placeholder="Campaign Name" />
     </el-form-item>
 
     <el-form-item
       v-bind="
         ValidationHelper.getFormItemErrorAttributes(validate['timeFrame'])
       "
-      label="Campaign Period"
     >
-      <el-date-picker v-model="campaignFormObject.timeFrame" type="daterange" />
+      <el-col class="w-100">
+        <label class="el-form-item__label">
+          Campaign Period
+          <el-tooltip
+            effect="light"
+            content="Prompts info"
+            placement="top-start"
+            :offset="-20"
+          >
+            <el-icon class="tooltip-icon"><InfoFilled /></el-icon>
+          </el-tooltip>
+        </label>
+        <el-row>
+          <el-date-picker
+            v-model="campaignFormObject.timeFrame"
+            type="daterange"
+          />
+        </el-row>
+      </el-col>
     </el-form-item>
 
     <h1>Set rewards</h1>
-
-    <el-form-item
-      v-bind="
-        ValidationHelper.getFormItemErrorAttributes(
-          validate['rewardPoolTokenCount']
-        )
-      "
-      label="Reward Pool"
-    >
+    <!--    v-bind="
+    ValidationHelper.getFormItemErrorAttributes(
+    validate['rewardPoolTokenCount']
+    )
+    "-->
+    <el-form-item>
+      <label class="el-form-item__label">
+        Reward Pool
+        <el-tooltip
+          effect="light"
+          content="Prompts info"
+          placement="top-start"
+          :offset="-20"
+        >
+          <el-icon class="tooltip-icon"><InfoFilled /></el-icon>
+        </el-tooltip>
+      </label>
       <el-row class="w-100" :gutter="12">
         <el-col :span="12">
           <contract-select-field
@@ -40,8 +65,11 @@
         </el-col>
 
         <el-col :span="12">
-          <el-input v-model="campaignFormObject.rewardPoolTokenCount" />
-          <sup v-if="contract">
+          <token-input
+            v-model="campaignFormObject.rewardPoolTokenCount"
+            :contract="contract"
+          />
+          <!--sup v-if="contract">
             {{
               Formatter.token(
                 BigInt(
@@ -53,12 +81,24 @@
                 contract.decimalSpaces
               )
             }}
-          </sup>
+          </sup-->
         </el-col>
       </el-row>
     </el-form-item>
 
-    <h3>Reward frequency ratio</h3>
+    <h3>
+      Reward frequency ratio
+      <el-tooltip
+        effect="light"
+        content="
+        Determine how important is the interaction count with the product.
+        For example, If you set 90% in Daily, 7% Weekly, and 3% Monthly, users that connect with your campaign daily will get the highest incentives."
+        placement="top-start"
+        :offset="-20"
+      >
+        <el-icon class="tooltip-icon"><InfoFilled /></el-icon>
+      </el-tooltip>
+    </h3>
 
     <el-form-item
       v-bind="
@@ -68,7 +108,7 @@
       "
       label="Daily"
     >
-      <el-input v-model="campaignFormObject.frequencyRatioDaily" />
+      <el-input v-model="frequencyRatioDailyDisplayValue" placeholder="50%" />
     </el-form-item>
 
     <el-form-item
@@ -79,7 +119,7 @@
       "
       label="Weekly"
     >
-      <el-input v-model="campaignFormObject.frequencyRatioWeekly" />
+      <el-input v-model="frequencyRatioWeeklyDisplayValue" placeholder="30%" />
     </el-form-item>
 
     <el-form-item
@@ -90,7 +130,7 @@
       "
       label="Monthly"
     >
-      <el-input v-model="campaignFormObject.frequencyRatioMonthly" />
+      <el-input v-model="frequencyRatioMonthlyDisplayValue" placeholder="20%" />
     </el-form-item>
 
     <el-form-item
@@ -99,9 +139,22 @@
           validate['minimumPerUserAward']
         )
       "
-      label="Minimum reward per user"
     >
-      <el-input v-model="campaignFormObject.minimumPerUserAward" />
+      <label class="el-form-item__label">
+        Minimum reward per user
+        <el-tooltip
+          effect="light"
+          content="Prompts info"
+          placement="top-start"
+          :offset="-50"
+        >
+          <el-icon class="tooltip-icon"><InfoFilled /></el-icon>
+        </el-tooltip>
+      </label>
+      <token-input
+        v-model="campaignFormObject.minimumPerUserAward"
+        :contract="contract"
+      />
     </el-form-item>
 
     <el-form-item
@@ -110,9 +163,22 @@
           validate['maximumPerUserAward']
         )
       "
-      label="Maximum reward per user"
     >
-      <el-input v-model="campaignFormObject.maximumPerUserAward" />
+      <label class="el-form-item__label">
+        Maximum reward per user
+        <el-tooltip
+          effect="light"
+          content="Prompts info"
+          placement="top-start"
+          :offset="-50"
+        >
+          <el-icon class="tooltip-icon"><InfoFilled /></el-icon>
+        </el-tooltip>
+      </label>
+      <token-input
+        v-model="campaignFormObject.maximumPerUserAward"
+        :contract="contract"
+      />
     </el-form-item>
 
     <h1>Other</h1>
@@ -158,9 +224,11 @@ import ValidationHelper from "@/common/validation/ValidationHelper.js";
 import ContractSelectField from "@/components/ContractSelectField.vue";
 import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
 import { Formatter } from "@/common/Formatter.js";
+import TokenInput from "@/components/TokenInput.vue";
 
 export default {
   components: {
+    TokenInput,
     ContractSelectField,
   },
   props: {
@@ -183,6 +251,64 @@ export default {
     };
   },
   computed: {
+    // TODO: Dry?
+    frequencyRatioDailyDisplayValue: {
+      get: function () {
+        return (this.campaignFormObject.frequencyRatioDaily || 0) + " %";
+      },
+      set: function (modifiedValue) {
+        let newValue = parseFloat(modifiedValue.replace(/[^\d.]/g, ""));
+        if (isNaN(newValue)) {
+          newValue = 0;
+        }
+
+        let remainingValue =
+          100 -
+          (this.campaignFormObject.frequencyRatioWeekly +
+            this.campaignFormObject.frequencyRatioMonthly);
+        newValue = Math.min(newValue, remainingValue);
+
+        this.campaignFormObject.frequencyRatioDaily = newValue.toString();
+      },
+    },
+    frequencyRatioWeeklyDisplayValue: {
+      get: function () {
+        return (this.campaignFormObject.frequencyRatioWeekly || 0) + " %";
+      },
+      set: function (modifiedValue) {
+        let newValue = parseFloat(modifiedValue.replace(/[^\d.]/g, ""));
+        if (isNaN(newValue)) {
+          newValue = 0;
+        }
+
+        let remainingValue =
+          100 -
+          (this.campaignFormObject.frequencyRatioDaily +
+            this.campaignFormObject.frequencyRatioMonthly);
+        newValue = Math.min(newValue, remainingValue);
+
+        this.campaignFormObject.frequencyRatioWeekly = newValue.toString();
+      },
+    },
+    frequencyRatioMonthlyDisplayValue: {
+      get: function () {
+        return (this.campaignFormObject.frequencyRatioMonthly || 0) + " %";
+      },
+      set: function (modifiedValue) {
+        let newValue = parseFloat(modifiedValue.replace(/[^\d.]/g, ""));
+        if (isNaN(newValue)) {
+          newValue = 0;
+        }
+
+        let remainingValue =
+          100 -
+          (this.campaignFormObject.frequencyRatioDaily +
+            this.campaignFormObject.frequencyRatioWeekly);
+        newValue = Math.min(newValue, remainingValue);
+
+        this.campaignFormObject.frequencyRatioMonthly = newValue.toString();
+      },
+    },
     Formatter: () => Formatter,
     ValidationHelper: () => ValidationHelper,
     contract() {
