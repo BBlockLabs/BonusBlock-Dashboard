@@ -44,4 +44,35 @@ export class MetamaskClient {
       throw e;
     }
   }
+
+  /**
+   *
+   * @param {Object} provider
+   * @param {string} to
+   * @param {BigInt} value
+   * @param {string} data
+   * @return {Promise<void>}
+   */
+  static async sendTransaction(provider, to, value, data) {
+    try {
+      const accounts = await MetamaskClient.requestAccounts(provider);
+      if (accounts.length === 0) {
+        throw new Error("Accounts is empty");
+      }
+      await provider.request({
+        method: "eth_sendTransaction",
+        params: [
+          {
+            from: accounts[0],
+            to: to,
+            value: value.toString(16),
+            data: data,
+          },
+        ],
+      });
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+  }
 }

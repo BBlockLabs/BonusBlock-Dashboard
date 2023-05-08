@@ -13,7 +13,7 @@
           </el-button>
         </el-col>
 
-        <el-col>
+        <!--el-col>
           <el-button
             type="primary"
             class="w-100 my-2 p-4"
@@ -22,10 +22,10 @@
             <icon-keplr class="icon" />
             Deposit with Keplr
           </el-button>
-        </el-col>
+        </el-col-->
       </el-row>
 
-      <el-divider content-position="center">or</el-divider>
+      <!--el-divider content-position="center">or</el-divider-->
 
       <div class="br-base b-solid p-3">
         <el-row justify="space-between">
@@ -34,7 +34,7 @@
         </el-row>
         <el-row justify="space-between">
           <el-col :span="-1">Memo:</el-col>
-          <el-col :span="-1">{{ campaignId }}</el-col>
+          <el-col :span="-1">{{ payment.memo }}</el-col>
         </el-row>
       </div>
 
@@ -69,12 +69,12 @@
 import Payment from "@/state/models/Payment.js";
 import moment from "moment";
 import IconMetamask from "@/assets/icons/metamask.svg";
-import IconKeplr from "@/assets/icons/keplr.svg";
+import detectEthereumProvider from "@metamask/detect-provider";
+import { MetamaskClient } from "@/common/MetamaskClient.js";
 
 export default {
   components: {
     IconMetamask,
-    IconKeplr,
   },
   props: {
     campaignId: {
@@ -153,12 +153,22 @@ export default {
 
       this.loading = false;
     },
-    async payWithKeplr() {
+    /*async payWithKeplr() {
       this.loading = true;
       this.loading = false;
-    },
+    },*/
     async payWithMetamask() {
       this.loading = true;
+      const provider = await detectEthereumProvider({
+        mustBeMetaMask: true,
+        silent: true,
+      });
+      await MetamaskClient.sendTransaction(
+        provider,
+        this.payment.wallet,
+        this.payment.amount,
+        this.payment.memo
+      );
       this.loading = false;
     },
   },

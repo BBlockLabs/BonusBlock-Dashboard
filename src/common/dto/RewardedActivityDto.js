@@ -8,15 +8,7 @@ export default class RewardedActivityDto {
    */
   minTrxLimit = "0";
   /**
-   * @type {string}
-   */
-  addTrxLimit = "0";
-  /**
    * @type {number}
    */
   minTrxAmount = 0;
-  /**
-   * @type {number}
-   */
-  addTrxAmount = 0;
 }

@@ -29,4 +29,8 @@ export default class PaymentDto {
    * @type {FeeDto}
    */
   fee = new FeeDto();
+  /**
+   * @type {string}
+   */
+  memo = "";
 }

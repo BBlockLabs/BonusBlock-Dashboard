@@ -14,7 +14,7 @@ export default class Payment extends Model {
   /**
    * @type {BigInt}
    */
-  ammount;
+  amount;
 
   /**
    * @type {String}
@@ -43,8 +43,8 @@ export default class Payment extends Model {
   static fromDto(dto) {
     const payment = new Payment();
 
-    payment.memo = dto.comment || "";
-    payment.ammount = BigInt(dto.payAmount);
+    payment.memo = dto.memo || "";
+    payment.amount = BigInt(dto.payAmount);
     payment.currency = dto.payCurrency;
     payment.status = dto.status;
     payment.wallet = dto.destinationAddress;

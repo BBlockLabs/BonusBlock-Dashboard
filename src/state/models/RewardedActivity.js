@@ -45,9 +45,7 @@ export default class RewardedActivity extends Model {
     const rewardedActivity = new RewardedActivity();
 
     rewardedActivity.minimumTransactionLimit = BigInt(dto.minTrxLimit);
-    rewardedActivity.additionalRewardTransactionLimit = BigInt(dto.addTrxLimit);
     rewardedActivity.minimumTransactionCount = dto.minTrxAmount;
-    rewardedActivity.additionalRewardTransactionCount = dto.addTrxAmount;
     rewardedActivity.action =
       dto.productActivityAction?.id || dto.productActivityAction;
 
@@ -61,9 +59,7 @@ export default class RewardedActivity extends Model {
     const dto = new RewardedActivityDto();
 
     dto.minTrxLimit = this.minimumTransactionLimit.toString();
-    dto.addTrxLimit = this.additionalRewardTransactionLimit.toString();
     dto.minTrxAmount = this.minimumTransactionCount;
-    dto.addTrxAmount = this.additionalRewardTransactionCount;
     dto.productActivityAction = this.action;
 
     return dto;
