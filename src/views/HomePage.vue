@@ -1,7 +1,7 @@
 <template>
   <h1>Welcome, {{ $store.state.Project.currentProject?.title }}!</h1>
   <h2>How it works?</h2>
-  <el-space wrap class="w-100 info-steps" fill fill-ratio="20">
+  <el-space wrap class="w-100 info-steps">
     <div v-for="(step, i) in steps" :key="i" class="step">
       <div class="img" :class="'step' + (i + 1)"></div>
       <el-row>
@@ -126,8 +126,7 @@ export default {
 
 .info-steps {
   .el-space__item {
-    min-width: 26em;
-    max-width: 30em;
+    width: calc(25% - 8px);
     background-color: v.$color-lighter;
     border-radius: 0.75em;
   }
@@ -217,9 +216,14 @@ export default {
 @media only screen and (max-width: 929px) {
   .info-steps {
     .el-space__item {
-      min-width: 100%;
-      max-width: 100%;
-      width: 100%;
+      width: 100% !important;
+    }
+  }
+}
+@media only screen and (max-width: 1700px) {
+  .info-steps {
+    .el-space__item {
+      width: calc(50% - 8px);
     }
   }
 }
