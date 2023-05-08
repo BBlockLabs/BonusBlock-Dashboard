@@ -1,6 +1,6 @@
 <template>
   <box-wrapper class="px-4">
-    <h3 class="m-0">{{ campaign.name || "Unnamed campaign" }}</h3>
+    <h3 class="m-0 of-hidden">{{ campaign.name || temporaryCampaignName || "Unnamed campaign" }}</h3>
     {{ announcements.length }} announcements
   </box-wrapper>
 
@@ -84,6 +84,11 @@ export default {
     campaignId: {
       type: String,
       required: true,
+    },
+    temporaryCampaignName: {
+      type: String,
+      default: null,
+      required: false,
     },
   },
   computed: {

@@ -19,20 +19,23 @@
     >
       <el-col class="w-100">
         <label class="el-form-item__label">
-          Campaign Period
+          Campaign Period, date & time (UTC+2)
           <el-tooltip
             effect="light"
             content="Prompts info"
             placement="top-start"
             :offset="-20"
           >
-            <el-icon class="tooltip-icon"><InfoFilled /></el-icon>
+            <el-icon class="tooltip-icon">
+              <InfoFilled />
+            </el-icon>
           </el-tooltip>
         </label>
         <el-row>
           <el-date-picker
             v-model="campaignFormObject.timeFrame"
-            type="daterange"
+            format="YYYY/MM/DD HH:mm"
+            type="datetimerange"
           />
         </el-row>
       </el-col>
@@ -44,27 +47,56 @@
     validate['rewardPoolTokenCount']
     )
     "-->
-    <el-form-item>
-      <label class="el-form-item__label">
-        Reward Pool
-        <el-tooltip
-          effect="light"
-          content="Prompts info"
-          placement="top-start"
-          :offset="-20"
-        >
-          <el-icon class="tooltip-icon"><InfoFilled /></el-icon>
-        </el-tooltip>
-      </label>
+    <el-form-item class="">
       <el-row class="w-100" :gutter="12">
         <el-col :span="12">
-          <contract-select-field
-            v-model="campaignFormObject.rewardPoolContract"
-            class="w-100"
-          />
+          <el-form-item
+            v-bind="
+              ValidationHelper.getFormItemErrorAttributes(
+                validate['rewardPoolContract']
+              )
+            "
+          >
+            <span slot="label">
+              <label class="el-form-item__label">
+                Reward Pool
+                <el-tooltip
+                  effect="light"
+                  content="Prompts info"
+                  placement="top-start"
+                  :offset="-20"
+                >
+                  <el-icon class="tooltip-icon">
+                    <InfoFilled />
+                  </el-icon>
+                </el-tooltip>
+              </label>
+            </span>
+            <contract-select-field
+              v-model="campaignFormObject.rewardPoolContract"
+              class="w-100"
+            />
+          </el-form-item>
         </el-col>
 
         <el-col :span="12">
+          <el-form-item>
+            <span slot="label">
+              <label class="el-form-item__label">
+                Reward Pool Token amount
+                <el-tooltip
+                  effect="light"
+                  content="Prompts info"
+                  placement="top-start"
+                  :offset="-20"
+                >
+                  <el-icon class="tooltip-icon">
+                    <InfoFilled />
+                  </el-icon>
+                </el-tooltip>
+              </label>
+            </span>
+          </el-form-item>
           <token-input
             v-model="campaignFormObject.rewardPoolTokenCount"
             :contract="contract"
@@ -148,7 +180,9 @@
           placement="top-start"
           :offset="-50"
         >
-          <el-icon class="tooltip-icon"><InfoFilled /></el-icon>
+          <el-icon class="tooltip-icon">
+            <InfoFilled />
+          </el-icon>
         </el-tooltip>
       </label>
       <token-input
@@ -172,7 +206,9 @@
           placement="top-start"
           :offset="-50"
         >
-          <el-icon class="tooltip-icon"><InfoFilled /></el-icon>
+          <el-icon class="tooltip-icon">
+            <InfoFilled />
+          </el-icon>
         </el-tooltip>
       </label>
       <token-input
@@ -210,6 +246,16 @@
             v-model="campaignFormObject.qualityAudience"
             active-text="Quality Audience (Verified by Cookie3)"
           />
+          <el-tooltip
+            effect="light"
+            content="Target only quality users with your campaign by excluding bots or malicious and gamified actions. Note, this is an additional paid service."
+            placement="top-start"
+            :offset="-50"
+          >
+            <el-icon style="top: 0; margin-left: 0.4em" class="tooltip-icon">
+              <InfoFilled />
+            </el-icon>
+          </el-tooltip>
         </el-form-item>
       </el-col>
     </el-row>
@@ -217,6 +263,12 @@
     <debug-wrapper>{{ campaignFormObject }}</debug-wrapper>
   </el-form>
 </template>
+
+<style scoped>
+h1 {
+  margin-bottom: 0.5em;
+}
+</style>
 
 <script>
 import CampaignValidationBuilder from "@/common/validation/CampaignValidationBuilder.js";
@@ -268,7 +320,7 @@ export default {
             this.campaignFormObject.frequencyRatioMonthly);
         newValue = Math.min(newValue, remainingValue);
 
-        this.campaignFormObject.frequencyRatioDaily = newValue.toString();
+        this.campaignFormObject.frequencyRatioDaily = newValue;
       },
     },
     frequencyRatioWeeklyDisplayValue: {
@@ -287,7 +339,7 @@ export default {
             this.campaignFormObject.frequencyRatioMonthly);
         newValue = Math.min(newValue, remainingValue);
 
-        this.campaignFormObject.frequencyRatioWeekly = newValue.toString();
+        this.campaignFormObject.frequencyRatioWeekly = newValue;
       },
     },
     frequencyRatioMonthlyDisplayValue: {
@@ -306,7 +358,7 @@ export default {
             this.campaignFormObject.frequencyRatioWeekly);
         newValue = Math.min(newValue, remainingValue);
 
-        this.campaignFormObject.frequencyRatioMonthly = newValue.toString();
+        this.campaignFormObject.frequencyRatioMonthly = newValue;
       },
     },
     Formatter: () => Formatter,
@@ -333,6 +385,9 @@ export default {
   watch: {
     modelValue() {
       this.campaignFormObject = this.modelValue;
+      this.campaignFormObject.frequencyRatioDaily = parseFloat(this.campaignFormObject.frequencyRatioDaily);
+      this.campaignFormObject.frequencyRatioWeekly = parseFloat(this.campaignFormObject.frequencyRatioWeekly);
+      this.campaignFormObject.frequencyRatioMonthly = parseFloat(this.campaignFormObject.frequencyRatioMonthly);
     },
     campaignFormObject: {
       deep: true,

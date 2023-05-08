@@ -73,4 +73,21 @@ export class Formatter {
       division.toString() + "." + remainder.toString().padStart(precision, "0")
     );
   }
+
+  /**
+   *
+   * @param {string} word
+   * @return {string}
+   */
+  static splitWordByCase(word) {
+    if (word.length < 3) {
+      return word;
+    }
+    word = word.replace(/[-_]+/g, " ");
+    let parts = word.split(/(?=[A-Z])/);
+    return (
+      parts[0].substring(0, 1).toUpperCase() +
+      parts.join(" ").replace(/\s+/g, " ").toLowerCase().substring(1)
+    );
+  }
 }

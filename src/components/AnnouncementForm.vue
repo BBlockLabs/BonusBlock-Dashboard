@@ -55,7 +55,7 @@
           )
         "
         :key="idx - 1"
-        class="w-100"
+        class="w-100 mt-4"
         :label="`Social ${value.socials[idx - 1]?.type || 'X'}`"
       >
         <social-input v-model="value.socials[idx - 1]" />

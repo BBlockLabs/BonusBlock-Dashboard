@@ -36,15 +36,15 @@ export default class RewardedActivityFormObject extends formObject {
     rewardedActivity.minimumTransactionLimit = BigInt(
       this.minimumTransactionLimit
     );
-    rewardedActivity.additionalRewardTransactionLimit = BigInt(
-      this.additionalRewardTransactionLimit
-    );
+    // rewardedActivity.additionalRewardTransactionLimit = BigInt(
+    //   this.additionalRewardTransactionLimit
+    // );
     rewardedActivity.minimumTransactionCount = parseInt(
       this.minimumTransactionCount
     );
-    rewardedActivity.additionalRewardTransactionCount = parseInt(
-      this.additionalRewardTransactionCount
-    );
+    // rewardedActivity.additionalRewardTransactionCount = parseInt(
+    //   this.additionalRewardTransactionCount
+    // );
   }
 
   /**
@@ -56,11 +56,11 @@ export default class RewardedActivityFormObject extends formObject {
 
     this.minimumTransactionLimit =
       rewardedActivity.minimumTransactionLimit.toString();
-    this.additionalRewardTransactionLimit =
-      rewardedActivity.additionalRewardTransactionLimit.toString();
+    // this.additionalRewardTransactionLimit =
+    //   rewardedActivity.additionalRewardTransactionLimit.toString();
     this.minimumTransactionCount =
       rewardedActivity.minimumTransactionCount.toString();
-    this.additionalRewardTransactionCount =
-      rewardedActivity.additionalRewardTransactionCount.toString();
+    // this.additionalRewardTransactionCount =
+    //   rewardedActivity.additionalRewardTransactionCount.toString();
   }
 }

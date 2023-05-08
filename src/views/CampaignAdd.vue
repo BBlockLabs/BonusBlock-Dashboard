@@ -22,6 +22,7 @@
         v-if="step === 1"
         v-model="campaignFormObject"
         :validation="campaignValidation"
+        @update:model-value="formChanged"
       />
 
       <div v-if="step === 2">
@@ -55,13 +56,31 @@
       <campaign-summary v-if="step === 4" :campaign-id="campaign.id" />
     </el-main>
 
-    <el-aside class="bl-solid px-4" width="360px">
-      <campaign-side-summary v-if="step !== 4" :campaign-id="campaign.id" />
+    <el-aside
+      class="bl-solid px-4"
+      width="360px"
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      "
+    >
+      <campaign-side-summary
+        v-if="step !== 4"
+        :temporary-campaign-name="temporaryCampaignName"
+        :campaign-id="campaign.id"
+      />
       <campaign-side-launch v-else :campaign-id="campaign.id" />
-
-      <el-button v-if="step !== 4" class="mt-3" @click="goToNextStep">
-        Continue
-      </el-button>
+      <div>
+        <el-button
+          v-if="step !== 4"
+          type="primary"
+          class="mt-3"
+          @click="goToNextStep"
+        >
+          Continue
+        </el-button>
+      </div>
     </el-aside>
   </el-container>
 </template>
@@ -99,6 +118,7 @@ export default {
   mixins: [Toast, MessageBox],
   data() {
     return {
+      temporaryCampaignName: null,
       loading: false,
       step: 1,
       campaign: new Campaign(),
@@ -140,6 +160,9 @@ export default {
       );
   },
   methods: {
+    formChanged(formData) {
+      this.temporaryCampaignName = formData.name;
+    },
     async loadData() {
       this.loading = true;
 
@@ -198,6 +221,7 @@ export default {
     },
     async addRewardedActivity() {
       if (!(await this.rewardedActivityValidation.$validate())) {
+        // console.log(this.rewardedActivityValidation.$errors);
         this.Toast("Form contains errors", null, "error");
         return;
       }
@@ -296,6 +320,7 @@ export default {
       switch (this.step) {
         case 1:
           if (!(await this.campaignValidation.$validate())) {
+            // console.log(this.campaignValidation.$errors);
             this.Toast("Form contains errors", null, "error");
             this.loading = false;
 
@@ -326,6 +351,7 @@ export default {
           break;
         case 3:
           if (!(await this.announcementFormValidation.$validate())) {
+            // console.log(this.announcementFormValidation.$errors);
             this.Toast("Form contains errors", null, "error");
             this.loading = false;
 

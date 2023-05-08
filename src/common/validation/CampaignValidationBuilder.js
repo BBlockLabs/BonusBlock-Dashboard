@@ -40,11 +40,9 @@ export default class CampaignValidationBuilder extends ValidationBuilder {
       integer,
       min: minValue(0),
     },
-    /*rewardPoolTokenCount: {
+    rewardPoolContract: {
       required,
-      integer,
-      min: minValue(1),
-    },*/
+    },
     timeFrame: [
       {
         required,

@@ -20,12 +20,7 @@
       />
     </el-form-item>
 
-    <el-form-item
-      v-if="
-        campaignFormObject.network && campaignFormObject.categories.length >= 1
-      "
-      label="Product"
-    >
+    <el-form-item v-if="campaignFormObject.network" label="Product">
       <product-select-field
         v-model="campaignFormObject.product"
         class="w-100"

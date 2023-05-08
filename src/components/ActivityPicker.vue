@@ -38,9 +38,9 @@
           class="d-flex flex-column pointer"
           @click="actionValue = actionId"
         >
-          {{ $store.getters["Activity/getAction"](actionId).name }}
+          {{ Formatter.splitWordByCase($store.getters["Activity/getAction"](actionId).name) }}
           <span class="text-secondary">
-            {{ $store.getters["Activity/getAction"](actionId).hash }}
+            {{ $store.getters["Activity/getAction"](actionId).hash }} (function hash)
           </span>
         </el-col>
 
@@ -59,6 +59,7 @@
 
 <script>
 import Toast from "@/mixins/Toast.js";
+import { Formatter } from "@/common/Formatter.js";
 
 export default {
   mixins: [Toast],
@@ -95,6 +96,9 @@ export default {
     };
   },
   computed: {
+    Formatter() {
+      return Formatter;
+    },
     activities() {
       return this.$store.getters["Activity/queryActivities"](
         this.network,

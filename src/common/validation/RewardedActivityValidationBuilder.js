@@ -15,21 +15,21 @@ export default class RewardedActivityValidationBuilder extends ValidationBuilder
       integer,
       minValue: new minValue(0),
     },
-    additionalRewardTransactionLimit: {
-      required,
-      integer,
-      minValue: new minValue(0),
-    },
+    // additionalRewardTransactionLimit: {
+    //   required,
+    //   integer,
+    //   minValue: new minValue(0),
+    // },
     minimumTransactionCount: {
       required,
       integer,
       minValue: new minValue(0),
     },
-    additionalRewardTransactionCount: {
-      required,
-      integer,
-      minValue: new minValue(0),
-    },
+    // additionalRewardTransactionCount: {
+    //   required,
+    //   integer,
+    //   minValue: new minValue(0),
+    // },
   };
 
   /**

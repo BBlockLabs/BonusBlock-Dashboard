@@ -2,7 +2,7 @@
   <el-row justify="space-between">
     <el-col :span="-1">
       <h3 class="m-0">
-        <b>{{ action.name }}</b>
+        <b>{{ Formatter.splitWordByCase(action.name) }}</b>
       </h3>
     </el-col>
     <el-col :span="-1">
@@ -61,6 +61,7 @@ import Action from "@/state/models/Action.js";
 import Activity from "@/state/models/Activity.js";
 import DebugWrapper from "@/components/DebugWrapper.vue";
 import DeleteButton from "@/components/DeleteButton.vue";
+import { Formatter } from "../common/Formatter.js";
 
 export default {
   components: {
@@ -74,6 +75,9 @@ export default {
     },
   },
   computed: {
+    Formatter() {
+      return Formatter;
+    },
     activity() {
       return (
         this.$store.getters["Activity/getActivity"](

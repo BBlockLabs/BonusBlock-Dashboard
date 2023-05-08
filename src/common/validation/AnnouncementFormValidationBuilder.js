@@ -1,6 +1,12 @@
-import { required, minLength, maxLength, url } from "@vuelidate/validators";
+import { maxLength, minLength, required, url } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import ValidationBuilder from "@/common/validation/ValidationBuilder.js";
+
+const handleOrUrl = (value) =>
+  value === "" ||
+  value.startsWith("http://") ||
+  value.startsWith("https://") ||
+  value.startsWith("@");
 
 export default class AnnouncementFormValidationBuilder extends ValidationBuilder {
   static validationRules = {
@@ -33,43 +39,43 @@ export default class AnnouncementFormValidationBuilder extends ValidationBuilder
       // I don't like that vuelidate removed $each..
       0: {
         type: { required },
-        link: { required, url },
+        link: { required, handleOrUrl },
       },
       1: {
         type: {},
-        link: { url },
+        link: { handleOrUrl },
       },
       2: {
         type: {},
-        link: { url },
+        link: { handleOrUrl },
       },
       3: {
         type: {},
-        link: { url },
+        link: { handleOrUrl },
       },
       4: {
         type: {},
-        link: { url },
+        link: { handleOrUrl },
       },
       5: {
         type: {},
-        link: { url },
+        link: { handleOrUrl },
       },
       6: {
         type: {},
-        link: { url },
+        link: { handleOrUrl },
       },
       7: {
         type: {},
-        link: { url },
+        link: { handleOrUrl },
       },
       8: {
         type: {},
-        link: { url },
+        link: { handleOrUrl },
       },
       9: {
         type: {},
-        link: { url },
+        link: { handleOrUrl },
       },
     },
   };
