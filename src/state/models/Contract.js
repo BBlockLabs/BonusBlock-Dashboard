@@ -28,6 +28,17 @@ export default class Contract extends Model {
   title;
 
   /**
+   * @param {string} denom
+   * @return {string}
+   */
+  static fancyDenom(denom) {
+    const denoms = {
+      "eth-0x1": "eth",
+    };
+    return denoms[denom] || denom;
+  }
+
+  /**
    * @param {ContractDto} dto
    * @return {Contract}
    */
@@ -38,7 +49,7 @@ export default class Contract extends Model {
     contract.network = dto.networkName;
     contract.address = dto.smartContractAddress;
     contract.decimalSpaces = dto.decimal;
-    contract.denom = dto.denom;
+    contract.denom = this.fancyDenom(dto.denom);
     contract.title = dto.title;
 
     return contract;
