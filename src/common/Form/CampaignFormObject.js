@@ -7,17 +7,17 @@ export default class CampaignFormObject extends formObject {
    */
   name = "";
   /**
-   * @type {string}
+   * @type {number}
    */
-  frequencyRatioDaily = 3 / 6;
-  /**
-   * @type {string}
-   */
-  frequencyRatioWeekly = 2 / 6;
+  frequencyRatioDaily = 0;
   /**
    * @type {number}
    */
-  frequencyRatioMonthly = 1 / 6;
+  frequencyRatioWeekly = 0;
+  /**
+   * @type {number}
+   */
+  frequencyRatioMonthly = 0;
   /**
    * @type {string}
    */
@@ -98,9 +98,9 @@ export default class CampaignFormObject extends formObject {
    */
   setValuesFromCampaign(campaign) {
     this.name = campaign.name;
-    this.frequencyRatioDaily = campaign.frequencyRatioDaily.toString();
-    this.frequencyRatioWeekly = campaign.frequencyRatioWeekly.toString();
-    this.frequencyRatioMonthly = campaign.frequencyRatioMonthly.toString();
+    this.frequencyRatioDaily = campaign.frequencyRatioDaily;
+    this.frequencyRatioWeekly = campaign.frequencyRatioWeekly;
+    this.frequencyRatioMonthly = campaign.frequencyRatioMonthly;
     this.minimumPerUserAward = campaign.minimumPerUserAward?.toString() || "";
     this.maximumPerUserAward = campaign.maximumPerUserAward?.toString() || "";
     this.rewardPoolContract = campaign.rewardPoolContract;

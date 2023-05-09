@@ -28,19 +28,19 @@ export default class Campaign extends Model {
    */
   rewardPoolTokenCount = "";
   /**
-   * @type {number | string}
+   * @type {number}
    */
-  frequencyRatioDaily = "";
+  frequencyRatioDaily = 0;
 
   /**
-   * @type {number | string}
+   * @type {number}
    */
-  frequencyRatioWeekly = "";
+  frequencyRatioWeekly = 0;
 
   /**
-   * @type {number | string}
+   * @type {number}
    */
-  frequencyRatioMonthly = "";
+  frequencyRatioMonthly = 0;
 
   /**
    * @type {bigint | string}
@@ -86,21 +86,6 @@ export default class Campaign extends Model {
    * @type {string | null}
    */
   product;
-
-  normalizeFrequencyRatios() {
-    const ratioSum =
-      this.frequencyRatioDaily +
-      this.frequencyRatioWeekly +
-      this.frequencyRatioMonthly;
-
-    if (ratioSum === 0) {
-      return;
-    }
-
-    this.frequencyRatioDaily = this.frequencyRatioDaily / ratioSum;
-    this.frequencyRatioWeekly = this.frequencyRatioWeekly / ratioSum;
-    this.frequencyRatioMonthly = this.frequencyRatioMonthly / ratioSum;
-  }
 
   /**
    * @param {CampaignDto} campaignDto

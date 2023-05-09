@@ -254,8 +254,6 @@ export default {
 
       this.campaignFormObject.setCampaignValues(this.campaign);
 
-      this.campaign.normalizeFrequencyRatios();
-
       this.$store.commit("Campaign/setCampaign", this.campaign);
 
       const response = await this.$store.dispatch(

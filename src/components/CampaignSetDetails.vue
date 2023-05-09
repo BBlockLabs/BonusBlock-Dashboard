@@ -264,12 +264,6 @@
   </el-form>
 </template>
 
-<style scoped>
-h1 {
-  margin-bottom: 0.5em;
-}
-</style>
-
 <script>
 import CampaignValidationBuilder from "@/common/validation/CampaignValidationBuilder.js";
 import ValidationHelper from "@/common/validation/ValidationHelper.js";
@@ -385,9 +379,6 @@ export default {
   watch: {
     modelValue() {
       this.campaignFormObject = this.modelValue;
-      this.campaignFormObject.frequencyRatioDaily = parseFloat(this.campaignFormObject.frequencyRatioDaily);
-      this.campaignFormObject.frequencyRatioWeekly = parseFloat(this.campaignFormObject.frequencyRatioWeekly);
-      this.campaignFormObject.frequencyRatioMonthly = parseFloat(this.campaignFormObject.frequencyRatioMonthly);
     },
     campaignFormObject: {
       deep: true,
@@ -398,3 +389,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+h1 {
+  margin-bottom: 0.5em;
+}
+</style>
