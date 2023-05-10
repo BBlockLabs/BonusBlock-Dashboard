@@ -59,7 +59,7 @@
     </el-main>
 
     <el-aside class="bl-solid h-100 pos-relative" width="360px">
-      <div class="pos-absolute d-flex flex-column h-100">
+      <div class="pos-absolute d-flex flex-column h-100 w-100">
         <div class="of-scroll p-4">
           <campaign-side-summary
             v-if="step !== 4"
