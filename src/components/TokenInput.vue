@@ -89,10 +89,12 @@ export default {
 
       this.$emit(
         "update:modelValue",
-        wholes +
+        (
+          wholes +
           (decimals || "")
             .padEnd(this.decimalSpaces, "0")
             .slice(0, this.decimalSpaces)
+        ).replace(/^0+/, "")
       );
     },
     setInputValue() {

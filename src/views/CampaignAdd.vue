@@ -140,9 +140,6 @@ export default {
     },
   },
   created() {
-    this.campaignFormObject.setValuesFromCampaign(this.campaign);
-    this.campaignFormObject.reset();
-
     this.loadData();
 
     this.campaignValidation = CampaignValidationBuilder.createValidation(
@@ -252,10 +249,6 @@ export default {
       this.rewardedActivityValidation.$reset();
     },
     async storeCampaign() {
-      if (!this.campaignFormObject.dirty()) {
-        return true;
-      }
-
       this.campaignFormObject.setCampaignValues(this.campaign);
 
       this.$store.commit("Campaign/setCampaign", this.campaign);
@@ -329,10 +322,12 @@ export default {
             return false;
           }
 
-          if (!(await this.storeCampaign())) {
-            this.loading = false;
+          if (this.campaignFormObject.dirty()) {
+            if (!(await this.storeCampaign())) {
+              this.loading = false;
 
-            return false;
+              return false;
+            }
           }
 
           break;

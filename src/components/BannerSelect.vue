@@ -12,7 +12,7 @@
       }
     "
   >
-    <img v-if="value" :src="fileUrl" class="h-100 w-100" alt="Banner" />
+    <img v-if="value" :src="fileUrl" class="banner-image w-100" alt="Banner" />
 
     <div v-else class="el-upload__text h-100">
       Drop file here or <em>click to upload</em>
@@ -192,13 +192,16 @@ export default {
 @use "element-plus/theme-chalk/src/mixins/function" as EPFunctions;
 
 .banner-upload {
-  @include EPMixins.b(upload) {
+  width: 100%;
+
+  .banner-image {
     aspect-ratio: 16/9;
+    object-fit: cover;
   }
 
   @include EPMixins.b(upload-dragger) {
     padding: 0;
-    height: 100%;
+    min-height: 30em;
     width: 100%;
   }
 }
