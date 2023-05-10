@@ -1,5 +1,7 @@
 <template>
-  <el-input v-model="inputValue" placeholder="Amount" />
+  <el-input v-model="inputValue" placeholder="Amount" v-bind="$attrs">
+    <template #suffix>{{ denom }}</template>
+  </el-input>
 </template>
 
 <script>
@@ -14,14 +16,7 @@ export default {
     },
     contract: {
       type: Contract,
-      default() {
-        const contract = new Contract();
-
-        contract.decimalSpaces = 6;
-        contract.denom = "";
-
-        return contract;
-      },
+      default: null,
     },
   },
   emits: ["update:modelValue"],
@@ -33,6 +28,9 @@ export default {
   computed: {
     decimalSpaces() {
       return this.contract?.decimalSpaces || 6;
+    },
+    denom() {
+      return this.contract?.denom || "No token";
     },
     value() {
       if (this.modelValue === "" || isNaN(this.modelValue)) {
@@ -46,7 +44,24 @@ export default {
     inputValue: "parseUserInput",
     value: "setInputValue",
     contract() {
-      this.parseUserInput(this.inputValue, "");
+      if (!this.inputValue) {
+        this.parseUserInput(this.inputValue, "");
+
+        return;
+      }
+
+      const [wholes, decimals] = this.inputValue.split(".");
+
+      if (decimals === undefined) {
+        this.parseUserInput(this.inputValue, "");
+
+        return;
+      }
+
+      this.parseUserInput(
+        this.inputValue,
+        `${wholes}.${decimals.slice(0, this.decimalSpaces)}`
+      );
     },
   },
   methods: {
@@ -67,13 +82,14 @@ export default {
 
       if (decimals !== undefined && decimals.length > this.decimalSpaces) {
         this.inputValue = oldValue;
-
-        return;
       }
 
       this.$emit(
         "update:modelValue",
-        wholes + (decimals || "").padEnd(this.decimalSpaces, "0")
+        wholes +
+          (decimals || "")
+            .padEnd(this.decimalSpaces, "0")
+            .slice(0, this.decimalSpaces)
       );
     },
     setInputValue() {
