@@ -9,15 +9,15 @@ export default class CampaignFormObject extends formObject {
   /**
    * @type {number}
    */
-  frequencyRatioDaily = 0;
+  frequencyRatioDaily = "";
   /**
    * @type {number}
    */
-  frequencyRatioWeekly = 0;
+  frequencyRatioWeekly = "";
   /**
    * @type {number}
    */
-  frequencyRatioMonthly = 0;
+  frequencyRatioMonthly = "";
   /**
    * @type {string}
    */

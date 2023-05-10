@@ -20,17 +20,17 @@ export default class CampaignValidationBuilder extends ValidationBuilder {
     frequencyRatioDaily: {
       required,
       numeric,
-      between: between(1, 100),
+      between: between(0, 100),
     },
     frequencyRatioWeekly: {
       required,
       numeric,
-      between: between(1, 100),
+      between: between(0, 100),
     },
     frequencyRatioMonthly: {
       required,
       numeric,
-      between: between(1, 100),
+      between: between(0, 100),
     },
     minimumPerUserAward: {
       integer,
