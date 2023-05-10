@@ -133,7 +133,7 @@
       "
       label="Daily"
     >
-      <el-input v-model="frequencyRatioDaily" placeholder="50">
+      <el-input v-model="frequencyRatioDaily">
         <template #suffix>%</template>
       </el-input>
     </el-form-item>
@@ -146,7 +146,7 @@
       "
       label="Weekly"
     >
-      <el-input v-model="frequencyRatioWeekly" placeholder="30">
+      <el-input v-model="frequencyRatioWeekly">
         <template #suffix>%</template>
       </el-input>
     </el-form-item>
@@ -159,7 +159,7 @@
       "
       label="Monthly"
     >
-      <el-input v-model="frequencyRatioMonthly" placeholder="20">
+      <el-input v-model="frequencyRatioMonthly">
         <template #suffix>%</template>
       </el-input>
     </el-form-item>
@@ -377,11 +377,17 @@ export default {
         return;
       }
 
-      this.campaignFormObject[lastChangedRatio] = val;
+      if (val === "") {
+        this.campaignFormObject[lastChangedRatio] = "";
+      } else {
+        this.campaignFormObject[lastChangedRatio] = parseInt(val);
+      }
 
-      this.frequencyRatioPriorities = this.frequencyRatioPriorities.sort(
-        (ratioName) => (ratioName === lastChangedRatio ? 1 : -1)
+      this.frequencyRatioPriorities = this.frequencyRatioPriorities.filter(
+        (ratioName) => ratioName !== lastChangedRatio
       );
+
+      this.frequencyRatioPriorities.push(lastChangedRatio);
 
       let sum = 0;
 
