@@ -1,6 +1,8 @@
 <template>
   <box-wrapper class="px-4">
-    <h3 class="m-0 of-hidden">{{ campaign.name || temporaryCampaignName || "Unnamed campaign" }}</h3>
+    <h3 class="m-0 of-hidden">
+      {{ campaign.name || temporaryCampaignName || "Unnamed campaign" }}
+    </h3>
     {{ announcements.length }} announcements
   </box-wrapper>
 

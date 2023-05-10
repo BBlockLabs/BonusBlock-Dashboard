@@ -57,21 +57,24 @@
               )
             "
           >
-            <span slot="label">
-              <label class="el-form-item__label">
-                Reward Pool
-                <el-tooltip
-                  effect="light"
-                  content="Prompts info"
-                  placement="top-start"
-                  :offset="-20"
-                >
-                  <el-icon class="tooltip-icon">
-                    <InfoFilled />
-                  </el-icon>
-                </el-tooltip>
-              </label>
-            </span>
+            <template #label>
+              <span>
+                <label class="el-form-item__label">
+                  Reward Pool
+                  <el-tooltip
+                    effect="light"
+                    content="Prompts info"
+                    placement="top-start"
+                    :offset="-20"
+                  >
+                    <el-icon class="tooltip-icon">
+                      <InfoFilled />
+                    </el-icon>
+                  </el-tooltip>
+                </label>
+              </span>
+            </template>
+
             <contract-select-field
               v-model="campaignFormObject.rewardPoolContract"
               class="w-100"
@@ -81,22 +84,25 @@
 
         <el-col :span="12">
           <el-form-item>
-            <span slot="label">
-              <label class="el-form-item__label">
-                Reward Pool Token amount
-                <el-tooltip
-                  effect="light"
-                  content="Prompts info"
-                  placement="top-start"
-                  :offset="-20"
-                >
-                  <el-icon class="tooltip-icon">
-                    <InfoFilled />
-                  </el-icon>
-                </el-tooltip>
-              </label>
-            </span>
+            <template #label>
+              <span>
+                <label class="el-form-item__label">
+                  Reward Pool Token amount
+                  <el-tooltip
+                    effect="light"
+                    content="Prompts info"
+                    placement="top-start"
+                    :offset="-20"
+                  >
+                    <el-icon class="tooltip-icon">
+                      <InfoFilled />
+                    </el-icon>
+                  </el-tooltip>
+                </label>
+              </span>
+            </template>
           </el-form-item>
+
           <token-input
             v-model="campaignFormObject.rewardPoolTokenCount"
             :contract="contract"
@@ -181,7 +187,7 @@
           :offset="-50"
         >
           <el-icon class="tooltip-icon">
-            <InfoFilled />
+            <info-filled />
           </el-icon>
         </el-tooltip>
       </label>
@@ -207,7 +213,7 @@
           :offset="-50"
         >
           <el-icon class="tooltip-icon">
-            <InfoFilled />
+            <info-filled />
           </el-icon>
         </el-tooltip>
       </label>
