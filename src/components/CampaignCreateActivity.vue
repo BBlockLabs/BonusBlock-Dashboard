@@ -54,7 +54,13 @@
       <h1>
         <b>
           Set requirements for
-          {{ Formatter.splitWordByCase($store.getters["Activity/getAction"](rewardedActivityFormObject.action).name) }}
+          {{
+            Formatter.splitWordByCase(
+              $store.getters["Activity/getAction"](
+                rewardedActivityFormObject.action
+              ).name
+            )
+          }}
         </b>
       </h1>
 

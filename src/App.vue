@@ -17,7 +17,7 @@
       </el-header>
 
       <el-main class="d-flex main-container">
-        <div class="w-100">
+        <div class="w-100" :style="{ padding: $route.meta.pagePadding }">
           <router-view />
         </div>
       </el-main>
