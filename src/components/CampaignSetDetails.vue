@@ -107,19 +107,6 @@
             v-model="campaignFormObject.rewardPoolTokenCount"
             :contract="contract"
           />
-          <!--sup v-if="contract">
-            {{
-              Formatter.token(
-                BigInt(
-                  !isNaN(campaignFormObject.rewardPoolTokenCount)
-                    ? campaignFormObject.rewardPoolTokenCount
-                    : 0
-                ),
-                contract,
-                contract.decimalSpaces
-              )
-            }}
-          </sup-->
         </el-col>
       </el-row>
     </el-form-item>
@@ -146,7 +133,9 @@
       "
       label="Daily"
     >
-      <el-input v-model="frequencyRatioDailyDisplayValue" placeholder="50%" />
+      <el-input v-model="frequencyRatioDaily" placeholder="50">
+        <template #suffix>%</template>
+      </el-input>
     </el-form-item>
 
     <el-form-item
@@ -157,7 +146,9 @@
       "
       label="Weekly"
     >
-      <el-input v-model="frequencyRatioWeeklyDisplayValue" placeholder="30%" />
+      <el-input v-model="frequencyRatioWeekly" placeholder="30">
+        <template #suffix>%</template>
+      </el-input>
     </el-form-item>
 
     <el-form-item
@@ -168,7 +159,9 @@
       "
       label="Monthly"
     >
-      <el-input v-model="frequencyRatioMonthlyDisplayValue" placeholder="20%" />
+      <el-input v-model="frequencyRatioMonthly" placeholder="20">
+        <template #suffix>%</template>
+      </el-input>
     </el-form-item>
 
     <el-form-item
@@ -283,7 +276,6 @@ import CampaignValidationBuilder from "@/common/validation/CampaignValidationBui
 import ValidationHelper from "@/common/validation/ValidationHelper.js";
 import ContractSelectField from "@/components/ContractSelectField.vue";
 import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
-import { Formatter } from "@/common/Formatter.js";
 import TokenInput from "@/components/TokenInput.vue";
 
 export default {
@@ -308,69 +300,39 @@ export default {
   data() {
     return {
       campaignFormObject: this.modelValue,
+      frequencyRatioPriorities: [
+        "frequencyRatioMonthly",
+        "frequencyRatioWeekly",
+        "frequencyRatioDaily",
+      ],
     };
   },
   computed: {
-    // TODO: Dry?
-    frequencyRatioDailyDisplayValue: {
-      get: function () {
-        return (this.campaignFormObject.frequencyRatioDaily || 0) + " %";
-      },
-      set: function (modifiedValue) {
-        let newValue = parseFloat(modifiedValue.replace(/[^\d.]/g, ""));
-        if (isNaN(newValue)) {
-          newValue = 0;
-        }
-
-        let remainingValue =
-          100 -
-          (this.campaignFormObject.frequencyRatioWeekly +
-            this.campaignFormObject.frequencyRatioMonthly);
-        newValue = Math.min(newValue, remainingValue);
-
-        this.campaignFormObject.frequencyRatioDaily = newValue;
-      },
-    },
-    frequencyRatioWeeklyDisplayValue: {
-      get: function () {
-        return (this.campaignFormObject.frequencyRatioWeekly || 0) + " %";
-      },
-      set: function (modifiedValue) {
-        let newValue = parseFloat(modifiedValue.replace(/[^\d.]/g, ""));
-        if (isNaN(newValue)) {
-          newValue = 0;
-        }
-
-        let remainingValue =
-          100 -
-          (this.campaignFormObject.frequencyRatioDaily +
-            this.campaignFormObject.frequencyRatioMonthly);
-        newValue = Math.min(newValue, remainingValue);
-
-        this.campaignFormObject.frequencyRatioWeekly = newValue;
-      },
-    },
-    frequencyRatioMonthlyDisplayValue: {
-      get: function () {
-        return (this.campaignFormObject.frequencyRatioMonthly || 0) + " %";
-      },
-      set: function (modifiedValue) {
-        let newValue = parseFloat(modifiedValue.replace(/[^\d.]/g, ""));
-        if (isNaN(newValue)) {
-          newValue = 0;
-        }
-
-        let remainingValue =
-          100 -
-          (this.campaignFormObject.frequencyRatioDaily +
-            this.campaignFormObject.frequencyRatioWeekly);
-        newValue = Math.min(newValue, remainingValue);
-
-        this.campaignFormObject.frequencyRatioMonthly = newValue;
-      },
-    },
-    Formatter: () => Formatter,
     ValidationHelper: () => ValidationHelper,
+    frequencyRatioDaily: {
+      get() {
+        return this.campaignFormObject.frequencyRatioDaily;
+      },
+      set(val) {
+        this.setFrequencyRatio("frequencyRatioDaily", val);
+      },
+    },
+    frequencyRatioWeekly: {
+      get() {
+        return this.campaignFormObject.frequencyRatioWeekly;
+      },
+      set(val) {
+        this.setFrequencyRatio("frequencyRatioWeekly", val);
+      },
+    },
+    frequencyRatioMonthly: {
+      get() {
+        return this.campaignFormObject.frequencyRatioMonthly;
+      },
+      set(val) {
+        this.setFrequencyRatio("frequencyRatioMonthly", val);
+      },
+    },
     contract() {
       return this.$store.getters["Contract/getContract"](
         this.campaignFormObject.rewardPoolContract
@@ -403,6 +365,56 @@ export default {
       handler() {
         this.$emit("update:modelValue", this.campaignFormObject);
       },
+    },
+  },
+  methods: {
+    setFrequencyRatio(lastChangedRatio, val) {
+      if (isNaN(val)) {
+        return;
+      }
+
+      if (val > 100 || val < 0) {
+        return;
+      }
+
+      this.campaignFormObject[lastChangedRatio] = val;
+
+      this.frequencyRatioPriorities = this.frequencyRatioPriorities.sort(
+        (ratioName) => (ratioName === lastChangedRatio ? 1 : -1)
+      );
+
+      let sum = 0;
+
+      for (const ratioName of this.frequencyRatioPriorities) {
+        sum += parseInt(this.campaignFormObject[ratioName] || 0);
+      }
+
+      let difference = 100 - sum;
+
+      if (difference === 0) {
+        this.frequencyRatioCalculation = false;
+      }
+
+      for (const ratioName of this.frequencyRatioPriorities) {
+        const ratioValue = parseInt(this.campaignFormObject[ratioName] || 0);
+
+        sum -= ratioValue;
+
+        if (ratioValue + difference > 100) {
+          this.campaignFormObject[ratioName] = 100;
+        } else if (ratioValue + difference < 0) {
+          this.campaignFormObject[ratioName] = 0;
+        } else {
+          this.campaignFormObject[ratioName] = ratioValue + difference;
+        }
+
+        sum += parseInt(this.campaignFormObject[ratioName] || 0);
+        difference = 100 - sum;
+
+        if (sum === 100) {
+          break;
+        }
+      }
     },
   },
 };
