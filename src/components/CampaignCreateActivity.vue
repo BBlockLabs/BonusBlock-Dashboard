@@ -54,11 +54,7 @@
       <h1>
         <b>
           Set requirements for
-          {{
-            $store.getters["Activity/getAction"](
-              rewardedActivityFormObject.action
-            ).name
-          }}
+          {{ Formatter.splitWordByCase($store.getters["Activity/getAction"](rewardedActivityFormObject.action).name) }}
         </b>
       </h1>
 
@@ -143,6 +139,7 @@ import ActivityPicker from "@/components/ActivityPicker.vue";
 import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
 import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
 import ProductFilters from "@/common/Http/ProductFilters.js";
+import { Formatter } from "@/common/Formatter.js";
 
 export default {
   components: {
@@ -179,6 +176,9 @@ export default {
     };
   },
   computed: {
+    Formatter() {
+      return Formatter;
+    },
     minimumTransactionCountDisplayValue: {
       get: function () {
         return this.rewardedActivityFormObject.minimumTransactionCount + " $";

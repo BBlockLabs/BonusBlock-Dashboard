@@ -227,7 +227,6 @@ export default {
       }
 
       const rewardedActivity = new RewardedActivity();
-
       this.rewardedActivityFormObject.setRewardedActivityValues(
         rewardedActivity
       );
@@ -239,6 +238,11 @@ export default {
       );
 
       this.rewardedActivityValidation.$reset();
+
+      this.rewardedActivityFormObject.minimumTransactionLimit = "";
+      this.rewardedActivityFormObject.minimumTransactionCount = "";
+      this.rewardedActivityFormObject.action = null;
+
       this.Toast("Activity added", null, "success");
     },
     clearRewardedActivity() {

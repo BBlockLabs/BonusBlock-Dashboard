@@ -46,7 +46,7 @@ export default {
         return new ActionResponse(false, response.errors, "error");
       }
 
-      const project = new Project(response.payload.project);
+      const project = new Project(response.payload);
 
       commit("setProject", project);
 

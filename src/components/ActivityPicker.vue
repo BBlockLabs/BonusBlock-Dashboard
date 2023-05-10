@@ -28,7 +28,7 @@
       </template>
 
       <el-row
-        v-for="actionId in activityObject.actions"
+        v-for="actionId in activityObject.actionsDisplay"
         :key="actionId"
         justify="space-between"
         class="bt-solid px-3 py-2"
@@ -105,10 +105,12 @@ export default {
       return Formatter;
     },
     activities() {
+      const campaignId = this.$route.params.id;
       return this.$store.getters["Activity/queryActivities"](
         this.network,
         this.product,
-        this.filterString
+        this.filterString,
+        this.$store.getters["RewardedActivity/getByCampaign"](campaignId)
       );
     },
   },

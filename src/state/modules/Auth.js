@@ -233,6 +233,7 @@ export default {
 
       commit("setUser", null);
       commit("Project/setProject", null, { root: true });
+      commit("Campaign/clearCampaigns", null, { root: true });
 
       await localStorage.removeItem("token");
       await localStorage.removeItem("tokenExpire");

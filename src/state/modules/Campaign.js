@@ -71,6 +71,12 @@ export default {
 
       state.campaigns.delete(campaignId);
     },
+    /**
+     * @param {CampaignState} state
+     */
+    clearCampaigns(state) {
+      state.campaigns.clear();
+    },
   },
   actions: {
     /**

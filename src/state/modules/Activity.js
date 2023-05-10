@@ -42,11 +42,11 @@ export default {
     },
     /**
      * @param {ActivityState} state
-     * @returns {function(network: string, product: string, queryString: string): Array<Activity>}
+     * @returns {function(network: string, product: string, queryString: string, selectedRewardedActivities: Array): Array<Activity>}
      */
     queryActivities:
       (state) =>
-      (networkId, productId, queryString = "") => {
+      (networkId, productId, queryString = "", selectedRewardedActivities) => {
         const activities = [];
 
         state.activities.forEach((activity) => {
@@ -64,6 +64,22 @@ export default {
             activity.hash !== `0x${queryString}` &&
             !activity.name.toLowerCase().includes(queryString.toLowerCase())
           ) {
+            return;
+          }
+          if (
+            selectedRewardedActivities &&
+            selectedRewardedActivities.length > 0
+          ) {
+            activity.actionsDisplay = activity.actions.filter((action) =>
+              selectedRewardedActivities.every(
+                (activity) => activity.action !== action
+              )
+            );
+          } else {
+            activity.actionsDisplay = activity.actions;
+          }
+
+          if (activity.actionsDisplay.length === 0) {
             return;
           }
 
