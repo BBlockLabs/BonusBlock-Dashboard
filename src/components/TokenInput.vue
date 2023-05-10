@@ -5,10 +5,8 @@
 <script>
 import Contract from "@/state/models/Contract.js";
 import { Formatter } from "@/common/Formatter.js";
-import DebugWrapper from "@/components/DebugWrapper.vue";
 
 export default {
-  components: { DebugWrapper },
   props: {
     modelValue: {
       type: [String, BigInt],
