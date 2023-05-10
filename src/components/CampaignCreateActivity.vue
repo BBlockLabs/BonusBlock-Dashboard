@@ -72,12 +72,11 @@
         "
         label="Set minimum transaction limit"
       >
-        <el-input
+        <token-input
           v-model="rewardedActivityFormObject.minimumTransactionLimit"
+          :contract="contract"
         />
-        <sup class="text-secondary"
-          >Set minimum amount of tokens for the activity to count towards the
-          reward.</sup
+        <sup class="text-secondary">Set minimum amount of tokens for the activity to count towards the reward.</sup
         >
       </el-form-item>
 
@@ -106,11 +105,11 @@
         "
         label="Set minimum transaction amount"
       >
-        <el-input v-model="minimumTransactionCountDisplayValue" />
-        <sup class="text-secondary"
-          >Set minimum amount of transactions for the activity to count towards
-          the reward.</sup
-        >
+        <el-input
+          v-model="rewardedActivityFormObject.minimumTransactionCount"
+          :formatter="(value) => `${value}`.replace(/\D/g, '')"
+        />
+        <sup class="text-secondary">Set minimum amount of transactions for the activity to count towards the reward.</sup>
       </el-form-item>
 
       <!--el-form-item
@@ -146,13 +145,14 @@ import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
 import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
 import ProductFilters from "@/common/Http/ProductFilters.js";
 import { Formatter } from "@/common/Formatter.js";
-
+import TokenInput from "@/components/TokenInput.vue";
 export default {
   components: {
     CategorySelectField,
     NetworkSelectField,
     ProductSelectField,
     ActivityPicker,
+    TokenInput,
   },
   props: {
     campaign: {
@@ -182,6 +182,11 @@ export default {
     };
   },
   computed: {
+    contract() {
+      return this.$store.getters["Contract/getContract"](
+        this.campaignFormObject.rewardPoolContract
+      );
+    },
     Formatter() {
       return Formatter;
     },

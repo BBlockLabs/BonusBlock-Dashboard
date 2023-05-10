@@ -3,24 +3,19 @@ import RewardedActivityDto from "@/common/dto/RewardedActivityDto.js";
 
 export default class RewardedActivity extends Model {
   /**
-   * @type {string}
+   * @type {string|null}
    */
   activity = null;
 
   /**
-   * @type {string}
+   * @type {string|null}
    */
   action = null;
 
   /**
    * @type {BigInt}
    */
-  minimumTransactionLimit = 0;
-
-  /**
-   * @type {BigInt}
-   */
-  additionalRewardTransactionLimit = 0;
+  minimumTransactionLimit = 0n;
 
   /**
    * @type {number}
@@ -28,12 +23,7 @@ export default class RewardedActivity extends Model {
   minimumTransactionCount = 0;
 
   /**
-   * @type {number}
-   */
-  additionalRewardTransactionCount = 0;
-
-  /**
-   * @type {string}
+   * @type {string|null}
    */
   campaign = null;
 

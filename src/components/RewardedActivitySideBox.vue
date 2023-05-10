@@ -17,12 +17,12 @@
     </el-col>
   </el-row>
 
-  <el-row justify="space-between">
+  <!--el-row justify="space-between">
     <el-col :span="-1"> Additional reward transaction limit </el-col>
     <el-col :span="-1">
       {{ rewardedActivity.additionalRewardTransactionLimit }}
     </el-col>
-  </el-row>
+  </el-row-->
 
   <el-row justify="space-between">
     <el-col :span="-1"> Minimum transaction amount </el-col>
@@ -31,12 +31,12 @@
     </el-col>
   </el-row>
 
-  <el-row justify="space-between">
+  <!--el-row justify="space-between">
     <el-col :span="-1"> Additional reward transaction amount </el-col>
     <el-col :span="-1">
       {{ rewardedActivity.additionalRewardTransactionCount }}
     </el-col>
-  </el-row>
+  </el-row-->
 
   <el-row justify="end">
     <el-col :span="-1">
