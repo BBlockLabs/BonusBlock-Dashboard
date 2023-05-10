@@ -38,9 +38,14 @@
           class="d-flex flex-column pointer"
           @click="actionValue = actionId"
         >
-          {{ Formatter.splitWordByCase($store.getters["Activity/getAction"](actionId).name) }}
+          {{
+            Formatter.splitWordByCase(
+              $store.getters["Activity/getAction"](actionId).name
+            )
+          }}
           <span class="text-secondary">
-            {{ $store.getters["Activity/getAction"](actionId).hash }} (function hash)
+            {{ $store.getters["Activity/getAction"](actionId).hash }} (function
+            hash)
           </span>
         </el-col>
 
