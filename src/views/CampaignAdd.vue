@@ -1,85 +1,82 @@
 <template>
   <el-container v-loading="loading" class="h-100">
-    <el-main>
-      <el-row>
-        <el-col :span="1">
-          <el-button link @click="back">
-            <svg-nav-arrow-left class="icon" />
-          </el-button>
-        </el-col>
-
-        <el-col :span="23">
-          <el-steps :active="step - 1" align-center class="mb-5">
-            <el-step title="Set campaign" />
-            <el-step title="Create activities" />
-            <el-step title="Create your announcement" />
-            <el-step title="Launch!" />
-          </el-steps>
-        </el-col>
-      </el-row>
-
-      <campaign-set-details
-        v-if="step === 1"
-        v-model="campaignFormObject"
-        :validation="campaignValidation"
-        @update:model-value="formChanged"
-      />
-
-      <div v-if="step === 2">
+    <el-main class="pos-relative">
+      <div class="pos-absolute p-4">
         <el-row>
-          <el-col>
-            <campaign-create-activity
-              v-model:campaign="campaignFormObject"
-              v-model="rewardedActivityFormObject"
-              :validation="rewardedActivityValidation"
-            />
+          <el-col :span="1">
+            <el-button link @click="back">
+              <svg-nav-arrow-left class="icon" />
+            </el-button>
           </el-col>
 
-          <el-col class="d-flex">
-            <el-button class="ml-auto" round @click="clearRewardedActivity">
-              Clear
-            </el-button>
-
-            <el-button round type="primary" @click="addRewardedActivity">
-              Add activity
-            </el-button>
+          <el-col :span="23">
+            <el-steps :active="step - 1" align-center class="mb-5">
+              <el-step title="Set campaign" />
+              <el-step title="Create activities" />
+              <el-step title="Create your announcement" />
+              <el-step title="Launch!" />
+            </el-steps>
           </el-col>
         </el-row>
+
+        <campaign-set-details
+          v-if="step === 1"
+          v-model="campaignFormObject"
+          :validation="campaignValidation"
+          @update:model-value="formChanged"
+        />
+
+        <div v-if="step === 2">
+          <el-row>
+            <el-col>
+              <campaign-create-activity
+                v-model:campaign="campaignFormObject"
+                v-model="rewardedActivityFormObject"
+                :validation="rewardedActivityValidation"
+              />
+            </el-col>
+
+            <el-col class="d-flex">
+              <el-button class="ml-auto" round @click="clearRewardedActivity">
+                Clear
+              </el-button>
+
+              <el-button round type="primary" @click="addRewardedActivity">
+                Add activity
+              </el-button>
+            </el-col>
+          </el-row>
+        </div>
+
+        <announcement-form
+          v-if="step === 3"
+          v-model="announcementFormObject"
+          :validation="announcementFormValidation"
+        />
+
+        <campaign-summary v-if="step === 4" :campaign-id="campaign.id" />
       </div>
-
-      <announcement-form
-        v-if="step === 3"
-        v-model="announcementFormObject"
-        :validation="announcementFormValidation"
-      />
-
-      <campaign-summary v-if="step === 4" :campaign-id="campaign.id" />
     </el-main>
 
-    <el-aside
-      class="bl-solid px-4"
-      width="360px"
-      style="
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      "
-    >
-      <campaign-side-summary
-        v-if="step !== 4"
-        :temporary-campaign-name="temporaryCampaignName"
-        :campaign-id="campaign.id"
-      />
-      <campaign-side-launch v-else :campaign-id="campaign.id" />
-      <div>
-        <el-button
-          v-if="step !== 4"
-          type="primary"
-          class="mt-3"
-          @click="goToNextStep"
-        >
-          Continue
-        </el-button>
+    <el-aside class="bl-solid h-100 pos-relative" width="360px">
+      <div class="pos-absolute d-flex flex-column h-100">
+        <div class="of-scroll p-4">
+          <campaign-side-summary
+            v-if="step !== 4"
+            :temporary-campaign-name="temporaryCampaignName"
+            :campaign-id="campaign.id"
+          />
+
+          <campaign-side-launch v-else :campaign-id="campaign.id" />
+        </div>
+
+        <div v-if="step !== 4" class="bt-solid w-100 mt-auto">
+          <div class="d-flex p-4">
+            <el-button type="primary" class="ml-auto" @click="goToNextStep">
+              Continue
+            </el-button>
+          </div>
+        </div>
       </div>
     </el-aside>
   </el-container>

@@ -44,13 +44,17 @@ export default [
     path: "/campaign/add",
     component: CampaignAdd,
     name: "Campaign add",
-    meta: new RouteMeta(),
+    meta: new RouteMeta({
+      pagePadding: "0",
+    }),
   },
   {
     path: "/campaign/:id/edit",
     component: CampaignAdd,
     name: "Campaign edit",
-    meta: new RouteMeta(),
+    meta: new RouteMeta({
+      pagePadding: "0",
+    }),
   },
   {
     path: "/create-project",

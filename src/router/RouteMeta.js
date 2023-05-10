@@ -15,6 +15,11 @@ export default class RouteMeta {
   auth = RouteMeta.AUTH_ONLY_AUTHORIZED;
 
   /**
+   * @type {string}
+   */
+  pagePadding = "20px";
+
+  /**
    * @param {{
    *  auth: AUTH_ANY|AUTH_ONLY_AUTHORIZED|AUTH_ONLY_NON_AUTHORIZED
    * }} options
