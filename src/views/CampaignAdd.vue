@@ -37,7 +37,7 @@
                 />
               </el-col>
 
-              <el-col class="d-flex">
+              <el-col v-if="rewardedActivityFormObject.action" class="d-flex">
                 <el-button class="ml-auto" round @click="clearRewardedActivity">
                   Clear
                 </el-button>
@@ -237,13 +237,15 @@ export default {
 
       this.rewardedActivityValidation.$reset();
 
-      this.rewardedActivityFormObject.minimumTransactionLimit = "";
-      this.rewardedActivityFormObject.minimumTransactionCount = "";
+      this.rewardedActivityFormObject.minimumTransactionLimit = "0";
+      this.rewardedActivityFormObject.minimumTransactionCount = 0;
       this.rewardedActivityFormObject.action = null;
 
       this.Toast("Activity added", null, "success");
     },
     clearRewardedActivity() {
+      this.rewardedActivityFormObject.minimumTransactionLimit = "0";
+      this.rewardedActivityFormObject.minimumTransactionCount = 0;
       this.rewardedActivityFormObject.activity = null;
       this.rewardedActivityFormObject.action = null;
 
@@ -334,7 +336,7 @@ export default {
           break;
         case 2:
           if (this.rewardedActivities.length === 0) {
-            await this.MessageBoxInfo("Add at least one activity to continue");
+            this.Toast("Add at least one activity to continue", null, "error");
             this.loading = false;
 
             return false;

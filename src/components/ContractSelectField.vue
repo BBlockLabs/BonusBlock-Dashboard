@@ -11,6 +11,7 @@
     clearable
     :options="options"
     placeholder="Please enter a keyword"
+    @blur="filterString = ''"
   />
 </template>
 

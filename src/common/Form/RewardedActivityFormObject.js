@@ -12,19 +12,11 @@ export default class RewardedActivityFormObject extends formObject {
   /**
    * @type {string}
    */
-  minimumTransactionLimit = "";
+  minimumTransactionLimit = "0";
   /**
-   * @type {string}
+   * @type {number}
    */
-  additionalRewardTransactionLimit = "";
-  /**
-   * @type {string}
-   */
-  minimumTransactionCount = "";
-  /**
-   * @type {string}
-   */
-  additionalRewardTransactionCount = "";
+  minimumTransactionCount = 0;
 
   /**
    * @param {RewardedActivity} rewardedActivity
@@ -32,19 +24,8 @@ export default class RewardedActivityFormObject extends formObject {
   setRewardedActivityValues(rewardedActivity) {
     rewardedActivity.activity = this.activity;
     rewardedActivity.action = this.action;
-
-    rewardedActivity.minimumTransactionLimit = BigInt(
-      this.minimumTransactionLimit
-    );
-    // rewardedActivity.additionalRewardTransactionLimit = BigInt(
-    //   this.additionalRewardTransactionLimit
-    // );
-    rewardedActivity.minimumTransactionCount = parseInt(
-      this.minimumTransactionCount
-    );
-    // rewardedActivity.additionalRewardTransactionCount = parseInt(
-    //   this.additionalRewardTransactionCount
-    // );
+    rewardedActivity.minimumTransactionLimit = BigInt(this.minimumTransactionLimit);
+    rewardedActivity.minimumTransactionCount = this.minimumTransactionCount;
   }
 
   /**
@@ -53,14 +34,7 @@ export default class RewardedActivityFormObject extends formObject {
   setValuesFromRewardedActivity(rewardedActivity) {
     this.activity = rewardedActivity.activity;
     this.action = rewardedActivity.action;
-
-    this.minimumTransactionLimit =
-      rewardedActivity.minimumTransactionLimit.toString();
-    // this.additionalRewardTransactionLimit =
-    //   rewardedActivity.additionalRewardTransactionLimit.toString();
-    this.minimumTransactionCount =
-      rewardedActivity.minimumTransactionCount.toString();
-    // this.additionalRewardTransactionCount =
-    //   rewardedActivity.additionalRewardTransactionCount.toString();
+    this.minimumTransactionLimit = rewardedActivity.minimumTransactionLimit.toString();
+    this.minimumTransactionCount = rewardedActivity.minimumTransactionCount;
   }
 }

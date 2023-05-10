@@ -80,23 +80,6 @@
         >
       </el-form-item>
 
-      <!--el-form-item
-        v-bind="
-          ValidationHelper.getFormItemErrorAttributes(
-            validate['additionalRewardTransactionLimit']
-          )
-        "
-        label="Set additional reward transaction limit"
-      >
-        <el-input
-          v-model="rewardedActivityFormObject.additionalRewardTransactionLimit"
-        />
-        <sup class="text-secondary"
-          >Set an amount of tokens for which the user gets an additional
-          reward.</sup
-        >
-      </el-form-item-->
-
       <el-form-item
         v-bind="
           ValidationHelper.getFormItemErrorAttributes(
@@ -111,23 +94,6 @@
         />
         <sup class="text-secondary">Set minimum amount of transactions for the activity to count towards the reward.</sup>
       </el-form-item>
-
-      <!--el-form-item
-        v-bind="
-          ValidationHelper.getFormItemErrorAttributes(
-            validate['additionalRewardTransactionCount']
-          )
-        "
-        label="Set additional reward transaction amount"
-      >
-        <el-input
-          v-model="this.rewardedActivityFormObject.additionalRewardTransactionCount"
-        />
-        <sup class="text-secondary"
-          >Set an amount of transactions for which the user gets an additional
-          reward.</sup
-        >
-      </el-form-item-->
     </div>
   </el-form>
 
