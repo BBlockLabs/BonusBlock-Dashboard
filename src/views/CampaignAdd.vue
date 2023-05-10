@@ -180,7 +180,7 @@ export default {
         this.campaignFormObject.setValuesFromCampaign(this.campaign);
         this.campaignFormObject.reset();
 
-        console.log('????');
+        console.log("????");
 
         promises.push(this.loadAnnouncement());
       }
