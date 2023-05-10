@@ -64,6 +64,9 @@ export default {
       );
     },
   },
+  created() {
+    this.setInputValue();
+  },
   methods: {
     parseUserInput(newValue, oldValue) {
       if (isNaN(newValue)) {
