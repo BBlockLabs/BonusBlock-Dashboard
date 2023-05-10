@@ -193,6 +193,10 @@
       </label>
       <token-input
         v-model="campaignFormObject.minimumPerUserAward"
+        :disabled="
+          !campaignFormObject.rewardPoolContract ||
+          !campaignFormObject.rewardPoolTokenCount
+        "
         :contract="contract"
       />
     </el-form-item>
@@ -219,6 +223,10 @@
       </label>
       <token-input
         v-model="campaignFormObject.maximumPerUserAward"
+        :disabled="
+          !campaignFormObject.rewardPoolContract ||
+          !campaignFormObject.rewardPoolTokenCount
+        "
         :contract="contract"
       />
     </el-form-item>
@@ -383,6 +391,10 @@ export default {
     },
   },
   watch: {
+    "campaignFormObject.rewardPoolContract"() {
+      this.campaignFormObject.minimumPerUserAward = "";
+      this.campaignFormObject.maximumPerUserAward = "";
+    },
     modelValue() {
       this.campaignFormObject = this.modelValue;
     },
