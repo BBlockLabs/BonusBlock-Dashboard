@@ -76,7 +76,9 @@
           v-model="rewardedActivityFormObject.minimumTransactionLimit"
           :contract="contract"
         />
-        <sup class="text-secondary">Set minimum amount of tokens for the activity to count towards the reward.</sup
+        <sup class="text-secondary"
+          >Set minimum amount of tokens for the activity to count towards the
+          reward.</sup
         >
       </el-form-item>
 
@@ -92,7 +94,10 @@
           v-model="rewardedActivityFormObject.minimumTransactionCount"
           :formatter="(value) => `${value}`.replace(/\D/g, '')"
         />
-        <sup class="text-secondary">Set minimum amount of transactions for the activity to count towards the reward.</sup>
+        <sup class="text-secondary"
+          >Set minimum amount of transactions for the activity to count towards
+          the reward.</sup
+        >
       </el-form-item>
     </div>
   </el-form>
