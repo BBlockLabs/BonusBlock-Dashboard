@@ -115,8 +115,6 @@ export default {
           ? `announcement/${announcement.campaign}/${announcement.id}/update`
           : `announcement/${announcement.campaign}/create`;
 
-      console.log(await announcement.toDto());
-
       const response = await HttpRequest.makeRequest(
         endpoint,
         await announcement.toDto()

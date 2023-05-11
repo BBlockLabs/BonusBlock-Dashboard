@@ -93,7 +93,6 @@ export default {
       ];
     },
     async setFileList(uploadUserFileList) {
-      console.log("setFileList");
       if (uploadUserFileList.length === 0) {
         this.value = null;
 

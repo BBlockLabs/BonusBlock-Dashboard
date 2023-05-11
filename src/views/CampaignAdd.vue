@@ -129,6 +129,7 @@ export default {
       campaignValidation: null,
       rewardedActivityValidation: null,
       announcementFormValidation: null,
+      activitiesUpdated: false,
     };
   },
   computed: {
@@ -182,8 +183,6 @@ export default {
         this.campaignFormObject.setValuesFromCampaign(this.campaign);
         this.campaignFormObject.reset();
 
-        console.log("????");
-
         promises.push(this.loadAnnouncement());
       }
 
@@ -219,10 +218,11 @@ export default {
     },
     async addRewardedActivity() {
       if (!(await this.rewardedActivityValidation.$validate())) {
-        // console.log(this.rewardedActivityValidation.$errors);
         this.Toast("Form contains errors", null, "error");
         return;
       }
+
+      this.activitiesUpdated = true;
 
       const rewardedActivity = new RewardedActivity();
       this.rewardedActivityFormObject.setRewardedActivityValues(
@@ -318,7 +318,6 @@ export default {
       switch (this.step) {
         case 1:
           if (!(await this.campaignValidation.$validate())) {
-            // console.log(this.campaignValidation.$errors);
             this.Toast("Form contains errors", null, "error");
             this.loading = false;
 
@@ -342,16 +341,21 @@ export default {
             return false;
           }
 
+          if (!this.activitiesUpdated) {
+            break;
+          }
+
           if (!(await this.storeCampaign())) {
             this.loading = false;
 
             return false;
           }
 
+          this.activitiesUpdated = false;
+
           break;
         case 3:
           if (!(await this.announcementFormValidation.$validate())) {
-            // console.log(this.announcementFormValidation.$errors);
             this.Toast("Form contains errors", null, "error");
             this.loading = false;
 
