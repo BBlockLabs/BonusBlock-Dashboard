@@ -12,20 +12,7 @@
             Deposit with Metamask
           </el-button>
         </el-col>
-
-        <!--el-col>
-          <el-button
-            type="primary"
-            class="w-100 my-2 p-4"
-            @click="payWithKeplr"
-          >
-            <icon-keplr class="icon" />
-            Deposit with Keplr
-          </el-button>
-        </el-col-->
       </el-row>
-
-      <!--el-divider content-position="center">or</el-divider-->
 
       <div class="br-base b-solid p-3">
         <el-row justify="space-between">
@@ -86,11 +73,11 @@ export default {
       required: true,
     },
   },
+  emits: ["paymentSuccess", "paymentCanceled"],
   data() {
     return {
       loading: false,
       checkPaymentTimeout: null,
-      lastCheck: moment(),
       nextCheck: moment(),
       time: moment(),
       ticker: null,
@@ -133,14 +120,17 @@ export default {
       }
 
       if (this.payment.status === "INITIATED") {
-        this.lastCheck = moment();
-
         this.checkPaymentTimeout = setTimeout(() => {
           this.checkPaymentStatus();
         }, 30000);
 
         this.nextCheck = moment().add(30, "seconds");
       }
+
+      if (this.payment.status === "SUCCESS") {
+        this.$emit("paymentSuccess");
+      }
+
       this.loading = false;
     },
     async cancelPayment() {
@@ -151,24 +141,33 @@ export default {
         status: "CANCELLED",
       });
 
+      this.$emit("paymentCanceled");
+
       this.loading = false;
     },
-    /*async payWithKeplr() {
-      this.loading = true;
-      this.loading = false;
-    },*/
     async payWithMetamask() {
       this.loading = true;
+
+      clearTimeout(this.checkPaymentTimeout);
+
       const provider = await detectEthereumProvider({
         mustBeMetaMask: true,
         silent: true,
       });
-      await MetamaskClient.sendTransaction(
-        provider,
-        this.payment.wallet,
-        this.payment.amount,
-        this.payment.memo
-      );
+
+      try {
+        await MetamaskClient.sendTransaction(
+          provider,
+          this.payment.wallet,
+          this.payment.amount,
+          this.payment.memo
+        );
+      } catch (e) {
+        /* empty */
+      }
+
+      await this.checkPaymentStatus();
+
       this.loading = false;
     },
   },

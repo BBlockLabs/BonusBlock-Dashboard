@@ -61,6 +61,7 @@
       class="mt-4"
       :campaign-id="campaignId"
       :payment-id="payments[0].id"
+      @payment-success="onPayment"
     />
 
     <h3 class="mt-auto">Announcement Preview</h3>
@@ -82,6 +83,7 @@ import AnnouncementPreview from "@/components/AnnouncementPreview.vue";
 import PaymentComponent from "@/components/PaymentComponent.vue";
 import BoxWrapper from "@/components/BoxWrapper.vue";
 import { Formatter } from "@/common/Formatter.js";
+import Toast from "@/mixins/Toast.js";
 
 export default {
   components: {
@@ -133,6 +135,11 @@ export default {
     );
   },
   methods: {
+    onPayment() {
+      Toast.methods.Toast("Payment successful", "", "success");
+
+      this.$router.push("/campaign");
+    },
     /**
      * @param {"CONFIRMED"} status
      * @returns {Promise<void>}
