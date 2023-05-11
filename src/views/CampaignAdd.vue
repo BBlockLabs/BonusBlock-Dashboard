@@ -129,7 +129,6 @@ export default {
       campaignValidation: null,
       rewardedActivityValidation: null,
       announcementFormValidation: null,
-      activitiesUpdated: false,
     };
   },
   computed: {
@@ -140,6 +139,7 @@ export default {
     },
   },
   created() {
+    this.$store.commit("Campaign/setDirty", false);
     this.loadData();
 
     this.campaignValidation = CampaignValidationBuilder.createValidation(
@@ -222,14 +222,13 @@ export default {
         return;
       }
 
-      this.activitiesUpdated = true;
-
       const rewardedActivity = new RewardedActivity();
       this.rewardedActivityFormObject.setRewardedActivityValues(
         rewardedActivity
       );
       rewardedActivity.campaign = this.campaign.id;
 
+      this.$store.commit("Campaign/setDirty", true);
       this.$store.commit(
         "RewardedActivity/setRewardedActivity",
         rewardedActivity
@@ -256,6 +255,10 @@ export default {
 
       this.$store.commit("Campaign/setCampaign", this.campaign);
 
+      if (this.$store.getters["Campaign/isDirty"] === false) {
+        return true;
+      }
+
       const response = await this.$store.dispatch(
         "Campaign/storeCampaign",
         this.campaign.id
@@ -274,6 +277,8 @@ export default {
 
       this.campaignFormObject.setValuesFromCampaign(this.campaign);
       this.campaignFormObject.reset();
+
+      this.$store.commit("Campaign/setDirty", false);
 
       return true;
     },
@@ -325,11 +330,13 @@ export default {
           }
 
           if (this.campaignFormObject.dirty()) {
-            if (!(await this.storeCampaign())) {
-              this.loading = false;
+            this.$store.commit("Campaign/setDirty", true);
+          }
 
-              return false;
-            }
+          if (!(await this.storeCampaign())) {
+            this.loading = false;
+
+            return false;
           }
 
           break;
@@ -341,17 +348,11 @@ export default {
             return false;
           }
 
-          if (!this.activitiesUpdated) {
-            break;
-          }
-
           if (!(await this.storeCampaign())) {
             this.loading = false;
 
             return false;
           }
-
-          this.activitiesUpdated = false;
 
           break;
         case 3:

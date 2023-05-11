@@ -40,14 +40,7 @@
 
   <el-row justify="end">
     <el-col :span="-1">
-      <delete-button
-        @click="
-          $store.commit(
-            'RewardedActivity/removeRewardedActivity',
-            rewardedActivity.id
-          )
-        "
-      />
+      <delete-button @click="removeRewardedActivity" />
     </el-col>
   </el-row>
 
@@ -95,6 +88,15 @@ export default {
     rewardedActivity() {
       return this.$store.getters["RewardedActivity/get"](
         this.rewardedActivityId
+      );
+    },
+  },
+  methods: {
+    removeRewardedActivity() {
+      this.$store.commit("Campaign/setDirty", true);
+      this.$store.commit(
+        "RewardedActivity/removeRewardedActivity",
+        this.rewardedActivity.id
       );
     },
   },

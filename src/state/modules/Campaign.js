@@ -21,12 +21,23 @@ export class CampaignState {
    * @type {Map<string, Campaign>}
    */
   campaigns = new Map();
+  /**
+   * @type Boolean
+   */
+  isDirty = false;
 }
 
 export default {
   namespaced: true,
   state: new CampaignState(),
   getters: {
+    /**
+     * @param state
+     * @return {Boolean}
+     */
+    isDirty: (state) => {
+      return state.isDirty;
+    },
     /**
      * @param {CampaignState} state
      * @returns {Array<Campaign>}
@@ -53,6 +64,13 @@ export default {
     },
   },
   mutations: {
+    /**
+     * @param {CampaignState} state
+     * @param {Boolean} flag
+     */
+    setDirty(state, flag) {
+      state.isDirty = flag;
+    },
     /**
      * @param {CampaignState} state
      * @param {Campaign} campaign

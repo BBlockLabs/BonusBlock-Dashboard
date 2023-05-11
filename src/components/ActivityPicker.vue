@@ -163,6 +163,7 @@ export default {
           product: this.product,
           network: this.network,
           filter: this.filterString,
+          type: "TYPE_DEX",
           page: this.page,
           perPage: this.perPage,
         }
