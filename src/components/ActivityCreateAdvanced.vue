@@ -11,13 +11,20 @@
 
       <el-col :md="12">
         <el-form-item label="Network">
-          <network-select-field class="w-100" />
+          <network-select-field
+            v-model="campaign.network"
+            class="w-100"
+          />
         </el-form-item>
       </el-col>
     </el-row>
 
     <el-form-item label="Activity">
-      <activity-select-field v-model="activity.activity" class="w-100" />
+      <activity-select-field
+        v-model="activity.activity"
+        :network-id="campaign.network"
+        class="w-100"
+      />
     </el-form-item>
 
     <el-form-item label="Categories">
@@ -36,7 +43,12 @@
       <el-input />
     </el-form-item>
 
-    <action-picker v-model="activity.action" :activity="activity.activity" />
+    <action-picker
+      v-model="activity.action"
+      v-model:model-amount="activity.minimumTransactionCount"
+      v-model:model-limit="activity.minimumTransactionLimit"
+      :activity="activity.activity"
+    />
   </box-wrapper>
 </template>
 
@@ -83,7 +95,7 @@ export default {
     activityForm: {
       deep: true,
       handler(activity) {
-        this.campaign = activity;
+        this.activity = activity;
       },
     },
   },

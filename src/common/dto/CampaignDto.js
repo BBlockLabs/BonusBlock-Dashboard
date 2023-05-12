@@ -82,5 +82,5 @@ export default class CampaignDto {
   /**
    * @type {Array<RewardedActivityDto>}
    */
-  actions = [];
+  activities = [];
 }

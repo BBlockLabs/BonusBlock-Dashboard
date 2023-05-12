@@ -148,14 +148,23 @@ export default {
     /**
      * @param commit
      * @param getters
-     * @param {{filterString?: string, product: string, network: string, type: ActivityType}} filters
+     * @param {{
+     *  action?: String,
+     *  filter?: String,
+     *  network: String,
+     *  page: Number,
+     *  perPage: Number,
+     *  type: ActivityType
+     * }} filters
      * @returns {Promise<ActionResponse>}
      */
     async queryActivities({ commit, getters }, filters) {
       const response = await HttpRequest.makeRequest(
-        `product/${filters.product}`,
+        'product/find',
         {
           ...filters,
+          page: filters.page || 1,
+          perPage: filters.perPage || 25,
           type: filters.type?.getName() || undefined,
         }
       );
@@ -186,11 +195,11 @@ export default {
 
       return new ActionResponse(
         true,
-        getters["queryActivities"](
-          filters.product,
-          filters.type,
-          filters.filterString
-        )
+        getters["queryActivities"]({
+          productId: filters.product,
+          queryString: filters.filter,
+          type: filters.type,
+        })
       );
     },
   },

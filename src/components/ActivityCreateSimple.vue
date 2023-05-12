@@ -51,6 +51,7 @@
         </el-form-item>
 
         <activity-picker
+          v-model="activity.activity"
           :product="campaign.product"
           :type="type"
           :network="campaign.network"
@@ -76,7 +77,6 @@
 <script setup>
 import ActivityActionSelect from "@/components/ActivityActionSelect.vue";
 import ActivityPicker from "@/components/ActivityPicker.vue";
-import ActivityType from "@/common/ActivityType.js";
 import ActivityTypeSelect from "@/components/ActivityTypeSelect.vue";
 import BoxWrapper from "@/components/BoxWrapper.vue";
 import CategorySelectField from "@/components/CategorySelectField.vue";
@@ -84,7 +84,6 @@ import NetworkSelectField from "@/components/NetworkSelectField.vue";
 import ProductFilters from "@/common/Http/ProductFilters.js";
 import ProductSelectField from "@/components/ProductSelectField.vue";
 import TokenInput from "@/components/TokenInput.vue";
-import ValidationHelper from "@/common/validation/ValidationHelper.js";
 </script>
 
 <script>

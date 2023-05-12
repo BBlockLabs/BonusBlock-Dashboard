@@ -13,14 +13,26 @@
 
 <script>
 export default {
+  props: {
+    networkId: {
+      type: [String, null],
+      default: null,
+    },
+  },
   data() {
     return {
       loading: false,
       options: [],
+      query: "",
     };
   },
+  watch: {
+    networkId() {
+      this.queryCategories(this.query);
+    },
+  },
   created() {
-    this.queryCategories("");
+    this.queryCategories(this.query);
   },
   methods: {
     async queryCategories(query) {
@@ -28,15 +40,28 @@ export default {
         return;
       }
 
+      this.query = query;
       this.loading = true;
 
-      const categories = await this.$store.getters["Activity/queryActivities"]({
-        queryString: query,
-      });
+      const response = await this.$store.dispatch(
+        "Activity/queryActivities",
+        {
+          network: this.networkId || undefined,
+          filter: this.query,
+        }
+      );
 
-      this.options = categories.map((category) => ({
-        value: category.id,
-        label: category.name,
+      if (!response.success) {
+        this.loading = false;
+
+        return;
+      }
+
+      const activities = response.data;
+
+      this.options = activities.map((activity) => ({
+        value: activity.id,
+        label: activity.name,
       }));
 
       this.loading = false;

@@ -1,5 +1,7 @@
 import Model from "@/state/models/Model";
 import RewardedActivityDto from "@/common/dto/RewardedActivityDto.js";
+import ActivityType from "@/common/ActivityType.js";
+import ActivityAction from "@/common/ActivityAction.js";
 
 export default class RewardedActivity extends Model {
   /**
@@ -28,6 +30,16 @@ export default class RewardedActivity extends Model {
   campaign = null;
 
   /**
+   * @type {ActivityType|null}
+   */
+  type;
+
+  /**
+   * @type {ActivityAction|null}
+   */
+  activityAction;
+
+  /**
    * @param {RewardedActivityDto} dto
    * @return {RewardedActivity}
    */
@@ -36,8 +48,16 @@ export default class RewardedActivity extends Model {
 
     rewardedActivity.minimumTransactionLimit = BigInt(dto.minTrxLimit);
     rewardedActivity.minimumTransactionCount = dto.minTrxAmount;
-    rewardedActivity.action =
-      dto.productActivityAction?.id || dto.productActivityAction;
+    rewardedActivity.activity = dto.productActivity.id;
+    rewardedActivity.action = dto.productActivityAction?.id || null;
+
+    rewardedActivity.type =
+      Object.values(ActivityType).find((type) => type.getName() === dto.actionType) ||
+      null;
+
+    rewardedActivity.activityAction =
+      Object.values(ActivityAction).find((type) => type.getName() === dto.action) ||
+      null;
 
     return rewardedActivity;
   }
@@ -50,7 +70,10 @@ export default class RewardedActivity extends Model {
 
     dto.minTrxLimit = this.minimumTransactionLimit.toString();
     dto.minTrxAmount = this.minimumTransactionCount;
+    dto.productActivity = this.activity;
     dto.productActivityAction = this.action;
+    dto.actionType = this.type?.getName() || null;
+    dto.action = this.activityAction?.getName() || null;
 
     return dto;
   }
