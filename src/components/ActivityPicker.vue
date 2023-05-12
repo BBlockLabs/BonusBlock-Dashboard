@@ -1,76 +1,66 @@
 <template>
-  <el-input
-    v-model="filterString"
-    placeholder="Search for activity"
-    class="mb-3"
-  />
-
-  <el-collapse
-    v-model="activityValue"
-    v-infinite-scroll="netxPage"
-    accordion
-    class="of-scroll w-100 b-solid br-base"
+  <div
+    v-infinite-scroll="nextPage"
+    class="br-base b-solid of-scroll"
     style="max-height: 500px"
   >
-    <el-collapse-item
-      v-for="activityObject in activities"
-      :key="activityObject.id"
-      :name="activityObject.id"
-      class="bb-solid"
+    <el-row
+      v-for="(activity, idx) in activities"
+      :key="activity.id"
+      :class="{ 'bt-solid': idx !== 0 }"
     >
-      <template #title>
-        <div class="d-flex flex-column p-3">
-          <b>{{ activityObject.name }}</b>
-          <span class="text-secondary">
-            {{ activityObject.hash }}
-          </span>
+      <el-col class="p-3 d-flex">
+        <el-avatar />
+
+        <div class="mx-2 of-hidden my-auto">
+          <el-tag>ETH</el-tag>&nbsp;
+          <b>{{ activity.name }}</b>
+          <br />
+          0x{{ activity.hash }}
         </div>
-      </template>
 
-      <el-row
-        v-for="actionId in activityObject.actionsDisplay"
-        :key="actionId"
-        justify="space-between"
-        class="bt-solid px-3 py-2"
-      >
-        <el-col
-          :span="-1"
-          class="d-flex flex-column pointer"
-          @click="actionValue = actionId"
-        >
-          {{
-            Formatter.splitWordByCase(
-              $store.getters["Activity/getAction"](actionId).name
-            )
-          }}
-          <span class="text-secondary">
-            {{ $store.getters["Activity/getAction"](actionId).hash }} (function
-            hash)
+        <div class="ml-auto my-auto">
+          <span v-if="activity.url">
+            <a :href="activity.url" target="_blank">
+              <el-link>
+                <open-new-window class="icon" />
+              </el-link>
+            </a>
+            &nbsp;
           </span>
-        </el-col>
 
-        <!--el-col :span="-1" class="d-flex">
-          <input
-            v-model="actionValue"
-            class="my-auto"
+          <el-radio
+            v-model="activityValue"
+            :label="activity.hash"
             type="radio"
-            :value="actionId"
-          />
-        </el-col-->
-      </el-row>
-    </el-collapse-item>
-  </el-collapse>
+          >
+            &nbsp;
+          </el-radio>
+        </div>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>
 import Toast from "@/mixins/Toast.js";
 import { Formatter } from "@/common/Formatter.js";
+import OpenNewWindow from "@/assets/icons/open-new-window.svg"
+import ActivityType from "@/common/ActivityType.js";
 
 export default {
+  components:{
+    OpenNewWindow,
+  },
   mixins: [Toast],
   props: {
     product: {
       type: String,
+      require: true,
+      default: "",
+    },
+    type: {
+      type: ActivityType,
       require: true,
       default: "",
     },
@@ -79,22 +69,20 @@ export default {
       require: true,
       default: "",
     },
-    activity: {
-      type: [String, null],
-      required: true,
+    filterString: {
+      type: String,
+      default: "",
     },
-    action: {
+    modelValue: {
       type: [String, null],
-      required: true,
+      default: null,
     },
   },
-  emits: ["update:activity", "update:action"],
+  emits: ["update:modelValue"],
   data() {
     return {
       loading: false,
-      filterString: "",
-      activityValue: this.activity,
-      actionValue: this.action,
+      activityValue: this.modelValue,
       page: 1,
       perPage: 20,
       lastPage: false,
@@ -105,32 +93,25 @@ export default {
       return Formatter;
     },
     activities() {
-      const campaignId = this.$route.params.id;
-      return this.$store.getters["Activity/queryActivities"](
-        this.network,
-        this.product,
-        this.filterString,
-        this.$store.getters["RewardedActivity/getByCampaign"](campaignId)
-      );
+      return this.$store.getters["Activity/queryActivities"]({
+        productId: this.product,
+        type: this.type,
+        selectedRewardedActivities: this.$store.getters["RewardedActivity/getByCampaign"](this.$route.params.id),
+        queryString: this.filterString,
+      });
     },
   },
   watch: {
     activity() {
-      this.activityValue = this.activity;
-    },
-    action() {
-      this.actionValue = this.action;
+      this.activityValue = this.modelValue;
     },
     activityValue() {
-      this.$emit("update:activity", this.activityValue);
-    },
-    actionValue() {
-      this.$emit("update:action", this.actionValue);
+      this.$emit("update:modelValue", this.activityValue);
     },
     product() {
       this.resetActivities();
     },
-    network() {
+    type() {
       this.resetActivities();
     },
     filterString() {
@@ -141,7 +122,7 @@ export default {
     this.loadActivities();
   },
   methods: {
-    netxPage() {
+    nextPage() {
       if (this.lastPage) {
         return;
       }
@@ -162,8 +143,8 @@ export default {
         {
           product: this.product,
           network: this.network,
+          type: this.type,
           filter: this.filterString,
-          type: "TYPE_DEX",
           page: this.page,
           perPage: this.perPage,
         }
@@ -171,8 +152,6 @@ export default {
 
       if (!activitiesResponse.success) {
         this.Toast("Failed To load activities", "", "error");
-
-        console.log(activitiesResponse.errors);
 
         return;
       }

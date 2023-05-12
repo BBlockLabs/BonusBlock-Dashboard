@@ -8,6 +8,17 @@ export class ContractState {
    * @type {Map<string, Contract>}
    */
   contracts = new Map();
+
+  constructor() {
+    const usd = new Contract();
+
+    usd.denom = "$";
+    usd.decimalSpaces = 2;
+    usd.title = "Dollars";
+    usd.id = "USD";
+
+    this.contracts.set("USD", usd);
+  }
 }
 
 export default {

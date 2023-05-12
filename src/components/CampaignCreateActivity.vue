@@ -3,6 +3,35 @@
     label-position="top"
     @submit.prevent="() => $emit('submit', ...arguments)"
   >
+    <el-row justify="space-between">
+      <el-col :span="-1">
+        <h1 class="mt-0"><b>Activity Creation</b></h1>
+      </el-col>
+
+      <el-col :span="-1">
+        Advanced mode <el-switch v-model="advanced" />
+      </el-col>
+    </el-row>
+
+    <activity-create-simple
+      v-if="!advanced"
+      v-model:campaign-form="campaignFormObject"
+    />
+
+    <activity-create-advanced
+      v-if="advanced"
+      v-model:campaign-form="campaignFormObject"
+    />
+  </el-form>
+
+
+
+
+
+  <el-form
+    label-position="top"
+    @submit.prevent="() => $emit('submit', ...arguments)"
+  >
     <h1 class="mt-0"><b>Select Product</b></h1>
 
     <el-form-item label="Categories">
@@ -41,12 +70,7 @@
           ValidationHelper.getFormItemErrorAttributes(validate['activity'])
         "
       >
-        <activity-picker
-          v-model:activity="rewardedActivityFormObject.activity"
-          v-model:action="rewardedActivityFormObject.action"
-          :product="campaignFormObject.product"
-          :network="campaignFormObject.network"
-        />
+        aa
       </el-form-item>
     </div>
 
@@ -106,23 +130,30 @@
 </template>
 
 <script>
+import ActivityCreateAdvanced from "@/components/ActivityCreateAdvanced.vue";
+import ActivityCreateSimple from "@/components/ActivityCreateSimple.vue";
+import ActivityPicker from "@/components/ActivityPicker.vue";
+import BoxWrapper from "@/components/BoxWrapper.vue";
+import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
 import CategorySelectField from "@/components/CategorySelectField.vue";
 import NetworkSelectField from "@/components/NetworkSelectField.vue";
-import ProductSelectField from "@/components/ProductSelectField.vue";
-import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
-import ValidationHelper from "@/common/validation/ValidationHelper.js";
-import ActivityPicker from "@/components/ActivityPicker.vue";
-import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
-import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
 import ProductFilters from "@/common/Http/ProductFilters.js";
-import { Formatter } from "@/common/Formatter.js";
+import ProductSelectField from "@/components/ProductSelectField.vue";
+import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
+import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
 import TokenInput from "@/components/TokenInput.vue";
+import ValidationHelper from "@/common/validation/ValidationHelper.js";
+import { Formatter } from "@/common/Formatter.js";
+
 export default {
   components: {
+    ActivityCreateAdvanced,
+    ActivityCreateSimple,
+    ActivityPicker,
+    BoxWrapper,
     CategorySelectField,
     NetworkSelectField,
     ProductSelectField,
-    ActivityPicker,
     TokenInput,
   },
   props: {
@@ -150,6 +181,7 @@ export default {
     return {
       rewardedActivityFormObject: this.modelValue,
       campaignFormObject: this.campaign,
+      advanced: false,
     };
   },
   computed: {
