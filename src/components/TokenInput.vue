@@ -1,6 +1,11 @@
 <template>
   <el-input v-model="inputValue" placeholder="Amount" v-bind="$attrs">
-    <template #prefix>{{ denom }}</template>
+    <template #prefix>
+      <span class="text-secondary">
+        {{ denom }}
+      </span>
+      &nbsp;
+    </template>
   </el-input>
 </template>
 
