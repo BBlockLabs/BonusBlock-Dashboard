@@ -172,10 +172,15 @@ export default {
         this.campaignFormObject.setValuesFromCampaign(this.campaign);
         this.campaignFormObject.reset();
 
-        const activity = this.$store.getters["RewardedActivity/getByCampaign"](this.campaign.id)[0] || null;
+        const activity =
+          this.$store.getters["RewardedActivity/getByCampaign"](
+            this.campaign.id
+          )[0] || null;
 
         if (activity) {
-          this.rewardedActivityFormObject.setValuesFromRewardedActivity(activity);
+          this.rewardedActivityFormObject.setValuesFromRewardedActivity(
+            activity
+          );
           this.rewardedActivityFormObject.reset();
         }
 

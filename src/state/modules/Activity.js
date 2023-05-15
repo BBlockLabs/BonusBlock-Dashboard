@@ -159,15 +159,12 @@ export default {
      * @returns {Promise<ActionResponse>}
      */
     async queryActivities({ commit, getters }, filters) {
-      const response = await HttpRequest.makeRequest(
-        'product/find',
-        {
-          ...filters,
-          page: filters.page || 1,
-          perPage: filters.perPage || 25,
-          type: filters.type?.getName() || undefined,
-        }
-      );
+      const response = await HttpRequest.makeRequest("product/find", {
+        ...filters,
+        page: filters.page || 1,
+        perPage: filters.perPage || 25,
+        type: filters.type?.getName() || undefined,
+      });
 
       if (!response.success) {
         return new ActionResponse(false, null, response.errors);

@@ -12,7 +12,7 @@
 <script>
 import ActivityAction from "@/common/ActivityAction.js";
 import ActivityType from "@/common/ActivityType.js";
-import {toRaw} from "vue";
+import { toRaw } from "vue";
 
 export default {
   props: {
@@ -66,6 +66,6 @@ export default {
 
       this.$emit("update:action", type.getAction());
     },
-  }
+  },
 };
 </script>

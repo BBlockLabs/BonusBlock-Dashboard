@@ -3,7 +3,7 @@ import { useVuelidate } from "@vuelidate/core";
 import ValidationBuilder from "@/common/validation/ValidationBuilder.js";
 import ActivityType from "@/common/ActivityType.js";
 import ActivityAction from "@/common/ActivityAction.js";
-import {toRaw} from "vue";
+import { toRaw } from "vue";
 
 export default class RewardedActivityValidationBuilder extends ValidationBuilder {
   static validationRules = {

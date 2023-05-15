@@ -1,9 +1,5 @@
 <template>
-  <el-collapse
-    v-model="value"
-    accordion
-    class="br-base b-solid"
-  >
+  <el-collapse v-model="value" accordion class="br-base b-solid">
     <el-collapse-item
       v-for="(action, idx) in actions"
       :key="action.id"
@@ -48,7 +44,6 @@
               &nbsp;
             </el-checkbox>
           </div>
-
 
           <el-form-item class="w-100" label="Minimum transaction amount">
             <token-input

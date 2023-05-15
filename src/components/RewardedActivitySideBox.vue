@@ -1,7 +1,7 @@
 <template>
-  <el-row justify="space-between">
+  <el-row v-if="advanced" justify="space-between">
     <el-col :span="-1">
-      <h3 v-if="action.name" class="m-0">
+      <h3 v-if="action" class="m-0">
         <b>{{ Formatter.splitWordByCase(action.name) }}</b>
       </h3>
     </el-col>
@@ -10,23 +10,37 @@
     </el-col>
   </el-row>
 
-  <el-row justify="space-between">
-    <el-col :span="-1"> Minimum transaction limit </el-col>
+  <el-row v-else justify="space-between">
     <el-col :span="-1">
-      {{ rewardedActivity.minimumTransactionLimit }}
+      <h3 class="m-0">
+        <b>
+          {{ activity.type.getAction().getLabel() }} /
+          {{ activity.type.getLabel() }}
+        </b>
+      </h3>
+    </el-col>
+    <el-col :span="-1">
+      <h3 class="m-0">{{ activity.name }}</h3>
     </el-col>
   </el-row>
 
   <el-row justify="space-between">
     <el-col :span="-1"> Minimum transaction amount </el-col>
     <el-col :span="-1">
-      {{ rewardedActivity.minimumTransactionCount }}
+      {{
+        Formatter.token(
+          rewardedActivity.minimumTransactionLimit,
+          $store.getters["Contract/getContract"]("USD"),
+          2
+        )
+      }}
     </el-col>
   </el-row>
 
-  <el-row justify="end">
+  <el-row justify="space-between">
+    <el-col :span="-1"> Minimum transaction limit </el-col>
     <el-col :span="-1">
-      <delete-button @click="removeRewardedActivity" />
+      {{ rewardedActivity.minimumTransactionCount }}
     </el-col>
   </el-row>
 
@@ -36,16 +50,13 @@
 </template>
 
 <script>
-import Action from "@/state/models/Action.js";
 import Activity from "@/state/models/Activity.js";
 import DebugWrapper from "@/components/DebugWrapper.vue";
-import DeleteButton from "@/components/DeleteButton.vue";
 import { Formatter } from "../common/Formatter.js";
 
 export default {
   components: {
     DebugWrapper,
-    DeleteButton,
   },
   props: {
     rewardedActivityId: {
@@ -54,6 +65,9 @@ export default {
     },
   },
   computed: {
+    advanced() {
+      return !!this.action;
+    },
     Formatter() {
       return Formatter;
     },
@@ -68,21 +82,12 @@ export default {
       return (
         this.$store.getters["Activity/getAction"](
           this.rewardedActivity.action
-        ) || new Action()
+        ) || null
       );
     },
     rewardedActivity() {
       return this.$store.getters["RewardedActivity/get"](
         this.rewardedActivityId
-      );
-    },
-  },
-  methods: {
-    removeRewardedActivity() {
-      this.$store.commit("Campaign/setDirty", true);
-      this.$store.commit(
-        "RewardedActivity/removeRewardedActivity",
-        this.rewardedActivity.id
       );
     },
   },

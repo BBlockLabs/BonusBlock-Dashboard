@@ -11,10 +11,7 @@
 
       <el-col :md="12">
         <el-form-item label="Network">
-          <network-select-field
-            v-model="campaign.network"
-            class="w-100"
-          />
+          <network-select-field v-model="campaign.network" class="w-100" />
         </el-form-item>
       </el-col>
     </el-row>

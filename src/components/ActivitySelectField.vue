@@ -43,13 +43,10 @@ export default {
       this.query = query;
       this.loading = true;
 
-      const response = await this.$store.dispatch(
-        "Activity/queryActivities",
-        {
-          network: this.networkId || undefined,
-          filter: this.query,
-        }
-      );
+      const response = await this.$store.dispatch("Activity/queryActivities", {
+        network: this.networkId || undefined,
+        filter: this.query,
+      });
 
       if (!response.success) {
         this.loading = false;

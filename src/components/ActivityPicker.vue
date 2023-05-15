@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="br-base b-solid of-scroll"
-    style="max-height: 500px"
-  >
+  <div class="br-base b-solid of-scroll" style="max-height: 500px">
     <el-row
       v-for="(activity, idx) in activities"
       :key="activity.id"
@@ -28,11 +25,7 @@
             &nbsp;
           </span>
 
-          <el-radio
-            v-model="activityValue"
-            :label="activity.id"
-            type="radio"
-          >
+          <el-radio v-model="activityValue" :label="activity.id" type="radio">
             &nbsp;
           </el-radio>
         </div>
@@ -43,11 +36,11 @@
 
 <script>
 import Toast from "@/mixins/Toast.js";
-import OpenNewWindow from "@/assets/icons/open-new-window.svg"
+import OpenNewWindow from "@/assets/icons/open-new-window.svg";
 import ActivityType from "@/common/ActivityType.js";
 
 export default {
-  components:{
+  components: {
     OpenNewWindow,
   },
   mixins: [Toast],
