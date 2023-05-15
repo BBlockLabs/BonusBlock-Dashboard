@@ -42,52 +42,91 @@ export default {
     },
     /**
      * @param {ActivityState} state
-     * @returns {function(network: string, product: string, queryString: string, selectedRewardedActivities: Array): Array<Activity>}
+     * @return {function({
+     *  queryString?: string,
+     *  activity?: String,
+     * }): Array<Action>}
      */
-    queryActivities:
-      (state) =>
-      (networkId, productId, queryString = "", selectedRewardedActivities) => {
-        const activities = [];
+    queryActions: (state) => (filters) => {
+      const actions = [];
 
-        state.activities.forEach((activity) => {
-          if (activity.network !== networkId) {
-            return;
-          }
+      const activity = state.activities.has(filters.activity)
+        ? state.activities.get(filters.activity)
+        : null;
 
-          if (activity.product !== productId) {
-            return;
-          }
+      state.actions.forEach((action) => {
+        if (activity && !activity.actions.includes(action.id)) {
+          return;
+        }
 
-          if (
-            queryString &&
-            activity.hash !== queryString &&
-            activity.hash !== `0x${queryString}` &&
-            !activity.name.toLowerCase().includes(queryString.toLowerCase())
-          ) {
-            return;
-          }
-          if (
-            selectedRewardedActivities &&
-            selectedRewardedActivities.length > 0
-          ) {
-            activity.actionsDisplay = activity.actions.filter((action) =>
-              selectedRewardedActivities.every(
-                (activity) => activity.action !== action
-              )
-            );
-          } else {
-            activity.actionsDisplay = activity.actions;
-          }
+        if (
+          filters.queryString &&
+          action.hash !== filters.queryString &&
+          action.hash !== `0x${filters.queryString}` &&
+          !action.name.toLowerCase().includes(filters.queryString.toLowerCase())
+        ) {
+          return;
+        }
 
-          if (activity.actionsDisplay.length === 0) {
-            return;
-          }
+        actions.push(action);
+      });
 
-          activities.push(activity);
-        });
+      return actions;
+    },
+    /**
+     * @param {ActivityState} state
+     * @return {function({
+     *  productId?: string,
+     *  queryString?: string,
+     *  selectedRewardedActivities?: Array,
+     *  type?: ActivityType
+     * }): Array<Activity>}
+     */
+    queryActivities: (state) => (filters) => {
+      const activities = [];
 
-        return activities;
-      },
+      state.activities.forEach((activity) => {
+        if (filters.type && activity.type !== filters.type) {
+          return;
+        }
+
+        if (filters.productId && activity.product !== filters.productId) {
+          return;
+        }
+
+        if (
+          filters.queryString &&
+          activity.hash !== filters.queryString &&
+          activity.hash !== `0x${filters.queryString}` &&
+          !activity.name
+            .toLowerCase()
+            .includes(filters.queryString.toLowerCase())
+        ) {
+          return;
+        }
+
+        if (
+          filters.selectedRewardedActivities &&
+          filters.selectedRewardedActivities.length > 0
+        ) {
+          activity.actionsDisplay = activity.actions.filter((action) =>
+            filters.selectedRewardedActivities.every(
+              (activity) => activity.action !== action
+            )
+          );
+        } else {
+          activity.actionsDisplay = activity.actions;
+        }
+
+        if (activity.actionsDisplay.length === 0) {
+          return;
+        }
+
+        activities.push(activity);
+      });
+
+      return activities;
+    },
   },
   mutations: {
     /**
@@ -109,13 +148,25 @@ export default {
     /**
      * @param commit
      * @param getters
-     * @param {{filterString?: string, product: string, network: string}} filters
+     * @param {{
+     *  action?: String,
+     *  filter?: String,
+     *  network: String,
+     *  page: Number,
+     *  perPage: Number,
+     *  type: ActivityType
+     * }} filters
      * @returns {Promise<ActionResponse>}
      */
     async queryActivities({ commit, getters }, filters) {
       const response = await HttpRequest.makeRequest(
-        `product/${filters.product}`,
-        filters
+        'product/find',
+        {
+          ...filters,
+          page: filters.page || 1,
+          perPage: filters.perPage || 25,
+          type: filters.type?.getName() || undefined,
+        }
       );
 
       if (!response.success) {
@@ -144,11 +195,11 @@ export default {
 
       return new ActionResponse(
         true,
-        getters["queryActivities"](
-          filters.network,
-          filters.product,
-          filters.filterString
-        )
+        getters["queryActivities"]({
+          productId: filters.product,
+          queryString: filters.filter,
+          type: filters.type,
+        })
       );
     },
   },

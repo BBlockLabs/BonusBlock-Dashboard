@@ -1,4 +1,5 @@
 import Model from "@/state/models/Model";
+import ActivityType from "@/common/ActivityType.js";
 
 export default class Activity extends Model {
   /**
@@ -27,6 +28,16 @@ export default class Activity extends Model {
   actions = [];
 
   /**
+   * @type {String|null}
+   */
+  url = null;
+
+  /**
+   * @type {ActivityType|null}
+   */
+  type;
+
+  /**
    * @param {ActivityDto} dto
    * @return {Activity}
    */
@@ -37,6 +48,9 @@ export default class Activity extends Model {
     activity.name = dto.name;
     activity.hash = dto.address;
     activity.actions = dto.actions.map(({ id }) => id);
+    activity.type =
+      Object.values(ActivityType).find((type) => type.getName() === dto.type) ||
+      null;
 
     return activity;
   }

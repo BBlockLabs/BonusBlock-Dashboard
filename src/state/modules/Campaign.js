@@ -9,6 +9,7 @@ import RewardedActivity from "@/state/models/RewardedActivity.js";
 import Action from "@/state/models/Action.js";
 import Payment from "@/state/models/Payment.js";
 import Fee from "@/state/models/Fee.js";
+import Activity from "@/state/models/Activity.js";
 
 const endpointStatuses = {
   CONFIRMED: "confirm",
@@ -202,17 +203,25 @@ export default {
             });
           }
         );
-        campaignDto.actions.forEach((rewardedActivityDto) => {
+        campaignDto.activities.forEach((rewardedActivityDto) => {
           const rewardedActivity =
             RewardedActivity.fromDto(rewardedActivityDto);
 
           rewardedActivity.campaign = campaignDto.id;
 
           commit(
-            "Activity/setAction",
-            Action.fromDto(rewardedActivityDto.productActivityAction),
+            "Activity/setActivity",
+            Activity.fromDto(rewardedActivityDto.productActivity),
             { root: true }
           );
+
+          if (rewardedActivityDto.productActivityAction !== null) {
+            commit(
+              "Activity/setAction",
+              Action.fromDto(rewardedActivityDto.productActivityAction),
+              { root: true }
+            );
+          }
 
           commit("RewardedActivity/setRewardedActivity", rewardedActivity, {
             root: true,
@@ -240,7 +249,7 @@ export default {
 
       const campaignDto = campaign.toDto() || null;
 
-      campaignDto.actions = rootGetters["RewardedActivity/getByCampaign"](
+      campaignDto.activities = rootGetters["RewardedActivity/getByCampaign"](
         campaignId
       ).map((rewardedActivity) => rewardedActivity.toDto());
 

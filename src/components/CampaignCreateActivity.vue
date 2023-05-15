@@ -3,127 +3,49 @@
     label-position="top"
     @submit.prevent="() => $emit('submit', ...arguments)"
   >
-    <h1 class="mt-0"><b>Select Product</b></h1>
+    <el-row justify="space-between">
+      <el-col :span="-1">
+        <h1 class="mt-0"><b>Activity Creation</b></h1>
+      </el-col>
 
-    <el-form-item label="Categories">
-      <category-select-field
-        v-model="campaignFormObject.categories"
-        class="w-100"
-        multiple
-      />
-    </el-form-item>
-
-    <el-form-item label="Network">
-      <network-select-field
-        v-model="campaignFormObject.network"
-        class="w-100"
-      />
-    </el-form-item>
-
-    <el-form-item v-if="campaignFormObject.network" label="Product">
-      <product-select-field
-        v-model="campaignFormObject.product"
-        class="w-100"
-        :filters="
-          new ProductFilters(campaignFormObject.categories, [
-            campaignFormObject.network,
-          ])
-        "
-      />
-    </el-form-item>
-
-    <div v-if="campaignFormObject.product && campaignFormObject.network">
-      <h1><b>Select activity</b></h1>
-
-      <el-form-item
-        v-if="campaignFormObject.product && campaignFormObject.network"
-        v-bind="
-          ValidationHelper.getFormItemErrorAttributes(validate['activity'])
-        "
-      >
-        <activity-picker
-          v-model:activity="rewardedActivityFormObject.activity"
-          v-model:action="rewardedActivityFormObject.action"
-          :product="campaignFormObject.product"
-          :network="campaignFormObject.network"
+      <el-col :span="-1">
+        Advanced mode
+        <el-switch
+          :model-value="advanced"
+          @update:model-value="changeAdvanced"
         />
-      </el-form-item>
-    </div>
+      </el-col>
+    </el-row>
 
-    <div v-if="rewardedActivityFormObject.action">
-      <h1>
-        <b>
-          Set requirements for
-          {{
-            Formatter.splitWordByCase(
-              $store.getters["Activity/getAction"](
-                rewardedActivityFormObject.action
-              ).name
-            )
-          }}
-        </b>
-      </h1>
+    <activity-create-simple
+      v-if="!advanced"
+      v-model:activity-form="rewardedActivityFormObject"
+      v-model:campaign-form="campaignFormObject"
+    />
 
-      <el-form-item
-        v-bind="
-          ValidationHelper.getFormItemErrorAttributes(
-            validate['minimumTransactionLimit']
-          )
-        "
-        label="Set minimum transaction limit"
-      >
-        <token-input
-          v-model="rewardedActivityFormObject.minimumTransactionLimit"
-          :contract="contract"
-        />
-        <sup class="text-secondary"
-          >Set minimum amount of tokens for the activity to count towards the
-          reward.</sup
-        >
-      </el-form-item>
-
-      <el-form-item
-        v-bind="
-          ValidationHelper.getFormItemErrorAttributes(
-            validate['minimumTransactionCount']
-          )
-        "
-        label="Set minimum transaction amount"
-      >
-        <el-input
-          v-model="rewardedActivityFormObject.minimumTransactionCount"
-          :formatter="(value) => `${value}`.replace(/\D/g, '')"
-        />
-        <sup class="text-secondary"
-          >Set minimum amount of transactions for the activity to count towards
-          the reward.</sup
-        >
-      </el-form-item>
-    </div>
+    <activity-create-advanced
+      v-if="advanced"
+      v-model:activity-form="rewardedActivityFormObject"
+      v-model:campaign-form="campaignFormObject"
+    />
   </el-form>
 
+  <debug-wrapper>{{ campaignFormObject }}</debug-wrapper>
   <debug-wrapper>{{ rewardedActivityFormObject }}</debug-wrapper>
 </template>
 
 <script>
-import CategorySelectField from "@/components/CategorySelectField.vue";
-import NetworkSelectField from "@/components/NetworkSelectField.vue";
-import ProductSelectField from "@/components/ProductSelectField.vue";
-import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
-import ValidationHelper from "@/common/validation/ValidationHelper.js";
-import ActivityPicker from "@/components/ActivityPicker.vue";
+import ActivityCreateAdvanced from "@/components/ActivityCreateAdvanced.vue";
+import ActivityCreateSimple from "@/components/ActivityCreateSimple.vue";
 import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
 import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
-import ProductFilters from "@/common/Http/ProductFilters.js";
-import { Formatter } from "@/common/Formatter.js";
-import TokenInput from "@/components/TokenInput.vue";
+import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
+import ActivityAction from "@/common/ActivityAction.js";
+
 export default {
   components: {
-    CategorySelectField,
-    NetworkSelectField,
-    ProductSelectField,
-    ActivityPicker,
-    TokenInput,
+    ActivityCreateAdvanced,
+    ActivityCreateSimple,
   },
   props: {
     campaign: {
@@ -150,6 +72,7 @@ export default {
     return {
       rewardedActivityFormObject: this.modelValue,
       campaignFormObject: this.campaign,
+      advanced: false,
     };
   },
   computed: {
@@ -157,9 +80,6 @@ export default {
       return this.$store.getters["Contract/getContract"](
         this.campaignFormObject.rewardPoolContract
       );
-    },
-    Formatter() {
-      return Formatter;
     },
     minimumTransactionCountDisplayValue: {
       get: function () {
@@ -175,8 +95,6 @@ export default {
         this.rewardedActivityFormObject.minimumTransactionCount = newValue;
       },
     },
-    ProductFilters: () => ProductFilters,
-    ValidationHelper: () => ValidationHelper,
     validate() {
       if (this.validation) {
         return this.validation;
@@ -206,6 +124,25 @@ export default {
       handler() {
         this.$emit("update:campaign", this.campaignFormObject);
       },
+    },
+  },
+  created() {
+    if (this.rewardedActivityFormObject.action) {
+      this.advanced = true;
+    }
+  },
+  methods: {
+    changeAdvanced(advanced) {
+      this.advanced = advanced;
+
+      this.rewardedActivityFormObject.activity = null;
+      this.rewardedActivityFormObject.action = null;
+      this.rewardedActivityFormObject.type = null;
+      this.rewardedActivityFormObject.minimumTransactionLimit = "0";
+      this.rewardedActivityFormObject.minimumTransactionCount = 0;
+      this.rewardedActivityFormObject.activityAction = this.advanced
+        ? ActivityAction.INTERACT
+        : ActivityAction.SWAP;
     },
   },
 };

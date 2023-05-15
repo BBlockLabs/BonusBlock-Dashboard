@@ -1,4 +1,5 @@
 import formObject from "@/common/Form/FormObject.js";
+import ActivityAction from "@/common/ActivityAction.js";
 
 export default class RewardedActivityFormObject extends formObject {
   /**
@@ -19,6 +20,16 @@ export default class RewardedActivityFormObject extends formObject {
   minimumTransactionCount = 0;
 
   /**
+   * @type {ActivityType|null}
+   */
+  type = null;
+
+  /**
+   * @type {ActivityAction|null}
+   */
+  activityAction = ActivityAction.SWAP;
+
+  /**
    * @param {RewardedActivity} rewardedActivity
    */
   setRewardedActivityValues(rewardedActivity) {
@@ -28,6 +39,8 @@ export default class RewardedActivityFormObject extends formObject {
       this.minimumTransactionLimit
     );
     rewardedActivity.minimumTransactionCount = this.minimumTransactionCount;
+    rewardedActivity.type = this.type;
+    rewardedActivity.activityAction = this.activityAction;
   }
 
   /**
@@ -39,5 +52,7 @@ export default class RewardedActivityFormObject extends formObject {
     this.minimumTransactionLimit =
       rewardedActivity.minimumTransactionLimit.toString();
     this.minimumTransactionCount = rewardedActivity.minimumTransactionCount;
+    this.type = rewardedActivity.type;
+    this.activityAction = rewardedActivity.activityAction;
   }
 }

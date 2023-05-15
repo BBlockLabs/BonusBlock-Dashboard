@@ -1,6 +1,6 @@
 <template>
   <el-input v-model="inputValue" placeholder="Amount" v-bind="$attrs">
-    <template #suffix>{{ denom }}</template>
+    <template #prefix>{{ denom }}</template>
   </el-input>
 </template>
 
@@ -11,7 +11,7 @@ import { Formatter } from "@/common/Formatter.js";
 export default {
   props: {
     modelValue: {
-      type: [String, BigInt],
+      type: [String, BigInt, Number],
       default: null,
     },
     contract: {
@@ -33,7 +33,11 @@ export default {
       return this.contract?.denom || "No token";
     },
     value() {
-      if (this.modelValue === "" || isNaN(this.modelValue)) {
+      if (
+        this.modelValue === "" ||
+        isNaN(this.modelValue) ||
+        this.modelValue === null
+      ) {
         return null;
       }
 
