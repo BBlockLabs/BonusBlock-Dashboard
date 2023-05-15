@@ -215,11 +215,13 @@ export default {
             { root: true }
           );
 
-          commit(
-            "Activity/setAction",
-            Action.fromDto(rewardedActivityDto.productActivityAction),
-            { root: true }
-          );
+          if (rewardedActivityDto.productActivityAction !== null) {
+            commit(
+              "Activity/setAction",
+              Action.fromDto(rewardedActivityDto.productActivityAction),
+              { root: true }
+            );
+          }
 
           commit("RewardedActivity/setRewardedActivity", rewardedActivity, {
             root: true,

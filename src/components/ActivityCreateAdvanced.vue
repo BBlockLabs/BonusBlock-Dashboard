@@ -1,8 +1,8 @@
 <template>
-  <box-wrapper>
+  <box-wrapper class="mb-3">
     <h2><b>Set target</b></h2>
 
-    <el-row>
+    <el-row :gutter="12">
       <el-col :md="12">
         <el-form-item label="Select Action">
           <activity-action-select v-model="action" disabled class="w-100" />
@@ -45,8 +45,8 @@
 
     <action-picker
       v-model="activity.action"
-      v-model:model-amount="activity.minimumTransactionCount"
-      v-model:model-limit="activity.minimumTransactionLimit"
+      v-model:modelTrxValue="activity.minimumTransactionLimit"
+      v-model:modelTrxCount="activity.minimumTransactionCount"
       :activity="activity.activity"
     />
   </box-wrapper>

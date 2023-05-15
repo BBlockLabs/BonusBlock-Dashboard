@@ -22,9 +22,9 @@ export default class RewardedActivityDto {
   minTrxAmount = "0";
 
   /**
-   * @type {"SWAP", "INTERACT"}
+   * @type {"ACTION_SWAP", "ACTION_INTERACT"}
    */
-  action = "SWAP";
+  action = "ACTION_SWAP";
 
   /**
    * @type {"TYPE_DEX" | "TYPE_POOL" | "TYPE_ROUTER"}

@@ -9,7 +9,11 @@
       </el-col>
 
       <el-col :span="-1">
-        Advanced mode <el-switch v-model="advanced" />
+        Advanced mode
+        <el-switch
+          :model-value="advanced"
+          @update:model-value="changeAdvanced"
+        />
       </el-col>
     </el-row>
 
@@ -26,9 +30,7 @@
     />
   </el-form>
 
-  <pre>{{ campaignFormObject }}</pre>
-  <pre>{{ rewardedActivityFormObject }}</pre>
-
+  <debug-wrapper>{{ campaignFormObject }}</debug-wrapper>
   <debug-wrapper>{{ rewardedActivityFormObject }}</debug-wrapper>
 </template>
 
@@ -36,11 +38,9 @@
 import ActivityCreateAdvanced from "@/components/ActivityCreateAdvanced.vue";
 import ActivityCreateSimple from "@/components/ActivityCreateSimple.vue";
 import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
-import ProductFilters from "@/common/Http/ProductFilters.js";
 import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
 import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
-import ValidationHelper from "@/common/validation/ValidationHelper.js";
-import { Formatter } from "@/common/Formatter.js";
+import ActivityAction from "@/common/ActivityAction.js";
 
 export default {
   components: {
@@ -81,9 +81,6 @@ export default {
         this.campaignFormObject.rewardPoolContract
       );
     },
-    Formatter() {
-      return Formatter;
-    },
     minimumTransactionCountDisplayValue: {
       get: function () {
         return this.rewardedActivityFormObject.minimumTransactionCount + " $";
@@ -98,8 +95,6 @@ export default {
         this.rewardedActivityFormObject.minimumTransactionCount = newValue;
       },
     },
-    ProductFilters: () => ProductFilters,
-    ValidationHelper: () => ValidationHelper,
     validate() {
       if (this.validation) {
         return this.validation;
@@ -115,9 +110,6 @@ export default {
     },
   },
   watch: {
-    advanced() {
-      this.rewardedActivityFormObject = new RewardedActivityFormObject();
-    },
     modelValue() {
       this.rewardedActivityFormObject = this.modelValue;
     },
@@ -132,6 +124,25 @@ export default {
       handler() {
         this.$emit("update:campaign", this.campaignFormObject);
       },
+    },
+  },
+  created() {
+    if (this.rewardedActivityFormObject.action) {
+      this.advanced = true;
+    }
+  },
+  methods: {
+    changeAdvanced(advanced) {
+      this.advanced = advanced;
+
+      this.rewardedActivityFormObject.activity = null;
+      this.rewardedActivityFormObject.action = null;
+      this.rewardedActivityFormObject.type = null;
+      this.rewardedActivityFormObject.minimumTransactionLimit = "0";
+      this.rewardedActivityFormObject.minimumTransactionCount = 0;
+      this.rewardedActivityFormObject.activityAction = this.advanced
+        ? ActivityAction.INTERACT
+        : ActivityAction.SWAP;
     },
   },
 };

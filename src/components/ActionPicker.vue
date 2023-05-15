@@ -1,5 +1,4 @@
 <template>
-
   <el-collapse
     v-model="value"
     accordion
@@ -9,6 +8,7 @@
       v-for="(action, idx) in actions"
       :key="action.id"
       :class="{ 'bt-solid': idx !== 0 }"
+      :name="action.id"
     >
       <template #title>
         <div class="p-3">
@@ -21,11 +21,17 @@
       <div class="p-3 bt-solid">
         <div class="d-flex w-100">
           <div class="ml-2 my-auto pb-3">
-            <el-checkbox v-model="allowLimit" class="ml-1">&nbsp;</el-checkbox>
+            <el-checkbox
+              :model-value="allowCount"
+              class="ml-1"
+              @update:model-value="changeAllowCount"
+            >
+              &nbsp;
+            </el-checkbox>
           </div>
 
           <el-form-item class="w-100" label="Minimum transaction limit">
-            <el-input v-model="limit" :disabled="!allowLimit" />
+            <el-input v-model="transactionCount" :disabled="!allowCount" />
             <sup class="text-secondary">
               Set minimum amount of transactions to count towards the reward.
             </sup>
@@ -34,11 +40,22 @@
 
         <div class="d-flex w-100">
           <div class="ml-2 my-auto pb-3">
-            <el-checkbox v-model="allowAmount" class="ml-1">&nbsp;</el-checkbox>
+            <el-checkbox
+              :model-value="allowValue"
+              class="ml-1"
+              @update:model-value="changeAllowValue"
+            >
+              &nbsp;
+            </el-checkbox>
           </div>
 
+
           <el-form-item class="w-100" label="Minimum transaction amount">
-            <el-input v-model="amount" :disabled="!allowAmount" />
+            <token-input
+              v-model="transactionValue"
+              :disabled="!allowValue"
+              :contract="$store.getters['Contract/getContract']('USD')"
+            />
             <sup class="text-secondary">
               Set minimum amount of tokens to count towards the reward.
             </sup>
@@ -50,8 +67,12 @@
 </template>
 
 <script>
+import TokenInput from "@/components/TokenInput.vue";
 
 export default {
+  components: {
+    TokenInput,
+  },
   props: {
     activity: {
       type: [String, null],
@@ -65,22 +86,22 @@ export default {
       type: [String, null],
       default: null,
     },
-    modelLimit: {
+    modelTrxValue: {
       type: [BigInt, String, null],
       default: null,
     },
-    modelAmount: {
-      type: [Number, null],
+    modelTrxCount: {
+      type: [Number, String, null],
       default: null,
     },
   },
-  emits: ["update:modelAmount", "update:modelLimit", "update:modelValue"],
+  emits: ["update:modelValue", "update:modelTrxCount", "update:modelTrxValue"],
   data() {
     return {
-      allowLimit: false,
-      allowAmount: false,
-      amount: null,
-      limit: null,
+      allowCount: false,
+      allowValue: false,
+      transactionValue: this.modelTrxValue,
+      transactionCount: this.modelTrxCount,
       value: this.modelValue,
     };
   },
@@ -93,23 +114,44 @@ export default {
     },
   },
   watch: {
-    modelAmount() {
-      this.amount = this.modelAmount;
+    modelAmount: "setValuesFromProps",
+    modelTrxCount: "setValuesFromProps",
+    modelTrxValue: "setValuesFromProps",
+    transactionValue() {
+      this.$emit("update:modelTrxValue", this.transactionValue);
     },
-    modelLimit() {
-      this.limit = this.modelLimit;
-    },
-    modelValue() {
-      this.value = this.modelValue;
-    },
-    amount() {
-      this.$emit("update:modelAmount", this.amount);
-    },
-    limit() {
-      this.$emit("update:modelLimit", this.limit);
+    transactionCount() {
+      this.$emit("update:modelTrxCount", this.transactionCount);
     },
     value() {
       this.$emit("update:modelValue", this.value);
+    },
+  },
+  created() {
+    this.setValuesFromProps();
+  },
+  methods: {
+    changeAllowValue(allow) {
+      this.allowValue = allow;
+
+      if (!this.allowValue) {
+        this.transactionValue = "";
+      }
+    },
+    changeAllowCount(allow) {
+      this.allowCount = allow;
+
+      if (!this.allowCount) {
+        this.transactionCount = "";
+      }
+    },
+    setValuesFromProps() {
+      this.transactionValue = this.modelTrxValue;
+      this.transactionCount = this.modelTrxCount;
+      this.value = this.modelValue;
+
+      this.allowCount = !!this.modelTrxCount;
+      this.allowValue = !!this.modelTrxValue;
     },
   },
 };

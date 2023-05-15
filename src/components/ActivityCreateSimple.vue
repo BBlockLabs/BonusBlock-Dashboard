@@ -1,19 +1,19 @@
 <template>
-  <box-wrapper>
+  <box-wrapper class="mb-3">
     <h2>Select target product</h2>
 
-    <el-row>
+    <el-row :gutter="12">
       <el-col :md="12">
         <el-form-item label="Network">
-          <network-select-field v-model="campaign.network" class="w-100"/>
+          <network-select-field v-model="campaign.network" class="w-100" />
         </el-form-item>
       </el-col>
 
       <el-col :md="12">
         <el-form-item label="Product">
           <product-select-field
-            class="w-100"
             v-model="campaign.product"
+            class="w-100"
             :filters="new ProductFilters([], [campaign.network])"
           />
         </el-form-item>
@@ -22,8 +22,8 @@
 
     <el-form-item label="Categories">
       <category-select-field
-        class="w-100"
         v-model="campaign.categories"
+        class="w-100"
         multiple
       />
     </el-form-item>
@@ -33,16 +33,24 @@
     <h2>Create activity</h2>
 
     <el-form-item label="Select Action">
-      <activity-action-select v-model="action" disabled class="w-100"/>
+      <activity-action-select
+        v-model="activity.activityAction"
+        disabled
+        class="w-100"
+      />
     </el-form-item>
 
-    <div v-if="action !== null">
-      <el-form-item :label="`${action.getLabel()} Type`">
-        <activity-type-select v-model="type" v-model:action="action" class="w-100" />
+    <div v-if="activity.activityAction !== null">
+      <el-form-item :label="`${activity.activityAction.getLabel()} Type`">
+        <activity-type-select
+          v-model="activity.type"
+          v-model:action="activity.activityAction"
+          class="w-100"
+        />
       </el-form-item>
 
-      <div v-if="type !== null">
-        <el-form-item :label="type.getLabel()">
+      <div v-if="activity.type !== null">
+        <el-form-item :label="activity.type.getLabel()">
           <el-input
             v-model="filterString"
             placeholder="Search for activity"
@@ -53,7 +61,7 @@
         <activity-picker
           v-model="activity.activity"
           :product="campaign.product"
-          :type="type"
+          :type="activity.type"
           :network="campaign.network"
           :filter-string="filterString"
         />
@@ -62,7 +70,7 @@
           label="Minimum transaction amount"
         >
           <token-input
-            v-model="activity.minimumTransactionCount"
+            v-model="activity.minimumTransactionLimit"
             :contract="$store.getters['Contract/getContract']('USD')"
           />
           <sup class="text-secondary">
@@ -87,7 +95,6 @@ import TokenInput from "@/components/TokenInput.vue";
 </script>
 
 <script>
-import ActivityAction from "@/common/ActivityAction.js";
 import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
 import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
 
@@ -108,8 +115,6 @@ export default {
       campaign: this.campaignForm,
       activity: this.activityForm,
       filterString: "",
-      action: ActivityAction.SWAP,
-      type: null,
     };
   },
   watch: {
@@ -119,10 +124,16 @@ export default {
         this.campaign = campaignForm;
       },
     },
+    campaign: {
+      deep: true,
+      handler(campaign) {
+        this.$emit("update:campaignForm", campaign);
+      },
+    },
     activityForm: {
       deep: true,
       handler(activity) {
-        this.campaign = activity;
+        this.activity = activity;
       },
     },
   },

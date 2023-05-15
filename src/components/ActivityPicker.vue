@@ -1,6 +1,5 @@
 <template>
   <div
-    v-infinite-scroll="nextPage"
     class="br-base b-solid of-scroll"
     style="max-height: 500px"
   >
@@ -31,7 +30,7 @@
 
           <el-radio
             v-model="activityValue"
-            :label="activity.hash"
+            :label="activity.id"
             type="radio"
           >
             &nbsp;
@@ -44,7 +43,6 @@
 
 <script>
 import Toast from "@/mixins/Toast.js";
-import { Formatter } from "@/common/Formatter.js";
 import OpenNewWindow from "@/assets/icons/open-new-window.svg"
 import ActivityType from "@/common/ActivityType.js";
 
@@ -89,14 +87,13 @@ export default {
     };
   },
   computed: {
-    Formatter() {
-      return Formatter;
-    },
     activities() {
       return this.$store.getters["Activity/queryActivities"]({
         productId: this.product,
         type: this.type,
-        selectedRewardedActivities: this.$store.getters["RewardedActivity/getByCampaign"](this.$route.params.id),
+        selectedRewardedActivities: this.$store.getters[
+          "RewardedActivity/getByCampaign"
+        ](this.$route.params.id),
         queryString: this.filterString,
       });
     },

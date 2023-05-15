@@ -33,7 +33,11 @@ export default {
       return this.contract?.denom || "No token";
     },
     value() {
-      if (this.modelValue === "" || isNaN(this.modelValue)) {
+      if (
+        this.modelValue === "" ||
+        isNaN(this.modelValue) ||
+        this.modelValue === null
+      ) {
         return null;
       }
 

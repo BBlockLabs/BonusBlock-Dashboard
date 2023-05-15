@@ -2,12 +2,12 @@ import Enum from "@/common/Enum.js";
 
 export default class ActivityAction extends Enum{
   static SWAP = new ActivityAction(
-    "SWAP",
+    "ACTION_SWAP",
     "Swap"
   );
 
   static INTERACT = new ActivityAction(
-    "INTERACT",
+    "ACTION_INTERACT",
     "Interact with"
   );
 

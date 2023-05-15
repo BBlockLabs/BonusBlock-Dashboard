@@ -41,10 +41,6 @@
                 <el-button class="ml-auto" round @click="clearRewardedActivity">
                   Clear
                 </el-button>
-
-                <el-button round type="primary" @click="addRewardedActivity">
-                  Add activity
-                </el-button>
               </el-col>
             </el-row>
           </div>
@@ -131,13 +127,6 @@ export default {
       announcementFormValidation: null,
     };
   },
-  computed: {
-    rewardedActivities() {
-      return this.$store.getters["RewardedActivity/getByCampaign"](
-        this.campaign.id
-      );
-    },
-  },
   created() {
     this.$store.commit("Campaign/setDirty", false);
     this.loadData();
@@ -183,6 +172,13 @@ export default {
         this.campaignFormObject.setValuesFromCampaign(this.campaign);
         this.campaignFormObject.reset();
 
+        const activity = this.$store.getters["RewardedActivity/getByCampaign"](this.campaign.id)[0] || null;
+
+        if (activity) {
+          this.rewardedActivityFormObject.setValuesFromRewardedActivity(activity);
+          this.rewardedActivityFormObject.reset();
+        }
+
         promises.push(this.loadAnnouncement());
       }
 
@@ -216,37 +212,13 @@ export default {
       this.announcementFormObject.setValuesFromAnnouncement(this.announcement);
       this.announcementFormObject.reset();
     },
-    async addRewardedActivity() {
-      if (!(await this.rewardedActivityValidation.$validate())) {
-        this.Toast("Form contains errors", null, "error");
-        return;
-      }
-
-      const rewardedActivity = new RewardedActivity();
-      this.rewardedActivityFormObject.setRewardedActivityValues(
-        rewardedActivity
-      );
-      rewardedActivity.campaign = this.campaign.id;
-
-      this.$store.commit("Campaign/setDirty", true);
-      this.$store.commit(
-        "RewardedActivity/setRewardedActivity",
-        rewardedActivity
-      );
-
-      this.rewardedActivityValidation.$reset();
-
-      this.rewardedActivityFormObject.minimumTransactionLimit = "0";
-      this.rewardedActivityFormObject.minimumTransactionCount = 0;
-      this.rewardedActivityFormObject.action = null;
-
-      this.Toast("Activity added", null, "success");
-    },
     clearRewardedActivity() {
       this.rewardedActivityFormObject.minimumTransactionLimit = "0";
       this.rewardedActivityFormObject.minimumTransactionCount = 0;
       this.rewardedActivityFormObject.activity = null;
       this.rewardedActivityFormObject.action = null;
+      this.rewardedActivityFormObject.activityAction = null;
+      this.rewardedActivityFormObject.type = null;
 
       this.rewardedActivityValidation.$reset();
     },
@@ -340,13 +312,41 @@ export default {
           }
 
           break;
-        case 2:
-          if (this.rewardedActivities.length === 0) {
-            this.Toast("Add at least one activity to continue", null, "error");
+        case 2: {
+          if (!(await this.rewardedActivityValidation.$validate())) {
+            console.log(this.rewardedActivityValidation);
+            this.Toast("Form contains errors", null, "error");
             this.loading = false;
 
             return false;
           }
+
+          const oldActivities = this.$store.getters[
+            "RewardedActivity/getByCampaign"
+          ](this.campaign.id);
+
+          const rewardedActivity = new RewardedActivity();
+
+          this.rewardedActivityFormObject.setRewardedActivityValues(
+            rewardedActivity
+          );
+
+          rewardedActivity.campaign = this.campaign.id;
+          this.$store.commit("Campaign/setDirty", true);
+
+          this.$store.commit(
+            "RewardedActivity/setRewardedActivity",
+            rewardedActivity
+          );
+
+          oldActivities.forEach((revActivity) => {
+            this.$store.commit(
+              "RewardedActivity/removeRewardedActivity",
+              revActivity.id
+            );
+          });
+
+          this.rewardedActivityValidation.$reset();
 
           if (!(await this.storeCampaign())) {
             this.loading = false;
@@ -355,6 +355,7 @@ export default {
           }
 
           break;
+        }
         case 3:
           if (!(await this.announcementFormValidation.$validate())) {
             this.Toast("Form contains errors", null, "error");
