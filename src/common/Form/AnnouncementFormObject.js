@@ -17,6 +17,10 @@ export default class AnnouncementFormObject extends formObject {
   /**
    * @type {string}
    */
+  seoField = "";
+  /**
+   * @type {string}
+   */
   buttonLabel = "";
   /**
    * @type {string}

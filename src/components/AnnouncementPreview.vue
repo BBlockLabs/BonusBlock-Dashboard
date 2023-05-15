@@ -1,6 +1,6 @@
 <template>
   <el-card :body-style="{ padding: '0px' }" class="b-solid" shadow="never">
-    <img :src="fileUrl" alt="Banner" />
+    <img :src="fileUrl" alt="Banner" class="preview-banner" />
 
     <div class="p-3">
       <div>
@@ -92,8 +92,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-img {
+img.preview-banner {
   aspect-ratio: 16 / 9;
+  object-fit: cover;
   width: 100%;
 }
 </style>

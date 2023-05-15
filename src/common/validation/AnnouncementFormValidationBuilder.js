@@ -1,12 +1,27 @@
-import { maxLength, minLength, required, url } from "@vuelidate/validators";
+import {
+  maxLength,
+  minLength,
+  required,
+  url,
+  helpers,
+} from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import ValidationBuilder from "@/common/validation/ValidationBuilder.js";
 
-const handleOrUrl = (value) =>
-  value === "" ||
-  value.startsWith("http://") ||
-  value.startsWith("https://") ||
-  value.startsWith("@");
+const handleOrUrl = helpers.withMessage(
+  ({ $pending, $invalid, $params, $model }) => {
+    return "Invalid value"; // TODO: add fancy messages by social type
+  },
+  (value, siblings) => {
+    if (siblings.type === null) {
+      return true;
+    } else if (siblings.type === "telegram") {
+      return value.startsWith("@");
+    } else {
+      return value.startsWith("https://");
+    }
+  }
+);
 
 export default class AnnouncementFormValidationBuilder extends ValidationBuilder {
   static validationRules = {
@@ -21,6 +36,11 @@ export default class AnnouncementFormValidationBuilder extends ValidationBuilder
     description: {
       required,
       maxLength: maxLength(300),
+    },
+    seoField: {
+      required,
+      minLength: minLength(3),
+      maxLength: maxLength(20),
     },
     buttonLabel: {
       required,
@@ -38,8 +58,8 @@ export default class AnnouncementFormValidationBuilder extends ValidationBuilder
       minLength: minLength(1),
       // I don't like that vuelidate removed $each..
       0: {
-        type: { required },
-        link: { required, handleOrUrl },
+        type: {},
+        link: { handleOrUrl },
       },
       1: {
         type: {},

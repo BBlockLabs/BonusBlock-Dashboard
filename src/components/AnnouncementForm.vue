@@ -27,6 +27,13 @@
     </el-form-item>
 
     <el-form-item
+      label="SEO"
+      v-bind="ValidationHelper.getFormItemErrorAttributes(validate['seoField'])"
+    >
+      <el-input v-model="value.seoField" />
+    </el-form-item>
+
+    <el-form-item
       label="Button Label"
       v-bind="
         ValidationHelper.getFormItemErrorAttributes(validate['buttonLabel'])
@@ -44,9 +51,7 @@
       <el-input v-model="value.buttonUrl" />
     </el-form-item>
 
-    <el-form-item
-      v-bind="ValidationHelper.getFormItemErrorAttributes(validate['socials'])"
-    >
+    <el-form-item>
       <el-form-item
         v-for="idx in 10"
         v-bind="

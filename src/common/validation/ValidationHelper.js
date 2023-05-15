@@ -21,9 +21,8 @@ export default class ValidationHelper {
    */
   static getErrorMessage(error) {
     switch (error.$validator) {
-      case "required": {
+      case "required":
         return "The field is required";
-      }
     }
 
     return error.$message;
@@ -37,7 +36,6 @@ export default class ValidationHelper {
     if (validation.$error) {
       return "error";
     }
-
     return "";
   }
 
