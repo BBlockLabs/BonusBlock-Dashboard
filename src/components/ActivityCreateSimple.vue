@@ -14,7 +14,7 @@
           <product-select-field
             v-model="campaign.product"
             class="w-100"
-            :filters="new ProductFilters([], [campaign.network])"
+            :filters="productSelectFilter"
           />
         </el-form-item>
       </el-col>
@@ -87,7 +87,6 @@ import ActivityTypeSelect from "@/components/ActivityTypeSelect.vue";
 import BoxWrapper from "@/components/BoxWrapper.vue";
 import CategorySelectField from "@/components/CategorySelectField.vue";
 import NetworkSelectField from "@/components/NetworkSelectField.vue";
-import ProductFilters from "@/common/Http/ProductFilters.js";
 import ProductSelectField from "@/components/ProductSelectField.vue";
 import TokenInput from "@/components/TokenInput.vue";
 </script>
@@ -95,6 +94,7 @@ import TokenInput from "@/components/TokenInput.vue";
 <script>
 import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
 import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
+import ProductFilters from "@/common/Http/ProductFilters.js";
 
 export default {
   props: {
@@ -114,6 +114,11 @@ export default {
       activity: this.activityForm,
       filterString: "",
     };
+  },
+  computed: {
+    productSelectFilter() {
+      return new ProductFilters([], [this.campaign.network]);
+    },
   },
   watch: {
     campaignForm: {
