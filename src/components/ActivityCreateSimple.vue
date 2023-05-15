@@ -66,9 +66,7 @@
           :filter-string="filterString"
         />
 
-        <el-form-item
-          label="Minimum transaction amount"
-        >
+        <el-form-item label="Minimum transaction amount">
           <token-input
             v-model="activity.minimumTransactionLimit"
             :contract="$store.getters['Contract/getContract']('USD')"

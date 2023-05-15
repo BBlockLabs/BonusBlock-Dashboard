@@ -52,12 +52,14 @@ export default class RewardedActivity extends Model {
     rewardedActivity.action = dto.productActivityAction?.id || null;
 
     rewardedActivity.type =
-      Object.values(ActivityType).find((type) => type.getName() === dto.actionType) ||
-      null;
+      Object.values(ActivityType).find(
+        (type) => type.getName() === dto.actionType
+      ) || null;
 
     rewardedActivity.activityAction =
-      Object.values(ActivityAction).find((type) => type.getName() === dto.action) ||
-      null;
+      Object.values(ActivityAction).find(
+        (type) => type.getName() === dto.action
+      ) || null;
 
     return rewardedActivity;
   }
