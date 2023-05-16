@@ -16,12 +16,23 @@
 
       <div class="br-base b-solid p-3">
         <el-row justify="space-between">
-          <el-col :span="-1">Wallet:</el-col>
-          <el-col :span="-1">{{ payment.wallet }}</el-col>
+          <el-col :span="-1">
+            Wallet:
+            <el-button type="info" link @click="copy(payment.wallet)">
+              <svg-copy class="icon-small mr-extra-small" />
+            </el-button>
+          </el-col>
+          <el-col :span="-1" class="of-hidden">{{ payment.wallet }}</el-col>
         </el-row>
         <el-row justify="space-between">
-          <el-col :span="-1">Memo:</el-col>
-          <el-col :span="-1">{{ payment.memo }}</el-col>
+          <el-col :span="-1">
+            Memo:
+            <el-button type="info" link @click="copy(payment.memo)">
+              <svg-copy class="icon-small mr-extra-small" />
+            </el-button>
+          </el-col>
+
+          <el-col :span="-1" class="of-hidden">{{ payment.memo }}</el-col>
         </el-row>
       </div>
 
@@ -34,6 +45,8 @@
         <el-col :span="-1">
           Payment status check in {{ nextCheck.diff(time, "seconds") }} seconds
         </el-col>
+      </el-row>
+      <el-row justify="center" class="my-2">
         <el-col v-loading="true" :span="-1">&nbsp;</el-col>
       </el-row>
 
@@ -58,11 +71,15 @@ import moment from "moment";
 import IconMetamask from "@/assets/icons/metamask.svg";
 import detectEthereumProvider from "@metamask/detect-provider";
 import { MetamaskClient } from "@/common/MetamaskClient.js";
+import SvgCopy from "@/assets/icons/copy.svg";
+import Toast from "@/mixins/Toast.js";
 
 export default {
   components: {
     IconMetamask,
+    SvgCopy,
   },
+  mixins: [Toast],
   props: {
     campaignId: {
       type: String,
@@ -107,6 +124,10 @@ export default {
     clearTimeout(this.checkPaymentTimeout);
   },
   methods: {
+    copy(text) {
+      navigator.clipboard.writeText(text);
+      this.Toast("Copied to clipboard", "", "success", 1500);
+    },
     async checkPaymentStatus() {
       this.loading = true;
 

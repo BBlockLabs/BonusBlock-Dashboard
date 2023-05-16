@@ -7,7 +7,7 @@
             v-model="formData.username"
             size="large"
             type="text"
-            placeholder="Username"
+            placeholder="Email"
           >
             <template #prefix>
               <el-icon class="el-input__icon"><mail /></el-icon>

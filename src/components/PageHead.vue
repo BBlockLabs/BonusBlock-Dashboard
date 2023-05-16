@@ -35,11 +35,22 @@
           <git-compare class="icon-large my-auto" />
         </el-button>
 
-        <avatar class="ml-3 my-auto" :file="projectImage" />
-
-        <span class="ml-3 my-auto">
-          {{ $store.state.Project.currentProject?.title }}
-        </span>
+        <el-dropdown>
+          <span class="d-flex align-items-center project-dropdown">
+            <avatar :file="projectImage" />
+            <span class="ml-3 my-auto">
+              {{ $store.state.Project.currentProject?.title }}
+            </span>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item @click="loggedOut">
+                <el-icon><user /></el-icon>
+                Log out
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </div>
     </el-col>
   </el-row>
@@ -91,6 +102,13 @@ export default {
       return navRoutes.filter(
         (route) => route.parent === this.currentRoute.name
       );
+    },
+  },
+  methods: {
+    async loggedOut() {
+      await this.$store.dispatch("Auth/logout");
+
+      this.$router.push("/login");
     },
   },
 };

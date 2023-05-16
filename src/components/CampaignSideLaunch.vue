@@ -12,28 +12,28 @@
     </el-row>
 
     <box-wrapper class="my-3">
-      <el-row justify="space-between">
+      <el-row justify="space-between" class="pt-1 pb-1">
         <el-col :span="-1">Reward Amount</el-col>
         <el-col :span="-1">
           {{ Formatter.token(paymentPreview?.baseAmount || 0, contract, 2) }}
         </el-col>
       </el-row>
 
-      <el-row justify="space-between">
+      <el-row justify="space-between" class="pt-1 pb-1">
         <el-col :span="-1">Gas Fees</el-col>
         <el-col :span="-1">
           {{ Formatter.token(paymentPreview?.gasFee || 0, contract, 2) }}
         </el-col>
       </el-row>
 
-      <el-row justify="space-between">
+      <el-row justify="space-between" class="pt-1 pb-1">
         <el-col :span="-1">Commission Fees</el-col>
         <el-col :span="-1">
           {{ Formatter.token(paymentPreview?.commissionFee || 0, contract, 2) }}
         </el-col>
       </el-row>
 
-      <el-row justify="space-between">
+      <el-row justify="space-between" class="pt-1 pb-1">
         <el-col :span="-1"><b>Total</b></el-col>
         <el-col :span="-1">
           <b>
@@ -46,7 +46,7 @@
     <el-row
       v-if="campaign.status === 'DRAFT' || campaign.status === 'CANCELLED'"
       v-loading="loading"
-      class="mt-4"
+      class="mt-4 mb-4"
       justify="center"
     >
       <el-col :span="-1">

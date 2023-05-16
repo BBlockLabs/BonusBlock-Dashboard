@@ -13,7 +13,7 @@
       v-bind="ValidationHelper.getFormItemErrorAttributes(validate['title'])"
       label="Title"
     >
-      <el-input v-model="value.title" placeholder="Please input" />
+      <el-input v-model="value.title" placeholder="Announcement title" />
     </el-form-item>
 
     <el-form-item
@@ -22,7 +22,11 @@
       "
       label="Description"
     >
-      <el-input v-model="value.description" type="textarea" />
+      <el-input
+        v-model="value.description"
+        type="textarea"
+        placeholder="Announcement description"
+      />
       <sup class="text-secondary">Max 300 Characters</sup>
     </el-form-item>
 
@@ -30,7 +34,10 @@
       label="SEO"
       v-bind="ValidationHelper.getFormItemErrorAttributes(validate['seoField'])"
     >
-      <el-input v-model="value.seoField" />
+      <el-input
+        v-model="value.seoField"
+        placeholder="Announcement SEO values"
+      />
     </el-form-item>
 
     <el-form-item
@@ -39,7 +46,7 @@
         ValidationHelper.getFormItemErrorAttributes(validate['buttonLabel'])
       "
     >
-      <el-input v-model="value.buttonLabel" />
+      <el-input v-model="value.buttonLabel" placeholder="Button label" />
     </el-form-item>
 
     <el-form-item
@@ -48,7 +55,7 @@
         ValidationHelper.getFormItemErrorAttributes(validate['buttonUrl'])
       "
     >
-      <el-input v-model="value.buttonUrl" />
+      <el-input v-model="value.buttonUrl" placeholder="Button link" />
     </el-form-item>
 
     <el-form-item>

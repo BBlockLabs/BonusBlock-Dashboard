@@ -58,7 +58,7 @@
 
     <el-aside class="bl-solid h-100 pos-relative" width="360px">
       <div class="pos-absolute d-flex flex-column h-100 w-100">
-        <div class="of-scroll p-4">
+        <div class="of-auto p-4">
           <campaign-side-summary
             v-if="step !== 4"
             :temporary-campaign-name="temporaryCampaignName"
@@ -126,6 +126,16 @@ export default {
       rewardedActivityValidation: null,
       announcementFormValidation: null,
     };
+  },
+  watch: {
+    announcementFormObject: {
+      deep: true,
+      handler() {
+        this.announcementFormObject.setAnnouncementValues(this.announcement);
+        this.announcement.campaign = this.campaign.id;
+        this.$store.commit("Announcement/setAnnouncement", this.announcement);
+      },
+    },
   },
   created() {
     this.$store.commit("Campaign/setDirty", false);
@@ -319,7 +329,6 @@ export default {
           break;
         case 2: {
           if (!(await this.rewardedActivityValidation.$validate())) {
-            console.log(this.rewardedActivityValidation);
             this.Toast("Form contains errors", null, "error");
             this.loading = false;
 

@@ -77,13 +77,25 @@
         </el-col>
       </el-row>
       <el-row justify="end" class="mt-3">
-        <el-link type="primary">
+        <el-link
+          type="primary"
+          href="https://t.me/MrX01010101010"
+          target="_blank"
+        >
           <svg-telegram />
         </el-link>
-        <el-link type="primary">
+        <el-link
+          type="primary"
+          href="mailto:team@bonusblock.io"
+          target="_blank"
+        >
           <svg-email />
         </el-link>
-        <el-link type="primary">
+        <el-link
+          type="primary"
+          href="https://calendly.com/bonusblock/30min"
+          target="_blank"
+        >
           <svg-phone />
         </el-link>
       </el-row>

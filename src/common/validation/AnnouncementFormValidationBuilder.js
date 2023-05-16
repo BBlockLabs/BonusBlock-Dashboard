@@ -38,7 +38,6 @@ export default class AnnouncementFormValidationBuilder extends ValidationBuilder
       maxLength: maxLength(300),
     },
     seoField: {
-      required,
       minLength: minLength(3),
       maxLength: maxLength(20),
     },

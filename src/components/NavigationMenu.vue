@@ -12,11 +12,6 @@
       @select="(name) => $router.replace({ name })"
     >
       <menu-item v-for="route in routes" :key="route.name" :name="route.name" />
-
-      <el-menu-item @click="loggedOut">
-        <el-icon><user /></el-icon>
-        <template #title>Log out</template>
-      </el-menu-item>
     </el-menu>
   </div>
 
@@ -49,13 +44,6 @@ export default {
   computed: {
     routes() {
       return NavigationList.filter((route) => route.parent === null);
-    },
-  },
-  methods: {
-    async loggedOut() {
-      await this.$store.dispatch("Auth/logout");
-
-      this.$router.push("/login");
     },
   },
 };

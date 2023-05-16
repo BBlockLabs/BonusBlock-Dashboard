@@ -14,12 +14,16 @@
   </el-row>
 
   <box-wrapper class="my-3">
-    <el-row justify="space-between">
+    <el-row justify="space-between" class="pt-2 pb-1">
       <el-col :span="-1"><b>Campaign Name</b></el-col>
       <el-col :span="-1">{{ campaign.name }}</el-col>
     </el-row>
 
-    <el-row v-if="categories.length > 0" justify="space-between">
+    <el-row
+      v-if="categories.length > 0"
+      justify="space-between"
+      class="pt-2 pb-1"
+    >
       <el-col :span="-1">
         <b>Categories</b>
       </el-col>
@@ -36,26 +40,26 @@
       </el-col>
     </el-row>
 
-    <el-row v-if="network" justify="space-between">
+    <el-row v-if="network" justify="space-between" class="pt-2 pb-1">
       <el-col :span="-1"><b>Network</b></el-col>
       <el-col :span="-1">{{ network.name || "-" }}</el-col>
     </el-row>
 
-    <el-row v-if="product" justify="space-between">
+    <el-row v-if="product" justify="space-between" class="pt-2 pb-1">
       <el-col :span="-1"><b>Product</b></el-col>
       <el-col :span="-1">{{ product.name || "-" }}</el-col>
     </el-row>
   </box-wrapper>
 
   <box-wrapper class="my-3">
-    <el-row justify="space-between">
+    <el-row justify="space-between" class="pt-2 pb-1">
       <el-col :span="-1"><b>Reward Pool and total amount</b></el-col>
       <el-col :span="-1">
-        {{ Formatter.token(campaign.rewardPoolTokenCount, contract, 2) }}
+        <b>{{ Formatter.token(campaign.rewardPoolTokenCount, contract, 2) }}</b>
       </el-col>
     </el-row>
 
-    <el-row justify="space-between">
+    <el-row justify="space-between" class="pt-2 pb-1">
       <el-col :span="-1"><b>Reward Ratio</b></el-col>
       <el-col :span="-1">
         {{ mostRewardedInteraction }} interaction will give the most rewards.
@@ -64,7 +68,7 @@
   </box-wrapper>
 
   <box-wrapper class="my-3">
-    <el-row justify="space-between">
+    <el-row justify="space-between" class="pt-2 pb-1">
       <el-col :span="-1"><b>Period</b></el-col>
       <el-col :span="-1">
         Your campaign will start on
@@ -78,7 +82,7 @@
       </el-col>
     </el-row>
 
-    <el-row justify="space-between">
+    <el-row justify="space-between" class="pt-2 pb-1">
       <el-col :span="-1"><b>Total Duration</b></el-col>
       <el-col :span="-1">
         {{
@@ -96,10 +100,13 @@
       v-for="rewardedActivity in rewardedActivities"
       :key="rewardedActivity.id"
       justify="space-between"
+      class="pt-2 pb-1"
     >
       <el-col :span="-1">
-        Interact with "{{ rewardedActivity.activity }}" pool, minimum
-        transaction amount is {{ rewardedActivity.minimumTransactionLimit }}.
+        <b>
+          Interact with "{{ rewardedActivity.activity }}" pool, minimum
+          transaction amount is {{ rewardedActivity.minimumTransactionLimit }}.
+        </b>
       </el-col>
 
       <el-col :span="-1">
