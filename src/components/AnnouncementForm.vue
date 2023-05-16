@@ -32,10 +32,11 @@
 
     <el-form-item
       label="SEO"
-      v-bind="ValidationHelper.getFormItemErrorAttributes(validate['seoField'])"
+      v-bind="ValidationHelper.getFormItemErrorAttributes(validate['seo'])"
     >
       <el-input
-        v-model="value.seoField"
+        v-model="value.seo"
+        type="textarea"
         placeholder="Announcement SEO values"
       />
     </el-form-item>

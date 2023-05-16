@@ -22,6 +22,11 @@ export default class Announcement extends Model {
   /**
    * @type {string}
    */
+  seo;
+
+  /**
+   * @type {string}
+   */
   buttonLabel;
 
   /**
@@ -56,6 +61,7 @@ export default class Announcement extends Model {
 
     announcement.title = dto.title;
     announcement.description = dto.description;
+    announcement.seo = dto.seo;
 
     const socials = JSON.parse(dto.socials)?.map(Social.fromDto);
 
@@ -92,6 +98,7 @@ export default class Announcement extends Model {
     dto.id = this.getId() || undefined;
     dto.title = this.title;
     dto.description = this.description;
+    dto.seo = this.seo;
 
     const socials = [...this.socials];
 

@@ -20,7 +20,20 @@
               :key="idx"
               :span="-1"
             >
-              <el-link :href="social.link" target="_blank">
+              <el-link
+                v-if="social.type === 'telegram'"
+                :href="'https://t.me/' + social.link.substring(1)"
+                :underline="false"
+                target="_blank"
+              >
+                <social-icon :type="social.type" />
+              </el-link>
+              <el-link
+                v-else
+                :href="social.link"
+                target="_blank"
+                :underline="false"
+              >
                 <social-icon :type="social.type" />
               </el-link>
             </el-col>

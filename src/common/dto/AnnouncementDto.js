@@ -27,4 +27,8 @@ export default class AnnouncementDto {
    * @type {String | undefined}
    */
   campaign;
+  /**
+   * @type {String | undefined}
+   */
+  seo;
 }

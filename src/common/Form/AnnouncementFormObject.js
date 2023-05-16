@@ -17,7 +17,7 @@ export default class AnnouncementFormObject extends formObject {
   /**
    * @type {string}
    */
-  seoField = "";
+  seo = "";
   /**
    * @type {string}
    */
@@ -46,6 +46,7 @@ export default class AnnouncementFormObject extends formObject {
     announcement.banner = this.banner;
     announcement.title = this.title;
     announcement.description = this.description;
+    announcement.seo = this.seo;
     announcement.socials = this.socials.filter(({ link }) => link);
     announcement.buttonLabel = this.buttonLabel;
     announcement.buttonUrl = this.buttonUrl;
@@ -57,6 +58,7 @@ export default class AnnouncementFormObject extends formObject {
   setValuesFromAnnouncement(announcement) {
     this.banner = announcement.banner;
     this.title = announcement.title;
+    this.seo = announcement.seo;
     this.description = announcement.description;
 
     this.socials = [...announcement.socials];
