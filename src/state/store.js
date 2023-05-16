@@ -4,6 +4,7 @@ import Auth from "@/state/modules/Auth";
 import Campaign from "@/state/modules/Campaign.js";
 import Category from "@/state/modules/Category.js";
 import Contract from "@/state/modules/Contract.js";
+import ConversionRate from "@/state/modules/ConversionRate.js";
 import Fee from "@/state/modules/Fee.js";
 import Network from "@/state/modules/Network.js";
 import Payment from "@/state/modules/Payment.js";
@@ -30,6 +31,7 @@ export default new Vuex.Store({
     Campaign,
     Category,
     Contract,
+    ConversionRate,
     Fee,
     Network,
     Payment,

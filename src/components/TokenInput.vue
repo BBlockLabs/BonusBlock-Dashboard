@@ -6,6 +6,12 @@
       </span>
       &nbsp;
     </template>
+
+    <template v-if="rate" #append>
+      <span class="text-secondary">
+        $ {{ Math.round(inputValue * rate.rate * 100) / 100 }}
+      </span>
+    </template>
   </el-input>
 </template>
 
@@ -31,6 +37,11 @@ export default {
     };
   },
   computed: {
+    rate() {
+      const denom = this.denom !== "$" ? this.denom.toUpperCase() : "USD";
+
+      return this.$store.getters["ConversionRate/findPair"](denom, "USD");
+    },
     decimalSpaces() {
       return this.contract?.decimalSpaces || 6;
     },
@@ -75,8 +86,19 @@ export default {
   },
   created() {
     this.setInputValue();
+    this.loadConversionRate();
   },
   methods: {
+    async loadConversionRate() {
+      if (!this.contract || this.rate !== null) {
+        return;
+      }
+
+      await this.$store.dispatch(
+        "ConversionRate/loadConversionRate",
+        this.contract.denom
+      );
+    },
     parseUserInput(newValue, oldValue) {
       if (isNaN(newValue)) {
         this.inputValue = isNaN(oldValue) ? "" : oldValue;

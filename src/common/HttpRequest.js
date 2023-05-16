@@ -13,9 +13,10 @@ export class HttpRequest {
   /**
    * @param {String} endpoint
    * @param {Object} data
+   * @param {String} prefix
    * @return {HttpResponse}
    */
-  static async makeRequest(endpoint, data = null) {
+  static async makeRequest(endpoint, data = null, prefix = "dashboard") {
     let request = {
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +32,7 @@ export class HttpRequest {
     }
 
     const response = await fetch(
-      `${import.meta.env.VITE_BACKEND_URL}/${endpoint}`,
+      `${import.meta.env.VITE_BACKEND_URL}/${prefix}/${endpoint}`,
       request
     );
 

@@ -45,6 +45,10 @@ export default {
 
       filterString = filterString.toLowerCase();
       state.contracts.forEach((contract) => {
+        if (contract.id === "USD") {
+          return;
+        }
+
         if (
           filterString &&
           !contract.title.toLowerCase().includes(filterString)
