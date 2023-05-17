@@ -9,15 +9,7 @@ export default class CampaignFormObject extends formObject {
   /**
    * @type {number}
    */
-  frequencyRatioDaily = "";
-  /**
-   * @type {number}
-   */
-  frequencyRatioWeekly = "";
-  /**
-   * @type {number}
-   */
-  frequencyRatioMonthly = "";
+  frequencyRatio = 50;
   /**
    * @type {string}
    */
@@ -63,13 +55,18 @@ export default class CampaignFormObject extends formObject {
    */
   product = null;
   /**
+   * @type {number}
+   */
+  weightRatio = 50;
+
+  /**
    * @param {Campaign} campaign
    */
   setCampaignValues(campaign) {
     campaign.name = this.name;
-    campaign.frequencyRatioDaily = parseFloat(this.frequencyRatioDaily);
-    campaign.frequencyRatioWeekly = parseFloat(this.frequencyRatioWeekly);
-    campaign.frequencyRatioMonthly = parseFloat(this.frequencyRatioMonthly);
+
+    campaign.frequencyRatioDaily = this.frequencyRatio;
+    campaign.frequencyRatioWeekly = 100 - this.frequencyRatio;
 
     if (this.minimumPerUserAward) {
       campaign.minimumPerUserAward = BigInt(this.minimumPerUserAward);
@@ -91,6 +88,8 @@ export default class CampaignFormObject extends formObject {
     campaign.categories = this.categories;
     campaign.network = this.network;
     campaign.product = this.product;
+    campaign.weightFrequency = this.weightRatio;
+    campaign.weightActivity = 100 - this.weightRatio;
   }
 
   /**
@@ -98,9 +97,7 @@ export default class CampaignFormObject extends formObject {
    */
   setValuesFromCampaign(campaign) {
     this.name = campaign.name;
-    this.frequencyRatioDaily = campaign.frequencyRatioDaily;
-    this.frequencyRatioWeekly = campaign.frequencyRatioWeekly;
-    this.frequencyRatioMonthly = campaign.frequencyRatioMonthly;
+    this.frequencyRatio = campaign.frequencyRatioDaily;
     this.minimumPerUserAward = campaign.minimumPerUserAward?.toString() || "";
     this.maximumPerUserAward = campaign.maximumPerUserAward?.toString() || "";
     this.rewardPoolContract = campaign.rewardPoolContract;
@@ -114,5 +111,6 @@ export default class CampaignFormObject extends formObject {
     this.categories = campaign.categories;
     this.network = campaign.network;
     this.product = campaign.product;
+    this.weightRatio = campaign.weightFrequency;
   }
 }

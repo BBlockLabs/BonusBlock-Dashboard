@@ -32,10 +32,6 @@ export default class CampaignDto {
    */
   rateWeekly = 0;
   /**
-   * @type {number}
-   */
-  rateMonthly = 0;
-  /**
    * @type {string}
    */
   maxUserReward = "0";
@@ -83,4 +79,12 @@ export default class CampaignDto {
    * @type {Array<RewardedActivityDto>}
    */
   activities = [];
+  /**
+   * @type {number}
+   */
+  weightFrequency = 0;
+  /**
+   * @type {number}
+   */
+  weightActivity = 0;
 }

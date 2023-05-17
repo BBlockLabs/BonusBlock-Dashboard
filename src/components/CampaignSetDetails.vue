@@ -125,43 +125,49 @@
       </el-tooltip>
     </h3>
 
-    <el-form-item
-      v-bind="
-        ValidationHelper.getFormItemErrorAttributes(
-          validate['frequencyRatioDaily']
-        )
-      "
-      label="Daily"
-    >
-      <el-input v-model="frequencyRatioDaily">
-        <template #suffix>%</template>
-      </el-input>
+    <el-form-item label="Reward frequency ratio">
+      <span class="text-secondary">
+        Determine how important is the interaction count with the product. For
+        example, If you set 90% in Daily, 7% Weekly, and 3% Monthly, users that
+        connect with your campaign daily will get the highest incentives.
+      </span>
+
+      <el-row justify="space-between" class="w-100">
+        <el-col :span="-1">
+          <b>Daily: {{ campaignFormObject.frequencyRatio }} %</b>
+        </el-col>
+
+        <el-col :span="-1">
+          <b>Weekly: {{ 100 - campaignFormObject.frequencyRatio }} %</b>
+        </el-col>
+      </el-row>
+
+      <el-slider v-model="campaignFormObject.frequencyRatio" />
     </el-form-item>
 
-    <el-form-item
-      v-bind="
-        ValidationHelper.getFormItemErrorAttributes(
-          validate['frequencyRatioWeekly']
-        )
-      "
-      label="Weekly"
-    >
-      <el-input v-model="frequencyRatioWeekly">
-        <template #suffix>%</template>
-      </el-input>
-    </el-form-item>
+    <el-form-item label="Priority weights">
+      <span class="text-secondary">
+        Determine the ratio of priority for which the user gets rewarded more
+        based on frequency of user interaction with the product or total number
+        of performed interactions.
+      </span>
 
-    <el-form-item
-      v-bind="
-        ValidationHelper.getFormItemErrorAttributes(
-          validate['frequencyRatioMonthly']
-        )
-      "
-      label="Monthly"
-    >
-      <el-input v-model="frequencyRatioMonthly">
-        <template #suffix>%</template>
-      </el-input>
+      <el-row justify="space-between" class="w-100">
+        <el-col :span="-1">
+          <b
+            >Frequency of interactions:
+            {{ campaignFormObject.weightRatio }} %</b
+          >
+        </el-col>
+
+        <el-col :span="-1">
+          <b
+            >Total interactions: {{ 100 - campaignFormObject.weightRatio }} %</b
+          >
+        </el-col>
+      </el-row>
+
+      <el-slider v-model="campaignFormObject.weightRatio" />
     </el-form-item>
 
     <el-form-item
@@ -300,39 +306,10 @@ export default {
   data() {
     return {
       campaignFormObject: this.modelValue,
-      frequencyRatioPriorities: [
-        "frequencyRatioMonthly",
-        "frequencyRatioWeekly",
-        "frequencyRatioDaily",
-      ],
     };
   },
   computed: {
     ValidationHelper: () => ValidationHelper,
-    frequencyRatioDaily: {
-      get() {
-        return this.campaignFormObject.frequencyRatioDaily;
-      },
-      set(val) {
-        this.setFrequencyRatio("frequencyRatioDaily", val);
-      },
-    },
-    frequencyRatioWeekly: {
-      get() {
-        return this.campaignFormObject.frequencyRatioWeekly;
-      },
-      set(val) {
-        this.setFrequencyRatio("frequencyRatioWeekly", val);
-      },
-    },
-    frequencyRatioMonthly: {
-      get() {
-        return this.campaignFormObject.frequencyRatioMonthly;
-      },
-      set(val) {
-        this.setFrequencyRatio("frequencyRatioMonthly", val);
-      },
-    },
     contract() {
       return this.$store.getters["Contract/getContract"](
         this.campaignFormObject.rewardPoolContract
@@ -365,62 +342,6 @@ export default {
       handler() {
         this.$emit("update:modelValue", this.campaignFormObject);
       },
-    },
-  },
-  methods: {
-    setFrequencyRatio(lastChangedRatio, val) {
-      if (isNaN(val)) {
-        return;
-      }
-
-      if (val > 100 || val < 0) {
-        return;
-      }
-
-      if (val === "") {
-        this.campaignFormObject[lastChangedRatio] = "";
-      } else {
-        this.campaignFormObject[lastChangedRatio] = parseInt(val);
-      }
-
-      this.frequencyRatioPriorities = this.frequencyRatioPriorities.filter(
-        (ratioName) => ratioName !== lastChangedRatio
-      );
-
-      this.frequencyRatioPriorities.push(lastChangedRatio);
-
-      let sum = 0;
-
-      for (const ratioName of this.frequencyRatioPriorities) {
-        sum += parseInt(this.campaignFormObject[ratioName] || 0);
-      }
-
-      let difference = 100 - sum;
-
-      if (difference === 0) {
-        this.frequencyRatioCalculation = false;
-      }
-
-      for (const ratioName of this.frequencyRatioPriorities) {
-        const ratioValue = parseInt(this.campaignFormObject[ratioName] || 0);
-
-        sum -= ratioValue;
-
-        if (ratioValue + difference > 100) {
-          this.campaignFormObject[ratioName] = 100;
-        } else if (ratioValue + difference < 0) {
-          this.campaignFormObject[ratioName] = 0;
-        } else {
-          this.campaignFormObject[ratioName] = ratioValue + difference;
-        }
-
-        sum += parseInt(this.campaignFormObject[ratioName] || 0);
-        difference = 100 - sum;
-
-        if (sum === 100) {
-          break;
-        }
-      }
     },
   },
 };

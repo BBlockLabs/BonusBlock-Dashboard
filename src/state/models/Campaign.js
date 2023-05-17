@@ -38,11 +38,6 @@ export default class Campaign extends Model {
   frequencyRatioWeekly = 0;
 
   /**
-   * @type {number}
-   */
-  frequencyRatioMonthly = 0;
-
-  /**
    * @type {bigint | string}
    */
   minimumPerUserAward = "";
@@ -88,6 +83,16 @@ export default class Campaign extends Model {
   product;
 
   /**
+   * @type {number}
+   */
+  weightFrequency;
+
+  /**
+   * @type {number}
+   */
+  weightActivity;
+
+  /**
    * @param {CampaignDto} campaignDto
    * @return {Campaign}
    */
@@ -107,7 +112,6 @@ export default class Campaign extends Model {
     campaign.timeFrameTill = moment(campaignDto.periodTill).toDate();
     campaign.frequencyRatioDaily = campaignDto.rateDaily;
     campaign.frequencyRatioWeekly = campaignDto.rateWeekly;
-    campaign.frequencyRatioMonthly = campaignDto.rateMonthly;
     campaign.maximumPerUserAward = campaignDto.maxUserReward
       ? BigInt(campaignDto.maxUserReward)
       : null;
@@ -123,6 +127,8 @@ export default class Campaign extends Model {
     campaign.qualityAudience = campaignDto.qualityAudience;
     campaign.rewardPoolTokenCount = BigInt(campaignDto.rewardPoolAmount || 0);
     campaign.expectedReturnOfInvestment = campaignDto.expectedROI;
+    campaign.weightFrequency = campaignDto.weightFrequency;
+    campaign.weightActivity = campaignDto.weightActivity;
 
     return campaign;
   }
@@ -139,7 +145,6 @@ export default class Campaign extends Model {
     dto.periodTill = this.timeFrameTill.toISOString();
     dto.rateDaily = this.frequencyRatioDaily;
     dto.rateWeekly = this.frequencyRatioWeekly;
-    dto.rateMonthly = this.frequencyRatioMonthly;
     dto.minUserReward = this.minimumPerUserAward?.toString() || "0";
     dto.maxUserReward = this.maximumPerUserAward?.toString() || "0";
     dto.categories = this.categories;
@@ -150,6 +155,8 @@ export default class Campaign extends Model {
     dto.rewardPool = this.rewardPoolContract;
     dto.network = this.network;
     dto.product = this.product;
+    dto.weightFrequency = this.weightFrequency;
+    dto.weightActivity = this.weightActivity;
 
     return dto;
   }

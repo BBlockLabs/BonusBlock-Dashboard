@@ -17,17 +17,7 @@ export default class CampaignValidationBuilder extends ValidationBuilder {
       minLength: minLength(3),
       maxLength: maxLength(255),
     },
-    frequencyRatioDaily: {
-      required,
-      numeric,
-      between: between(0, 100),
-    },
-    frequencyRatioWeekly: {
-      required,
-      numeric,
-      between: between(0, 100),
-    },
-    frequencyRatioMonthly: {
+    frequencyRatio: {
       required,
       numeric,
       between: between(0, 100),
@@ -60,6 +50,11 @@ export default class CampaignValidationBuilder extends ValidationBuilder {
     },
     qualityAudience: {
       required,
+    },
+    weightRatio: {
+      required,
+      numeric,
+      between: between(0, 100),
     },
   };
 
