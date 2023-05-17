@@ -5,34 +5,7 @@
     <el-col :md="7">
       <div class="d-flex h-100">
         <div class="my-auto w-100">
-          <template v-if="step === 0">
-            <el-row justify="start">
-              <h1>Welcome to BonusBlock Projects!</h1>
-            </el-row>
-
-            <el-row>
-              <el-col>
-                <p>
-                  *Small description of the general app usage* (TBD) Lorem ipsum
-                  dolor sit amet, consectetur adipiscing elit. Vestibulum
-                  imperdiet sapien sit amet augue lacinia, id consequat sapien
-                  dictum.
-                </p>
-              </el-col>
-            </el-row>
-
-            <el-row justify="start">
-              <h2>Let’s get you started!</h2>
-            </el-row>
-
-            <el-row>
-              <el-button round type="primary" @click="nextStep">
-                Start
-              </el-button>
-            </el-row>
-          </template>
-
-          <template v-else-if="step === 1">
+          <template v-if="step === 1">
             <el-row justify="start">
               <h1>Setup your Project</h1>
             </el-row>
@@ -173,7 +146,7 @@ export default {
   mixins: [Toast, Vuelidate],
   data() {
     return {
-      step: 0,
+      step: 1,
       formData: {
         image: {
           data: window.btoa(SvgAvatar1),

@@ -50,6 +50,10 @@ export default {
   },
   methods: {
     async loadFilteredProducts() {
+      if (this.filters.networksIds.length === 0) {
+        return;
+      }
+
       this.loading = true;
 
       const response = await this.$store.dispatch(

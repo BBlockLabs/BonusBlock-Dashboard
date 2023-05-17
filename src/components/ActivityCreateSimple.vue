@@ -117,7 +117,8 @@ export default {
   },
   computed: {
     productSelectFilter() {
-      return new ProductFilters([], [this.campaign.network]);
+      const networkIds = this.campaign.network ? [this.campaign.network] : [];
+      return new ProductFilters([], networkIds);
     },
   },
   watch: {
