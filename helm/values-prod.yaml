@@ -7,7 +7,7 @@ logFormat: nginx_ssl_reqid_upstream_time
 ingress:
   enabled: true
   hosts:
-    - host: dashboard.bonusblock.io
+    - host: client.bonusblock.io
       paths:
         - path: /
           backend:
@@ -15,7 +15,7 @@ ingress:
               name: bonusblock-project-dashboard
   tls:
    - hosts:
-       - dashboard.bonusblock.io
+       - client.bonusblock.io
      secretName: bonusblock-project-dashboard-prod-ssl
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt"
