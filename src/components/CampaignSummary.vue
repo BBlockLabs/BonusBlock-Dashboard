@@ -150,21 +150,10 @@ export default {
       if (
         this.campaign.frequencyRatioDaily > this.campaign.frequencyRatioWeekly
       ) {
-        if (
-          this.campaign.frequencyRatioDaily >
-          this.campaign.frequencyRatioMonthly
-        ) {
-          return "Daily";
-        }
-      }
-
-      if (
-        this.campaign.frequencyRatioWeekly > this.campaign.frequencyRatioMonthly
-      ) {
+        return "Daily";
+      } else {
         return "Weekly";
       }
-
-      return "Monthly";
     },
     contract() {
       return this.$store.getters["Contract/getContract"](
