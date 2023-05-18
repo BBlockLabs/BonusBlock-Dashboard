@@ -152,8 +152,8 @@ export default {
 
   .step {
     .img {
-      background-size: cover;
-      background-position: left center;
+      background-size: contain;
+      background-position: center;
       background-repeat: no-repeat;
       width: 100%;
       height: 17em;
@@ -193,8 +193,8 @@ export default {
   background-color: v.$color-primary-light-9;
 
   .premium-img {
-    background-size: cover;
-    background-position: left center;
+    background-size: contain;
+    background-position: center;
     background-repeat: no-repeat;
     width: 100%;
     height: 17em;
