@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Logo from "@/assets/alter/logo-flat.svg";
+import Logo from "@/assets/bblock/cubes.svg";
 
 export default {
   components: {
