@@ -102,11 +102,11 @@ export default {
      * @param getters
      * @param commit
      * @param {string} campaignId
-     * @param {"DRAFT"|"confirmed"|"payed"|"running"|"ended"|"CANCELLED"|"DELETED"} status
+     * @param {CampaignStatus} status
      * @returns {Promise<ActionResponse>}
      */
     async changeStatus({ getters, commit }, { campaignId, status }) {
-      const endpointStatus = endpointStatuses[status] || null;
+      const endpointStatus = endpointStatuses[status.getName()] || null;
 
       if (endpointStatus === null) {
         return new ActionResponse(false, null, ["UNSUPPORTED_STATUS"]);

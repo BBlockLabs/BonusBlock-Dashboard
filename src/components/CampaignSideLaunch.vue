@@ -44,20 +44,23 @@
     </box-wrapper>
 
     <el-row
-      v-if="campaign.status === 'DRAFT' || campaign.status === 'CANCELLED'"
+      v-if="
+        status === CampaignStatus.DRAFT ||
+        status === CampaignStatus.CANCELLED
+      "
       v-loading="loading"
       class="mt-4 mb-4"
       justify="center"
     >
       <el-col :span="-1">
-        <el-button type="primary" @click="setStatus('CONFIRMED')">
+        <el-button type="primary" @click="setStatus(CampaignStatus.CONFIRMED)">
           Pay & Launch Campaign
         </el-button>
       </el-col>
     </el-row>
 
     <payment-component
-      v-if="campaign.status === 'CONFIRMED' && payments.length > 0"
+      v-if="status === CampaignStatus.CONFIRMED && payments.length > 0"
       class="mt-4"
       :campaign-id="campaignId"
       :payment-id="payments[0].id"
@@ -84,6 +87,7 @@ import PaymentComponent from "@/components/PaymentComponent.vue";
 import BoxWrapper from "@/components/BoxWrapper.vue";
 import { Formatter } from "@/common/Formatter.js";
 import Toast from "@/mixins/Toast.js";
+import CampaignStatus from "@/common/CampaignStatus.js";
 
 export default {
   components: {
@@ -103,6 +107,12 @@ export default {
     };
   },
   computed: {
+    status() {
+      return toRaw(this.campaign.status);
+    },
+    CampaignStatus() {
+      return CampaignStatus
+    },
     Formatter: () => Formatter,
     paymentPreview() {
       return this.$store.getters["PaymentPreview/getPaymentPreview"](

@@ -1,15 +1,16 @@
 <template>
   <h1>Welcome, {{ $store.state.Project.currentProject?.title }}!</h1>
   <h2>How it works?</h2>
+
   <el-space wrap class="w-100 info-steps">
-    <div v-for="(step, i) in steps" :key="i" class="step">
+    <div v-for="(step, i) in steps" :key="i" class="step br-base of-hidden">
       <div
-        class="img bg-primary-7"
+        class="img bg-primary-8"
         :class="'step' + (i + 1)"
       />
 
       <el-row>
-        <el-col class="align-center step-number" :span="3">
+        <el-col class="align-center step-number bg-primary-3" :span="3">
           <h1>{{ i + 1 }}</h1>
         </el-col>
 
@@ -176,8 +177,6 @@ export default {
     }
 
     .step-number {
-      background-color: v.$color-primary-light-8;
-
       h1 {
         margin-top: 10px;
         margin-bottom: 10px;

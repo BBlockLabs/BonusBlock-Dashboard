@@ -65,8 +65,8 @@ export default class CampaignFormObject extends formObject {
   setCampaignValues(campaign) {
     campaign.name = this.name;
 
-    campaign.frequencyRatioDaily = this.frequencyRatio;
-    campaign.frequencyRatioWeekly = 100 - this.frequencyRatio;
+    campaign.frequencyRatioWeekly = this.frequencyRatio;
+    campaign.frequencyRatioDaily = 100 - this.frequencyRatio;
 
     if (this.minimumPerUserAward) {
       campaign.minimumPerUserAward = BigInt(this.minimumPerUserAward);
@@ -88,8 +88,8 @@ export default class CampaignFormObject extends formObject {
     campaign.categories = this.categories;
     campaign.network = this.network;
     campaign.product = this.product;
-    campaign.weightFrequency = this.weightRatio;
-    campaign.weightActivity = 100 - this.weightRatio;
+    campaign.weightActivity = this.weightRatio;
+    campaign.weightFrequency = 100 - this.weightRatio;
   }
 
   /**
@@ -97,7 +97,7 @@ export default class CampaignFormObject extends formObject {
    */
   setValuesFromCampaign(campaign) {
     this.name = campaign.name;
-    this.frequencyRatio = campaign.frequencyRatioDaily;
+    this.frequencyRatio = campaign.frequencyRatioWeekly;
     this.minimumPerUserAward = campaign.minimumPerUserAward?.toString() || "";
     this.maximumPerUserAward = campaign.maximumPerUserAward?.toString() || "";
     this.rewardPoolContract = campaign.rewardPoolContract;
@@ -111,6 +111,6 @@ export default class CampaignFormObject extends formObject {
     this.categories = campaign.categories;
     this.network = campaign.network;
     this.product = campaign.product;
-    this.weightRatio = campaign.weightFrequency;
+    this.weightRatio = campaign.weightActivity;
   }
 }

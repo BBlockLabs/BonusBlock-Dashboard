@@ -1,6 +1,7 @@
 import Model from "@/state/models/Model";
 import moment from "moment";
 import CampaignDto from "@/common/dto/CampaignDto.js";
+import CampaignStatus from "@/common/CampaignStatus.js";
 
 export default class Campaign extends Model {
   /**
@@ -63,9 +64,9 @@ export default class Campaign extends Model {
   qualityAudience = false;
 
   /**
-   * @type {"DRAFT"|"CONFIRMED"|"PAYED"|"RUNNING"|"ENDED"|"CANCELLED"|"DELETED"}
+   * @type {CampaignStatus}
    */
-  status = "DRAFT";
+  status = CampaignStatus.DRAFT;
 
   /**
    * @type {Array<String>}
@@ -104,7 +105,10 @@ export default class Campaign extends Model {
     }
 
     if (campaignDto.status !== undefined) {
-      campaign.status = campaignDto.status;
+      campaign.status =
+        Object.values(CampaignStatus).find(
+          (type) => type.getName() === campaignDto.status
+        ) || CampaignStatus.DRAFT;
     }
 
     campaign.name = campaignDto.title;
@@ -118,7 +122,6 @@ export default class Campaign extends Model {
     campaign.minimumPerUserAward = campaignDto.minUserReward
       ? BigInt(campaignDto.minUserReward)
       : null;
-    campaign.status = campaignDto.status;
     campaign.categories = campaignDto.categories.map(({ id }) => id);
     campaign.rewardPoolContract = campaignDto.rewardPool?.id || null;
     campaign.network = campaignDto.network?.id || null;

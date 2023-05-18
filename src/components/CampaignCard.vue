@@ -7,12 +7,12 @@
 
       <el-col :span="-1">
         <el-tag class="mr-1">
-          {{ campaign.status }}
+          {{ status.getLabel() }}
         </el-tag>
 
         <router-link :to="`/campaign/${campaign.id}/edit`">
           <el-button type="primary" round>
-            {{ campaign.status === "DRAFT" ? "Edit" : "View" }}
+            {{ status === CampaignStatus.DRAFT ? "Edit" : "View" }}
           </el-button>
         </router-link>
       </el-col>
@@ -68,6 +68,8 @@ import Campaign from "@/state/models/Campaign.js";
 import moment from "moment";
 import BoxWrapper from "@/components/BoxWrapper.vue";
 import { Formatter } from "@/common/Formatter.js";
+import CampaignStatus from "../common/CampaignStatus.js";
+import {toRaw} from "vue";
 
 export default {
   components: {
@@ -81,6 +83,12 @@ export default {
     },
   },
   computed: {
+    status() {
+      return toRaw(this.campaign.status);
+    },
+    CampaignStatus() {
+      return CampaignStatus;
+    },
     blocks() {
       return [
         {

@@ -117,7 +117,7 @@
         effect="light"
         content="
         Determine how important is the interaction count with the product.
-        For example, If you set 90% in Daily, 7% Weekly, and 3% Monthly, users that connect with your campaign daily will get the highest incentives."
+        For example, If you set 90% in Daily and 10% Weekly, users that connect with your campaign daily will get the highest incentives."
         placement="top-start"
         :offset="-20"
       >
@@ -128,21 +128,21 @@
     <el-form-item label="Reward frequency ratio">
       <span class="text-secondary">
         Determine how important is the interaction count with the product. For
-        example, If you set 90% in Daily, 7% Weekly, and 3% Monthly, users that
+        example, If you set 90% in Daily and 10% Weekly, users that
         connect with your campaign daily will get the highest incentives.
       </span>
 
       <el-row justify="space-between" class="w-100">
         <el-col :span="-1">
-          <b>Daily: {{ campaignFormObject.frequencyRatio }} %</b>
+          <b>Daily: {{ 100 - campaignFormObject.frequencyRatio }} %</b>
         </el-col>
 
         <el-col :span="-1">
-          <b>Weekly: {{ 100 - campaignFormObject.frequencyRatio }} %</b>
+          <b>Weekly: {{ campaignFormObject.frequencyRatio }} %</b>
         </el-col>
       </el-row>
 
-      <el-slider v-model="campaignFormObject.frequencyRatio" />
+      <el-slider v-model="campaignFormObject.frequencyRatio" :show-tooltip="false" />
     </el-form-item>
 
     <el-form-item label="Priority weights">
@@ -156,18 +156,18 @@
         <el-col :span="-1">
           <b
             >Frequency of interactions:
-            {{ campaignFormObject.weightRatio }} %</b
+            {{ 100 - campaignFormObject.weightRatio }} %</b
           >
         </el-col>
 
         <el-col :span="-1">
           <b
-            >Total interactions: {{ 100 - campaignFormObject.weightRatio }} %</b
+            >Quantity of interactions: {{ campaignFormObject.weightRatio }} %</b
           >
         </el-col>
       </el-row>
 
-      <el-slider v-model="campaignFormObject.weightRatio" />
+      <el-slider v-model="campaignFormObject.weightRatio" :show-tooltip="false" />
     </el-form-item>
 
     <el-form-item
@@ -347,8 +347,14 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 h1 {
   margin-bottom: 0.5em;
+}
+
+::v-deep(.el-slider) {
+  .el-slider__bar {
+    display: none;
+  }
 }
 </style>
