@@ -45,8 +45,7 @@
 
     <el-row
       v-if="
-        status === CampaignStatus.DRAFT ||
-        status === CampaignStatus.CANCELLED
+        status === CampaignStatus.DRAFT || status === CampaignStatus.CANCELLED
       "
       v-loading="loading"
       class="mt-4 mb-4"
@@ -88,6 +87,7 @@ import BoxWrapper from "@/components/BoxWrapper.vue";
 import { Formatter } from "@/common/Formatter.js";
 import Toast from "@/mixins/Toast.js";
 import CampaignStatus from "@/common/CampaignStatus.js";
+import { toRaw } from "vue";
 
 export default {
   components: {
@@ -111,7 +111,7 @@ export default {
       return toRaw(this.campaign.status);
     },
     CampaignStatus() {
-      return CampaignStatus
+      return CampaignStatus;
     },
     Formatter: () => Formatter,
     paymentPreview() {

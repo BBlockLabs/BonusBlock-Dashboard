@@ -4,10 +4,7 @@
 
   <el-space wrap class="w-100 info-steps">
     <div v-for="(step, i) in steps" :key="i" class="step br-base of-hidden">
-      <div
-        class="img bg-primary-8"
-        :class="'step' + (i + 1)"
-      />
+      <div class="img bg-primary-8" :class="'step' + (i + 1)" />
 
       <el-row>
         <el-col class="align-center step-number bg-primary-3" :span="3">

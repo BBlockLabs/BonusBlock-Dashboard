@@ -128,8 +128,8 @@
     <el-form-item label="Reward frequency ratio">
       <span class="text-secondary">
         Determine how important is the interaction count with the product. For
-        example, If you set 90% in Daily and 10% Weekly, users that
-        connect with your campaign daily will get the highest incentives.
+        example, If you set 90% in Daily and 10% Weekly, users that connect with
+        your campaign daily will get the highest incentives.
       </span>
 
       <el-row justify="space-between" class="w-100">
@@ -142,7 +142,10 @@
         </el-col>
       </el-row>
 
-      <el-slider v-model="campaignFormObject.frequencyRatio" :show-tooltip="false" />
+      <el-slider
+        v-model="campaignFormObject.frequencyRatio"
+        :show-tooltip="false"
+      />
     </el-form-item>
 
     <el-form-item label="Priority weights">
@@ -167,7 +170,10 @@
         </el-col>
       </el-row>
 
-      <el-slider v-model="campaignFormObject.weightRatio" :show-tooltip="false" />
+      <el-slider
+        v-model="campaignFormObject.weightRatio"
+        :show-tooltip="false"
+      />
     </el-form-item>
 
     <el-form-item

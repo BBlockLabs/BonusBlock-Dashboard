@@ -69,7 +69,7 @@ import moment from "moment";
 import BoxWrapper from "@/components/BoxWrapper.vue";
 import { Formatter } from "@/common/Formatter.js";
 import CampaignStatus from "../common/CampaignStatus.js";
-import {toRaw} from "vue";
+import { toRaw } from "vue";
 
 export default {
   components: {
