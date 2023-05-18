@@ -118,10 +118,6 @@ export default {
           activity.actionsDisplay = activity.actions;
         }
 
-        if (activity.actionsDisplay.length === 0) {
-          return;
-        }
-
         activities.push(activity);
       });
 
@@ -154,7 +150,8 @@ export default {
      *  network: String,
      *  page: Number,
      *  perPage: Number,
-     *  type: ActivityType
+     *  type: ActivityType,
+     *  product: String
      * }} filters
      * @returns {Promise<ActionResponse>}
      */

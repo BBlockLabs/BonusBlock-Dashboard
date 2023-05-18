@@ -1,5 +1,10 @@
 <template>
-  <div class="br-base b-solid of-scroll" style="max-height: 500px">
+  <div
+    v-infinite-scroll="() => nextPage()"
+    v-loading="loading"
+    class="br-base b-solid of-scroll"
+    style="height: 500px"
+  >
     <el-row
       v-for="(activity, idx) in activities"
       :key="activity.id"
@@ -113,11 +118,13 @@ export default {
   },
   methods: {
     nextPage() {
-      if (this.lastPage) {
+      if (this.lastPage || this.loading) {
         return;
       }
 
+      this.loading = true;
       this.page++;
+
       this.loadActivities();
     },
     resetActivities() {
