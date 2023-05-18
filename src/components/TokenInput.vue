@@ -64,6 +64,8 @@ export default {
     inputValue: "parseUserInput",
     value: "setInputValue",
     contract() {
+      this.loadConversionRate();
+
       if (!this.inputValue) {
         this.parseUserInput(this.inputValue, "");
 

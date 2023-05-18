@@ -42,11 +42,7 @@
     </el-form-item>
 
     <h1>Set rewards</h1>
-    <!--    v-bind="
-    ValidationHelper.getFormItemErrorAttributes(
-    validate['rewardPoolTokenCount']
-    )
-    "-->
+
     <el-form-item class="">
       <el-row class="w-100" :gutter="12">
         <el-col :span="12">
@@ -83,7 +79,13 @@
         </el-col>
 
         <el-col :span="12">
-          <el-form-item>
+          <el-form-item
+            v-bind="
+              ValidationHelper.getFormItemErrorAttributes(
+                validate['rewardPoolTokenCount']
+              )
+            "
+          >
             <template #label>
               <span>
                 <label class="el-form-item__label">
@@ -101,12 +103,12 @@
                 </label>
               </span>
             </template>
-          </el-form-item>
 
-          <token-input
-            v-model="campaignFormObject.rewardPoolTokenCount"
-            :contract="contract"
-          />
+            <token-input
+              v-model="campaignFormObject.rewardPoolTokenCount"
+              :contract="contract"
+            />
+          </el-form-item>
         </el-col>
       </el-row>
     </el-form-item>

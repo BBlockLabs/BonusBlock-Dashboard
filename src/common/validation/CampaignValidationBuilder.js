@@ -9,6 +9,7 @@ import {
 } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import ValidationBuilder from "@/common/validation/ValidationBuilder.js";
+import store from "@/state/store.js";
 
 export default class CampaignValidationBuilder extends ValidationBuilder {
   static validationRules = {
@@ -32,6 +33,42 @@ export default class CampaignValidationBuilder extends ValidationBuilder {
     },
     rewardPoolContract: {
       required,
+    },
+    rewardPoolTokenCount: {
+      is500Dolars: (value, campaignFormObject) => {
+        if (!value) {
+          return true;
+        }
+
+        const contract = store.getters["Contract/getContract"](
+          campaignFormObject.rewardPoolContract
+        );
+
+        if (contract === null) {
+          console.log("q");
+          return true;
+        }
+
+        const conversionRate = store.getters["ConversionRate/findPair"](
+          "ETH",
+          "USD"
+        );
+
+        if (conversionRate === null) {
+          console.log("w");
+          return true;
+        }
+
+        if (
+          (value * conversionRate.rate) /
+            Math.pow(10, contract.decimalSpaces) >=
+          500
+        ) {
+          return true;
+        }
+
+        return false;
+      },
     },
     timeFrame: [
       {

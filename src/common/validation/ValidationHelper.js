@@ -23,6 +23,8 @@ export default class ValidationHelper {
     switch (error.$validator) {
       case "required":
         return "The field is required";
+      case "is500Dolars":
+        return "Must be at minimum value of 500$";
     }
 
     return error.$message;
