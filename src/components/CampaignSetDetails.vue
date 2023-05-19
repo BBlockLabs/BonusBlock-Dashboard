@@ -234,7 +234,7 @@
               validate['expectedReturnOfInvestment']
             )
           "
-          label="Expected COC"
+          label="Expected CAC"
         >
           <el-input v-model="campaignFormObject.expectedReturnOfInvestment" />
         </el-form-item>
