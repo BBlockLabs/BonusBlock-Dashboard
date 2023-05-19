@@ -16,6 +16,7 @@ export class ContractState {
     usd.decimalSpaces = 2;
     usd.title = "Dollars";
     usd.id = "USD";
+    usd.currencyName = "$";
 
     this.contracts.set("USD", usd);
   }

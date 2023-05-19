@@ -10,30 +10,32 @@
       :key="activity.id"
       :class="{ 'bt-solid': idx !== 0 }"
     >
-      <el-col class="p-3 d-flex">
-        <el-avatar />
+      <el-col class="p-3">
+        <label class="d-flex w-100">
+          <el-avatar />
 
-        <div class="mx-2 of-hidden my-auto">
-          <el-tag>ETH</el-tag>&nbsp;
-          <b>{{ activity.name }}</b>
-          <br />
-          0x{{ activity.hash }}
-        </div>
+          <div class="mx-2 of-hidden my-auto">
+            <el-tag>ETH</el-tag>&nbsp;
+            <b>{{ activity.name }}</b>
+            <br />
+            0x{{ activity.hash }}
+          </div>
 
-        <div class="ml-auto my-auto">
-          <span v-if="activity.url">
-            <a :href="activity.url" target="_blank">
-              <el-link>
-                <open-new-window class="icon" />
-              </el-link>
-            </a>
-            &nbsp;
-          </span>
+          <div class="ml-auto my-auto">
+            <span v-if="activity.url">
+              <a :href="activity.url" target="_blank">
+                <el-link>
+                  <open-new-window class="icon" />
+                </el-link>
+              </a>
+              &nbsp;
+            </span>
 
-          <el-radio v-model="activityValue" :label="activity.id" type="radio">
-            &nbsp;
-          </el-radio>
-        </div>
+            <el-radio v-model="activityValue" :label="activity.id" type="radio">
+              &nbsp;
+            </el-radio>
+          </div>
+        </label>
       </el-col>
     </el-row>
   </div>
