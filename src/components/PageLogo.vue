@@ -1,15 +1,18 @@
 <template>
   <div class="d-flex logo">
-    <logo class="logo-icon" />
+    <LogoSmall v-if="small" class="logo-icon" />
+    <logo v-else class="logo-icon" />
   </div>
 </template>
 
 <script>
 import Logo from "@/assets/bblock/banner.svg";
+import LogoSmall from "@/assets/bblock/cubes.svg";
 
 export default {
   components: {
     Logo,
+    LogoSmall,
   },
   props: {
     small: Boolean,

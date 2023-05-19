@@ -8,11 +8,7 @@ export default class ValidationHelper {
       return "";
     }
 
-    return validation.$errors
-      .map(ValidationHelper.getErrorMessage)
-      .reduce((accumulator, message) => {
-        return accumulator + "\n" + message;
-      }, "");
+    return validation.$errors[0].$message;
   }
 
   /**
