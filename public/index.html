@@ -34,12 +34,17 @@
   <!--  @formatter:on -->
 
   <style>
-    #loader {position: fixed;top: 50%;left: 0;right: 0;bottom: 0}
+    #loader {position: fixed;top: 50%;left: 0;right: 0;bottom: 0;visibility: visible;opacity: 1;}
     #loader > div {display: block;margin: -100px auto 0 auto;width: 200px;text-align: center;color: #777}
     #loader span {display: block;margin-top: 0.5em;font-size: 2em;animation: fadein 2s}
     @keyframes fadein {
         from {opacity: 0}
         to {opacity: 1}
+    }
+    .fadeOut {
+      visibility: hidden !important;
+      opacity: 0 !important;
+      transition: visibility .4s, opacity .4s linear;
     }
     body {
       font-family: 'Noto Sans', sans-serif;

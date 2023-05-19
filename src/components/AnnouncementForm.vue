@@ -114,7 +114,7 @@
       </el-form-item>
     </el-form-item>
 
-    <el-row justify="center">
+    <el-row justify="center" v-if="value.socials.length < 9">
       <el-button size="large" type="primary" @click="addNewSocials">
         +
       </el-button>

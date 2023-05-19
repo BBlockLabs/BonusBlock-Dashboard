@@ -79,20 +79,6 @@
                 </el-row>
               </div>
             </el-space>
-            <el-row class="w-100 premium">
-              <el-col :span="14">
-                <div class="premium-img"></div>
-              </el-col>
-              <el-col :span="9" class="d-flex align-items-center justify-content-center">
-                <el-row class="flex-column">
-                  <h3 class="m-0">Premium Service</h3>
-
-                  <p>Quality audience versus everyone.</p>
-
-                  <el-button round size="large" type="info" disabled>Coming soon</el-button>
-                </el-row>
-              </el-col>
-            </el-row>
             <h2>How it works?</h2>
             <el-space wrap class="w-100 info-steps">
               <div v-for="(step, i) in steps" :key="i" class="step">
@@ -107,6 +93,20 @@
                 </el-row>
               </div>
             </el-space>
+            <el-row class="w-100 premium mt-3">
+              <el-col :span="14">
+                <div class="premium-img"></div>
+              </el-col>
+              <el-col :span="9" class="d-flex align-items-center justify-content-center">
+                <el-row class="flex-column">
+                  <h3 class="m-0">Premium Service</h3>
+
+                  <p>Quality audience versus everyone.</p>
+
+                  <el-button round size="large" type="info" disabled>Coming soon</el-button>
+                </el-row>
+              </el-col>
+            </el-row>
           </div>
         </div>
       </el-main>

@@ -57,7 +57,7 @@
             <template #label>
               <span>
                 <label class="el-form-item__label">
-                  Reward Pool
+                  Token
                   <el-tooltip
                     effect="light"
                     content="Smart Contract to be used for reward distribution"
@@ -90,7 +90,7 @@
             <template #label>
               <span>
                 <label class="el-form-item__label">
-                  Reward Pool Token amount
+                  Amount
                   <el-tooltip
                     effect="light"
                     content="Total amount of reward to be distributed during the campaign"

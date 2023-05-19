@@ -42,7 +42,10 @@ export default {
   methods: {
     removeLoader() {
       this.$nextTick(() => {
-        document.getElementById("loader").style.display = "none";
+        document.getElementById("loader").classList.add("fadeOut");
+        setTimeout(() => {
+          document.getElementById("loader").style.display = "none";
+        }, 400);
       });
     },
   },

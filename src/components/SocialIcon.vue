@@ -8,6 +8,9 @@ import SvgReddit from "@/assets/icons/reddit.svg";
 import SvgTelegram from "@/assets/icons/telegram.svg";
 import SvgTwitter from "@/assets/icons/twitter.svg";
 import SvgYoutube from "@/assets/icons/youtube.svg";
+import SvgGlobe from "@/assets/icons/globe.svg";
+import SvgMail from "@/assets/icons/email.svg";
+import SvgBlog from "@/assets/icons/notes.svg";
 
 export default {
   props: {
@@ -30,6 +33,12 @@ export default {
           return SvgYoutube;
         case "reddit":
           return SvgReddit;
+        case "website":
+          return SvgGlobe;
+        case "newsletter":
+          return SvgMail;
+        case "blog":
+          return SvgBlog;
       }
 
       return SvgTwitter;

@@ -1,6 +1,6 @@
 export default class Social {
   /**
-   * @type {"discord" | "twitter" | null}
+   * @type {"twitter" | "telegram" | "discord" | "youtube" | "reddit" | "website" | "newsletter"| "blog" | null}
    */
   type = null;
 

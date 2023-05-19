@@ -12,6 +12,13 @@
         >
           {{ status.getLabel() }}
         </el-tag>
+        <el-tag
+          v-if="status === CampaignStatus.PAID && now.isAfter(campaign.timeFrameFrom) && now.isBefore(campaign.timeFrameTill)"
+          class="mr-1"
+          type="success"
+        >
+          <strong>ACTIVE</strong>
+        </el-tag>
 
         <delete-button
           v-if="status === CampaignStatus.DRAFT"
@@ -123,6 +130,9 @@ export default {
     },
     CampaignStatus() {
       return CampaignStatus;
+    },
+    now() {
+      return moment();
     },
     blocks() {
       const timeLeft = moment(this.campaign.timeFrameTill).diff(moment(), "days");

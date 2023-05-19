@@ -11,6 +11,9 @@
         <el-option label="Discord" value="discord" />
         <el-option label="YouTube" value="youtube" />
         <el-option label="Reddit" value="reddit" />
+        <el-option label="Website" value="website" />
+        <el-option label="Blog" value="blog" />
+        <el-option label="Newsletter" value="newsletter" />
       </el-select>
     </template>
     <template v-if="id > 0" #append>
