@@ -73,6 +73,7 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import { MetamaskClient } from "@/common/MetamaskClient.js";
 import SvgCopy from "@/assets/icons/copy.svg";
 import Toast from "@/mixins/Toast.js";
+import CampaignStatus from "@/common/CampaignStatus.js";
 
 export default {
   components: {
@@ -159,7 +160,7 @@ export default {
 
       this.$store.dispatch("Campaign/changeStatus", {
         campaignId: this.payment.campaignId,
-        status: "CANCELLED",
+        status: CampaignStatus.CANCELLED,
       });
 
       this.$emit("paymentCanceled");
