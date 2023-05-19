@@ -160,7 +160,7 @@ export default {
 
       this.$store.dispatch("Campaign/changeStatus", {
         campaignId: this.payment.campaignId,
-        status: CampaignStatus.CANCELLED,
+        status: CampaignStatus.DRAFT,
       });
 
       this.$emit("paymentCanceled");

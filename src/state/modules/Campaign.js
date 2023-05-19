@@ -15,6 +15,7 @@ const endpointStatuses = {
   CONFIRMED: "confirm",
   CANCELLED: "cancel",
   DELETED: "delete",
+  DRAFT: "cancel-payment",
 };
 
 export class CampaignState {
