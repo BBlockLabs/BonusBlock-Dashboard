@@ -7,6 +7,7 @@ export class ConversionRateState {
    * @type {Map<string, ConversionRate>}
    */
   rates = new Map();
+  minRewardPoolAmount = 500;
 
   constructor() {
     const rate = new ConversionRate();
@@ -47,6 +48,9 @@ export default {
 
       return null;
     },
+    getMinRewardPoolAmount: (state) => () => {
+      return state.minRewardPoolAmount;
+    },
   },
   mutations: {
     /**
@@ -66,6 +70,13 @@ export default {
       }
 
       state.rates.delete(rateId);
+    },
+    /**
+     * @param {ConversionRateState} state
+     * @param {number} amount
+     */
+    setMinRewardPoolAmount(state, amount) {
+      state.minRewardPoolAmount = amount;
     },
   },
   actions: {
@@ -97,6 +108,16 @@ export default {
       const rate = ConversionRate.fromDto(payload);
 
       commit("setRate", rate);
+
+      const minRewardPoolAmountResponse = await HttpRequest.makeRequest(
+        "min-reward-pool-amount",
+        null,
+        "v1/rate"
+      );
+
+      if (minRewardPoolAmountResponse.success) {
+        commit("setMinRewardPoolAmount", minRewardPoolAmountResponse.payload);
+      }
 
       return new ActionResponse(true, rate.id);
     },

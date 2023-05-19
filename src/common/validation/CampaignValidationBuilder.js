@@ -1,4 +1,13 @@
-import { between, helpers, integer, maxLength, minLength, minValue, numeric, required } from "@vuelidate/validators";
+import {
+  between,
+  helpers,
+  integer,
+  maxLength,
+  minLength,
+  minValue,
+  numeric,
+  required,
+} from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import ValidationBuilder from "@/common/validation/ValidationBuilder.js";
 import store from "@/state/store.js";
@@ -47,15 +56,14 @@ export default class CampaignValidationBuilder extends ValidationBuilder {
           return true;
         }
 
-        if (
+        const minAmount =
+          store.getters["ConversionRate/getMinRewardPoolAmount"]();
+
+        return (
           (value * conversionRate.rate) /
             Math.pow(10, contract.decimalSpaces) >=
-          500
-        ) {
-          return true;
-        }
-
-        return false;
+          minAmount
+        );
       },
     },
     timeFrame: [
@@ -66,17 +74,20 @@ export default class CampaignValidationBuilder extends ValidationBuilder {
           (value) => {
             return value > new Date();
           }
-        )
+        ),
       },
       {
         required,
         maxValue: helpers.withMessage(
           "End date must be in the future and at least after a week from the start date",
           (value, vm) => {
-            return value > new Date() && value > moment(vm[0]).add(7, 'days').toDate();
+            return (
+              value > new Date() &&
+              value > moment(vm[0]).add(7, "days").toDate()
+            );
           }
-        )
-      }
+        ),
+      },
     ],
     weeklyEqualDistribution: {
       required,
