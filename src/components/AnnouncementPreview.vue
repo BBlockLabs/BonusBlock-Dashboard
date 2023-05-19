@@ -85,8 +85,11 @@ export default {
     },
   },
   watch: {
-    announcement() {
-      this.setFileUrl();
+    announcement: {
+      deep: true,
+      handler() {
+        this.setFileUrl();
+      },
     },
   },
   created() {

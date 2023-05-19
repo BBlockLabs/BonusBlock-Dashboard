@@ -13,7 +13,7 @@ const handleOrUrl = helpers.withMessage(
     return "Invalid value"; // TODO: add fancy messages by social type
   },
   (value, siblings) => {
-    if (siblings.type === null) {
+    if (siblings === undefined || siblings.type === null) {
       return true;
     } else if (siblings.type === "telegram") {
       return value.startsWith("@");
@@ -53,8 +53,6 @@ export default class AnnouncementFormValidationBuilder extends ValidationBuilder
       url,
     },
     socials: {
-      required,
-      minLength: minLength(1),
       // I don't like that vuelidate removed $each..
       0: {
         type: {},

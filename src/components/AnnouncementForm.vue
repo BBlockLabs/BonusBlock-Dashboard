@@ -47,21 +47,54 @@
         ValidationHelper.getFormItemErrorAttributes(validate['buttonLabel'])
       "
     >
+      <template #label>
+        <span>
+          <label class="el-form-item__label">
+            Button Label
+            <el-tooltip
+              effect="light"
+              content="Button text that will be displayed under announcement section"
+              placement="top-start"
+              :offset="-40"
+            >
+              <el-icon class="tooltip-icon">
+                <InfoFilled />
+              </el-icon>
+            </el-tooltip>
+          </label>
+        </span>
+      </template>
       <el-input v-model="value.buttonLabel" placeholder="Button label" />
     </el-form-item>
 
     <el-form-item
-      label="Button Link"
       v-bind="
         ValidationHelper.getFormItemErrorAttributes(validate['buttonUrl'])
       "
     >
+      <template #label>
+        <span>
+          <label class="el-form-item__label">
+            Button Link
+            <el-tooltip
+              effect="light"
+              content="Link that will redirect when button is pressed"
+              placement="top-start"
+              :offset="-50"
+            >
+              <el-icon class="tooltip-icon">
+                <InfoFilled />
+              </el-icon>
+            </el-tooltip>
+          </label>
+        </span>
+      </template>
       <el-input v-model="value.buttonUrl" placeholder="Button link" />
     </el-form-item>
 
     <el-form-item>
       <el-form-item
-        v-for="idx in 10"
+        v-for="idx in value.socials.length"
         v-bind="
           ValidationHelper.getFormItemErrorAttributes(
             validate['socials'][idx - 1]
@@ -69,11 +102,23 @@
         "
         :key="idx - 1"
         class="w-100 mt-4"
-        :label="`Social ${value.socials[idx - 1]?.type || 'X'}`"
+        :label="`Social ${
+          capitalizeFirstLetter(value.socials[idx - 1]?.type) || 'X'
+        }`"
       >
-        <social-input v-model="value.socials[idx - 1]" />
+        <social-input
+          :id="idx - 1"
+          v-model="value.socials[idx - 1]"
+          @input-deleted="removeSocial"
+        />
       </el-form-item>
     </el-form-item>
+
+    <el-row justify="center">
+      <el-button size="large" type="primary" @click="addNewSocials">
+        +
+      </el-button>
+    </el-row>
   </el-form>
 </template>
 
@@ -84,6 +129,7 @@ import AnnouncementFormValidationBuilder from "@/common/validation/AnnouncementF
 import ValidationHelper from "@/common/validation/ValidationHelper.js";
 import Toast from "@/mixins/Toast.js";
 import BannerSelect from "@/components/BannerSelect.vue";
+import Social from "@/state/models/Social.js";
 
 export default {
   components: {
@@ -136,6 +182,20 @@ export default {
       handler() {
         this.value = this.modelValue;
       },
+    },
+  },
+  methods: {
+    removeSocial(id) {
+      this.value.socials.splice(id, 1);
+    },
+    addNewSocials() {
+      this.value.socials.push(new Social());
+    },
+    capitalizeFirstLetter(string) {
+      if (!string) {
+        return string;
+      }
+      return string.charAt(0).toUpperCase() + string.slice(1);
     },
   },
 };
