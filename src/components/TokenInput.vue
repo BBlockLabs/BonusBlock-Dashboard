@@ -46,7 +46,7 @@ export default {
       return this.contract?.decimalSpaces || 6;
     },
     denom() {
-      return this.contract?.denom || "No token";
+      return this.contract?.currencyName || "No token";
     },
     value() {
       if (
@@ -98,7 +98,7 @@ export default {
 
       await this.$store.dispatch(
         "ConversionRate/loadConversionRate",
-        this.contract.denom
+        this.contract.currencyName
       );
     },
     parseUserInput(newValue, oldValue) {

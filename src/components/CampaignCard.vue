@@ -6,7 +6,10 @@
       </el-col>
 
       <el-col :span="-1">
-        <el-tag class="mr-1">
+        <el-tag
+          class="mr-1"
+          :type="status === CampaignStatus.DELETED ? 'danger' : ''"
+        >
           {{ status.getLabel() }}
         </el-tag>
 

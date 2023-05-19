@@ -15,4 +15,8 @@ export class NetworkDto {
    * @type {number}
    */
   decimal = 0;
+  /**
+   * @type {string}
+   */
+  currencyName = ""
 }
