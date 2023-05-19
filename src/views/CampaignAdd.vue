@@ -12,10 +12,25 @@
 
             <el-col :span="23">
               <el-steps :active="step - 1" align-center class="mb-5">
-                <el-step title="Set campaign" />
-                <el-step title="Create activities" />
-                <el-step title="Create your announcement" />
-                <el-step title="Launch!" />
+                <el-step
+                  v-for="(stepName, idx) in [
+                    'Set campaign',
+                    'Create activities',
+                    'Create your announcement',
+                    'Launch!',
+                  ]"
+                  :key="stepName"
+                  :title="stepName"
+                >
+                  <template v-if="status === CampaignStatus.DRAFT" #title>
+                    <el-link
+                      :type="step > idx ? 'primary' : 'default'"
+                      @click="gotoStep(idx + 1)"
+                    >
+                      {{ stepName }}
+                    </el-link>
+                  </template>
+                </el-step>
               </el-steps>
             </el-col>
           </el-row>
@@ -132,6 +147,9 @@ export default {
   mixins: [Toast, MessageBox],
   data: defaultData,
   computed: {
+    CampaignStatus() {
+      return CampaignStatus;
+    },
     id() {
       return this.$route.params.id || null;
     },
@@ -157,6 +175,23 @@ export default {
     this.setupForCampaign();
   },
   methods: {
+    async gotoStep(stepNumber) {
+      if (this.step === stepNumber) {
+        return;
+      }
+
+      if (this.step > stepNumber) {
+        this.step = stepNumber;
+
+        return;
+      }
+
+      while (this.step < stepNumber) {
+        if (!(await this.goToNextStep())) {
+          break;
+        }
+      }
+    },
     setupForCampaign() {
       this.step = 1;
 
