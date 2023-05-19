@@ -36,6 +36,8 @@ export default {
   },
   async mounted() {
     this.removeLoader();
+
+    Document.debugToggle = () => this.$store.commit('toggleDebug');
   },
   methods: {
     removeLoader() {

@@ -25,9 +25,8 @@
 
     <el-col class="d-flex h-100" :span="-1">
       <div v-if="$store.getters['Auth/isLoggedIn']" class="d-flex h-100">
-        <icon-bell class="icon-large my-auto" />
-
         <el-button
+          v-if="canDebug"
           link
           :type="$store.state.debug ? 'danger' : ''"
           @click="$store.commit('toggleDebug')"
@@ -42,6 +41,7 @@
               {{ $store.state.Project.currentProject?.title }}
             </span>
           </span>
+
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item @click="loggedOut">
@@ -60,16 +60,21 @@
 import NavigationList from "@/common/Navigation";
 import MenuItem from "@/components/MenuItem.vue";
 import Avatar from "@/components/AvatarImage.vue";
-import { Bell as IconBell, GitCompare } from "iconoir-vue";
+import { GitCompare } from "iconoir-vue";
 
 export default {
   components: {
     MenuItem,
-    IconBell,
     GitCompare,
     Avatar,
   },
   computed: {
+    env() {
+      return import.meta.env.VITE_ENV || "nope";
+    },
+    canDebug() {
+      return import.meta.env.VITE_ENV === "local";
+    },
     projectImage() {
       return {
         data: this.$store.state.Project.currentProject?.image,

@@ -45,7 +45,6 @@ export default class CampaignValidationBuilder extends ValidationBuilder {
         );
 
         if (contract === null) {
-          console.log("q");
           return true;
         }
 
@@ -55,7 +54,6 @@ export default class CampaignValidationBuilder extends ValidationBuilder {
         );
 
         if (conversionRate === null) {
-          console.log("w");
           return true;
         }
 
