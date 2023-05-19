@@ -7,7 +7,12 @@
       </router-link>
     </div>
     <div v-if="campaigns.length === 0" class="no-campaigns">
-      <div>You dont have any campaigns yet</div>
+      <div>
+        <SvgEmptyBlock/>
+      </div>
+      <div>
+        You dont have any campaigns yet
+      </div>
     </div>
     <el-row v-else :gutter="24">
       <el-col
@@ -28,7 +33,8 @@
 .no-campaigns {
   display: flex;
   flex-grow: 1;
-  flex-direction: row;
+  font-size: 1.3em;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -36,10 +42,12 @@
 
 <script>
 import CampaignCard from "@/components/CampaignCard.vue";
+import SvgEmptyBlock from "@/assets/icons/empty-block-wireframe.svg";
 
 export default {
   components: {
-    CampaignCard
+    CampaignCard,
+    SvgEmptyBlock,
   },
   computed: {
     campaigns() {

@@ -1,33 +1,5 @@
 <template>
   <h1>Welcome, {{ $store.state.Project.currentProject?.title }}!</h1>
-  <el-row class="w-100 premium">
-    <el-col :span="14">
-      <div class="premium-img"></div>
-    </el-col>
-    <el-col :span="9" class="d-flex align-items-center justify-content-center">
-      <el-row class="flex-column">
-        <h3 class="m-0">Premium Service</h3>
-
-        <p>Quality audience versus everyone.</p>
-
-        <el-button round size="large" type="info">Get Premium</el-button>
-      </el-row>
-    </el-col>
-  </el-row>
-  <h2>How it works?</h2>
-  <el-space wrap class="w-100 info-steps">
-    <div v-for="(step, i) in steps" :key="i" class="step">
-      <div class="img" :class="'step' + (i + 1)"></div>
-      <el-row>
-        <el-col class="align-center step-number" :span="3">
-          <h1>{{ i + 1 }}</h1>
-        </el-col>
-        <el-col class="step-text pl-3 d-flex align-items-center" :span="21">
-          {{ step }}
-        </el-col>
-      </el-row>
-    </div>
-  </el-space>
   <h2>Kickstart with one of the things below:</h2>
   <el-space wrap fill :fill-ratio="25" class="w-100 home-panels">
     <div class="p-4">
@@ -61,7 +33,7 @@
         </el-col>
       </el-row>
       <el-row justify="end" class="mt-3">
-        <el-button round type="primary">Invite</el-button>
+        <el-button round type="primary" disabled>Coming soon</el-button>
       </el-row>
     </div>
     <div class="p-4">
@@ -78,6 +50,7 @@
       </el-row>
       <el-row justify="end" class="mt-3">
         <el-link
+          style="text-decoration: none"
           type="primary"
           href="https://t.me/MrX01010101010"
           target="_blank"
@@ -98,6 +71,34 @@
         >
           <svg-phone />
         </el-link>
+      </el-row>
+    </div>
+  </el-space>
+  <el-row class="w-100 premium">
+    <el-col :span="14">
+      <div class="premium-img"></div>
+    </el-col>
+    <el-col :span="9" class="d-flex align-items-center justify-content-center">
+      <el-row class="flex-column">
+        <h3 class="m-0">Premium Service</h3>
+
+        <p>Quality audience versus everyone.</p>
+
+        <el-button round size="large" type="info" disabled>Coming soon</el-button>
+      </el-row>
+    </el-col>
+  </el-row>
+  <h2>How it works?</h2>
+  <el-space wrap class="w-100 info-steps">
+    <div v-for="(step, i) in steps" :key="i" class="step">
+      <div class="img" :class="'step' + (i + 1)"></div>
+      <el-row>
+        <el-col class="align-center step-number" :span="3">
+          <h1>{{ i + 1 }}</h1>
+        </el-col>
+        <el-col class="step-text pl-3 d-flex align-items-center" :span="21">
+          {{ step }}
+        </el-col>
       </el-row>
     </div>
   </el-space>
