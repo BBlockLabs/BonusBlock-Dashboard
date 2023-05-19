@@ -13,20 +13,31 @@
         <el-option label="Reddit" value="reddit" />
       </el-select>
     </template>
+    <template v-if="id > 0" #append>
+      <delete-button @click="$emit('inputDeleted', id)" />
+    </template>
   </el-input>
 </template>
 
 <script>
 import Social from "@/state/models/Social.js";
+import DeleteButton from "@/components/DeleteButton.vue";
 
 export default {
+  components: {
+    DeleteButton,
+  },
   props: {
+    id: {
+      type: Number,
+      default: 0,
+    },
     modelValue: {
       type: Social,
       default: () => new Social(),
     },
   },
-  emits: ["modelValue:update"],
+  emits: ["modelValue:update", "inputDeleted"],
   data() {
     return {
       value: this.modelValue,
