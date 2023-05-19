@@ -2,7 +2,7 @@
   <div
     v-infinite-scroll="() => nextPage()"
     v-loading="loading"
-    class="br-base b-solid of-scroll"
+    class="br-base b-solid activity-picker"
     style="height: 500px"
   >
     <el-row
@@ -40,9 +40,14 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .activity-selected {
   background-color: var(--el-color-primary-light-9);
+}
+
+.activity-picker {
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 </style>
 
