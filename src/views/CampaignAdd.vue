@@ -99,6 +99,8 @@ import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject
 import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
 import SvgNavArrowLeft from "@/assets/icons/nav-arrow-left.svg";
 import Toast from "@/mixins/Toast.js";
+import CampaignStatus from "@/common/CampaignStatus.js";
+import {toRaw} from "vue";
 
 export default {
   components: {
@@ -135,6 +137,15 @@ export default {
         this.announcement.campaign = this.campaign.id;
         this.$store.commit("Announcement/setAnnouncement", this.announcement);
       },
+    },
+  },
+  computed: {
+    status() {
+      return toRaw(
+        this.$store.getters["Campaign/getCampaign"](
+          this.$route.params.id
+        )?.status || CampaignStatus.DRAFT
+      );
     },
   },
   created() {
@@ -179,6 +190,10 @@ export default {
 
         this.campaign = campaign;
 
+        if (this.status !== CampaignStatus.DRAFT) {
+          this.step = 4;
+        }
+
         this.campaignFormObject.setValuesFromCampaign(this.campaign);
         this.campaignFormObject.reset();
 
@@ -202,7 +217,7 @@ export default {
       this.loading = false;
     },
     back() {
-      if (this.step > 1) {
+      if (this.step > 1 && this.status === CampaignStatus.DRAFT) {
         this.step--;
       } else {
         this.$router.push("/campaign");
