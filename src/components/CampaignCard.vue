@@ -93,11 +93,13 @@ export default {
       return CampaignStatus;
     },
     blocks() {
+      const timeLeft = moment(this.campaign.timeFrameTill).diff(moment(), "days");
+
       return [
         {
           left: "Time Left",
           right: "days",
-          bottom: moment(this.campaign.timeFrameTill).diff(moment(), "days"),
+          bottom: timeLeft < 0 ? "Ended" : timeLeft,
         },
         {
           left: "Reward pool",
