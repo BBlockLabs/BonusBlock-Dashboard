@@ -239,7 +239,7 @@ export default {
     async deleteCampaign() {
       const response = await this.$store.dispatch("Campaign/changeStatus", {
         campaignId: this.campaign.id,
-        status: "DELETED",
+        status: CampaignStatus.DELETED,
       });
 
       if (!response.success) {

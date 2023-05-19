@@ -28,11 +28,8 @@ export default class CampaignValidationBuilder extends ValidationBuilder {
       required,
     },
     rewardPoolTokenCount: {
+      required,
       is500Dolars: (value, campaignFormObject) => {
-        if (!value) {
-          return true;
-        }
-
         const contract = store.getters["Contract/getContract"](
           campaignFormObject.rewardPoolContract
         );
