@@ -100,7 +100,7 @@ import RewardedActivityValidationBuilder from "@/common/validation/RewardedActiv
 import SvgNavArrowLeft from "@/assets/icons/nav-arrow-left.svg";
 import Toast from "@/mixins/Toast.js";
 import CampaignStatus from "@/common/CampaignStatus.js";
-import {toRaw} from "vue";
+import { toRaw } from "vue";
 
 export default {
   components: {
@@ -129,6 +129,14 @@ export default {
       announcementFormValidation: null,
     };
   },
+  computed: {
+    status() {
+      return toRaw(
+        this.$store.getters["Campaign/getCampaign"](this.$route.params.id)
+          ?.status || CampaignStatus.DRAFT
+      );
+    },
+  },
   watch: {
     announcementFormObject: {
       deep: true,
@@ -137,15 +145,6 @@ export default {
         this.announcement.campaign = this.campaign.id;
         this.$store.commit("Announcement/setAnnouncement", this.announcement);
       },
-    },
-  },
-  computed: {
-    status() {
-      return toRaw(
-        this.$store.getters["Campaign/getCampaign"](
-          this.$route.params.id
-        )?.status || CampaignStatus.DRAFT
-      );
     },
   },
   created() {
