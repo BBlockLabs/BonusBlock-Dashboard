@@ -4,7 +4,13 @@
       <h1 class="m-0"><b>Campaign Summary</b></h1>
     </el-col>
 
-    <el-col :span="-1">
+    <el-col
+      v-if="
+        campaignStatus === CampaignStatus.DRAFT
+        || campaignStatus === CampaignStatus.CANCELLED
+      "
+      :span="-1"
+    >
       <el-button round @click="deleteCampaign"> Delete </el-button>
 
       <el-button type="primary" round @click="saveToDraft">
@@ -130,6 +136,8 @@ import DeleteButton from "@/components/DeleteButton.vue";
 import Toast from "@/mixins/Toast.js";
 import moment from "moment";
 import { Formatter } from "@/common/Formatter.js";
+import {toRaw} from "vue";
+import CampaignStatus from "@/common/CampaignStatus.js";
 
 export default {
   components: {
@@ -144,6 +152,9 @@ export default {
     },
   },
   computed: {
+    CampaignStatus() {
+      return CampaignStatus;
+    },
     Formatter: () => Formatter,
     moment: () => moment,
     mostRewardedInteraction() {
@@ -177,6 +188,9 @@ export default {
       );
 
       return campaign || new Campaign();
+    },
+    campaignStatus() {
+      return toRaw(this.campaign.status);
     },
     rewardedActivities() {
       return this.$store.getters["RewardedActivity/getByCampaign"](
