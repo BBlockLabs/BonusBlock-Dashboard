@@ -25,7 +25,7 @@ export default class PaymentPreview extends Model {
   static fromDto(dto) {
     const paymentPreview = new PaymentPreview();
 
-    paymentPreview.gasFee = BigInt(dto.gasFee);
+    paymentPreview.gasFee = dto.gasFee ? BigInt(dto.gasFee) : 0;
     paymentPreview.commissionFee = BigInt(dto.commissionFee);
     paymentPreview.baseAmount = BigInt(dto.baseAmount);
     paymentPreview.totalAmount = BigInt(dto.totalAmount);

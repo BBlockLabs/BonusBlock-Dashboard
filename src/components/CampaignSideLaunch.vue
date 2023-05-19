@@ -41,6 +41,8 @@
           </b>
         </el-col>
       </el-row>
+
+      <debug-wrapper>{{ paymentPreview }}</debug-wrapper>
     </box-wrapper>
 
     <el-row
@@ -88,9 +90,11 @@ import { Formatter } from "@/common/Formatter.js";
 import Toast from "@/mixins/Toast.js";
 import CampaignStatus from "@/common/CampaignStatus.js";
 import { toRaw } from "vue";
+import DebugWrapper from "@/components/DebugWrapper.vue";
 
 export default {
   components: {
+    DebugWrapper,
     AnnouncementPreview,
     PaymentComponent,
     BoxWrapper,

@@ -1,6 +1,6 @@
 export default class PaymentPreviewDto {
   /**
-   * @type {string}
+   * @type {string|null}
    */
   gasFee = "";
   /**
