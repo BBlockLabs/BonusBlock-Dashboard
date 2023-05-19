@@ -16,7 +16,7 @@
       </el-col>
     </el-row>
 
-    <el-form-item label="Activity">
+    <el-form-item label="Smart Contract address or name">
       <activity-select-field
         v-model="activity.activity"
         :network-id="campaign.network"

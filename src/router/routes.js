@@ -39,7 +39,9 @@ export default [
     path: "/campaign",
     component: CampaignIndex,
     name: "Campaigns",
-    meta: new RouteMeta(),
+    meta: new RouteMeta({
+      pagePadding: "0",
+    }),
   },
   {
     path: "/campaign/add",
