@@ -142,7 +142,7 @@ import DeleteButton from "@/components/DeleteButton.vue";
 import Toast from "@/mixins/Toast.js";
 import moment from "moment";
 import { Formatter } from "@/common/Formatter.js";
-import {toRaw} from "vue";
+import { toRaw } from "vue";
 import CampaignStatus from "@/common/CampaignStatus.js";
 
 export default {

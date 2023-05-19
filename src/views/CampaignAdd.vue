@@ -117,7 +117,7 @@ const defaultData = () => {
     rewardedActivityValidation: null,
     announcementFormValidation: null,
   };
-}
+};
 
 export default {
   components: {

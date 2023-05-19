@@ -282,8 +282,7 @@ export default {
         }
       );
       campaignDto.activities.forEach((rewardedActivityDto) => {
-        const rewardedActivity =
-          RewardedActivity.fromDto(rewardedActivityDto);
+        const rewardedActivity = RewardedActivity.fromDto(rewardedActivityDto);
 
         rewardedActivity.campaign = campaignDto.id;
 
