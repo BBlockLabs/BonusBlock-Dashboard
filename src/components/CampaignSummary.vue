@@ -4,16 +4,21 @@
       <h1 class="m-0"><b>Campaign Summary</b></h1>
     </el-col>
 
-    <el-col
-      v-if="
-        campaignStatus === CampaignStatus.DRAFT
-        || campaignStatus === CampaignStatus.CANCELLED
-      "
-      :span="-1"
-    >
-      <el-button round @click="deleteCampaign"> Delete </el-button>
+    <el-col :span="-1">
+      <el-button
+        v-if="campaignStatus === CampaignStatus.DRAFT"
+        round
+        @click="deleteCampaign"
+      >
+        Delete
+      </el-button>
 
-      <el-button type="primary" round @click="saveToDraft">
+      <el-button
+        v-if="campaignStatus !== CampaignStatus.DRAFT"
+        type="primary"
+        round
+        @click="saveToDraft"
+      >
         Save as Draft
       </el-button>
     </el-col>
