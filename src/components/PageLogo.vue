@@ -1,13 +1,11 @@
 <template>
   <div class="d-flex logo">
     <logo class="logo-icon" />
-
-    <span v-if="!small" class="logo-text ml-3"> BonusBlock NETWORK </span>
   </div>
 </template>
 
 <script>
-import Logo from "@/assets/alter/logo-flat.svg";
+import Logo from "@/assets/alter/Banner.svg";
 
 export default {
   components: {
@@ -32,7 +30,7 @@ export default {
   color: EPFunctions.getCssVar("color", "primary");
   margin-top: auto;
   margin-bottom: auto;
-  height: 32px;
+  width: 6em;
 }
 
 .logo-text {
