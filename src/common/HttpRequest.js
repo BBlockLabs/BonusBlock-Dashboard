@@ -4,6 +4,7 @@ import UserSessionDto from "@/common/dto/UserSessionDto.js";
 import { HttpResponse } from "@/common/HttpResponse.js";
 import store from "@/state/store";
 import Toast from "@/mixins/Toast.js";
+import router from "@/router/router-config";
 
 export class HttpRequest {
   /**
@@ -41,7 +42,8 @@ export class HttpRequest {
       this.session = null;
       store.commit("Auth/setUser", null);
       store.commit("Project/setProject", null);
-      Toast.methods.Toast("Session timeout", "", "warning");
+      Toast.methods.Toast("Session expired", "", "warning");
+      await router.push("/");
     }
 
     if (!response.ok && response.status !== 400) {

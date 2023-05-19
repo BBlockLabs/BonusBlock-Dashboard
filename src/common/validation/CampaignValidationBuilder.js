@@ -1,15 +1,8 @@
-import {
-  numeric,
-  integer,
-  required,
-  between,
-  minLength,
-  maxLength,
-  minValue,
-} from "@vuelidate/validators";
+import { between, helpers, integer, maxLength, minLength, minValue, numeric, required } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import ValidationBuilder from "@/common/validation/ValidationBuilder.js";
 import store from "@/state/store.js";
+import moment from "moment";
 
 export default class CampaignValidationBuilder extends ValidationBuilder {
   static validationRules = {
@@ -71,10 +64,22 @@ export default class CampaignValidationBuilder extends ValidationBuilder {
     timeFrame: [
       {
         required,
+        minValue: helpers.withMessage(
+          "Start date must be in the future",
+          (value) => {
+            return value > new Date();
+          }
+        )
       },
       {
         required,
-      },
+        maxValue: helpers.withMessage(
+          "End date must be in the future and at least after a week from the start date",
+          (value, vm) => {
+            return value > new Date() && value > moment(vm[0]).add(7, 'days').toDate();
+          }
+        )
+      }
     ],
     weeklyEqualDistribution: {
       required,

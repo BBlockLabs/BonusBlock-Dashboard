@@ -1,37 +1,45 @@
 <template>
-  <el-row justify="space-between">
-    <el-col :span="-1">
-      <h1 class="m-0"><b>Your Campaigns</b></h1>
-      Here are all of your campaigns.
-    </el-col>
-
-    <el-col :span="-1">
+  <div style="height:100%; display:flex;flex-direction: column;">
+    <div style="display: flex;flex-wrap: nowrap;justify-content: space-between;align-items: center;">
+      <div><h1 style="margin: 0">Your Campaigns</h1></div>
       <router-link to="/campaign/add">
-        <el-button round type="primary"> + Create new Campaign </el-button>
+        <el-button round type="primary"> + Create new Campaign</el-button>
       </router-link>
-    </el-col>
-  </el-row>
-
-  <el-row :gutter="24">
-    <el-col
-      v-for="campaign in campaigns"
-      :key="campaign.id"
-      class="py-3"
-      :md="12"
-      :lg="8"
-      :xl="6"
-    >
-      <campaign-card :campaign-id="campaign.id" />
-    </el-col>
-  </el-row>
+    </div>
+    <div v-if="campaigns.length === 0" class="no-campaigns">
+      <div>You dont have any campaigns yet</div>
+    </div>
+    <el-row v-else :gutter="24">
+      <el-col
+        v-for="campaign in campaigns"
+        :key="campaign.id"
+        class="py-3"
+        :md="12"
+        :lg="8"
+        :xl="6"
+      >
+        <campaign-card :campaign-id="campaign.id" />
+      </el-col>
+    </el-row>
+  </div>
 </template>
+
+<style>
+.no-campaigns {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+</style>
 
 <script>
 import CampaignCard from "@/components/CampaignCard.vue";
 
 export default {
   components: {
-    CampaignCard,
+    CampaignCard
   },
   computed: {
     campaigns() {

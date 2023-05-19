@@ -29,7 +29,7 @@ export default class CampaignFormObject extends formObject {
   /**
    * @type {[Date, Date]}
    */
-  timeFrame = [moment().toDate(), moment().toDate()];
+  timeFrame = [ moment().add(1, 'hour').toDate(), moment().add(1, 'hour').add(7, 'days').add(1, 'minute').toDate()];
   /**
    * @type {string}
    */

@@ -1,5 +1,5 @@
 <template>
-  <el-input v-model="inputValue" placeholder="Amount" v-bind="$attrs">
+  <el-input v-model="inputValue" placeholder="Provide token amount" v-bind="$attrs">
     <template #prefix>
       <span class="text-secondary">
         {{ denom }}
@@ -46,7 +46,7 @@ export default {
       return this.contract?.decimalSpaces || 6;
     },
     denom() {
-      return this.contract?.currencyName || "No token";
+      return this.contract?.currencyName || "";
     },
     value() {
       if (
