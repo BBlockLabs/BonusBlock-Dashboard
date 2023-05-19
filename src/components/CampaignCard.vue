@@ -13,6 +13,12 @@
           {{ status.getLabel() }}
         </el-tag>
 
+        <delete-button
+          v-if="status === CampaignStatus.DRAFT"
+          class="mr-2"
+          @click="deleteCampaign(campaign.id)"
+        />
+
         <router-link :to="`/campaign/${campaign.id}/edit`">
           <el-button type="primary">
             {{ status === CampaignStatus.DRAFT ? "Edit" : "View" }}
@@ -73,16 +79,42 @@ import BoxWrapper from "@/components/BoxWrapper.vue";
 import { Formatter } from "@/common/Formatter.js";
 import CampaignStatus from "../common/CampaignStatus.js";
 import { toRaw } from "vue";
+import DeleteButton from "@/components/DeleteButton.vue";
+import MessageBox from "@/mixins/MessageBox.js";
 
 export default {
   components: {
+    DeleteButton,
     BoxWrapper,
   },
+  mixins: [MessageBox],
   props: {
     campaignId: {
       type: String,
       required: true,
       default: "",
+    },
+  },
+  methods: {
+    async deleteCampaign(campaignId) {
+      if (
+        await this.MessageBoxConfirm('Are you sure you want to mark this campaign as "Deleted"?', {})) {
+        const response = await this.$store.dispatch("Campaign/changeStatus", {
+          campaignId: campaignId,
+          status: CampaignStatus.DELETED,
+        });
+
+        if (!response.success) {
+          this.Toast("Failed to delete campaign", "", "error");
+          console.error(response.errors);
+
+          return false;
+        }
+
+        this.$router.push("/campaign");
+
+        return true;
+      }
     },
   },
   computed: {
