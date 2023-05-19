@@ -61,9 +61,12 @@ export default {
 
         if (
           filters.queryString &&
-          action.hash !== filters.queryString &&
-          action.hash !== `0x${filters.queryString}` &&
-          !action.name.toLowerCase().includes(filters.queryString.toLowerCase())
+          !action.name
+            .toLowerCase()
+            .includes(filters.queryString.toLowerCase()) &&
+          !`0x${action.hash}`
+            .toLowerCase()
+            .includes(filters.queryString.toLowerCase())
         ) {
           return;
         }
@@ -96,9 +99,10 @@ export default {
 
         if (
           filters.queryString &&
-          activity.hash !== filters.queryString &&
-          activity.hash !== `0x${filters.queryString}` &&
           !activity.name
+            .toLowerCase()
+            .includes(filters.queryString.toLowerCase()) &&
+          !`0x${activity.hash}`
             .toLowerCase()
             .includes(filters.queryString.toLowerCase())
         ) {

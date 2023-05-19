@@ -1,0 +1,8 @@
+@use 'element-plus/theme-chalk/src/mixins/mixins' as EPMixins;
+@use 'element-plus/theme-chalk/src/mixins/function' as EPFunctions;
+
+@include EPMixins.b(select-v2) {
+  @include EPMixins.e(input-wrapper) {
+    width: 100%;
+  }
+}

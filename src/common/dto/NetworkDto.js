@@ -18,5 +18,5 @@ export class NetworkDto {
   /**
    * @type {string}
    */
-  currencyName = ""
+  currencyName = "";
 }
