@@ -16,6 +16,7 @@ export default [
     name: "Home",
     meta: new RouteMeta({
       auth: RouteMeta.AUTH_ONLY_AUTHORIZED,
+      pagePadding: "0",
     }),
   },
   {
