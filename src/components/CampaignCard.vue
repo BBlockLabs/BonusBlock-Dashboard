@@ -14,7 +14,7 @@
         </el-tag>
 
         <router-link :to="`/campaign/${campaign.id}/edit`">
-          <el-button type="primary" round>
+          <el-button type="primary">
             {{ status === CampaignStatus.DRAFT ? "Edit" : "View" }}
           </el-button>
         </router-link>
