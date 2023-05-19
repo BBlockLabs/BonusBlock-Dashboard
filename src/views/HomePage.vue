@@ -1,23 +1,5 @@
 <template>
   <h1>Welcome, {{ $store.state.Project.currentProject?.title }}!</h1>
-  <h2>How it works?</h2>
-
-  <el-space wrap class="w-100 info-steps">
-    <div v-for="(step, i) in steps" :key="i" class="step br-base of-hidden">
-      <div class="img bg-primary-8" :class="'step' + (i + 1)" />
-
-      <el-row>
-        <el-col class="align-center step-number bg-primary-3" :span="3">
-          <h1>{{ i + 1 }}</h1>
-        </el-col>
-
-        <el-col class="step-text pl-3 d-flex align-items-center" :span="21">
-          {{ step }}
-        </el-col>
-      </el-row>
-    </div>
-  </el-space>
-
   <el-row class="w-100 premium">
     <el-col :span="14">
       <div class="premium-img"></div>
@@ -32,7 +14,20 @@
       </el-row>
     </el-col>
   </el-row>
-
+  <h2>How it works?</h2>
+  <el-space wrap class="w-100 info-steps">
+    <div v-for="(step, i) in steps" :key="i" class="step">
+      <div class="img" :class="'step' + (i + 1)"></div>
+      <el-row>
+        <el-col class="align-center step-number" :span="3">
+          <h1>{{ i + 1 }}</h1>
+        </el-col>
+        <el-col class="step-text pl-3 d-flex align-items-center" :span="21">
+          {{ step }}
+        </el-col>
+      </el-row>
+    </div>
+  </el-space>
   <h2>Kickstart with one of the things below:</h2>
   <el-space wrap fill :fill-ratio="25" class="w-100 home-panels">
     <div class="p-4">

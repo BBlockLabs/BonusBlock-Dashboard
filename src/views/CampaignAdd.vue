@@ -337,7 +337,7 @@ export default {
       switch (this.step) {
         case 1:
           if (!(await this.campaignValidation.$validate())) {
-            this.Toast("Form contains errors", null, "error");
+            this.Toast("Form contains errors", null, "error", 1500);
             this.loading = false;
 
             return false;
@@ -356,7 +356,7 @@ export default {
           break;
         case 2: {
           if (!(await this.rewardedActivityValidation.$validate())) {
-            this.Toast("Form contains errors", null, "error");
+            this.Toast("Form contains errors", null, "error", 1500);
             this.loading = false;
 
             return false;
@@ -399,7 +399,7 @@ export default {
         }
         case 3:
           if (!(await this.announcementFormValidation.$validate())) {
-            this.Toast("Form contains errors", null, "error");
+            this.Toast("Form contains errors", null, "error", 1500);
             this.loading = false;
 
             return false;

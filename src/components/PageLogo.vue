@@ -32,7 +32,7 @@ export default {
   color: EPFunctions.getCssVar("color", "primary");
   margin-top: auto;
   margin-bottom: auto;
-  height: 32px;
+  width: 6em;
 }
 
 .logo-text {
