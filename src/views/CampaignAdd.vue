@@ -102,6 +102,23 @@ import Toast from "@/mixins/Toast.js";
 import CampaignStatus from "@/common/CampaignStatus.js";
 import { toRaw } from "vue";
 
+const defaultData = () => {
+  return {
+    temporaryCampaignName: null,
+    loading: false,
+    step: 1,
+    campaign: new Campaign(),
+    announcement: new Announcement(),
+    announcementId: new Announcement(),
+    campaignFormObject: new CampaignFormObject(),
+    rewardedActivityFormObject: new RewardedActivityFormObject(),
+    announcementFormObject: new AnnouncementFormObject(),
+    campaignValidation: null,
+    rewardedActivityValidation: null,
+    announcementFormValidation: null,
+  };
+}
+
 export default {
   components: {
     AnnouncementForm,
@@ -113,23 +130,11 @@ export default {
     SvgNavArrowLeft,
   },
   mixins: [Toast, MessageBox],
-  data() {
-    return {
-      temporaryCampaignName: null,
-      loading: false,
-      step: 1,
-      campaign: new Campaign(),
-      announcement: new Announcement(),
-      announcementId: new Announcement(),
-      campaignFormObject: new CampaignFormObject(),
-      rewardedActivityFormObject: new RewardedActivityFormObject(),
-      announcementFormObject: new AnnouncementFormObject(),
-      campaignValidation: null,
-      rewardedActivityValidation: null,
-      announcementFormValidation: null,
-    };
-  },
+  data: defaultData,
   computed: {
+    id() {
+      return this.$route.params.id || null;
+    },
     status() {
       return toRaw(
         this.$store.getters["Campaign/getCampaign"](this.$route.params.id)
@@ -138,6 +143,7 @@ export default {
     },
   },
   watch: {
+    id: "setupForCampaign",
     announcementFormObject: {
       deep: true,
       handler() {
@@ -148,24 +154,29 @@ export default {
     },
   },
   created() {
-    this.$store.commit("Campaign/setDirty", false);
-    this.loadData();
-
-    this.campaignValidation = CampaignValidationBuilder.createValidation(
-      this.campaignFormObject
-    );
-
-    this.rewardedActivityValidation =
-      RewardedActivityValidationBuilder.createValidation(
-        this.rewardedActivityFormObject
-      );
-
-    this.announcementFormValidation =
-      AnnouncementFormValidationBuilder.createValidation(
-        this.announcementFormObject
-      );
+    this.setupForCampaign();
   },
   methods: {
+    setupForCampaign() {
+      this.step = 1;
+
+      this.$store.commit("Campaign/setDirty", false);
+      this.loadData();
+
+      this.campaignValidation = CampaignValidationBuilder.createValidation(
+        this.campaignFormObject
+      );
+
+      this.rewardedActivityValidation =
+        RewardedActivityValidationBuilder.createValidation(
+          this.rewardedActivityFormObject
+        );
+
+      this.announcementFormValidation =
+        AnnouncementFormValidationBuilder.createValidation(
+          this.announcementFormObject
+        );
+    },
     formChanged(formData) {
       this.temporaryCampaignName = formData.name;
     },
@@ -280,6 +291,8 @@ export default {
       this.campaignFormObject.reset();
 
       this.$store.commit("Campaign/setDirty", false);
+
+      this.Toast("Campaign saved", null, "success", 5);
 
       return true;
     },

@@ -15,11 +15,12 @@
 
       <el-button
         v-if="campaignStatus !== CampaignStatus.DRAFT"
+        v-loading="copyLoading"
         type="primary"
         round
         @click="saveToDraft"
       >
-        Save as Draft
+        Copy as Draft
       </el-button>
     </el-col>
   </el-row>
@@ -156,6 +157,11 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      copyLoading: false,
+    };
+  },
   computed: {
     CampaignStatus() {
       return CampaignStatus;
@@ -205,19 +211,30 @@ export default {
   },
   methods: {
     async saveToDraft() {
+      if (this.copyLoading) {
+        return;
+      }
+
+      this.copyLoading = true;
+
       const response = await this.$store.dispatch(
-        "Campaign/storeCampaign",
+        "Campaign/copyCampaign",
         this.campaign.id
       );
 
       if (!response.success) {
         this.Toast("Failed to save campaign", "", "error");
         console.error(response.errors);
+        this.copyLoading = false;
 
-        return false;
+        return;
       }
 
-      return true;
+      this.Toast("Campaign copied", null, "success");
+
+      this.$router.push(`/campaign/${response.data}/edit`);
+
+      this.copyLoading = false;
     },
     async deleteCampaign() {
       const response = await this.$store.dispatch("Campaign/changeStatus", {

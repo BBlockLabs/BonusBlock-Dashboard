@@ -98,6 +98,24 @@ export default {
     },
   },
   actions: {
+    async copyCampaign({ dispatch }, campaignId) {
+      const response = await HttpRequest.makeRequest(
+        `campaign/${campaignId}/copy`
+      );
+
+      if (!response.success) {
+        return new ActionResponse(false, null, response.errors);
+      }
+
+      /**
+       * @type {CampaignDto}
+       */
+      const payload = response.payload;
+
+      dispatch("saveCampaignDto", payload);
+
+      return new ActionResponse(true, payload.id || payload.campaignId);
+    },
     /**
      * @param getters
      * @param commit
@@ -144,7 +162,7 @@ export default {
 
       return new ActionResponse(true, null);
     },
-    async loadCampaigns({ commit, rootGetters }) {
+    async loadCampaigns({ dispatch }) {
       const response = await HttpRequest.makeRequest("campaign/list");
 
       if (!response.success) {
@@ -156,80 +174,7 @@ export default {
        */
       const payload = response.payload;
 
-      payload.forEach((campaignDto) => {
-        if (campaignDto.rewardPool) {
-          const contract = Contract.fromDto(campaignDto.rewardPool);
-          const fee = Fee.fromDto(campaignDto.rewardPool.fee);
-
-          fee.contract = contract.id;
-
-          commit("Contract/setContract", contract, { root: true });
-          commit("Fee/setFee", fee, { root: true });
-        }
-
-        if (campaignDto.network) {
-          commit("Network/setNetwork", Network.fromDto(campaignDto.network), {
-            root: true,
-          });
-        }
-
-        if (campaignDto.product) {
-          commit("Product/setProduct", Product.fromDto(campaignDto.product), {
-            root: true,
-          });
-        }
-
-        campaignDto.categories.forEach((categoryDto) => {
-          commit("Category/setCategory", Category.fromDto(categoryDto), {
-            root: true,
-          });
-        });
-
-        if (campaignDto.payment !== null) {
-          const payment = Payment.fromDto(campaignDto.payment);
-          const fee = Fee.fromDto(campaignDto.payment.fee);
-
-          payment.campaignId = campaignDto.id;
-          fee.payment = payment.id;
-
-          commit("Payment/setPayment", payment, { root: true });
-          commit("Fee/setFee", fee, { root: true });
-        }
-
-        rootGetters["RewardedActivity/getByCampaign"](campaignDto.id).forEach(
-          ({ id }) => {
-            commit("RewardedActivity/removeRewardedActivity", id, {
-              root: true,
-            });
-          }
-        );
-        campaignDto.activities.forEach((rewardedActivityDto) => {
-          const rewardedActivity =
-            RewardedActivity.fromDto(rewardedActivityDto);
-
-          rewardedActivity.campaign = campaignDto.id;
-
-          commit(
-            "Activity/setActivity",
-            Activity.fromDto(rewardedActivityDto.productActivity),
-            { root: true }
-          );
-
-          if (rewardedActivityDto.productActivityAction !== null) {
-            commit(
-              "Activity/setAction",
-              Action.fromDto(rewardedActivityDto.productActivityAction),
-              { root: true }
-            );
-          }
-
-          commit("RewardedActivity/setRewardedActivity", rewardedActivity, {
-            root: true,
-          });
-        });
-
-        commit("setCampaign", Campaign.fromDto(campaignDto));
-      });
+      payload.forEach((dto) => dispatch("saveCampaignDto", dto));
 
       return new ActionResponse(false, null, response.errors);
     },
@@ -282,6 +227,86 @@ export default {
       }
 
       return new ActionResponse(true, campaign.id);
+    },
+    /**
+     * @param commit
+     * @param rootGetters
+     * @param {CampaignDto} campaignDto
+     * @return {Promise<void>}
+     */
+    async saveCampaignDto({ commit, rootGetters }, campaignDto) {
+      if (campaignDto.rewardPool) {
+        const contract = Contract.fromDto(campaignDto.rewardPool);
+        const fee = Fee.fromDto(campaignDto.rewardPool.fee);
+
+        fee.contract = contract.id;
+
+        commit("Contract/setContract", contract, { root: true });
+        commit("Fee/setFee", fee, { root: true });
+      }
+
+      if (campaignDto.network) {
+        commit("Network/setNetwork", Network.fromDto(campaignDto.network), {
+          root: true,
+        });
+      }
+
+      if (campaignDto.product) {
+        commit("Product/setProduct", Product.fromDto(campaignDto.product), {
+          root: true,
+        });
+      }
+
+      campaignDto.categories.forEach((categoryDto) => {
+        commit("Category/setCategory", Category.fromDto(categoryDto), {
+          root: true,
+        });
+      });
+
+      if (campaignDto.payment !== null) {
+        const payment = Payment.fromDto(campaignDto.payment);
+        const fee = Fee.fromDto(campaignDto.payment.fee);
+
+        payment.campaignId = campaignDto.id;
+        fee.payment = payment.id;
+
+        commit("Payment/setPayment", payment, { root: true });
+        commit("Fee/setFee", fee, { root: true });
+      }
+
+      rootGetters["RewardedActivity/getByCampaign"](campaignDto.id).forEach(
+        ({ id }) => {
+          commit("RewardedActivity/removeRewardedActivity", id, {
+            root: true,
+          });
+        }
+      );
+      campaignDto.activities.forEach((rewardedActivityDto) => {
+        const rewardedActivity =
+          RewardedActivity.fromDto(rewardedActivityDto);
+
+        rewardedActivity.campaign = campaignDto.id;
+
+        commit(
+          "Activity/setActivity",
+          Activity.fromDto(rewardedActivityDto.productActivity),
+          { root: true }
+        );
+
+        if (rewardedActivityDto.productActivityAction !== null) {
+          commit(
+            "Activity/setAction",
+            Action.fromDto(rewardedActivityDto.productActivityAction),
+            { root: true }
+          );
+        }
+
+        commit("RewardedActivity/setRewardedActivity", rewardedActivity, {
+          root: true,
+        });
+      });
+
+      commit("setCampaign", Campaign.fromDto(campaignDto));
     },
   },
 };
