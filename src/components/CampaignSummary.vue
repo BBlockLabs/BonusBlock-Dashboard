@@ -223,7 +223,7 @@ export default {
       );
 
       if (!response.success) {
-        this.Toast("Failed to save campaign", "", "error");
+        this.Toast("Failed to save campaign", "", "error", 1500);
         console.error(response.errors);
         this.copyLoading = false;
 

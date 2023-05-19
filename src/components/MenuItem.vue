@@ -5,7 +5,7 @@
     </el-icon>
 
     <template #title>
-      {{ name }}
+      <strong>{{ name }}</strong>
     </template>
   </el-menu-item>
 
@@ -15,9 +15,7 @@
         <component :is="currentRoute.icon" />
       </el-icon>
 
-      <span>
-        {{ name }}
-      </span>
+      <strong>{{ name }}</strong>
     </template>
 
     <menu-item

@@ -22,7 +22,7 @@
           Campaign Period, date & time (UTC+2)
           <el-tooltip
             effect="light"
-            content="Prompts info"
+            content="Campaign overall period, users' activity will be calculated in this timeframe"
             placement="top-start"
             :offset="-20"
           >
@@ -33,6 +33,7 @@
         </label>
         <el-row>
           <el-date-picker
+            :disabled-date="pickerDisableDatesInPast"
             v-model="campaignFormObject.timeFrame"
             format="YYYY/MM/DD HH:mm"
             type="datetimerange"
@@ -59,7 +60,7 @@
                   Reward Pool
                   <el-tooltip
                     effect="light"
-                    content="Prompts info"
+                    content="Smart Contract to be used for reward distribution"
                     placement="top-start"
                     :offset="-20"
                   >
@@ -92,7 +93,7 @@
                   Reward Pool Token amount
                   <el-tooltip
                     effect="light"
-                    content="Prompts info"
+                    content="Total amount of reward to be distributed during the campaign"
                     placement="top-start"
                     :offset="-20"
                   >
@@ -189,7 +190,7 @@
         Minimum reward per user
         <el-tooltip
           effect="light"
-          content="Prompts info"
+          content="Guaranteed reward amount that each eligible user will receive"
           placement="top-start"
           :offset="-50"
         >
@@ -219,7 +220,7 @@
         Maximum reward per user
         <el-tooltip
           effect="light"
-          content="Prompts info"
+          content="Maximal reward amount that each eligible user will receive"
           placement="top-start"
           :offset="-50"
         >
@@ -248,9 +249,28 @@
               validate['expectedReturnOfInvestment']
             )
           "
-          label="Expected CAC"
         >
-          <el-input v-model="campaignFormObject.expectedReturnOfInvestment" />
+          <label class="el-form-item__label">
+            Expected CAC
+            <el-tooltip
+              effect="light"
+              content="Expected Customer Acquisition Cost"
+              placement="top-start"
+              :offset="-50"
+            >
+              <el-icon class="tooltip-icon">
+                <info-filled />
+              </el-icon>
+            </el-tooltip>
+          </label>
+          <el-input v-model="campaignFormObject.expectedReturnOfInvestment">
+            <template #prefix>
+              <span class="text-secondary">
+                $
+              </span>
+              &nbsp;
+            </template>
+          </el-input>
         </el-form-item>
       </el-col>
 
@@ -291,6 +311,7 @@ import ValidationHelper from "@/common/validation/ValidationHelper.js";
 import ContractSelectField from "@/components/ContractSelectField.vue";
 import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
 import TokenInput from "@/components/TokenInput.vue";
+import moment from "moment";
 
 export default {
   components: {
@@ -315,6 +336,11 @@ export default {
     return {
       campaignFormObject: this.modelValue,
     };
+  },
+  methods: {
+    pickerDisableDatesInPast(date) {
+      return !moment().isSameOrBefore(date, 'day');
+    },
   },
   computed: {
     ValidationHelper: () => ValidationHelper,

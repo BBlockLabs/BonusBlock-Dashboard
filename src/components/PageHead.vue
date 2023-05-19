@@ -61,6 +61,7 @@ import NavigationList from "@/common/Navigation";
 import MenuItem from "@/components/MenuItem.vue";
 import Avatar from "@/components/AvatarImage.vue";
 import { GitCompare } from "iconoir-vue";
+import Toast from "@/mixins/Toast.js";
 
 export default {
   components: {
@@ -112,7 +113,7 @@ export default {
   methods: {
     async loggedOut() {
       await this.$store.dispatch("Auth/logout");
-
+      Toast.methods.Toast("Logged out", "", "success");
       this.$router.push("/login");
     },
   },
