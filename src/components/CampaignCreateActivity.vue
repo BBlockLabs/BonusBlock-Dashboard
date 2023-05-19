@@ -110,6 +110,19 @@ export default {
     },
   },
   watch: {
+    "campaignFormObject.product"(productId) {
+      if (!productId) {
+        return;
+      }
+
+      const product = this.$store.getters["Product/getProduct"](productId);
+
+      if (product === null) {
+        return;
+      }
+
+      this.campaignFormObject.categories = product.categories;
+    },
     modelValue() {
       this.rewardedActivityFormObject = this.modelValue;
     },
