@@ -28,4 +28,8 @@ export default class ContractDto {
    * @type {string}
    */
   title = "";
+  /**
+   * @type {string}
+   */
+  currencyName = "";
 }

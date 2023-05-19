@@ -28,6 +28,11 @@ export default class Contract extends Model {
   title;
 
   /**
+   * @type {string}
+   */
+  currencyName;
+
+  /**
    * @param {string} denom
    * @return {string}
    */
@@ -51,6 +56,7 @@ export default class Contract extends Model {
     contract.decimalSpaces = dto.decimal;
     contract.denom = this.fancyDenom(dto.denom);
     contract.title = dto.title;
+    contract.currencyName = dto.currencyName;
 
     return contract;
   }

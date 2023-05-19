@@ -17,11 +17,6 @@ export default class Network extends Model {
   decimal = 0;
 
   /**
-   * @type {string}
-   */
-  currencyName;
-
-  /**
    * @param {NetworkDto} networkDto
    * @return {Network}
    */
@@ -32,7 +27,6 @@ export default class Network extends Model {
     network.name = networkDto.name;
     network.denom = networkDto.denom;
     network.decimal = networkDto.decimal;
-    network.currencyName = networkDto.currencyName;
 
     return network;
   }

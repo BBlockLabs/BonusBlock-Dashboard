@@ -17,7 +17,7 @@ export class Formatter {
       precision
     );
 
-    return `${numberString} ${contract.denom}`;
+    return `${numberString} ${contract.currencyName}`;
   }
 
   /**
