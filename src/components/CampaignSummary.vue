@@ -123,12 +123,8 @@
 
       <el-col :span="-1">
         <delete-button
-          @click="
-            $store.commit(
-              'RewardedActivity/removeRewardedActivity',
-              rewardedActivity.id
-            )
-          "
+          v-if="campaignStatus === CampaignStatus.DRAFT"
+          @click="confirmActivityDeletion(rewardedActivity.id)"
         />
       </el-col>
     </el-row>
@@ -144,13 +140,14 @@ import moment from "moment";
 import { Formatter } from "@/common/Formatter.js";
 import { toRaw } from "vue";
 import CampaignStatus from "@/common/CampaignStatus.js";
+import MessageBox from "@/mixins/MessageBox.js";
 
 export default {
   components: {
     BoxWrapper,
     DeleteButton,
   },
-  mixins: [Toast],
+  mixins: [Toast, MessageBox],
   props: {
     campaignId: {
       type: String,
@@ -210,6 +207,16 @@ export default {
     },
   },
   methods: {
+    async confirmActivityDeletion(id) {
+      if (
+        await this.MessageBoxConfirm(
+          "Are you sure you want to delete this activity?",
+          {}
+        )
+      ) {
+        this.$store.commit("RewardedActivity/removeRewardedActivity", id);
+      }
+    },
     async saveToDraft() {
       if (this.copyLoading) {
         return;
@@ -248,8 +255,6 @@ export default {
 
         return false;
       }
-
-      this.$router.push("/campaign");
 
       return true;
     },
