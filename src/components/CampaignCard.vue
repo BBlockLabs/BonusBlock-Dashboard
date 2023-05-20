@@ -29,8 +29,7 @@
           class="mr-2"
           @click="deleteCampaign(campaign.id)"
         />
-
-        <router-link :to="`/campaign/${campaign.id}/edit`">
+        <router-link :to='status === CampaignStatus.PAID || status === CampaignStatus.RUNNING || status === CampaignStatus.ENDED ? `/campaign/${campaign.id}/analytics` : `/campaign/${campaign.id}/edit`'>
           <el-button type="primary">
             {{ status === CampaignStatus.DRAFT ? "Edit" : "View" }}
           </el-button>

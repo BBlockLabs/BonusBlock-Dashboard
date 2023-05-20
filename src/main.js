@@ -12,6 +12,7 @@ import router from "./router/router-config";
 import App from "@/App.vue";
 import DebugWrapper from "@/components/DebugWrapper.vue";
 import mq from "./common/mq";
+import VueApexCharts from "vue3-apexcharts";
 
 import "@/design/index.scss";
 
@@ -27,6 +28,7 @@ app.use(VueAxios, { $http: axios });
 app.use(router);
 app.use(mq);
 app.use(ElementPlus);
+app.use(VueApexCharts);
 
 // Add $id method for component specific unique ids
 app.use((app) => {

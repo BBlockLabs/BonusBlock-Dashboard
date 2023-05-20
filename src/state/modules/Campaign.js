@@ -163,6 +163,27 @@ export default {
 
       return new ActionResponse(true, null);
     },
+    async loadCampaignAnalyticsInteractions({  }, { campaignId, data }) {
+      const response = await HttpRequest.makeRequest(
+        `campaign/${campaignId}/analytics/interactions`,
+        data
+      );
+
+      if (!response.success) {
+        return new ActionResponse(false, null, response.errors);
+      }
+      return new ActionResponse(true, response.payload);
+    },
+    async loadCampaignAnalytics({ }, campaignId) {
+      const response = await HttpRequest.makeRequest(
+        `campaign/${campaignId}/analytics`
+      );
+
+      if (!response.success) {
+        return new ActionResponse(false, null, response.errors);
+      }
+      return new ActionResponse(true, response.payload);
+    },
     async loadCampaigns({ dispatch }) {
       const response = await HttpRequest.makeRequest("campaign/list");
 
