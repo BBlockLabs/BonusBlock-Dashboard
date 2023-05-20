@@ -43,21 +43,11 @@
           />
 
           <div v-if="step === 2">
-            <el-row>
-              <el-col>
-                <campaign-create-activity
-                  v-model:campaign="campaignFormObject"
-                  v-model="rewardedActivityFormObject"
-                  :validation="rewardedActivityValidation"
-                />
-              </el-col>
-
-              <el-col v-if="rewardedActivityFormObject.action" class="d-flex">
-                <el-button class="ml-auto" round @click="clearRewardedActivity">
-                  Clear
-                </el-button>
-              </el-col>
-            </el-row>
+            <campaign-create-activity
+              v-model:campaign="campaignFormObject"
+              v-model="rewardedActivityFormObject"
+              :validation="rewardedActivityValidation"
+            />
           </div>
 
           <announcement-form
@@ -286,16 +276,6 @@ export default {
       this.announcement = announcements[0];
       this.announcementFormObject.setValuesFromAnnouncement(this.announcement);
       this.announcementFormObject.reset();
-    },
-    clearRewardedActivity() {
-      this.rewardedActivityFormObject.minimumTransactionLimit = "0";
-      this.rewardedActivityFormObject.minimumTransactionCount = 0;
-      this.rewardedActivityFormObject.activity = null;
-      this.rewardedActivityFormObject.action = null;
-      this.rewardedActivityFormObject.activityAction = null;
-      this.rewardedActivityFormObject.type = null;
-
-      this.rewardedActivityValidation.$reset();
     },
     async storeCampaign() {
       this.campaignFormObject.setCampaignValues(this.campaign);

@@ -28,6 +28,16 @@
       v-model:activity-form="rewardedActivityFormObject"
       v-model:campaign-form="campaignFormObject"
     />
+
+    <div class="d-flex">
+      <el-button
+        v-if="rewardedActivityFormObject.activity || campaignFormObject.product"
+        class="ml-auto mt-2"
+        @click="clear"
+      >
+        Clear
+      </el-button>
+    </div>
   </el-form>
 
   <debug-wrapper>{{ campaignFormObject }}</debug-wrapper>
@@ -145,9 +155,7 @@ export default {
     }
   },
   methods: {
-    changeAdvanced(advanced) {
-      this.advanced = advanced;
-
+    clear() {
       this.rewardedActivityFormObject.activity = null;
       this.rewardedActivityFormObject.action = null;
       this.rewardedActivityFormObject.type = null;
@@ -156,6 +164,13 @@ export default {
       this.rewardedActivityFormObject.activityAction = this.advanced
         ? ActivityAction.INTERACT
         : ActivityAction.SWAP;
+
+      this.campaignFormObject.product = null;
+    },
+    changeAdvanced(advanced) {
+      this.advanced = advanced;
+
+      this.clear();
     },
   },
 };
