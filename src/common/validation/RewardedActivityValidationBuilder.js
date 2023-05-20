@@ -1,4 +1,4 @@
-import { integer, required, minValue } from "@vuelidate/validators";
+import { integer, required, minValue, helpers } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import ValidationBuilder from "@/common/validation/ValidationBuilder.js";
 import ActivityType from "@/common/ActivityType.js";
@@ -10,7 +10,18 @@ export default class RewardedActivityValidationBuilder extends ValidationBuilder
     activity: {
       required,
     },
-    action: {},
+    action: {
+      requiredIfInteract: helpers.withMessage(
+        required.$message,
+        (value, object) => {
+          if (toRaw(object.activityAction) !== ActivityAction.INTERACT) {
+            return true;
+          }
+
+          return !!value;
+        }
+      ),
+    },
     minimumTransactionLimit: {
       integer,
       minValue: new minValue(0),

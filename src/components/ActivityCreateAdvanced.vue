@@ -4,8 +4,17 @@
 
     <el-row :gutter="12">
       <el-col :md="12">
-        <el-form-item label="Select Action">
-          <activity-action-select v-model="action" disabled class="w-100" />
+        <el-form-item
+          label="Select Action"
+          v-bind="
+            ValidationHelper.getFormItemErrorAttributes(validate['action'])
+          "
+        >
+          <activity-action-select
+            v-model="activity.activityAction"
+            disabled
+            class="w-100"
+          />
         </el-form-item>
       </el-col>
 
@@ -16,7 +25,10 @@
       </el-col>
     </el-row>
 
-    <el-form-item label="Smart Contract address or name">
+    <el-form-item
+      label="Smart Contract address or name"
+      v-bind="ValidationHelper.getFormItemErrorAttributes(validate['activity'])"
+    >
       <activity-select-field
         v-model="activity.activity"
         :network-id="campaign.network"
@@ -36,7 +48,10 @@
   <box-wrapper v-if="activity.activity">
     <h2><b>Create activities</b></h2>
 
-    <el-form-item label="Action">
+    <el-form-item
+      label="Action"
+      v-bind="ValidationHelper.getFormItemErrorAttributes(validate['action'])"
+    >
       <el-input v-model="actionSearch" />
     </el-form-item>
 
@@ -57,12 +72,13 @@ import CategorySelectField from "@/components/CategorySelectField.vue";
 import ActivityActionSelect from "@/components/ActivityActionSelect.vue";
 import ActivitySelectField from "@/components/ActivitySelectField.vue";
 import ActionPicker from "@/components/ActionPicker.vue";
+import ValidationHelper from "@/common/validation/ValidationHelper.js";
 </script>
 
 <script>
-import ActivityAction from "@/common/ActivityAction.js";
 import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
 import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
+import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
 
 export default {
   props: {
@@ -74,6 +90,10 @@ export default {
       type: RewardedActivityFormObject,
       default: new RewardedActivityFormObject(),
     },
+    validation: {
+      type: Object,
+      default: () => null,
+    },
   },
   emits: ["update:campaignForm"],
   data() {
@@ -81,8 +101,22 @@ export default {
       actionSearch: "",
       campaign: this.campaignForm,
       activity: this.activityForm,
-      action: ActivityAction.INTERACT,
     };
+  },
+  computed: {
+    validate() {
+      if (this.validation) {
+        return this.validation;
+      }
+
+      const validation = RewardedActivityValidationBuilder.createValidation(
+        this.activity
+      );
+
+      validation.$lazy = true;
+
+      return validation;
+    },
   },
   watch: {
     campaignForm: {

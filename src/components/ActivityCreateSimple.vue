@@ -32,7 +32,12 @@
   <box-wrapper v-if="campaign.product">
     <h2>Create activity</h2>
 
-    <el-form-item label="Select Action">
+    <el-form-item
+      label="Select Action"
+      v-bind="
+        ValidationHelper.getFormItemErrorAttributes(validate['activityAction'])
+      "
+    >
       <activity-action-select
         v-model="activity.activityAction"
         disabled
@@ -50,7 +55,12 @@
       </el-form-item>
 
       <div v-if="activity.type !== null">
-        <el-form-item :label="activity.type.getLabel()">
+        <el-form-item
+          v-bind="
+            ValidationHelper.getFormItemErrorAttributes(validate['activity'])
+          "
+          :label="activity.type.getLabel()"
+        >
           <el-input
             v-model="filterString"
             placeholder="Search for activity"
@@ -89,12 +99,14 @@ import CategorySelectField from "@/components/CategorySelectField.vue";
 import NetworkSelectField from "@/components/NetworkSelectField.vue";
 import ProductSelectField from "@/components/ProductSelectField.vue";
 import TokenInput from "@/components/TokenInput.vue";
+import ValidationHelper from "@/common/validation/ValidationHelper.js";
 </script>
 
 <script>
 import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
 import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
 import ProductFilters from "@/common/Http/ProductFilters.js";
+import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
 
 export default {
   props: {
@@ -105,6 +117,10 @@ export default {
     activityForm: {
       type: RewardedActivityFormObject,
       default: new RewardedActivityFormObject(),
+    },
+    validation: {
+      type: Object,
+      default: () => null,
     },
   },
   emits: ["update:campaignForm"],
@@ -119,6 +135,19 @@ export default {
     productSelectFilter() {
       const networkIds = this.campaign.network ? [this.campaign.network] : [];
       return new ProductFilters([], networkIds);
+    },
+    validate() {
+      if (this.validation) {
+        return this.validation;
+      }
+
+      const validation = RewardedActivityValidationBuilder.createValidation(
+        this.activity
+      );
+
+      validation.$lazy = true;
+
+      return validation;
     },
   },
   watch: {

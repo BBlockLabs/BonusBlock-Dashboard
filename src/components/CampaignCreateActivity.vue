@@ -21,12 +21,14 @@
       v-if="!advanced"
       v-model:activity-form="rewardedActivityFormObject"
       v-model:campaign-form="campaignFormObject"
+      :validation="validate"
     />
 
     <activity-create-advanced
       v-if="advanced"
       v-model:activity-form="rewardedActivityFormObject"
       v-model:campaign-form="campaignFormObject"
+      :validation="validate"
     />
 
     <div class="d-flex">
@@ -42,6 +44,7 @@
 
   <debug-wrapper>{{ campaignFormObject }}</debug-wrapper>
   <debug-wrapper>{{ rewardedActivityFormObject }}</debug-wrapper>
+  <debug-wrapper>{{ validate }}</debug-wrapper>
 </template>
 
 <script>
