@@ -162,6 +162,9 @@ export default {
             hideOverlappingLabels: true,
             }
         },
+        dataLabels: {
+          enabled: false
+        },
         plotOptions: {
           bar: {
             borderRadius: 5,
