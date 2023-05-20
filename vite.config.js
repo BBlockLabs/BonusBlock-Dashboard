@@ -21,7 +21,7 @@ export default defineConfig({
       minify: true,
       entry: process.platform === "linux"
         ? path.resolve("src/main.js")
-        : 'src/main.js',
+        : '/src/main.js',
       template: "./public/index.html",
       inject: {
         data: {
