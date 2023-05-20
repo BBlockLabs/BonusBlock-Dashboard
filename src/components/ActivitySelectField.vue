@@ -8,7 +8,17 @@
     :options="options"
     :loading="loading"
     placeholder="Please enter a keyword"
-  />
+  >
+    <template #default="{ item }">
+      <div class="d-flex">
+        <span>{{ item.label || item.hash }}</span>
+
+        <span class="text-secondary ml-auto">
+          {{ item.hash }}
+        </span>
+      </div>
+    </template>
+  </el-select-v2>
 </template>
 
 <script>
@@ -58,7 +68,8 @@ export default {
 
       this.options = activities.map((activity) => ({
         value: activity.id,
-        label: activity.name || activity.hash,
+        hash: "0x" + activity.hash.replace('0x', ''),
+        label: activity.name,
       }));
 
       this.loading = false;

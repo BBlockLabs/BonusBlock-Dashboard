@@ -12,7 +12,17 @@
     :options="options"
     placeholder="Please enter a keyword"
     @blur="filterString = ''"
-  />
+  >
+    <template #default="{ item }">
+      <div class="d-flex">
+        <span>{{ item.label }}</span>
+
+        <span class="text-secondary ml-auto">
+          {{ item.address }}
+        </span>
+      </div>
+    </template>
+  </el-select-v2>
 </template>
 
 <script>
@@ -31,6 +41,7 @@ export default {
         this.filterString
       ).map((contract) => ({
         label: contract.title,
+        address: contract.address,
         value: contract.id,
       }));
     },
