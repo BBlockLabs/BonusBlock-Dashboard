@@ -76,6 +76,8 @@ export default {
     async setFileUrl() {
       if (!this.value) {
         this.fileUrl = null;
+
+        return;
       }
 
       this.fileUrl = await FileParser.fileToBase64(this.value);
