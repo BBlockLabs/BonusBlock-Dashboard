@@ -23,6 +23,13 @@
         >
           <strong>ACTIVE</strong>
         </el-tag>
+        <el-tag
+          v-if="status === CampaignStatus.PAID && now.isAfter(campaign.timeFrameTill)"
+          class="mr-1"
+          type="success"
+        >
+          <strong>FINISHED</strong>
+        </el-tag>
 
         <delete-button
           v-if="status === CampaignStatus.DRAFT"

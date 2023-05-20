@@ -101,9 +101,9 @@ import SvgTelegram from "@/assets/icons/telegram.svg?component";
 import SvgReddit from "@/assets/icons/reddit.svg?component";
 import SvgDiscord from "@/assets/icons/discord.svg?component";
 import SvgYoutube from "@/assets/icons/youtube.svg?component";
-import SvgWebsite from "@/assets/icons/globe.svg?component";
-import SvgNewsletter from "@/assets/icons/mail.svg?component";
-import SvgBlog from "@/assets/icons/notes.svg?component";
+import SvgWebsite from "@/assets/icons/website.svg?component";
+import SvgNewsletter from "@/assets/icons/newsletter.svg?component";
+import SvgBlog from "@/assets/icons/blog.svg?component";
 import { defineProps } from "vue";
 
 export interface Props {
