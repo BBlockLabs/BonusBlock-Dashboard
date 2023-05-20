@@ -68,7 +68,7 @@ export default {
 
       this.options = activities.map((activity) => ({
         value: activity.id,
-        hash: "0x" + activity.hash.replace('0x', ''),
+        hash: "0x" + activity.hash.replace("0x", ""),
         label: activity.name,
       }));
 

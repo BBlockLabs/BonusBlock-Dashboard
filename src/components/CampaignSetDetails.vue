@@ -33,8 +33,8 @@
         </label>
         <el-row>
           <el-date-picker
-            :disabled-date="pickerDisableDatesInPast"
             v-model="campaignFormObject.timeFrame"
+            :disabled-date="pickerDisableDatesInPast"
             format="YYYY/MM/DD HH:mm"
             type="datetimerange"
           />
@@ -265,9 +265,7 @@
           </label>
           <el-input v-model="campaignFormObject.expectedReturnOfInvestment">
             <template #prefix>
-              <span class="text-secondary">
-                $
-              </span>
+              <span class="text-secondary"> $ </span>
               &nbsp;
             </template>
           </el-input>
@@ -337,11 +335,6 @@ export default {
       campaignFormObject: this.modelValue,
     };
   },
-  methods: {
-    pickerDisableDatesInPast(date) {
-      return !moment().isSameOrBefore(date, 'day');
-    },
-  },
   computed: {
     ValidationHelper: () => ValidationHelper,
     contract() {
@@ -376,6 +369,11 @@ export default {
       handler() {
         this.$emit("update:modelValue", this.campaignFormObject);
       },
+    },
+  },
+  methods: {
+    pickerDisableDatesInPast(date) {
+      return !moment().isSameOrBefore(date, "day");
     },
   },
 };

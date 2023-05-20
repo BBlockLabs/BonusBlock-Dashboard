@@ -1,5 +1,9 @@
 <template>
-  <el-input v-model="inputValue" placeholder="Provide token amount" v-bind="$attrs">
+  <el-input
+    v-model="inputValue"
+    placeholder="Provide token amount"
+    v-bind="$attrs"
+  >
     <template #prefix>
       <span class="text-secondary">
         {{ denom }}

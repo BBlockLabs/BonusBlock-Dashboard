@@ -1,22 +1,29 @@
 <template>
   <div style="height: 100%; display: flex; flex-direction: column">
-    <el-container class="h-100" style="padding-left:20px;">
+    <el-container class="h-100" style="padding-left: 20px">
       <el-main class="pos-relative">
         <div class="pos-absolute w-100">
-          <div style="margin-right:20px">
-            <div style="display: flex;flex-direction: row;margin-top: 20px;justify-content: space-between;">
+          <div style="margin-right: 20px">
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                margin-top: 20px;
+                justify-content: space-between;
+              "
+            >
               <div><h1 style="margin: 0">Your Campaigns</h1></div>
               <router-link to="/campaign/add">
-                <el-button round type="primary"> + Create new Campaign</el-button>
+                <el-button round type="primary">
+                  + Create new Campaign</el-button
+                >
               </router-link>
             </div>
             <div v-if="campaigns.length === 0" class="no-campaigns">
               <div>
                 <SvgEmptyBlock />
               </div>
-              <div>
-                You dont have any campaigns yet
-              </div>
+              <div>You dont have any campaigns yet</div>
             </div>
             <el-row v-else :gutter="24">
               <el-col
@@ -37,17 +44,6 @@
   </div>
 </template>
 
-<style>
-.no-campaigns {
-  display: flex;
-  flex-grow: 1;
-  font-size: 1.3em;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-</style>
-
 <script>
 import CampaignCard from "@/components/CampaignCard.vue";
 import SvgEmptyBlock from "@/assets/icons/empty-block-wireframe.svg";
@@ -67,3 +63,14 @@ export default {
   },
 };
 </script>
+
+<style>
+.no-campaigns {
+  display: flex;
+  flex-grow: 1;
+  font-size: 1.3em;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+</style>

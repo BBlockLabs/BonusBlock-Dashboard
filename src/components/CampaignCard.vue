@@ -13,7 +13,11 @@
           {{ status.getLabel() }}
         </el-tag>
         <el-tag
-          v-if="status === CampaignStatus.PAID && now.isAfter(campaign.timeFrameFrom) && now.isBefore(campaign.timeFrameTill)"
+          v-if="
+            status === CampaignStatus.PAID &&
+            now.isAfter(campaign.timeFrameFrom) &&
+            now.isBefore(campaign.timeFrameTill)
+          "
           class="mr-1"
           type="success"
         >
@@ -102,28 +106,6 @@ export default {
       default: "",
     },
   },
-  methods: {
-    async deleteCampaign(campaignId) {
-      if (
-        await this.MessageBoxConfirm('Are you sure you want to mark this campaign as "Deleted"?', {})) {
-        const response = await this.$store.dispatch("Campaign/changeStatus", {
-          campaignId: campaignId,
-          status: CampaignStatus.DELETED,
-        });
-
-        if (!response.success) {
-          this.Toast("Failed to delete campaign", "", "error");
-          console.error(response.errors);
-
-          return false;
-        }
-
-        this.$router.push("/campaign");
-
-        return true;
-      }
-    },
-  },
   computed: {
     status() {
       return toRaw(this.campaign.status);
@@ -135,7 +117,10 @@ export default {
       return moment();
     },
     blocks() {
-      const timeLeft = moment(this.campaign.timeFrameTill).diff(moment(), "days");
+      const timeLeft = moment(this.campaign.timeFrameTill).diff(
+        moment(),
+        "days"
+      );
 
       return [
         {
@@ -185,6 +170,32 @@ export default {
     },
     product() {
       return this.$store.getters["Product/getProduct"](this.campaign.product);
+    },
+  },
+  methods: {
+    async deleteCampaign(campaignId) {
+      if (
+        await this.MessageBoxConfirm(
+          'Are you sure you want to mark this campaign as "Deleted"?',
+          {}
+        )
+      ) {
+        const response = await this.$store.dispatch("Campaign/changeStatus", {
+          campaignId: campaignId,
+          status: CampaignStatus.DELETED,
+        });
+
+        if (!response.success) {
+          this.Toast("Failed to delete campaign", "", "error");
+          console.error(response.errors);
+
+          return false;
+        }
+
+        this.$router.push("/campaign");
+
+        return true;
+      }
     },
   },
 };

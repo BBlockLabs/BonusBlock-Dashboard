@@ -10,12 +10,15 @@
       :key="activity.id"
       :class="{ 'bt-solid': idx !== 0 }"
     >
-      <el-col class="p-3 pointer" :class="{'activity-selected' : activityValue === activity.id}">
+      <el-col
+        class="p-3 pointer"
+        :class="{ 'activity-selected': activityValue === activity.id }"
+      >
         <label class="d-flex w-100 pointer">
           <el-avatar />
           <div class="mx-2 of-hidden my-auto">
             <el-tag>ETH</el-tag>&nbsp;
-            <b>{{ activity.name || 'Unnamed' }}</b>
+            <b>{{ activity.name || "Unnamed" }}</b>
             <br />
             0x{{ activity.hash }}
           </div>
@@ -39,17 +42,6 @@
     </el-row>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.activity-selected {
-  background-color: var(--el-color-primary-light-9);
-}
-
-.activity-picker {
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-</style>
 
 <script>
 import Toast from "@/mixins/Toast.js";
@@ -172,3 +164,14 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.activity-selected {
+  background-color: var(--el-color-primary-light-9);
+}
+
+.activity-picker {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+</style>

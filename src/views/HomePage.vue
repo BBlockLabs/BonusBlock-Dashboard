@@ -1,9 +1,9 @@
 <template>
   <div style="height: 100%; display: flex; flex-direction: column">
-    <el-container class="h-100" style="padding-left:20px;">
+    <el-container class="h-100" style="padding-left: 20px">
       <el-main class="pos-relative">
         <div class="pos-absolute w-100">
-          <div style="margin-right:20px">
+          <div style="margin-right: 20px">
             <h1>Welcome, {{ $store.state.Project.currentProject?.title }}!</h1>
             <h2>Kickstart with one of the things below:</h2>
             <el-space wrap fill :fill-ratio="25" class="w-100 home-panels">
@@ -20,7 +20,11 @@
                   </el-col>
                 </el-row>
                 <el-row justify="end" class="mt-3">
-                  <el-button round type="primary" @click="$router.push('/campaign/add')">
+                  <el-button
+                    round
+                    type="primary"
+                    @click="$router.push('/campaign/add')"
+                  >
                     Create campaign
                   </el-button>
                 </el-row>
@@ -38,7 +42,9 @@
                   </el-col>
                 </el-row>
                 <el-row justify="end" class="mt-3">
-                  <el-button round type="primary" disabled>Coming soon</el-button>
+                  <el-button round type="primary" disabled
+                    >Coming soon</el-button
+                  >
                 </el-row>
               </div>
               <div class="p-4">
@@ -87,7 +93,10 @@
                   <el-col class="align-center step-number" :span="3">
                     <h1>{{ i + 1 }}</h1>
                   </el-col>
-                  <el-col class="step-text pl-3 d-flex align-items-center" :span="21">
+                  <el-col
+                    class="step-text pl-3 d-flex align-items-center"
+                    :span="21"
+                  >
                     {{ step }}
                   </el-col>
                 </el-row>
@@ -97,13 +106,18 @@
               <el-col :span="14">
                 <div class="premium-img"></div>
               </el-col>
-              <el-col :span="9" class="d-flex align-items-center justify-content-center">
+              <el-col
+                :span="9"
+                class="d-flex align-items-center justify-content-center"
+              >
                 <el-row class="flex-column">
                   <h3 class="m-0">Premium Service</h3>
 
                   <p>Quality audience versus everyone.</p>
 
-                  <el-button round size="large" type="info" disabled>Coming soon</el-button>
+                  <el-button round size="large" type="info" disabled
+                    >Coming soon</el-button
+                  >
                 </el-row>
               </el-col>
             </el-row>

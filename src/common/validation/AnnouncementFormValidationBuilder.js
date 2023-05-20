@@ -9,7 +9,7 @@ import { useVuelidate } from "@vuelidate/core";
 import ValidationBuilder from "@/common/validation/ValidationBuilder.js";
 
 const handleOrUrl = helpers.withMessage(
-  ({ $pending, $invalid, $params, $model }) => {
+  () => {
     return "Invalid value"; // TODO: add fancy messages by social type
   },
   (value, siblings) => {
