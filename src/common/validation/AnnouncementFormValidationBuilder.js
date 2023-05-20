@@ -16,7 +16,7 @@ const handleOrUrl = helpers.withMessage(
     if (siblings === undefined || siblings.type === null) {
       return true;
     } else if (siblings.type === "telegram") {
-      return value.startsWith("@");
+      return value.startsWith("@") || value.startsWith("https://");
     } else {
       return value.startsWith("https://");
     }
