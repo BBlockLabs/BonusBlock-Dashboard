@@ -257,7 +257,6 @@ export default {
           data: data
         }
       );
-      console.log(result.data.length);
       this.updateChart(result.data);
       this.chartLoading = false;
     },
