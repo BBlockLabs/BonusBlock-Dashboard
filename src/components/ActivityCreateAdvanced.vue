@@ -37,7 +37,7 @@
     <h2><b>Create activities</b></h2>
 
     <el-form-item label="Action">
-      <el-input />
+      <el-input v-model="actionSearch" />
     </el-form-item>
 
     <action-picker
@@ -45,6 +45,7 @@
       v-model:modelTrxValue="activity.minimumTransactionLimit"
       v-model:modelTrxCount="activity.minimumTransactionCount"
       :activity="activity.activity"
+      :filter-string="actionSearch"
     />
   </box-wrapper>
 </template>
@@ -77,6 +78,7 @@ export default {
   emits: ["update:campaignForm"],
   data() {
     return {
+      actionSearch: "",
       campaign: this.campaignForm,
       activity: this.activityForm,
       action: ActivityAction.INTERACT,
