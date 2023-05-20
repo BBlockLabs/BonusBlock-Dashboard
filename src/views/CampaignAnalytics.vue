@@ -98,6 +98,7 @@
                         :series="[rewardsClaimed * 100, rewardsLeft * 100]"
                         :options="{
                           labels: ['Rewards Claimed', 'Rewards Left'],
+                          colors: ['#9eca7e', '#5a6fc0'],
                           chart: { type: 'donut' },
                           legend: { position: 'bottom' },
                         }"
