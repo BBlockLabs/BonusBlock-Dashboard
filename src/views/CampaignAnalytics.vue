@@ -9,8 +9,8 @@
                 <h1 class="m-0">{{ campaign ? campaign.name : "" }} campaign Analytics</h1>
               </el-col>
               <el-col :span="-1">
-<!--                <el-button type="primary"> Export Data</el-button>-->
-                <router-link v-if="campaign" :to='`/campaign/${campaign.id}/edit`'>
+                <!--                <el-button type="primary"> Export Data</el-button>-->
+                <router-link v-if="campaign" :to="`/campaign/${campaign.id}/edit`">
                   <el-button type="primary"> Manage Campaign</el-button>
                 </router-link>
               </el-col>
@@ -40,9 +40,9 @@
                   <el-tab-pane label="Today" name="today"></el-tab-pane>
                 </el-tabs>
               </el-col>
-<!--              <el-col :span="-1">
-                <el-button class="ml-4" type="default">Set custom period</el-button>
-              </el-col>-->
+              <!--              <el-col :span="-1">
+                              <el-button class="ml-4" type="default">Set custom period</el-button>
+                            </el-col>-->
             </el-row>
             <el-row>
               <el-col v-if="interactionsSeries[0].data.length > 0" :md="12" style="min-height: 20em">
@@ -68,9 +68,10 @@
                   <div>
                     <el-card class="analytics-card mt-3" v-if="campaign">
                       <el-row class="d-flex mt-3 mb-4" style="flex-wrap: nowrap;justify-content: space-between;">
-                        <el-col :span="18"><strong style="font-size:1.2em">Rewards claimed</strong></el-col>
-                        <el-col :span="4" style="text-align: right">
-                          {{ Math.round(Number(analytics.rewardsDistributed) / Number(campaign.rewardPoolTokenCount) * 100 * 1000) / 1000 }}%
+                        <el-col :span="21"><strong style="font-size:1.2em">Rewards claimed</strong></el-col>
+                        <el-col :span="3" style="text-align: right">
+                          {{ Math.round(Number(analytics.rewardsDistributed) / Number(campaign.rewardPoolTokenCount) * 100 * 100) / 100
+                          }}%
                         </el-col>
                       </el-row>
                       <strong style="font-size: 3em">{{ rewardsClaimed }}</strong>
@@ -80,7 +81,8 @@
                       <el-row class="d-flex mt-3 mb-4" style="flex-wrap: nowrap;justify-content: space-between;">
                         <el-col :span="18"><strong style="font-size:1.2em">Rewards left</strong></el-col>
                         <el-col :span="4" style="text-align:right">
-                          {{ 100 - Math.round(Number(analytics.rewardsDistributed) / Number(campaign.rewardPoolTokenCount) * 100 * 1000) / 1000 }}%
+                          {{ 100 - Math.round(Number(analytics.rewardsDistributed) / Number(campaign.rewardPoolTokenCount) * 100 * 100) / 100
+                          }}%
                         </el-col>
                       </el-row>
                       <strong style="font-size: 3em">
@@ -89,7 +91,8 @@
                       &nbsp;<strong style="font-size: 2em">{{ campaign.rewardPoolCurrencyName }}</strong>
                     </el-card>
                   </div>
-                  <div class="mt-3 ml-3" style="flex-grow: 1;display: flex;justify-content: center;align-items: center;">
+                  <div class="mt-3 ml-3"
+                       style="flex-grow: 1;display: flex;justify-content: center;align-items: center;">
                     <div v-if="rewardsClaimed || rewardsLeft">
                       <apexchart
                         ref="rewardPoolLeftChart"
@@ -160,17 +163,17 @@ export default {
         xaxis: {
           categories: [],
           labels: {
-            hideOverlappingLabels: true,
-            }
+            hideOverlappingLabels: true
+          }
         },
         dataLabels: {
           enabled: false
         },
         plotOptions: {
           bar: {
-            borderRadius: 5,
-          },
-        },
+            borderRadius: 5
+          }
+        }
       },
       interactionsSeries: [
         {
@@ -185,11 +188,11 @@ export default {
       return Number(this.campaign.rewardPoolTokenCount) / Number(Math.pow(10, this.campaign.rewardPoolDecimal));
     },
     rewardsClaimed() {
-      return this.analytics.rewardsDistributed / Number(Math.pow(10, this.campaign.rewardPoolDecimal));
+      return Math.round(this.analytics.rewardsDistributed / Number(Math.pow(10, this.campaign.rewardPoolDecimal)) * 1000) / 1000;
     },
     rewardsLeft() {
-      return Number(this.campaign.rewardPoolTokenCount) / Number(Math.pow(10, this.campaign.rewardPoolDecimal))
-        - this.analytics.rewardsDistributed / Number(Math.pow(10, this.campaign.rewardPoolDecimal));
+      return Math.round((Number(this.campaign.rewardPoolTokenCount) / Number(Math.pow(10, this.campaign.rewardPoolDecimal))
+        - this.analytics.rewardsDistributed / Number(Math.pow(10, this.campaign.rewardPoolDecimal))) * 1000) / 1000;
     },
     campaign() {
       return this.$store.getters["Campaign/getCampaign"](this.campaignId);
@@ -221,7 +224,7 @@ export default {
         }
         await this.getCampaignInteractions(periodFrom.unix(), periodTo.unix());
       }
-    },
+    }
   },
   async created() {
     this.loading = true;
