@@ -15,7 +15,7 @@
           <el-avatar />
           <div class="mx-2 of-hidden my-auto">
             <el-tag>ETH</el-tag>&nbsp;
-            <b>{{ activity.name }}</b>
+            <b>{{ activity.name || 'Unnamed' }}</b>
             <br />
             0x{{ activity.hash }}
           </div>

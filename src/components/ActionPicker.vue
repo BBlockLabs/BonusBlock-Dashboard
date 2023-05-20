@@ -8,7 +8,7 @@
     >
       <template #title>
         <div class="p-3">
-          <b>{{ action.name }}</b>
+          <b>{{ action.name || 'Unnamed' }}</b>
           <br />
           0x{{ action.hash }}
         </div>

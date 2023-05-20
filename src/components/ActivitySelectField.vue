@@ -58,7 +58,7 @@ export default {
 
       this.options = activities.map((activity) => ({
         value: activity.id,
-        label: activity.name,
+        label: activity.name || activity.hash,
       }));
 
       this.loading = false;
