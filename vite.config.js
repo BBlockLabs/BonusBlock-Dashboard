@@ -19,7 +19,9 @@ export default defineConfig({
     }),
     createHtmlPlugin({
       minify: true,
-      entry: path.resolve("src/main.js"),
+      entry: process.platform === "linux"
+        ? path.resolve("src/main.js")
+        : 'src/main.js',
       template: "./public/index.html",
       inject: {
         data: {
