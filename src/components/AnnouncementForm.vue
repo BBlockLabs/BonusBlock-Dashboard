@@ -25,7 +25,7 @@
       <el-input
         v-model="value.description"
         type="textarea"
-        placeholder="Announcement description"
+        placeholder="Description"
       />
       <sup class="text-secondary">Max 300 Characters</sup>
     </el-form-item>
@@ -34,11 +34,8 @@
       label="SEO"
       v-bind="ValidationHelper.getFormItemErrorAttributes(validate['seo'])"
     >
-      <el-input
-        v-model="value.seo"
-        type="textarea"
-        placeholder="Announcement SEO values"
-      />
+      <el-input v-model="value.seo" type="textarea" placeholder="Description" />
+      <sup class="text-secondary">Max 55 Characters</sup>
     </el-form-item>
 
     <el-form-item

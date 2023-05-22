@@ -38,8 +38,7 @@ export default class AnnouncementFormValidationBuilder extends ValidationBuilder
       maxLength: maxLength(300),
     },
     seo: {
-      minLength: minLength(3),
-      maxLength: maxLength(20),
+      maxLength: maxLength(55),
     },
     buttonLabel: {
       required,
