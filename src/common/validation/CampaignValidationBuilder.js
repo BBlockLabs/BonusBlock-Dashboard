@@ -38,33 +38,36 @@ export default class CampaignValidationBuilder extends ValidationBuilder {
     },
     rewardPoolTokenCount: {
       required,
-      is500Dolars: (value, campaignFormObject) => {
-        const contract = store.getters["Contract/getContract"](
-          campaignFormObject.rewardPoolContract
-        );
+      is500Dolars: helpers.withMessage(
+        "Must be at minimum value of 500$",
+        (value, campaignFormObject) => {
+          const contract = store.getters["Contract/getContract"](
+            campaignFormObject.rewardPoolContract
+          );
 
-        if (contract === null) {
-          return true;
+          if (contract === null) {
+            return true;
+          }
+
+          const conversionRate = store.getters["ConversionRate/findPair"](
+            "ETH",
+            "USD"
+          );
+
+          if (conversionRate === null) {
+            return true;
+          }
+
+          const minAmount =
+            store.getters["ConversionRate/getMinRewardPoolAmount"]();
+
+          return (
+            (value * conversionRate.rate) /
+              Math.pow(10, contract.decimalSpaces) >=
+            minAmount
+          );
         }
-
-        const conversionRate = store.getters["ConversionRate/findPair"](
-          "ETH",
-          "USD"
-        );
-
-        if (conversionRate === null) {
-          return true;
-        }
-
-        const minAmount =
-          store.getters["ConversionRate/getMinRewardPoolAmount"]();
-
-        return (
-          (value * conversionRate.rate) /
-            Math.pow(10, contract.decimalSpaces) >=
-          minAmount
-        );
-      },
+      ),
     },
     timeFrame: [
       {
