@@ -30,6 +30,11 @@ export default class RewardedActivityFormObject extends formObject {
   activityAction = ActivityAction.SWAP;
 
   /**
+   * @type {boolean}
+   */
+  advanced = false;
+
+  /**
    * @param {RewardedActivity} rewardedActivity
    */
   setRewardedActivityValues(rewardedActivity) {

@@ -47,6 +47,7 @@
               v-model:campaign="campaignFormObject"
               v-model="rewardedActivityFormObject"
               :validation="rewardedActivityValidation"
+              :campaign-validation="campaignStep2Validation"
             />
           </div>
 
@@ -106,6 +107,7 @@ import SvgNavArrowLeft from "@/assets/icons/nav-arrow-left.svg";
 import Toast from "@/mixins/Toast.js";
 import CampaignStatus from "@/common/CampaignStatus.js";
 import { toRaw } from "vue";
+import CampaignStep2ValidationBuilder from "@/common/validation/CampaignStep2ValidationBuilder.js";
 
 const defaultData = () => {
   return {
@@ -119,6 +121,7 @@ const defaultData = () => {
     rewardedActivityFormObject: new RewardedActivityFormObject(),
     announcementFormObject: new AnnouncementFormObject(),
     campaignValidation: null,
+    campaignStep2Validation: null,
     rewardedActivityValidation: null,
     announcementFormValidation: null,
   };
@@ -191,6 +194,11 @@ export default {
       this.campaignValidation = CampaignValidationBuilder.createValidation(
         this.campaignFormObject
       );
+
+      this.campaignStep2Validation =
+        CampaignStep2ValidationBuilder.createValidation(
+          this.campaignFormObject
+        );
 
       this.rewardedActivityValidation =
         RewardedActivityValidationBuilder.createValidation(
@@ -370,6 +378,13 @@ export default {
 
           break;
         case 2: {
+          if (!(await this.campaignStep2Validation.$validate())) {
+            this.Toast("Form contains errors", null, "error", 1500);
+            this.loading = false;
+
+            return false;
+          }
+
           if (!(await this.rewardedActivityValidation.$validate())) {
             this.Toast("Form contains errors", null, "error", 1500);
             this.loading = false;

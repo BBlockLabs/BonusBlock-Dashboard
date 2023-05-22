@@ -4,13 +4,27 @@
 
     <el-row :gutter="12">
       <el-col :md="12">
-        <el-form-item label="Network">
+        <el-form-item
+          label="Network"
+          v-bind="
+            ValidationHelper.getFormItemErrorAttributes(
+              campaignValidation['network']
+            )
+          "
+        >
           <network-select-field v-model="campaign.network" class="w-100" />
         </el-form-item>
       </el-col>
 
       <el-col :md="12">
-        <el-form-item label="Product">
+        <el-form-item
+          label="Product"
+          v-bind="
+            ValidationHelper.getFormItemErrorAttributes(
+              campaignValidation['product']
+            )
+          "
+        >
           <product-select-field
             v-model="campaign.product"
             class="w-100"
@@ -46,7 +60,10 @@
     </el-form-item>
 
     <div v-if="activity.activityAction !== null">
-      <el-form-item :label="`${activity.activityAction.getLabel()} Type`">
+      <el-form-item
+        :label="`${activity.activityAction.getLabel()} Type`"
+        v-bind="ValidationHelper.getFormItemErrorAttributes(validate['type'])"
+      >
         <activity-type-select
           v-model="activity.type"
           v-model:action="activity.activityAction"
@@ -107,6 +124,7 @@ import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
 import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
 import ProductFilters from "@/common/Http/ProductFilters.js";
 import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
+import CampaignStep2ValidationBuilder from "@/common/validation/CampaignStep2ValidationBuilder.js";
 
 export default {
   props: {
@@ -119,6 +137,10 @@ export default {
       default: new RewardedActivityFormObject(),
     },
     validation: {
+      type: Object,
+      default: () => null,
+    },
+    campaignValidation: {
       type: Object,
       default: () => null,
     },
@@ -148,6 +170,20 @@ export default {
       validation.$lazy = true;
 
       return validation;
+    },
+    campaignValidate() {
+      if (this.campaignValidation) {
+        return this.campaignValidation;
+      }
+
+      const campaignValidation =
+        CampaignStep2ValidationBuilder.createValidation(
+          this.campaignFormObject
+        );
+
+      campaignValidation.$lazy = true;
+
+      return campaignValidation;
     },
   },
   watch: {

@@ -38,6 +38,20 @@ export default class RewardedActivityValidationBuilder extends ValidationBuilder
 
         return Object.values(ActivityType).includes(toRaw(value));
       },
+      required: helpers.withMessage(
+        required.$message,
+        /**
+         * @param {any} value
+         * @param {RewardedActivityFormObject} vm
+         */
+        (value, vm) => {
+          if (vm.advanced) {
+            return true;
+          }
+
+          return required.$validator(value, vm);
+        }
+      ),
     },
     activityAction: {
       required,

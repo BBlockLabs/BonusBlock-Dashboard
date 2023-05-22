@@ -22,6 +22,7 @@
       v-model:activity-form="rewardedActivityFormObject"
       v-model:campaign-form="campaignFormObject"
       :validation="validate"
+      :campaign-validation="campaignValidate"
     />
 
     <activity-create-advanced
@@ -29,6 +30,7 @@
       v-model:activity-form="rewardedActivityFormObject"
       v-model:campaign-form="campaignFormObject"
       :validation="validate"
+      :campaign-validation="campaignValidate"
     />
 
     <div class="d-flex">
@@ -42,9 +44,12 @@
     </div>
   </el-form>
 
-  <debug-wrapper>{{ campaignFormObject }}</debug-wrapper>
-  <debug-wrapper>{{ rewardedActivityFormObject }}</debug-wrapper>
-  <debug-wrapper>{{ validate }}</debug-wrapper>
+  <debug-wrapper>campaignFormObject: {{ campaignFormObject }}</debug-wrapper>
+  <debug-wrapper
+    >rewardedActivityFormObject: {{ rewardedActivityFormObject }}</debug-wrapper
+  >
+  <debug-wrapper>campaignValidate: {{ campaignValidate }}</debug-wrapper>
+  <debug-wrapper>validate: {{ validate }}</debug-wrapper>
 </template>
 
 <script>
@@ -53,6 +58,7 @@ import ActivityCreateSimple from "@/components/ActivityCreateSimple.vue";
 import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
 import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
 import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
+import CampaignStep2ValidationBuilder from "@/common/validation/CampaignStep2ValidationBuilder.js";
 import ActivityAction from "@/common/ActivityAction.js";
 
 export default {
@@ -70,6 +76,10 @@ export default {
       default: () => new RewardedActivityFormObject(),
     },
     validation: {
+      type: Object,
+      default: () => null,
+    },
+    campaignValidation: {
       type: Object,
       default: () => null,
     },
@@ -121,6 +131,20 @@ export default {
 
       return validation;
     },
+    campaignValidate() {
+      if (this.campaignValidation) {
+        return this.campaignValidation;
+      }
+
+      const campaignValidation =
+        CampaignStep2ValidationBuilder.createValidation(
+          this.campaignFormObject
+        );
+
+      campaignValidation.$lazy = true;
+
+      return campaignValidation;
+    },
   },
   watch: {
     "campaignFormObject.product"(productId) {
@@ -139,6 +163,8 @@ export default {
     modelValue() {
       this.rewardedActivityFormObject = this.modelValue;
 
+      this.campaignFormObject.advanced = this.advanced;
+      this.rewardedActivityFormObject.advanced = this.advanced;
       this.rewardedActivityFormObject.activityAction = this.advanced
         ? ActivityAction.INTERACT
         : ActivityAction.SWAP;
@@ -159,6 +185,8 @@ export default {
   created() {
     if (this.rewardedActivityFormObject.action) {
       this.advanced = true;
+      this.campaignFormObject.advanced = this.advanced;
+      this.rewardedActivityFormObject.advanced = this.advanced;
 
       this.rewardedActivityFormObject.activityAction = this.advanced
         ? ActivityAction.INTERACT
@@ -177,9 +205,13 @@ export default {
         : ActivityAction.SWAP;
 
       this.campaignFormObject.product = null;
+      this.campaignFormObject.advanced = this.advanced;
+      this.rewardedActivityFormObject.advanced = this.advanced;
     },
     changeAdvanced(advanced) {
       this.advanced = advanced;
+      this.campaignFormObject.advanced = this.advanced;
+      this.rewardedActivityFormObject.advanced = this.advanced;
 
       this.clear();
     },

@@ -40,6 +40,10 @@ export default class ValidationHelper {
    * @returns {{ validateStatus: "error" | "", error: string}}
    */
   static getFormItemErrorAttributes(validation) {
+    if (!validation) {
+      return {};
+    }
+
     return {
       error: ValidationHelper.getValidationMessage(validation),
       validateStatus: ValidationHelper.getValidateStatus(validation),

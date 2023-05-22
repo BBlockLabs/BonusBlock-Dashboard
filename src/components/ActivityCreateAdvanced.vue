@@ -21,7 +21,14 @@
       </el-col>
 
       <el-col :md="12">
-        <el-form-item label="Network">
+        <el-form-item
+          label="Network"
+          v-bind="
+            ValidationHelper.getFormItemErrorAttributes(
+              campaignValidation['network']
+            )
+          "
+        >
           <network-select-field v-model="campaign.network" class="w-100" />
         </el-form-item>
       </el-col>
@@ -81,6 +88,7 @@ import ValidationHelper from "@/common/validation/ValidationHelper.js";
 import CampaignFormObject from "@/common/Form/CampaignFormObject.js";
 import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
 import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
+import CampaignStep2ValidationBuilder from "@/common/validation/CampaignStep2ValidationBuilder.js";
 
 export default {
   props: {
@@ -93,6 +101,10 @@ export default {
       default: new RewardedActivityFormObject(),
     },
     validation: {
+      type: Object,
+      default: () => null,
+    },
+    campaignValidation: {
       type: Object,
       default: () => null,
     },
@@ -118,6 +130,20 @@ export default {
       validation.$lazy = true;
 
       return validation;
+    },
+    campaignValidate() {
+      if (this.campaignValidation) {
+        return this.campaignValidation;
+      }
+
+      const campaignValidation =
+        CampaignStep2ValidationBuilder.createValidation(
+          this.campaignFormObject
+        );
+
+      campaignValidation.$lazy = true;
+
+      return campaignValidation;
     },
   },
   watch: {

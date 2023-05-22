@@ -63,6 +63,11 @@ export default class CampaignFormObject extends formObject {
   weightRatio = 50;
 
   /**
+   * @type {boolean}
+   */
+  advanced = false;
+
+  /**
    * @param {Campaign} campaign
    */
   setCampaignValues(campaign) {
