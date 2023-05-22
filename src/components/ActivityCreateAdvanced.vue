@@ -7,7 +7,7 @@
         <el-form-item
           label="Select Action"
           v-bind="
-            ValidationHelper.getFormItemErrorAttributes(validate['action'])
+            ValidationHelper.getFormItemErrorAttributes(validate['activityAction'])
           "
         >
           <activity-action-select

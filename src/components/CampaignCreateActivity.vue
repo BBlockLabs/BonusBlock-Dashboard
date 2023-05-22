@@ -138,6 +138,10 @@ export default {
     },
     modelValue() {
       this.rewardedActivityFormObject = this.modelValue;
+
+      this.rewardedActivityFormObject.activityAction = this.advanced
+        ? ActivityAction.INTERACT
+        : ActivityAction.SWAP;
     },
     rewardedActivityFormObject: {
       deep: true,
@@ -155,6 +159,10 @@ export default {
   created() {
     if (this.rewardedActivityFormObject.action) {
       this.advanced = true;
+
+      this.rewardedActivityFormObject.activityAction = this.advanced
+        ? ActivityAction.INTERACT
+        : ActivityAction.SWAP;
     }
   },
   methods: {
