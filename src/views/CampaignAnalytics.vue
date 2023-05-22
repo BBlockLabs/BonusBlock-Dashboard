@@ -1,16 +1,21 @@
 <template>
   <div style="height: 100%; display: flex; flex-direction: column">
-    <el-container v-loading="loading" class="h-100" style="padding-left:20px;">
+    <el-container v-loading="loading" class="h-100" style="padding-left: 20px">
       <el-main class="pos-relative">
         <div class="pos-absolute w-100">
-          <div style="margin-right:20px;margin-top:20px">
+          <div style="margin-right: 20px; margin-top: 20px">
             <el-row class="is-justify-space-between">
               <el-col :span="-1">
-                <h1 class="m-0">{{ campaign ? campaign.name : "" }} campaign Analytics</h1>
+                <h1 class="m-0">
+                  {{ campaign ? campaign.name : "" }} campaign Analytics
+                </h1>
               </el-col>
               <el-col :span="-1">
                 <!--                <el-button type="primary"> Export Data</el-button>-->
-                <router-link v-if="campaign" :to="`/campaign/${campaign.id}/edit`">
+                <router-link
+                  v-if="campaign"
+                  :to="`/campaign/${campaign.id}/edit`"
+                >
                   <el-button type="primary"> Manage Campaign</el-button>
                 </router-link>
               </el-col>
@@ -45,10 +50,14 @@
                             </el-col>-->
             </el-row>
             <el-row>
-              <el-col v-if="interactionsSeries[0].data.length > 0" :md="12" style="min-height: 20em">
+              <el-col
+                v-if="interactionsSeries[0].data.length > 0"
+                :md="12"
+                style="min-height: 20em"
+              >
                 <apexchart
-                  v-loading="chartLoading"
                   ref="interactionsChart"
+                  v-loading="chartLoading"
                   style="width: 100%"
                   height="100%"
                   type="bar"
@@ -56,43 +65,100 @@
                   :series="interactionsSeries"
                 ></apexchart>
               </el-col>
-              <el-col :md="12" class="pl-3" v-if="campaign && analytics.campaignCost !== 0">
+              <el-col
+                v-if="campaign && analytics.campaignCost !== 0"
+                :md="12"
+                class="pl-3"
+              >
                 <el-card class="analytics-card yellow" shadow="never">
                   <el-row class="d-flex mt-3 mb-4">
-                    <el-col><strong style="font-size:1.2em">Total rewards pool</strong></el-col>
+                    <el-col
+                      ><strong style="font-size: 1.2em"
+                        >Total rewards pool</strong
+                      ></el-col
+                    >
                   </el-row>
-                  <strong style="font-size:3em">{{ totalRewardsPool }}</strong>
-                  &nbsp;<strong style="font-size:2em">{{ campaign.rewardPoolCurrencyName }}</strong>
+                  <strong style="font-size: 3em">{{ totalRewardsPool }}</strong>
+                  &nbsp;<strong style="font-size: 2em">{{
+                    campaign.rewardPoolCurrencyName
+                  }}</strong>
                 </el-card>
-                <div style="display: flex;">
+                <div style="display: flex">
                   <div>
-                    <el-card class="analytics-card mt-3" v-if="campaign">
-                      <el-row class="d-flex mt-3 mb-4" style="flex-wrap: nowrap;justify-content: space-between;">
-                        <el-col :span="21"><strong style="font-size:1.2em">Rewards claimed</strong></el-col>
+                    <el-card v-if="campaign" class="analytics-card mt-3">
+                      <el-row
+                        class="d-flex mt-3 mb-4"
+                        style="
+                          flex-wrap: nowrap;
+                          justify-content: space-between;
+                        "
+                      >
+                        <el-col :span="21"
+                          ><strong style="font-size: 1.2em"
+                            >Rewards claimed</strong
+                          ></el-col
+                        >
                         <el-col :span="3" style="text-align: right">
-                          {{ Math.round(Number(analytics.rewardsDistributed) / Number(campaign.rewardPoolTokenCount) * 100 * 100) / 100
+                          {{
+                            Math.round(
+                              (Number(analytics.rewardsDistributed) /
+                                Number(campaign.rewardPoolTokenCount)) *
+                                100 *
+                                100
+                            ) / 100
                           }}%
                         </el-col>
                       </el-row>
-                      <strong style="font-size: 3em">{{ rewardsClaimed }}</strong>
-                      &nbsp;<strong style="font-size: 2em">{{ campaign.rewardPoolCurrencyName }}</strong>
+                      <strong style="font-size: 3em">{{
+                        rewardsClaimed
+                      }}</strong>
+                      &nbsp;<strong style="font-size: 2em">{{
+                        campaign.rewardPoolCurrencyName
+                      }}</strong>
                     </el-card>
-                    <el-card class="analytics-card mt-3" v-if="campaign">
-                      <el-row class="d-flex mt-3 mb-4" style="flex-wrap: nowrap;justify-content: space-between;">
-                        <el-col :span="18"><strong style="font-size:1.2em">Rewards left</strong></el-col>
-                        <el-col :span="4" style="text-align:right">
-                          {{ 100 - Math.round(Number(analytics.rewardsDistributed) / Number(campaign.rewardPoolTokenCount) * 100 * 100) / 100
+                    <el-card v-if="campaign" class="analytics-card mt-3">
+                      <el-row
+                        class="d-flex mt-3 mb-4"
+                        style="
+                          flex-wrap: nowrap;
+                          justify-content: space-between;
+                        "
+                      >
+                        <el-col :span="18"
+                          ><strong style="font-size: 1.2em"
+                            >Rewards left</strong
+                          ></el-col
+                        >
+                        <el-col :span="4" style="text-align: right">
+                          {{
+                            100 -
+                            Math.round(
+                              (Number(analytics.rewardsDistributed) /
+                                Number(campaign.rewardPoolTokenCount)) *
+                                100 *
+                                100
+                            ) /
+                              100
                           }}%
                         </el-col>
                       </el-row>
                       <strong style="font-size: 3em">
                         {{ rewardsLeft }}
                       </strong>
-                      &nbsp;<strong style="font-size: 2em">{{ campaign.rewardPoolCurrencyName }}</strong>
+                      &nbsp;<strong style="font-size: 2em">{{
+                        campaign.rewardPoolCurrencyName
+                      }}</strong>
                     </el-card>
                   </div>
-                  <div class="mt-3 ml-3"
-                       style="flex-grow: 1;display: flex;justify-content: center;align-items: center;">
+                  <div
+                    class="mt-3 ml-3"
+                    style="
+                      flex-grow: 1;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                    "
+                  >
                     <div v-if="rewardsClaimed || rewardsLeft">
                       <apexchart
                         ref="rewardPoolLeftChart"
@@ -118,21 +184,6 @@
   </div>
 </template>
 
-<style lang="scss">
-@use "@/design/vars.scss" as v;
-
-.analytics-card {
-  &.yellow {
-    background-color: v.$color-primary-light-9;
-  }
-
-  .el-card__body {
-    padding-top: .5em;
-    padding-left: 2em;
-  }
-}
-</style>
-
 <script>
 import { CampaignAnalyticsDto } from "@/common/dto/CampaignAnalyticsDto.js";
 import moment from "moment";
@@ -140,7 +191,7 @@ import VueApexCharts from "vue3-apexcharts";
 
 export default {
   components: {
-    apexchart: VueApexCharts
+    apexchart: VueApexCharts,
   },
   data() {
     return {
@@ -154,45 +205,61 @@ export default {
         colors: ["#EDC16C"],
 
         theme: {
-          mode: "light"
+          mode: "light",
         },
         title: {
           text: "Interactions",
-          align: "left"
+          align: "left",
         },
         xaxis: {
           categories: [],
           labels: {
-            hideOverlappingLabels: true
-          }
+            hideOverlappingLabels: true,
+          },
         },
         dataLabels: {
-          enabled: false
+          enabled: false,
         },
         plotOptions: {
           bar: {
-            borderRadius: 5
-          }
-        }
+            borderRadius: 5,
+          },
+        },
       },
       interactionsSeries: [
         {
           name: "Interactions",
-          data: []
-        }
-      ]
+          data: [],
+        },
+      ],
     };
   },
   computed: {
     totalRewardsPool() {
-      return Number(this.campaign.rewardPoolTokenCount) / Number(Math.pow(10, this.campaign.rewardPoolDecimal));
+      return (
+        Number(this.campaign.rewardPoolTokenCount) /
+        Number(Math.pow(10, this.campaign.rewardPoolDecimal))
+      );
     },
     rewardsClaimed() {
-      return Math.round(this.analytics.rewardsDistributed / Number(Math.pow(10, this.campaign.rewardPoolDecimal)) * 1000) / 1000;
+      return (
+        Math.round(
+          (this.analytics.rewardsDistributed /
+            Number(Math.pow(10, this.campaign.rewardPoolDecimal))) *
+            1000
+        ) / 1000
+      );
     },
     rewardsLeft() {
-      return Math.round((Number(this.campaign.rewardPoolTokenCount) / Number(Math.pow(10, this.campaign.rewardPoolDecimal))
-        - this.analytics.rewardsDistributed / Number(Math.pow(10, this.campaign.rewardPoolDecimal))) * 1000) / 1000;
+      return (
+        Math.round(
+          (Number(this.campaign.rewardPoolTokenCount) /
+            Number(Math.pow(10, this.campaign.rewardPoolDecimal)) -
+            this.analytics.rewardsDistributed /
+              Number(Math.pow(10, this.campaign.rewardPoolDecimal))) *
+            1000
+        ) / 1000
+      );
     },
     campaign() {
       return this.$store.getters["Campaign/getCampaign"](this.campaignId);
@@ -201,7 +268,7 @@ export default {
       return this.campaign.categories.map(
         this.$store.getters["Category/getCategory"]
       );
-    }
+    },
   },
   watch: {
     async interactionsRange(newValue, oldValue) {
@@ -224,7 +291,7 @@ export default {
         }
         await this.getCampaignInteractions(periodFrom.unix(), periodTo.unix());
       }
-    }
+    },
   },
   async created() {
     this.loading = true;
@@ -248,13 +315,13 @@ export default {
       this.chartLoading = true;
       let data = {
         from: periodFrom,
-        to: periodTo
+        to: periodTo,
       };
       const result = await this.$store.dispatch(
         "Campaign/loadCampaignAnalyticsInteractions",
         {
           campaignId: this.campaign.id,
-          data: data
+          data: data,
         }
       );
       this.updateChart(result.data);
@@ -284,9 +351,24 @@ export default {
         );
         this.interactionsOptions.xaxis.categories.push(date);
       }
-    }
-  }
+    },
+  },
 };
 </script>
+
+<style lang="scss">
+@use "@/design/vars.scss" as v;
+
+.analytics-card {
+  &.yellow {
+    background-color: v.$color-primary-light-9;
+  }
+
+  .el-card__body {
+    padding-top: 0.5em;
+    padding-left: 2em;
+  }
+}
+</style>
 
 <style scoped lang="scss"></style>

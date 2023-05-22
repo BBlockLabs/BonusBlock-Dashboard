@@ -135,7 +135,8 @@ export default class Campaign extends Model {
     campaign.categories = campaignDto.categories.map(({ id }) => id);
     campaign.rewardPoolContract = campaignDto.rewardPool?.id || null;
     campaign.rewardPoolDecimal = campaignDto.rewardPool?.decimal || 10;
-    campaign.rewardPoolCurrencyName = campaignDto.rewardPool?.currencyName || "n/a";
+    campaign.rewardPoolCurrencyName =
+      campaignDto.rewardPool?.currencyName || "n/a";
     campaign.network = campaignDto.network?.id || null;
     campaign.product = campaignDto.product?.id || null;
     campaign.weeklyEqualDistribution = campaignDto.weeklyEqDistribution;

@@ -163,7 +163,7 @@ export default {
 
       return new ActionResponse(true, null);
     },
-    async loadCampaignAnalyticsInteractions({  }, { campaignId, data }) {
+    async loadCampaignAnalyticsInteractions({}, { campaignId, data }) {
       const response = await HttpRequest.makeRequest(
         `campaign/${campaignId}/analytics/interactions`,
         data
@@ -174,7 +174,7 @@ export default {
       }
       return new ActionResponse(true, response.payload);
     },
-    async loadCampaignAnalytics({ }, campaignId) {
+    async loadCampaignAnalytics({}, campaignId) {
       const response = await HttpRequest.makeRequest(
         `campaign/${campaignId}/analytics`
       );

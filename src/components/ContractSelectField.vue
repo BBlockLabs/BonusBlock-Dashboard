@@ -17,7 +17,7 @@
       <div class="d-flex">
         <img
           v-if="item.icon"
-          :src="'data:image/svg+xml;base64,' + item.icon "
+          :src="'data:image/svg+xml;base64,' + item.icon"
           class="el-select-v2-icon"
           alt=""
         />
