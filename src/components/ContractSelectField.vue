@@ -15,6 +15,12 @@
   >
     <template #default="{ item }">
       <div class="d-flex">
+        <img
+          v-if="item.icon"
+          :src="'data:image/svg+xml;base64,' + item.icon "
+          class="el-select-v2-icon"
+          alt=""
+        />
         <span>{{ item.label }}</span>
 
         <span class="text-secondary ml-auto">
@@ -27,12 +33,16 @@
 
 <script>
 import Toast from "@/mixins/Toast.js";
+import SvgEth from "@/assets/icons/cryptoicons/eth.svg?raw";
 
 export default {
   mixins: [Toast],
   data() {
     return {
       filterString: "",
+      icons: {
+        ETH: window.btoa(SvgEth),
+      },
     };
   },
   computed: {
@@ -43,8 +53,18 @@ export default {
         label: contract.title,
         address: contract.address,
         value: contract.id,
+        icon: this.icons[contract.currencyName] || null,
       }));
     },
   },
 };
 </script>
+
+<style lang="scss">
+.el-select-v2-icon {
+  height: 2em;
+  width: 2em;
+  margin-right: 0.5em;
+  margin-top: 0.25em;
+}
+</style>
