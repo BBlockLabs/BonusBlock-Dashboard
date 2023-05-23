@@ -84,7 +84,7 @@
                   }}</strong>
                 </el-card>
                 <div style="display: flex">
-                  <div>
+                  <div style="flex-grow: 1">
                     <el-card v-if="campaign" class="analytics-card mt-3">
                       <el-row
                         class="d-flex mt-3 mb-4"
@@ -153,7 +153,6 @@
                   <div
                     class="mt-3 ml-3"
                     style="
-                      flex-grow: 1;
                       display: flex;
                       justify-content: center;
                       align-items: center;
