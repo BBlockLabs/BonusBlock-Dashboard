@@ -240,14 +240,13 @@ export default {
         this.campaignFormObject.setValuesFromCampaign(this.campaign);
         this.campaignFormObject.reset();
 
-        const activity =
-          this.$store.getters["RewardedActivity/getByCampaign"](
-            this.campaign.id
-          )[0] || null;
+        const activities = this.$store.getters["RewardedActivity/getByCampaign"](
+          this.campaign.id
+        );
 
-        if (activity) {
+        if (activities.length) {
           this.rewardedActivityFormObject.setValuesFromRewardedActivity(
-            activity
+            activities
           );
           this.rewardedActivityFormObject.reset();
         }
@@ -396,19 +395,29 @@ export default {
             "RewardedActivity/getByCampaign"
           ](this.campaign.id);
 
-          const rewardedActivity = new RewardedActivity();
+          const rewardedActivities = [];
+
+          if (this.rewardedActivityFormObject.actions.length === 0) {
+            rewardedActivities.push(new RewardedActivity());
+          } else {
+            this.rewardedActivityFormObject.actions.forEach(() => {
+              rewardedActivities.push(new RewardedActivity());
+            });
+          }
 
           this.rewardedActivityFormObject.setRewardedActivityValues(
-            rewardedActivity
+            rewardedActivities
           );
 
-          rewardedActivity.campaign = this.campaign.id;
-          this.$store.commit("Campaign/setDirty", true);
+          for (const rewardedActivity of rewardedActivities) {
+            rewardedActivity.campaign = this.campaign.id;
+            this.$store.commit("Campaign/setDirty", true);
 
-          this.$store.commit(
-            "RewardedActivity/setRewardedActivity",
-            rewardedActivity
-          );
+            this.$store.commit(
+              "RewardedActivity/setRewardedActivity",
+              rewardedActivity
+            );
+          }
 
           oldActivities.forEach((revActivity) => {
             this.$store.commit(

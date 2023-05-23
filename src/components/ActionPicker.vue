@@ -1,5 +1,5 @@
 <template>
-  <el-collapse v-model="value" accordion class="br-base b-solid">
+  <el-collapse v-model="collapseValue" class="br-base b-solid">
     <el-collapse-item
       v-for="(action, idx) in actions"
       :key="action.id"
@@ -14,20 +14,23 @@
         </div>
       </template>
 
-      <div class="p-3 bt-solid">
+      <div class="p-3 bt-solid" v-if="act(action.id)">
         <div class="d-flex w-100">
           <div class="ml-2 my-auto pb-3">
             <el-checkbox
-              :model-value="allowCount"
+              :model-value="act(action.id).minimumTransactionCount !== null"
               class="ml-1"
-              @update:model-value="changeAllowCount"
+              @update:model-value="(val) => {act(action.id).minimumTransactionCount = val ? '' : null}"
             >
               &nbsp;
             </el-checkbox>
           </div>
 
           <el-form-item class="w-100" label="Minimum transaction limit">
-            <el-input v-model="transactionCount" :disabled="!allowCount" />
+            <el-input
+              v-model="act(action.id).minimumTransactionCount"
+              :disabled="act(action.id).minimumTransactionCount === null"
+            />
             <sup class="text-secondary">
               Set minimum amount of transactions to count towards the reward.
             </sup>
@@ -37,9 +40,9 @@
         <div class="d-flex w-100">
           <div class="ml-2 my-auto pb-3">
             <el-checkbox
-              :model-value="allowValue"
+              :model-value="act(action.id).minimumTransactionLimit !== null"
               class="ml-1"
-              @update:model-value="changeAllowValue"
+              @update:model-value="(val) => {act(action.id).minimumTransactionLimit = val ? '' : null}"
             >
               &nbsp;
             </el-checkbox>
@@ -47,8 +50,8 @@
 
           <el-form-item class="w-100" label="Minimum transaction amount">
             <token-input
-              v-model="transactionValue"
-              :disabled="!allowValue"
+              v-model="act(action.id).minimumTransactionLimit"
+              :disabled="act(action.id).minimumTransactionLimit === null"
               :contract="$store.getters['Contract/getContract']('USD')"
             />
             <sup class="text-secondary">
@@ -59,15 +62,20 @@
       </div>
     </el-collapse-item>
   </el-collapse>
+  <debug-wrapper>{{ value }}</debug-wrapper>
+  <debug-wrapper>{{ modelValue }}</debug-wrapper>
+  <debug-wrapper>{{ collapseValue }}</debug-wrapper>
 </template>
 
-<script>
+<script setup>
 import TokenInput from "@/components/TokenInput.vue";
+import DebugWrapper from "@/components/DebugWrapper.vue";
+</script>
+
+<script>
+import RewardedActivityActionFormObject from "@/common/Form/RewardedActivityActionFormObject.js";
 
 export default {
-  components: {
-    TokenInput,
-  },
   props: {
     activity: {
       type: [String, null],
@@ -78,29 +86,55 @@ export default {
       default: "",
     },
     modelValue: {
-      type: [String, null],
-      default: null,
-    },
-    modelTrxValue: {
-      type: [BigInt, String, null],
-      default: null,
-    },
-    modelTrxCount: {
-      type: [Number, String, null],
-      default: null,
+      type: Array,
+      default: () => [],
     },
   },
-  emits: ["update:modelValue", "update:modelTrxCount", "update:modelTrxValue"],
+  emits: ["update:modelValue"],
+  /**
+   * @return {{
+   *  allowValue: boolean,
+   *  allowCount: boolean,
+   *  value: RewardedActivityActionFormObject[]
+   * }}
+   */
   data() {
     return {
-      allowCount: false,
-      allowValue: false,
-      transactionValue: this.modelTrxValue,
-      transactionCount: this.modelTrxCount,
-      value: this.modelValue,
+      value: new Map(),
+      valuesUpdating: false,
     };
   },
   computed: {
+    collapseValue: {
+      /**
+       * @return {String[]}
+       */
+      get() {
+        return [...this.value.keys()];
+      },
+      /**
+       * @param {String[]} collapseValue
+       */
+      set(collapseValue) {
+        for (const actionId of this.value.keys()) {
+          if (!collapseValue.includes(actionId)) {
+            this.value.delete(actionId);
+          }
+        }
+
+        for (const actionId of collapseValue) {
+          if (this.value.has(actionId)) {
+            continue;
+          }
+
+          const rewardedAction = new RewardedActivityActionFormObject();
+
+          rewardedAction.id = actionId;
+
+          this.value.set(actionId, rewardedAction);
+        }
+      },
+    },
     actions() {
       return this.$store.getters["Activity/queryActions"]({
         activity: this.activity,
@@ -109,44 +143,41 @@ export default {
     },
   },
   watch: {
-    modelAmount: "setValuesFromProps",
-    modelTrxCount: "setValuesFromProps",
-    modelTrxValue: "setValuesFromProps",
-    transactionValue() {
-      this.$emit("update:modelTrxValue", this.transactionValue);
-    },
-    transactionCount() {
-      this.$emit("update:modelTrxCount", this.transactionCount);
-    },
-    value() {
-      this.$emit("update:modelValue", this.value);
+    modelValue: "setValue",
+    value: {
+      deep: true,
+      handler() {
+        if (this.valuesUpdating) {
+          return;
+        }
+
+        const values = [...this.value.values()];
+
+        this.$emit("update:modelValue", values);
+      },
     },
   },
   created() {
-    this.setValuesFromProps();
+    this.setValue(this.modelValue);
   },
   methods: {
-    changeAllowValue(allow) {
-      this.allowValue = allow;
+    setValue(rewardedActions) {
+      const value = new Map();
 
-      if (!this.allowValue) {
-        this.transactionValue = "";
-      }
+      rewardedActions.forEach((rewardedAction) => {
+        value.set(rewardedAction.id, rewardedAction);
+      });
+
+      this.valuesUpdating = true;
+
+      this.value = value;
+
+      this.$nextTick(() => {
+        this.valuesUpdating = false;
+      });
     },
-    changeAllowCount(allow) {
-      this.allowCount = allow;
-
-      if (!this.allowCount) {
-        this.transactionCount = "";
-      }
-    },
-    setValuesFromProps() {
-      this.transactionValue = this.modelTrxValue;
-      this.transactionCount = this.modelTrxCount;
-      this.value = this.modelValue;
-
-      this.allowCount = !!this.modelTrxCount;
-      this.allowValue = !!this.modelTrxValue;
+    act(actionId) {
+      return this.value.get(actionId);
     },
   },
 };

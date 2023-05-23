@@ -183,7 +183,7 @@ export default {
     },
   },
   created() {
-    if (this.rewardedActivityFormObject.action) {
+    if (this.rewardedActivityFormObject.actions.length > 0) {
       this.advanced = true;
       this.campaignFormObject.advanced = this.advanced;
       this.rewardedActivityFormObject.advanced = this.advanced;
@@ -196,7 +196,7 @@ export default {
   methods: {
     clear() {
       this.rewardedActivityFormObject.activity = null;
-      this.rewardedActivityFormObject.action = null;
+      this.rewardedActivityFormObject.actions = [];
       this.rewardedActivityFormObject.type = null;
       this.rewardedActivityFormObject.minimumTransactionLimit = "0";
       this.rewardedActivityFormObject.minimumTransactionCount = 0;

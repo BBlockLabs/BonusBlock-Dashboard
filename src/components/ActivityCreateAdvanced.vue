@@ -59,15 +59,13 @@
 
     <el-form-item
       label="Action"
-      v-bind="ValidationHelper.getFormItemErrorAttributes(validate['action'])"
+      v-bind="ValidationHelper.getFormItemErrorAttributes(validate['actions'])"
     >
       <el-input v-model="actionSearch" />
     </el-form-item>
 
     <action-picker
-      v-model="activity.action"
-      v-model:modelTrxValue="activity.minimumTransactionLimit"
-      v-model:modelTrxCount="activity.minimumTransactionCount"
+      v-model="activity.actions"
       :activity="activity.activity"
       :filter-string="actionSearch"
     />

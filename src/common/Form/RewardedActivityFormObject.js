@@ -1,5 +1,6 @@
 import formObject from "@/common/Form/FormObject.js";
 import ActivityAction from "@/common/ActivityAction.js";
+import RewardedActivityActionFormObject from "@/common/Form/RewardedActivityActionFormObject.js";
 
 export default class RewardedActivityFormObject extends formObject {
   /**
@@ -7,17 +8,13 @@ export default class RewardedActivityFormObject extends formObject {
    */
   activity = null;
   /**
-   * @type {string | null}
+   * @type {RewardedActivityActionFormObject[]}
    */
-  action = null;
+  actions = [];
   /**
    * @type {string}
    */
   minimumTransactionLimit = "0";
-  /**
-   * @type {number}
-   */
-  minimumTransactionCount = 0;
 
   /**
    * @type {ActivityType|null}
@@ -35,29 +32,45 @@ export default class RewardedActivityFormObject extends formObject {
   advanced = false;
 
   /**
-   * @param {RewardedActivity} rewardedActivity
+   * @param {RewardedActivity[]} rewardedActivities
    */
-  setRewardedActivityValues(rewardedActivity) {
-    rewardedActivity.activity = this.activity;
-    rewardedActivity.action = this.action;
-    rewardedActivity.minimumTransactionLimit = BigInt(
-      this.minimumTransactionLimit
-    );
-    rewardedActivity.minimumTransactionCount = this.minimumTransactionCount;
-    rewardedActivity.type = this.type;
-    rewardedActivity.activityAction = this.activityAction;
+  setRewardedActivityValues(rewardedActivities) {
+    rewardedActivities.forEach((rewardedActivity, idx) => {
+      rewardedActivity.activity = this.activity;
+      rewardedActivity.type = this.type;
+      rewardedActivity.activityAction = this.activityAction;
+
+      if (this.actions[idx] !== undefined) {
+        this.actions[idx].setRewardedActivityValues(rewardedActivity);
+      } else {
+        rewardedActivity.minimumTransactionLimit = this.minimumTransactionLimit !== null
+          ? BigInt(
+            this.minimumTransactionLimit
+          )
+          : BigInt(0);
+      }
+    });
   }
 
   /**
-   * @param {RewardedActivity} rewardedActivity
+   * @param {RewardedActivity[]} rewardedActivities
    */
-  setValuesFromRewardedActivity(rewardedActivity) {
-    this.activity = rewardedActivity.activity;
-    this.action = rewardedActivity.action;
-    this.minimumTransactionLimit =
-      rewardedActivity.minimumTransactionLimit.toString();
-    this.minimumTransactionCount = rewardedActivity.minimumTransactionCount;
-    this.type = rewardedActivity.type;
-    this.activityAction = rewardedActivity.activityAction;
+  setValuesFromRewardedActivity(rewardedActivities) {
+    this.actions = [];
+
+    for (const rewardedActivity of rewardedActivities) {
+      this.activity = rewardedActivity.activity;
+      this.type = rewardedActivity.type;
+      this.activityAction = rewardedActivity.activityAction;
+
+      if (rewardedActivity.action) {
+        const action = new RewardedActivityActionFormObject();
+
+        action.setValuesFromRewardedActivity(rewardedActivity);
+        action.reset();
+
+        this.actions.push(action);
+      }
+    }
   }
 }

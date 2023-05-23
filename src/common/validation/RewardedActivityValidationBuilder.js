@@ -10,7 +10,7 @@ export default class RewardedActivityValidationBuilder extends ValidationBuilder
     activity: {
       required,
     },
-    action: {
+    actions: {
       requiredIfInteract: helpers.withMessage(
         required.$message,
         (value, object) => {
