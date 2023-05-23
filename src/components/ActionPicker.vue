@@ -14,13 +14,17 @@
         </div>
       </template>
 
-      <div class="p-3 bt-solid" v-if="act(action.id)">
+      <div v-if="act(action.id)" class="p-3 bt-solid">
         <div class="d-flex w-100">
           <div class="ml-2 my-auto pb-3">
             <el-checkbox
               :model-value="act(action.id).minimumTransactionCount !== null"
               class="ml-1"
-              @update:model-value="(val) => {act(action.id).minimumTransactionCount = val ? '' : null}"
+              @update:model-value="
+                (val) => {
+                  act(action.id).minimumTransactionCount = val ? '' : null;
+                }
+              "
             >
               &nbsp;
             </el-checkbox>
@@ -42,7 +46,11 @@
             <el-checkbox
               :model-value="act(action.id).minimumTransactionLimit !== null"
               class="ml-1"
-              @update:model-value="(val) => {act(action.id).minimumTransactionLimit = val ? '' : null}"
+              @update:model-value="
+                (val) => {
+                  act(action.id).minimumTransactionLimit = val ? '' : null;
+                }
+              "
             >
               &nbsp;
             </el-checkbox>

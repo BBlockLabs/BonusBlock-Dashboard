@@ -21,11 +21,10 @@ export default class RewardedActivityActionFormObject extends formObject {
    */
   setRewardedActivityValues(rewardedActivity) {
     rewardedActivity.action = this.id;
-    rewardedActivity.minimumTransactionLimit = this.minimumTransactionLimit !== null
-      ? BigInt(
-        this.minimumTransactionLimit
-      )
-      : BigInt(0);
+    rewardedActivity.minimumTransactionLimit =
+      this.minimumTransactionLimit !== null
+        ? BigInt(this.minimumTransactionLimit)
+        : BigInt(0);
     rewardedActivity.minimumTransactionCount = this.minimumTransactionCount;
   }
 

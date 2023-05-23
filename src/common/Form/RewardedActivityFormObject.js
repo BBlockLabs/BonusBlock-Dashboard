@@ -43,11 +43,10 @@ export default class RewardedActivityFormObject extends formObject {
       if (this.actions[idx] !== undefined) {
         this.actions[idx].setRewardedActivityValues(rewardedActivity);
       } else {
-        rewardedActivity.minimumTransactionLimit = this.minimumTransactionLimit !== null
-          ? BigInt(
-            this.minimumTransactionLimit
-          )
-          : BigInt(0);
+        rewardedActivity.minimumTransactionLimit =
+          this.minimumTransactionLimit !== null
+            ? BigInt(this.minimumTransactionLimit)
+            : BigInt(0);
       }
     });
   }

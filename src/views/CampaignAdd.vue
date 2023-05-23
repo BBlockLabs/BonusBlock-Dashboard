@@ -240,9 +240,9 @@ export default {
         this.campaignFormObject.setValuesFromCampaign(this.campaign);
         this.campaignFormObject.reset();
 
-        const activities = this.$store.getters["RewardedActivity/getByCampaign"](
-          this.campaign.id
-        );
+        const activities = this.$store.getters[
+          "RewardedActivity/getByCampaign"
+        ](this.campaign.id);
 
         if (activities.length) {
           this.rewardedActivityFormObject.setValuesFromRewardedActivity(
