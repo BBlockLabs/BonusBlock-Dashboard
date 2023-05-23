@@ -206,9 +206,11 @@ export default {
 </script>
 
 <style lang="scss">
+@use "@/design/vars.scss" as v;
+
 .new-project-card {
   padding: 3em 6em 3em 6em;
-  background-color: #fafafa;
+  background-color: v.$color-lighter;
 
   img {
     margin-bottom: 1.5em;
