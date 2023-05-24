@@ -1,6 +1,6 @@
 <template>
   <div style="height: 100%; display: flex; flex-direction: column">
-    <el-container v-loading="loading" class="h-100" style="padding-left: 20px">
+    <el-container class="h-100" style="padding-left: 20px">
       <el-main class="pos-relative">
         <div class="pos-absolute w-100">
           <div style="margin-right: 20px; margin-top: 20px">
@@ -40,8 +40,8 @@
               <el-col class="mt-1" :span="-1">
                 <el-tabs v-model="interactionsRange">
                   <el-tab-pane label="All Time" name="all"></el-tab-pane>
-                  <el-tab-pane label="Monthly" name="month"></el-tab-pane>
-                  <el-tab-pane label="Weekly" name="week"></el-tab-pane>
+                  <el-tab-pane label="Month" name="month"></el-tab-pane>
+                  <el-tab-pane label="Week" name="week"></el-tab-pane>
                   <el-tab-pane label="Today" name="today"></el-tab-pane>
                 </el-tabs>
               </el-col>
@@ -51,115 +51,81 @@
             </el-row>
             <el-row>
               <el-col
-                v-if="interactionsSeries[0].data.length > 0"
                 :md="12"
                 style="min-height: 20em"
+                v-loading="chartLoading[interactionsRange]"
               >
                 <apexchart
+                  v-if="interactionsSeries[0].data.length > 0"
                   ref="interactionsChart"
-                  v-loading="chartLoading"
-                  style="width: 100%"
+                  style="width: 100%; height: 100%"
                   height="100%"
                   type="bar"
                   :options="interactionsOptions"
                   :series="interactionsSeries"
                 ></apexchart>
+                <div v-else>No data yet</div>
               </el-col>
               <el-col
-                v-if="campaign && analytics.campaignCost !== 0"
                 :md="12"
                 class="pl-3"
+                v-loading="analyticsLoading"
               >
                 <el-card class="analytics-card yellow" shadow="never">
                   <el-row class="d-flex mt-3 mb-4">
-                    <el-col
-                      ><strong style="font-size: 1.2em"
-                        >Total rewards pool</strong
-                      ></el-col
-                    >
+                    <el-col><strong style="font-size: 1.2em">Total rewards pool</strong></el-col>
                   </el-row>
-                  <strong style="font-size: 3em">{{ totalRewardsPool }}</strong>
-                  &nbsp;<strong style="font-size: 2em">{{
-                    campaign.rewardPoolCurrencyName
-                  }}</strong>
+                  <template v-if="campaign">
+                    <strong style="font-size: 3em">{{ totalRewardsPool }}</strong>
+                    &nbsp;<strong style="font-size: 2em">{{ campaign.rewardPoolCurrencyName }}</strong>
+                  </template>
                 </el-card>
                 <div style="display: flex">
                   <div style="flex-grow: 1">
-                    <el-card v-if="campaign" class="analytics-card mt-3">
+                    <el-card class="analytics-card mt-3">
                       <el-row
                         class="d-flex mt-3 mb-4"
-                        style="
-                          flex-wrap: nowrap;
-                          justify-content: space-between;
-                        "
+                        style="flex-wrap: nowrap; justify-content: space-between;"
                       >
-                        <el-col :span="21"
-                          ><strong style="font-size: 1.2em"
-                            >Rewards claimed</strong
-                          ></el-col
-                        >
+                        <el-col :span="21"><strong style="font-size: 1.2em">Rewards claimed</strong></el-col>
                         <el-col :span="3" style="text-align: right">
-                          {{
-                            Math.round(
-                              (Number(analytics.rewardsDistributed) /
-                                Number(campaign.rewardPoolTokenCount)) *
-                                100 *
-                                100
-                            ) / 100
-                          }}%
+                          {{ campaignRewardsClaimedPercent ?? "&nbsp;" }}
                         </el-col>
                       </el-row>
-                      <strong style="font-size: 3em">{{
-                        rewardsClaimed
-                      }}</strong>
-                      &nbsp;<strong style="font-size: 2em">{{
-                        campaign.rewardPoolCurrencyName
-                      }}</strong>
+                      <template v-if="campaignAndAnalyticsLoaded">
+                        <strong style="font-size: 3em">{{ rewardsClaimed }}</strong>
+                        &nbsp;<strong style="font-size: 2em">{{ campaign.rewardPoolCurrencyName }}</strong>
+                      </template>
+                      <strong v-else style="font-size: 3em">&nbsp;</strong>
                     </el-card>
-                    <el-card v-if="campaign" class="analytics-card mt-3">
+                    <el-card class="analytics-card mt-3">
                       <el-row
                         class="d-flex mt-3 mb-4"
-                        style="
-                          flex-wrap: nowrap;
-                          justify-content: space-between;
-                        "
+                        style="flex-wrap: nowrap; justify-content: space-between"
                       >
-                        <el-col :span="18"
-                          ><strong style="font-size: 1.2em"
-                            >Rewards left</strong
-                          ></el-col
-                        >
+                        <el-col :span="18">
+                          <strong style="font-size: 1.2em">Rewards left</strong>
+                        </el-col>
                         <el-col :span="4" style="text-align: right">
-                          {{
-                            100 -
-                            Math.round(
-                              (Number(analytics.rewardsDistributed) /
-                                Number(campaign.rewardPoolTokenCount)) *
-                                100 *
-                                100
-                            ) /
-                              100
-                          }}%
+                          {{ campaignRewardsLeftPercent ?? "&nbsp;" }}
                         </el-col>
                       </el-row>
-                      <strong style="font-size: 3em">
-                        {{ rewardsLeft }}
-                      </strong>
-                      &nbsp;<strong style="font-size: 2em">{{
-                        campaign.rewardPoolCurrencyName
-                      }}</strong>
+                      <template v-if="campaignAndAnalyticsLoaded">
+                        <strong style="font-size: 3em">
+                          {{ rewardsLeft }}
+                        </strong>
+                        &nbsp;<strong style="font-size: 2em">{{ campaign.rewardPoolCurrencyName }}</strong>
+                      </template>
+                      <strong v-else style="font-size: 3em">&nbsp;</strong>
                     </el-card>
                   </div>
                   <div
                     class="mt-3 ml-3"
-                    style="
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;
-                    "
+                    style="display: flex; justify-content: center; align-items: center"
                   >
-                    <div v-if="rewardsClaimed || rewardsLeft">
+                    <div style="height: 300px">
                       <apexchart
+                        v-if="campaignAndAnalyticsLoaded"
                         ref="rewardPoolLeftChart"
                         style="width: 100%"
                         height="300px"
@@ -194,12 +160,13 @@ export default {
   },
   data() {
     return {
-      interactionsRange: "all",
-      chartLoading: false,
-      loading: false,
+      interactionsRange: "today",
+      chartLoading: {},
+      analyticsLoading: false,
       analytics: new CampaignAnalyticsDto(),
       option: null,
       campaignId: this.$route.params.id,
+      interactionsCache: {},
       interactionsOptions: {
         colors: ["#EDC16C"],
 
@@ -211,7 +178,7 @@ export default {
           align: "left",
         },
         xaxis: {
-          categories: [],
+          categories: [""],
           labels: {
             hideOverlappingLabels: true,
           },
@@ -228,17 +195,41 @@ export default {
       interactionsSeries: [
         {
           name: "Interactions",
-          data: [],
+          data: [0],
         },
       ],
     };
   },
   computed: {
+    campaignAndAnalyticsLoaded() {
+      return (this.campaign && this.analytics.campaignCost !== 0);
+    },
     totalRewardsPool() {
       return (
         Number(this.campaign.rewardPoolTokenCount) /
         Number(Math.pow(10, this.campaign.rewardPoolDecimal))
       );
+    },
+    campaignRewardsClaimedPercent() {
+      if (!this.campaignAndAnalyticsLoaded) {
+        return "";
+      }
+      let prc = Math.round(
+        (Number(this.analytics.rewardsDistributed) /
+          Number(this.campaign.rewardPoolTokenCount)) * 100 * 100
+      ) / 100;
+      return prc + '%';
+    },
+    campaignRewardsLeftPercent() {
+      if (!this.campaignAndAnalyticsLoaded) {
+        return "";
+      }
+      let prc = 100 -
+      Math.round(
+        (Number(this.analytics.rewardsDistributed) /
+          Number(this.campaign.rewardPoolTokenCount)) * 100 * 100
+      ) / 100;
+      return prc + '%';
     },
     rewardsClaimed() {
       return (
@@ -270,12 +261,39 @@ export default {
     },
   },
   watch: {
-    async interactionsRange(newValue, oldValue) {
+    interactionsRange(newValue, oldValue) {
       if (newValue !== oldValue && newValue !== "") {
+        this.fetchCampaignInteractions();
+      }
+    },
+  },
+  created() {
+    // make two queries in parallel! no await here!
+    this.fetchAnalytics().then(() => {});
+    this.fetchCampaignInteractions().then(() => {});
+  },
+  methods: {
+    async fetchAnalytics() {
+      this.analyticsLoading = true;
+      if (this.campaign === null) {
+        await this.$store.dispatch("Campaign/loadCampaigns");
+      }
+      if (this.campaignId) {
+        const campaignAnalytics = await this.$store.dispatch(
+          "Campaign/loadCampaignAnalytics",
+          this.campaignId
+        );
+
+        this.analytics = campaignAnalytics.data;
+      }
+      this.analyticsLoading = false;
+    },
+    parseChartRange(range) {
+      let from = null;
+      if (range !== "all") {
         let periodFrom = moment().startOf("day").utc();
-        let periodTo = moment().endOf("day").utc();
-        switch (newValue) {
-          case "day":
+        switch (range) {
+          case "today":
             break;
           case "week":
             periodFrom.subtract(7, "days");
@@ -283,54 +301,57 @@ export default {
           case "month":
             periodFrom.subtract(32, "days");
             break;
-          case "all":
-            periodFrom = moment(this.campaign.timeFrameFrom);
-            periodTo = moment(this.campaign.timeFrameTill);
+          case "year":
+            periodFrom.subtract(1, "year");
             break;
         }
-        await this.getCampaignInteractions(periodFrom.unix(), periodTo.unix());
+        from = periodFrom.unix();
       }
-    },
-  },
-  async created() {
-    this.loading = true;
-    if (this.campaign === null) {
-      await this.$store.dispatch("Campaign/loadCampaigns");
-    }
-    if (this.campaignId) {
-      const campaignAnalytics = await this.$store.dispatch(
-        "Campaign/loadCampaignAnalytics",
-        this.campaignId
-      );
-
-      this.analytics = campaignAnalytics.data;
-      this.updateChart(this.analytics.campaignInteractions);
-    }
-
-    this.loading = false;
-  },
-  methods: {
-    async getCampaignInteractions(periodFrom, periodTo) {
-      this.chartLoading = true;
-      let data = {
-        from: periodFrom,
-        to: periodTo,
+      return {
+        from: from,
+        to: null,
       };
-      const result = await this.$store.dispatch(
-        "Campaign/loadCampaignAnalyticsInteractions",
-        {
-          campaignId: this.campaign.id,
-          data: data,
+    },
+    async fetchCampaignInteractions() {
+      let queriedRange = this.interactionsRange;
+      let query = this.parseChartRange(queriedRange);
+      let cacheKey = query.from + "-" + query.to;
+      if (this.interactionsCache[cacheKey]) {
+        this.updateChart(this.interactionsCache[cacheKey].data);
+        if (moment().diff(this.interactionsCache[cacheKey].time) < 1000 * 60 * 5) {
+          return;
         }
-      );
-      this.updateChart(result.data);
-      this.chartLoading = false;
+      }
+      if (this.chartLoading[queriedRange]) {
+        return;
+      }
+      this.chartLoading[queriedRange] = true;
+      let chartData = null;
+      try {
+        const result = await this.$store.dispatch(
+          "Campaign/loadCampaignAnalyticsInteractions",
+          {
+            campaignId: this.campaignId,
+            data: query,
+          }
+        );
+        this.interactionsCache[cacheKey] = { time: moment(), data: result.data };
+        chartData = result.data;
+      } catch (e) {
+        console.log(e);
+      }
+      if (this.interactionsRange === queriedRange) {
+        this.updateChart(chartData);
+      }
+      this.chartLoading[queriedRange] = false;
     },
     updateChart(chartData) {
-      let keys = Object.keys(chartData.interactions).sort();
-
       this.interactionsSeries[0].data.length = 0;
       this.interactionsOptions.xaxis.categories.length = 0;
+
+      if (!chartData) {
+        return;
+      }
 
       let dateFormat = "";
       if (chartData.mode === "hour") {
@@ -341,13 +362,12 @@ export default {
         dateFormat = "MMM YYYY";
       }
 
+      let keys = Object.keys(chartData.interactions).sort();
       for (let key of keys) {
         let date = moment(key).format(dateFormat);
         let interactionsPerDate = chartData.interactions[key];
 
-        this.interactionsSeries[0].data.push(
-          interactionsPerDate == null ? 0 : interactionsPerDate
-        );
+        this.interactionsSeries[0].data.push(interactionsPerDate ?? 0);
         this.interactionsOptions.xaxis.categories.push(date);
       }
     },
