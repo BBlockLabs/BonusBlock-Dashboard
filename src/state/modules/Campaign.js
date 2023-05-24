@@ -4,7 +4,6 @@ import { HttpRequest } from "@/common/HttpRequest.js";
 import Contract from "@/state/models/Contract.js";
 import Network from "@/state/models/Network.js";
 import Product from "@/state/models/Product.js";
-import Category from "@/state/models/Category.js";
 import RewardedActivity from "@/state/models/RewardedActivity.js";
 import Action from "@/state/models/Action.js";
 import Payment from "@/state/models/Payment.js";
@@ -27,6 +26,10 @@ export class CampaignState {
    * @type Boolean
    */
   isDirty = false;
+  /**
+   * @type {Set<String>}
+   */
+  tags = new Set();
 }
 
 export default {
@@ -66,6 +69,17 @@ export default {
     },
   },
   mutations: {
+    /**
+     * @param {CampaignState} state
+     * @param {string} tag
+     */
+    addTag(state, tag) {
+      if (state.tags.has(tag)) {
+        return;
+      }
+
+      state.tags.add(tag);
+    },
     /**
      * @param {CampaignState} state
      * @param {Boolean} flag
@@ -231,6 +245,8 @@ export default {
         return new ActionResponse(false, null, response.errors);
       }
 
+      campaign.tags.forEach((tag) => commit("addTag", tag));
+
       if (response.payload !== campaignId) {
         campaign.id = response.payload;
 
@@ -279,12 +295,6 @@ export default {
         });
       }
 
-      campaignDto.categories.forEach((categoryDto) => {
-        commit("Category/setCategory", Category.fromDto(categoryDto), {
-          root: true,
-        });
-      });
-
       if (campaignDto.payment !== null) {
         const payment = Payment.fromDto(campaignDto.payment);
         const fee = Fee.fromDto(campaignDto.payment.fee);
@@ -326,6 +336,8 @@ export default {
           root: true,
         });
       });
+
+      campaignDto.tags?.forEach((tag) => commit("addTag", tag));
 
       commit("setCampaign", Campaign.fromDto(campaignDto));
     },

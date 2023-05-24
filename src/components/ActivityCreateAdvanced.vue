@@ -46,11 +46,7 @@
     </el-form-item>
 
     <el-form-item label="Categories">
-      <category-select-field
-        v-model="campaign.categories"
-        class="w-100"
-        multiple
-      />
+      <campaign-tag-select v-model="campaign.tags" class="w-100" />
     </el-form-item>
   </box-wrapper>
 
@@ -73,12 +69,12 @@
 </template>
 
 <script setup>
-import BoxWrapper from "@/components/BoxWrapper.vue";
-import NetworkSelectField from "@/components/NetworkSelectField.vue";
-import CategorySelectField from "@/components/CategorySelectField.vue";
+import ActionPicker from "@/components/ActionPicker.vue";
 import ActivityActionSelect from "@/components/ActivityActionSelect.vue";
 import ActivitySelectField from "@/components/ActivitySelectField.vue";
-import ActionPicker from "@/components/ActionPicker.vue";
+import BoxWrapper from "@/components/BoxWrapper.vue";
+import CampaignTagSelect from "@/components/CampaignTagSelect.vue";
+import NetworkSelectField from "@/components/NetworkSelectField.vue";
 import ValidationHelper from "@/common/validation/ValidationHelper.js";
 </script>
 

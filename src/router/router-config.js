@@ -48,7 +48,7 @@ const router = new createRouter({
 });
 
 router.beforeEach(async (toRoute, fromRoute, next) => {
-  await store.dispatch("Auth/checkLocalStorageForSession");
+  // await store.dispatch("Auth/checkLocalStorageForSession");
 
   const redirect = authRedirectCheck(toRoute);
 

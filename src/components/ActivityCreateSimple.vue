@@ -35,10 +35,10 @@
     </el-row>
 
     <el-form-item label="Categories">
-      <category-select-field
-        v-model="campaign.categories"
+      <campaign-tag-select
+        v-model="campaign.tags"
+        :product-id="campaign.product"
         class="w-100"
-        multiple
       />
     </el-form-item>
   </box-wrapper>
@@ -112,7 +112,7 @@ import ActivityActionSelect from "@/components/ActivityActionSelect.vue";
 import ActivityPicker from "@/components/ActivityPicker.vue";
 import ActivityTypeSelect from "@/components/ActivityTypeSelect.vue";
 import BoxWrapper from "@/components/BoxWrapper.vue";
-import CategorySelectField from "@/components/CategorySelectField.vue";
+import CampaignTagSelect from "@/components/CampaignTagSelect.vue";
 import NetworkSelectField from "@/components/NetworkSelectField.vue";
 import ProductSelectField from "@/components/ProductSelectField.vue";
 import TokenInput from "@/components/TokenInput.vue";

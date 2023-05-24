@@ -65,11 +65,11 @@
       <el-col>
         <b>Categories:</b>
 
-        <el-tag v-for="category in categories" :key="category" class="mx-1">
-          {{ category.name }}
+        <el-tag v-for="tag in campaign.tags" :key="tag" class="mx-1">
+          {{ tag.name }}
         </el-tag>
 
-        <span v-if="categories.length === 0">-</span>
+        <span v-if="campaign.tags.length === 0">-</span>
       </el-col>
     </el-row>
 
@@ -174,11 +174,6 @@ export default {
       );
 
       return campaign || new Campaign();
-    },
-    categories() {
-      return this.campaign.categories.map(
-        this.$store.getters["Category/getCategory"]
-      );
     },
     contract() {
       return this.$store.getters["Contract/getContract"](
