@@ -2,7 +2,7 @@ export default class Social {
   /**
    * @type {"twitter" | "telegram" | "discord" | "youtube" | "reddit" | "website" | "newsletter"| "blog" | null}
    */
-  type = null;
+  type = "website";
 
   /**
    * @type {string}

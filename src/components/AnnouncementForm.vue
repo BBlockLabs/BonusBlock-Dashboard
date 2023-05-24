@@ -100,7 +100,10 @@
                 </label>
               </span>
             </template>
-            <el-input v-model="value.buttonUrl" placeholder="Button link" />
+            <el-input
+              v-model="value.buttonUrl"
+              placeholder="https://example.com"
+            />
           </el-form-item>
         </el-col>
       </el-row>

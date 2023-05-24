@@ -13,10 +13,12 @@
     "
   >
     <img v-if="value" :src="fileUrl" class="banner-image w-100" alt="Banner" />
-
-    <div v-else class="el-upload__text h-100">
-      Drop file here or <em>click to upload</em>
-    </div>
+    <template v-else>
+      <el-icon class="el-icon--upload"><upload /></el-icon>
+      <div class="el-upload__text h-100">
+        Drag your image or click <em>click to upload</em>
+      </div>
+    </template>
 
     <template #tip>
       <div class="el-upload__tip">
@@ -198,6 +200,13 @@ export default {
   .banner-image {
     aspect-ratio: 16/9;
     object-fit: cover;
+  }
+
+  .el-upload-dragger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   @include EPMixins.b(upload-dragger) {

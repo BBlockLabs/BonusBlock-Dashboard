@@ -1,7 +1,7 @@
 <template>
   <el-input
     v-model="value.link"
-    placeholder="Please input"
+    placeholder="https://example.com"
     class="input-with-select"
   >
     <template #prepend>
@@ -12,7 +12,7 @@
           <svg-discord v-else-if="value.type === 'discord'" />
           <svg-youtube v-else-if="value.type === 'youtube'" />
           <svg-reddit v-else-if="value.type === 'reddit'" />
-          <svg-globe v-else-if="value.type === 'newsletter'" />
+          <svg-globe v-else-if="value.type === 'website'" />
           <svg-blog v-else-if="value.type === 'blog'" />
           <svg-email v-else-if="value.type === 'email'" />
           <el-icon class="el-icon--right">
@@ -36,7 +36,7 @@
             <el-dropdown-item @click="value.type = 'reddit'">
               <svg-reddit /> Reddit
             </el-dropdown-item>
-            <el-dropdown-item @click="value.type = 'newsletter'">
+            <el-dropdown-item @click="value.type = 'website'">
               <svg-globe /> Website
             </el-dropdown-item>
             <el-dropdown-item @click="value.type = 'blog'">
@@ -49,7 +49,7 @@
         </template>
       </el-dropdown>
     </template>
-    <template v-if="id > 0" #append>
+    <template #append>
       <delete-button @click="$emit('inputDeleted', id)" />
     </template>
   </el-input>
