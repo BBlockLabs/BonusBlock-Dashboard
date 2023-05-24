@@ -81,7 +81,7 @@ export default class Campaign extends Model {
   /**
    * @type {Array<String>}
    */
-  categories = [];
+  tags = [];
 
   /**
    * @type {string | null}
@@ -132,7 +132,7 @@ export default class Campaign extends Model {
     campaign.minimumPerUserAward = campaignDto.minUserReward
       ? BigInt(campaignDto.minUserReward)
       : null;
-    campaign.categories = campaignDto.categories.map(({ id }) => id);
+    campaign.tags = campaignDto.tags?.map(({ id }) => id) ?? [];
     campaign.rewardPoolContract = campaignDto.rewardPool?.id || null;
     campaign.rewardPoolDecimal = campaignDto.rewardPool?.decimal || 10;
     campaign.rewardPoolCurrencyName =
@@ -163,7 +163,7 @@ export default class Campaign extends Model {
     dto.rateWeekly = this.frequencyRatioWeekly;
     dto.minUserReward = this.minimumPerUserAward?.toString() || "0";
     dto.maxUserReward = this.maximumPerUserAward?.toString() || "0";
-    dto.categories = this.categories;
+    dto.tags = this.tags;
     dto.weeklyEqDistribution = this.weeklyEqualDistribution;
     dto.qualityAudience = this.qualityAudience;
     dto.rewardPoolAmount = this.rewardPoolTokenCount.toString();

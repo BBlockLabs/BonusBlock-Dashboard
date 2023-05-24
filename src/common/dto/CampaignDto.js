@@ -72,9 +72,9 @@ export default class CampaignDto {
    */
   payment = null;
   /**
-   * @type {Array<CategoryDto>}
+   * @type {Array<string>}
    */
-  categories = [];
+  tags = [];
   /**
    * @type {Array<RewardedActivityDto>}
    */

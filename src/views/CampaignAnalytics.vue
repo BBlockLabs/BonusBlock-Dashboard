@@ -51,9 +51,9 @@
             </el-row>
             <el-row>
               <el-col
+                v-loading="chartLoading[interactionsRange]"
                 :md="12"
                 style="min-height: 20em"
-                v-loading="chartLoading[interactionsRange]"
               >
                 <apexchart
                   v-if="interactionsSeries[0].data.length > 0"
@@ -66,18 +66,22 @@
                 ></apexchart>
                 <div v-else>No data yet</div>
               </el-col>
-              <el-col
-                :md="12"
-                class="pl-3"
-                v-loading="analyticsLoading"
-              >
+              <el-col v-loading="analyticsLoading" :md="12" class="pl-3">
                 <el-card class="analytics-card yellow" shadow="never">
                   <el-row class="d-flex mt-3 mb-4">
-                    <el-col><strong style="font-size: 1.2em">Total rewards pool</strong></el-col>
+                    <el-col
+                      ><strong style="font-size: 1.2em"
+                        >Total rewards pool</strong
+                      ></el-col
+                    >
                   </el-row>
                   <template v-if="campaign">
-                    <strong style="font-size: 3em">{{ totalRewardsPool }}</strong>
-                    &nbsp;<strong style="font-size: 2em">{{ campaign.rewardPoolCurrencyName }}</strong>
+                    <strong style="font-size: 3em">{{
+                      totalRewardsPool
+                    }}</strong>
+                    &nbsp;<strong style="font-size: 2em">{{
+                      campaign.rewardPoolCurrencyName
+                    }}</strong>
                   </template>
                 </el-card>
                 <div style="display: flex">
@@ -85,23 +89,37 @@
                     <el-card class="analytics-card mt-3">
                       <el-row
                         class="d-flex mt-3 mb-4"
-                        style="flex-wrap: nowrap; justify-content: space-between;"
+                        style="
+                          flex-wrap: nowrap;
+                          justify-content: space-between;
+                        "
                       >
-                        <el-col :span="21"><strong style="font-size: 1.2em">Rewards claimed</strong></el-col>
+                        <el-col :span="21"
+                          ><strong style="font-size: 1.2em"
+                            >Rewards claimed</strong
+                          ></el-col
+                        >
                         <el-col :span="3" style="text-align: right">
                           {{ campaignRewardsClaimedPercent ?? "&nbsp;" }}
                         </el-col>
                       </el-row>
                       <template v-if="campaignAndAnalyticsLoaded">
-                        <strong style="font-size: 3em">{{ rewardsClaimed }}</strong>
-                        &nbsp;<strong style="font-size: 2em">{{ campaign.rewardPoolCurrencyName }}</strong>
+                        <strong style="font-size: 3em">{{
+                          rewardsClaimed
+                        }}</strong>
+                        &nbsp;<strong style="font-size: 2em">{{
+                          campaign.rewardPoolCurrencyName
+                        }}</strong>
                       </template>
                       <strong v-else style="font-size: 3em">&nbsp;</strong>
                     </el-card>
                     <el-card class="analytics-card mt-3">
                       <el-row
                         class="d-flex mt-3 mb-4"
-                        style="flex-wrap: nowrap; justify-content: space-between"
+                        style="
+                          flex-wrap: nowrap;
+                          justify-content: space-between;
+                        "
                       >
                         <el-col :span="18">
                           <strong style="font-size: 1.2em">Rewards left</strong>
@@ -114,14 +132,20 @@
                         <strong style="font-size: 3em">
                           {{ rewardsLeft }}
                         </strong>
-                        &nbsp;<strong style="font-size: 2em">{{ campaign.rewardPoolCurrencyName }}</strong>
+                        &nbsp;<strong style="font-size: 2em">{{
+                          campaign.rewardPoolCurrencyName
+                        }}</strong>
                       </template>
                       <strong v-else style="font-size: 3em">&nbsp;</strong>
                     </el-card>
                   </div>
                   <div
                     class="mt-3 ml-3"
-                    style="display: flex; justify-content: center; align-items: center"
+                    style="
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                    "
                   >
                     <div style="height: 300px">
                       <apexchart
@@ -202,7 +226,7 @@ export default {
   },
   computed: {
     campaignAndAnalyticsLoaded() {
-      return (this.campaign && this.analytics.campaignCost !== 0);
+      return this.campaign && this.analytics.campaignCost !== 0;
     },
     totalRewardsPool() {
       return (
@@ -214,22 +238,29 @@ export default {
       if (!this.campaignAndAnalyticsLoaded) {
         return "";
       }
-      let prc = Math.round(
-        (Number(this.analytics.rewardsDistributed) /
-          Number(this.campaign.rewardPoolTokenCount)) * 100 * 100
-      ) / 100;
-      return prc + '%';
+      let prc =
+        Math.round(
+          (Number(this.analytics.rewardsDistributed) /
+            Number(this.campaign.rewardPoolTokenCount)) *
+            100 *
+            100
+        ) / 100;
+      return prc + "%";
     },
     campaignRewardsLeftPercent() {
       if (!this.campaignAndAnalyticsLoaded) {
         return "";
       }
-      let prc = 100 -
-      Math.round(
-        (Number(this.analytics.rewardsDistributed) /
-          Number(this.campaign.rewardPoolTokenCount)) * 100 * 100
-      ) / 100;
-      return prc + '%';
+      let prc =
+        100 -
+        Math.round(
+          (Number(this.analytics.rewardsDistributed) /
+            Number(this.campaign.rewardPoolTokenCount)) *
+            100 *
+            100
+        ) /
+          100;
+      return prc + "%";
     },
     rewardsClaimed() {
       return (
@@ -318,7 +349,10 @@ export default {
       let cacheKey = query.from + "-" + query.to;
       if (this.interactionsCache[cacheKey]) {
         this.updateChart(this.interactionsCache[cacheKey].data);
-        if (moment().diff(this.interactionsCache[cacheKey].time) < 1000 * 60 * 5) {
+        if (
+          moment().diff(this.interactionsCache[cacheKey].time) <
+          1000 * 60 * 5
+        ) {
           return;
         }
       }
@@ -335,7 +369,10 @@ export default {
             data: query,
           }
         );
-        this.interactionsCache[cacheKey] = { time: moment(), data: result.data };
+        this.interactionsCache[cacheKey] = {
+          time: moment(),
+          data: result.data,
+        };
         chartData = result.data;
       } catch (e) {
         console.log(e);

@@ -48,7 +48,7 @@ export default class CampaignFormObject extends formObject {
   /**
    * @type {Array<String>}
    */
-  categories = [];
+  tags = [];
   /**
    * @type {string | null}
    */
@@ -93,7 +93,7 @@ export default class CampaignFormObject extends formObject {
     );
     campaign.weeklyEqualDistribution = this.weeklyEqualDistribution;
     campaign.qualityAudience = this.qualityAudience;
-    campaign.categories = this.categories;
+    campaign.tags = this.tags;
     campaign.network = this.network;
     campaign.product = this.product;
     campaign.weightActivity = this.weightRatio;
@@ -116,7 +116,7 @@ export default class CampaignFormObject extends formObject {
       campaign.expectedReturnOfInvestment.toString();
     this.weeklyEqualDistribution = campaign.weeklyEqualDistribution;
     this.qualityAudience = campaign.qualityAudience;
-    this.categories = campaign.categories;
+    this.tags = campaign.tags;
     this.network = campaign.network;
     this.product = campaign.product;
     this.weightRatio = campaign.weightActivity;
