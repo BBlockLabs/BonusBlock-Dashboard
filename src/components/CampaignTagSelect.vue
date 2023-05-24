@@ -34,7 +34,6 @@ export default {
 
       this.categories.forEach(({ name }) => !tags.has(name) && tags.add(name));
 
-      console.log(tags);
       return [...tags.values()].map((tag) => ({ value: tag, label: tag }));
     },
   },

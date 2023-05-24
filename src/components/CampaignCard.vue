@@ -66,7 +66,7 @@
         <b>Categories:</b>
 
         <el-tag v-for="tag in campaign.tags" :key="tag" class="mx-1">
-          {{ tag.name }}
+          {{ tag }}
         </el-tag>
 
         <span v-if="campaign.tags.length === 0">-</span>

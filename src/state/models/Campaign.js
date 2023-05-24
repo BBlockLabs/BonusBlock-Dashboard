@@ -132,7 +132,7 @@ export default class Campaign extends Model {
     campaign.minimumPerUserAward = campaignDto.minUserReward
       ? BigInt(campaignDto.minUserReward)
       : null;
-    campaign.tags = campaignDto.tags?.map(({ id }) => id) ?? [];
+    campaign.tags = campaignDto.tags;
     campaign.rewardPoolContract = campaignDto.rewardPool?.id || null;
     campaign.rewardPoolDecimal = campaignDto.rewardPool?.decimal || 10;
     campaign.rewardPoolCurrencyName =
