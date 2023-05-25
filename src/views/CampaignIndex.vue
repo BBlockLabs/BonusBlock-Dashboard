@@ -47,6 +47,8 @@
 <script>
 import CampaignCard from "@/components/CampaignCard.vue";
 import SvgEmptyBlock from "@/assets/icons/empty-block-wireframe.svg";
+import CampaignStatus from "@/common/CampaignStatus.js";
+import { toRaw } from "vue";
 
 export default {
   components: {
@@ -55,7 +57,9 @@ export default {
   },
   computed: {
     campaigns() {
-      return this.$store.getters["Campaign/getAllCampaigns"];
+      return this.$store.getters["Campaign/getAllCampaigns"].filter(
+        ({ status }) => toRaw(status) !== CampaignStatus.DELETED
+      );
     },
   },
   created() {
