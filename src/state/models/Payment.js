@@ -37,6 +37,11 @@ export default class Payment extends Model {
   campaignId;
 
   /**
+   * @type {string}
+   */
+  tokenSmartContractAddress;
+
+  /**
    * @param {PaymentDto} dto
    * @return {Payment}
    */
@@ -48,6 +53,7 @@ export default class Payment extends Model {
     payment.currency = dto.payCurrency;
     payment.status = dto.status;
     payment.wallet = dto.destinationAddress;
+    payment.tokenSmartContractAddress = dto.tokenSmartContractAddress;
     // payment.deadline...
 
     return payment;

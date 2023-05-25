@@ -33,4 +33,8 @@ export default class PaymentDto {
    * @type {string}
    */
   memo = "";
+  /**
+   * @type {string}
+   */
+  tokenSmartContractAddress = "";
 }

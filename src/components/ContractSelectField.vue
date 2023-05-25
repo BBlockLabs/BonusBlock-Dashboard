@@ -42,6 +42,7 @@ export default {
       filterString: "",
       icons: {
         ETH: window.btoa(SvgEth),
+        USDC: window.btoa(SvgEth),
       },
     };
   },

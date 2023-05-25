@@ -50,7 +50,7 @@ export default class CampaignValidationBuilder extends ValidationBuilder {
           }
 
           const conversionRate = store.getters["ConversionRate/findPair"](
-            "ETH",
+            contract.currencyName,
             "USD"
           );
 

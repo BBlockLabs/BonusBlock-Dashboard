@@ -178,6 +178,14 @@ export default {
       });
 
       try {
+        if (this.payment.tokenSmartContractAddress) {
+          await MetamaskClient.approve(
+            this.payment.tokenSmartContractAddress,
+            this.payment.wallet,
+            this.payment.amount
+          );
+        }
+
         await MetamaskClient.sendTransaction(
           provider,
           this.payment.wallet,
@@ -185,7 +193,7 @@ export default {
           this.payment.memo
         );
       } catch (e) {
-        /* empty */
+        console.error(e);
       }
 
       await this.checkPaymentStatus();

@@ -79,11 +79,13 @@ export class MetamaskClient {
     }
   }
 
-  static async approve() {
-    const tokenScAddress = "0x6f14C02Fc1F78322cFd7d707aB90f18baD3B54f5";
-    const ourScAddress = "0x4552d82054F29f57F80F732BB184316f9d2B3Bfc";
-    const amountToApprove = 20;
-
+  /**
+   *
+   * @param {string} tokenScAddress
+   * @param {string} ourScAddress
+   * @param {BigInt} amountToApprove
+   */
+  static async approve(tokenScAddress, ourScAddress, amountToApprove) {
     const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
     const signer = provider.getSigner();
     const contract = new ethers.Contract(tokenScAddress, ERC20abi, signer);
