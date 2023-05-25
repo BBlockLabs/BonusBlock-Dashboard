@@ -1,6 +1,6 @@
 <template>
   <el-card :body-style="{ padding: '0px' }" class="b-solid" shadow="never">
-    <img :src="fileUrl" alt="Banner" class="preview-banner" />
+    <img v-if="fileUrl" :src="fileUrl" alt="Banner" class="preview-banner" />
 
     <div class="p-3">
       <div>
@@ -97,8 +97,10 @@ export default {
   },
   methods: {
     async setFileUrl() {
-      if (!this.announcement) {
+      if (!this.announcement || !this.announcement.banner) {
         this.fileUrl = null;
+
+        return;
       }
 
       this.fileUrl = await FileParser.fileToBase64(this.announcement.banner);
