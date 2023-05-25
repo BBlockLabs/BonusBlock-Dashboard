@@ -177,7 +177,7 @@ export default {
 
       return new ActionResponse(true, null);
     },
-    async loadCampaignAnalyticsInteractions({}, { campaignId, data }) {
+    async loadCampaignAnalyticsInteractions(_, { campaignId, data }) {
       const response = await HttpRequest.makeRequest(
         `campaign/${campaignId}/analytics/interactions`,
         data
@@ -186,9 +186,10 @@ export default {
       if (!response.success) {
         return new ActionResponse(false, null, response.errors);
       }
+
       return new ActionResponse(true, response.payload);
     },
-    async loadCampaignAnalytics({}, campaignId) {
+    async loadCampaignAnalytics(_, campaignId) {
       const response = await HttpRequest.makeRequest(
         `campaign/${campaignId}/analytics`
       );
