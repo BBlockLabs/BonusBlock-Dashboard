@@ -32,7 +32,7 @@
     </el-row>
 
     <el-row
-      v-if="categories.length > 0"
+      v-if="campaign.tags.length > 0"
       justify="space-between"
       class="pt-2 pb-1"
     >
@@ -41,13 +41,8 @@
       </el-col>
 
       <el-col :span="-1">
-        <el-tag
-          v-for="category in categories"
-          :key="category.id"
-          class="mx-1"
-          round
-        >
-          {{ category.name }}
+        <el-tag v-for="tag in campaign.tags" :key="tag" class="mx-1" round>
+          {{ tag }}
         </el-tag>
       </el-col>
     </el-row>
@@ -184,11 +179,6 @@ export default {
     },
     network() {
       return this.$store.getters["Network/getNetwork"](this.campaign.network);
-    },
-    categories() {
-      return this.campaign.categories.map(
-        this.$store.getters["Category/getCategory"]
-      );
     },
     campaign() {
       const campaign = this.$store.getters["Campaign/getCampaign"](
