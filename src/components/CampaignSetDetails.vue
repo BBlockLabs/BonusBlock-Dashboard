@@ -273,28 +273,11 @@
       </el-col>
 
       <el-col :span="11">
-        <el-form-item class="m-0">
+        <el-form-item class="m-0" label="&nbsp;">
           <el-switch
             v-model="campaignFormObject.weeklyEqualDistribution"
             active-text="Weekly equal distribution"
           />
-        </el-form-item>
-
-        <el-form-item>
-          <el-switch
-            v-model="campaignFormObject.qualityAudience"
-            active-text="Quality Audience (Verified by Cookie3)"
-          />
-          <el-tooltip
-            effect="light"
-            content="Target only quality users with your campaign by excluding bots or malicious and gamified actions. Note, this is an additional paid service."
-            placement="top-start"
-            :offset="-50"
-          >
-            <el-icon style="top: 0; margin-left: 0.4em" class="tooltip-icon">
-              <InfoFilled />
-            </el-icon>
-          </el-tooltip>
         </el-form-item>
       </el-col>
     </el-row>
