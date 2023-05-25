@@ -1,3 +1,6 @@
+import ERC20abi from "@/assets/ERC20_abi.json";
+import { ethers } from "ethers";
+
 export class MetamaskClient {
   static async requestAccounts(provider) {
     const accounts = await provider.request({
@@ -74,5 +77,16 @@ export class MetamaskClient {
       console.error(e);
       throw e;
     }
+  }
+
+  static async approve() {
+    const tokenScAddress = "0x6f14C02Fc1F78322cFd7d707aB90f18baD3B54f5";
+    const ourScAddress = "0x4552d82054F29f57F80F732BB184316f9d2B3Bfc";
+    const amountToApprove = 20;
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(tokenScAddress, ERC20abi, signer);
+    await contract.approve(ourScAddress, amountToApprove);
   }
 }

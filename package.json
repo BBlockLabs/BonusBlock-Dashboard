@@ -19,6 +19,7 @@
     "awesome-qr": "^2.1.5-rc.0",
     "buffer": "^6.0.3",
     "element-plus": "^2.2.32",
+    "ethers": "^5.6.4",
     "moment": "^2.29.4",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6",
