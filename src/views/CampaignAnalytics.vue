@@ -286,9 +286,9 @@ export default {
       return this.$store.getters["Campaign/getCampaign"](this.campaignId);
     },
     categories() {
-      return this.campaign.categories.map(
+      return this.campaign.categories ? this.campaign.categories.map(
         this.$store.getters["Category/getCategory"]
-      );
+      ) : [];
     },
   },
   watch: {
