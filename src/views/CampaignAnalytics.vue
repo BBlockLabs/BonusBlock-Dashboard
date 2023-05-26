@@ -43,7 +43,12 @@
                 :md="12"
                 style="min-height: 20em"
               >
-                <h3>Interactions</h3>
+                <el-row align="middle" justify="space-between">
+                  <h3>Interactions</h3>
+                  <div v-if="todayInteractions !== null" class="mr-3">
+                    Today interactions: <strong>{{ todayInteractions }}</strong>
+                  </div>
+                </el-row>
                 <el-row align="middle">
                   <el-col class="mt-1" :span="-1">
                     <el-tabs v-model="interactionsRange">
@@ -210,6 +215,7 @@ export default {
       analytics: new CampaignAnalyticsDto(),
       option: null,
       campaignId: this.$route.params.id,
+      todayInteractions: null,
       interactionsCache: {},
       interactionsOptions: {
         colors: ["#EDC16C"],
@@ -368,6 +374,7 @@ export default {
   created() {
     // make two queries in parallel! no await here!
     this.fetchAnalytics().then(() => {});
+    this.fetchTodayInteractions().then(() => {});
     this.fetchCampaignInteractions().then(() => {});
   },
   methods: {
@@ -385,6 +392,23 @@ export default {
         this.analytics = campaignAnalytics.data;
       }
       this.analyticsLoading = false;
+    },
+    async fetchTodayInteractions() {
+      const result = await this.$store.dispatch(
+        "Campaign/loadCampaignAnalyticsInteractions",
+        {
+          campaignId: this.campaignId,
+          data: {
+            from: moment().startOf("day").unix(),
+            to: moment().endOf("day").unix(),
+            timeZoneOffset: new Date().getTimezoneOffset() * -1,
+          }
+        }
+      );
+      for (let k in result.data.interactions) {
+        this.todayInteractions = result.data.interactions[k];
+        break;
+      }
     },
     async fetchCampaignInteractions() {
       const truncateSettings = {
