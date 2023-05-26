@@ -1,0 +1,14 @@
+.chart-navigation {
+  flex-wrap: nowrap;
+
+  svg {
+    cursor: pointer;
+    height: 1.25em;
+    padding: 0.5em;
+
+    &.disabled {
+      cursor: default;
+      opacity: 0.3;
+    }
+  }
+}

@@ -14,7 +14,9 @@
 @use "@/design/style/layout.scss";
 @use "@/design/style/select-v2.scss";
 @use "@/design/style/steps.scss";
+@use "@/design/style/tabs.scss";
 @use "@/design/style/toasts.scss";
+@use "@/design/style/apexchart.scss";
 
 body {
   background-color: EPFunctions.getCssVar('bg-color', 'page');
