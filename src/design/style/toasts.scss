@@ -10,7 +10,6 @@
   max-width: 32em;
 
   .toast-body {
-    margin-top: 2px;
     white-space: pre-wrap;
     word-break: break-word;
     flex-grow: 1;
@@ -21,7 +20,7 @@
     }
 
     >div {
-      margin: 0 -2em;
+      margin: 0.5em 0 0 0;
     }
 
     .el-collapse-item__header {

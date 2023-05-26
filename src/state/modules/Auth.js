@@ -235,8 +235,8 @@ export default {
       commit("Project/setProject", null, { root: true });
       commit("Campaign/clearCampaigns", null, { root: true });
 
-      await localStorage.removeItem("token");
-      await localStorage.removeItem("tokenExpire");
+      localStorage.removeItem("token");
+      localStorage.removeItem("tokenExpire");
 
       HttpRequest.setSession(null, null);
 

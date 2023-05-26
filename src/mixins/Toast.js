@@ -1,5 +1,5 @@
-import { ElMessage } from "element-plus";
-import { h } from "vue";
+import {ElMessage} from "element-plus";
+import {h} from "vue";
 
 export default {
   methods: {
@@ -11,13 +11,22 @@ export default {
      * @return {void}
      */
     Toast(title, text, type = "info", duration = 0) {
+      if (!text) {
+        text = title;
+        title = type === "info" || type === "success" ? "Information" : "Error";
+      } else if (text instanceof Error) {
+        text = text.message;
+      }
       ElMessage({
         message: h(
           "div",
           {
             class: "toast-body",
           },
-          [h("h6", null, title), text]
+          [
+            h("h6", null, title),
+            h("div", null, text),
+          ]
         ),
         type,
         duration,
