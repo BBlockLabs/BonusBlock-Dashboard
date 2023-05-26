@@ -84,7 +84,7 @@
                   :options="interactionsOptions"
                   :series="interactionsSeries"
                 ></apexchart>
-                <div v-else>No data yet</div>
+                <div v-else class="mt-3 ml-2">No data yet</div>
               </el-col>
               <el-col v-loading="analyticsLoading" :md="12" class=" pl-3 d-flex flex-column justify-content-center">
                 <el-card class="analytics-card yellow" shadow="never">
@@ -347,15 +347,21 @@ export default {
       return "";
     },
     hasPrevRange() {
-      //let startDate = ;
-      //if (!startDate) {
-      //  return true;
-      //}
-      //return this.currentRangeStart.isAfter(startDate);
-      return true;
+      let startDate = this.campaign?.timeFrameFrom;
+      if (!startDate) {
+        return true;
+      }
+      return this.currentRangeStart.isAfter(startDate);
     },
     hasNextRange() {
-      return this.chartOffset > 0;
+      if (this.chartOffset <= 0) {
+        return false;
+      }
+      let endDate = this.campaign?.timeFrameTill;
+      if (!endDate) {
+        return true;
+      }
+      return this.currentRangeEnd.isBefore(endDate);
     },
   },
   watch: {
