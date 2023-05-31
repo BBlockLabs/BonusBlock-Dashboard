@@ -4,6 +4,7 @@ import RouteMeta from "@/router/RouteMeta";
 const CreateProject = () => import("@/views/CreateProject.vue");
 const CampaignIndex = () => import("@/views/CampaignIndex.vue");
 const CampaignAdd = () => import("@/views/CampaignAdd.vue");
+const ProjectSettings = () => import("@/views/ProjectSettings.vue");
 const CampaignAnalytics = () => import("@/views/CampaignAnalytics.vue");
 const Login = () => import("@/views/LoginPage.vue");
 const Page404 = () => import("@/views/utility/404Page.vue");
@@ -45,6 +46,14 @@ export default [
     }),
   },
   {
+    path: "/settings",
+    component: ProjectSettings,
+    name: "Settings",
+    meta: new RouteMeta({
+      pagePadding: "0",
+    }),
+  },
+  {
     path: "/campaign/add",
     component: CampaignAdd,
     name: "Campaign add",
@@ -56,30 +65,6 @@ export default [
     path: "/campaign/:id/edit",
     component: CampaignAdd,
     name: "Campaign edit",
-    meta: new RouteMeta({
-      pagePadding: "0",
-    }),
-  },
-  {
-    path: "/campaign/:id/analytics",
-    component: CampaignAnalytics,
-    name: "Campaign analytics",
-    meta: new RouteMeta({
-      pagePadding: "0",
-    }),
-  },
-  {
-    path: "/campaign/:id/analytics",
-    component: CampaignAnalytics,
-    name: "Campaign analytics",
-    meta: new RouteMeta({
-      pagePadding: "0",
-    }),
-  },
-  {
-    path: "/campaign/:id/analytics",
-    component: CampaignAnalytics,
-    name: "Campaign analytics",
     meta: new RouteMeta({
       pagePadding: "0",
     }),

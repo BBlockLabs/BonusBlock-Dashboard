@@ -71,7 +71,6 @@ export default {
 <style lang="scss">
 .avatar-uploader {
   width: 100%;
-  max-width: 430px;
 
   .el-upload {
     border: 1px dashed var(--el-border-color);

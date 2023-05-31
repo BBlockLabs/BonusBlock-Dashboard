@@ -52,5 +52,22 @@ export default {
 
       return new ActionResponse(true, project);
     },
+    async updateProject({ commit }, projectUpdateData) {
+
+      const response = await HttpRequest.makeRequest(
+        "project/update",
+        projectUpdateData
+      );
+
+      if (!response.success) {
+        return new ActionResponse(false, response.errors, "error");
+      }
+
+      const project = new Project(response.payload);
+
+      commit("setProject", project);
+
+      return new ActionResponse(true, project);
+    },
   },
 };
