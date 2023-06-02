@@ -119,12 +119,6 @@
         </el-card>
       </div>
     </el-col>
-
-    <el-col class="hidden-sm-and-down" :md="2">
-      <el-row justify="end">
-        <b-block-logo />
-      </el-row>
-    </el-col>
   </el-row>
 </template>
 
@@ -135,13 +129,11 @@ import Vuelidate from "@/mixins/Vuelidate.js";
 import SvgAvatar1 from "@/assets/bblock/avatar1.svg?raw";
 import AvatarInput from "@/components/AvatarInput.vue";
 import AvatarSelect from "@/components/AvatarSelect.vue";
-import BBlockLogo from "@/assets/bblock/logo.svg";
 
 export default {
   components: {
     AvatarSelect,
     AvatarInput,
-    BBlockLogo,
   },
   mixins: [Toast, Vuelidate],
   data() {

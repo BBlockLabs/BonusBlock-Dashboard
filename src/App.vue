@@ -10,7 +10,7 @@
 
     <el-container vertical>
       <el-header
-        v-if="$store.getters['Auth/isLoggedIn'] && !$store.state.hideMenus"
+        v-if="$store.getters['Auth/isLoggedIn']"
         class="bb-solid"
       >
         <page-head />

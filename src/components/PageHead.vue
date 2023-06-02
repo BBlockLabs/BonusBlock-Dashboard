@@ -1,11 +1,12 @@
 <template>
   <el-row justify="space-between" class="h-100">
     <el-col class="d-flex h-100" :span="-1">
-      <span class="my-auto">
+      <span class="my-auto" v-if="!$store.state.hideMenus">
         {{
           currentRoute ? currentRoute.parent || currentRoute.name : $route.name
         }}
       </span>
+      <b-block-logo v-else />
     </el-col>
 
     <el-col v-if="routeOptions.length > 0" class="h-100" :span="-1">
@@ -38,7 +39,7 @@
           <span class="d-flex align-items-center project-dropdown">
             <avatar :file="projectImage" />
             <span class="ml-3 my-auto">
-              {{ $store.state.Project.currentProject?.title }}
+              {{ $store.state.Project.currentProject?.title ?? "User/Wallet" }}
             </span>
           </span>
 
@@ -62,12 +63,14 @@ import MenuItem from "@/components/MenuItem.vue";
 import Avatar from "@/components/AvatarImage.vue";
 import { GitCompare } from "iconoir-vue";
 import Toast from "@/mixins/Toast.js";
+import BBlockLogo from "@/assets/bblock/logo.svg";
 
 export default {
   components: {
     MenuItem,
     GitCompare,
     Avatar,
+    BBlockLogo,
   },
   computed: {
     env() {
