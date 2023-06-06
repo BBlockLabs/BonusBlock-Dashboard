@@ -322,6 +322,16 @@ export default {
     campaign() {
       return this.$store.getters["Campaign/getCampaign"](this.campaignId);
     },
+    lowestOffset() {
+      let endDate = this.campaign?.timeFrameTill;
+      if (!endDate) {
+        return 0;
+      }
+      const diff = moment()
+        .startOf(this.interactionsRange)
+        .diff(endDate, this.interactionsRange, true);
+      return diff > 0 ? Math.ceil(diff) : 0;
+    },
     currentRangeStart() {
       return moment()
         .subtract(this.chartOffset, this.interactionsRange)
@@ -367,7 +377,7 @@ export default {
   watch: {
     interactionsRange(newValue, oldValue) {
       if (newValue !== oldValue && newValue !== "") {
-        this.chartOffset = 0;
+        this.chartOffset = this.lowestOffset;
         this.fetchCampaignInteractions();
       }
     },
@@ -376,9 +386,23 @@ export default {
         this.fetchCampaignInteractions();
       }
     },
+    campaign() {
+      let startDate = this.campaign?.timeFrameFrom;
+      if (startDate && this.currentRangeEnd.isBefore(startDate)) {
+        const diff = this.currentRangeEnd.diff(startDate, this.interactionsRange, true);
+        this.jumpBy(Math.floor(diff));
+      }
+
+      let endDate = this.campaign?.timeFrameTill;
+      if (endDate && this.currentRangeStart.isAfter(endDate)) {
+        const diff = this.currentRangeStart.diff(endDate, this.interactionsRange, true);
+        this.jumpBy(Math.ceil(diff));
+      }
+    }
   },
   created() {
-    // make two queries in parallel! no await here!
+    this.chartOffset = this.lowestOffset;
+    // make queries in parallel! no await here!
     this.fetchAnalytics().then(() => {});
     this.fetchTodayInteractions().then(() => {});
     this.fetchCampaignInteractions().then(() => {});
@@ -411,9 +435,11 @@ export default {
           }
         }
       );
-      for (let k in result.data.interactions) {
-        this.todayInteractions = result.data.interactions[k];
-        break;
+      if (result.data) {
+        for (let k in result.data.interactions) {
+          this.todayInteractions = result.data.interactions[k];
+          break;
+        }
       }
     },
     async fetchCampaignInteractions() {
@@ -431,7 +457,7 @@ export default {
         truncateTo: truncateSettings[this.interactionsRange],
         timeZoneOffset: new Date().getTimezoneOffset() * -1,
       };
-      let cacheKey = query.from + "-" + query.to;
+      let cacheKey = query.from + "-" + query.to + "-" + query.truncateTo;
       if (this.interactionsCache[cacheKey]) {
         this.updateChart(this.interactionsCache[cacheKey].data);
         if (
@@ -477,6 +503,14 @@ export default {
 
       let from = moment(chartData.from);
       let to = moment(chartData.to);
+      let startDate = this.campaign?.timeFrameFrom;
+      let endDate = this.campaign?.timeFrameTill;
+      if (startDate && from.isBefore(startDate)) {
+        from = moment(startDate);
+      }
+      if (endDate && to.isAfter(endDate)) {
+        to = moment(endDate);
+      }
 
       let dateFormat = "";
       if (chartData.truncateTo === "hours") {
@@ -524,7 +558,7 @@ export default {
       if (offset > 0 && !this.hasPrevRange) {
         return;
       }
-      this.chartOffset = Math.max(0, this.chartOffset + offset);
+      this.chartOffset = Math.max(this.lowestOffset, this.chartOffset + offset);
     },
     tooltipXFormatter(label) {
       switch (this.interactionsRange) {
