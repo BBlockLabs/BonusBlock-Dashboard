@@ -86,7 +86,7 @@ export default class CampaignValidationBuilder extends ValidationBuilder {
           (value, vm) => {
             return (
               value > new Date() &&
-              value > moment(vm[0]).add(7, "days").toDate()
+              value >= moment(vm[0]).add(7, "days").toDate()
             );
           }
         ),
