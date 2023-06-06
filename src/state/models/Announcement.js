@@ -70,11 +70,10 @@ export default class Announcement extends Model {
     );
 
     // This part would be nicer if we would add these fields in backend..
-    const buttonLabel = socials.find(({ type }) => type === "main-label");
     const buttonLink = socials.find(({ type }) => type === "main-link");
 
-    if (buttonLabel && buttonLink) {
-      announcement.buttonLabel = buttonLabel.link;
+    if (buttonLink) {
+      announcement.buttonLabel = buttonLink.title ?? "Visit";
       announcement.buttonUrl = buttonLink.link;
     }
 
@@ -102,10 +101,7 @@ export default class Announcement extends Model {
 
     const socials = [...this.socials];
 
-    socials.push(
-      Social.fromDto({ type: "main-label", link: this.buttonLabel })
-    );
-    socials.push(Social.fromDto({ type: "main-link", link: this.buttonUrl }));
+    socials.push(Social.fromDto({ type: "main-link", link: this.buttonUrl, title: this.buttonLabel }));
 
     dto.socials = JSON.stringify(socials);
 

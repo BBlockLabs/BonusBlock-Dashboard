@@ -77,7 +77,7 @@ export class HttpRequest {
     if (errorMessage) {
       console.error(errorMessage);
       let title = (response.status === 401) ? "Session expired" : "backend error";
-      Toast.methods.Toast("Can't connect to server", errorMessage, "error");
+      Toast.methods.Toast("Server returned an error", errorMessage, "error");
     }
 
     if (response.status === 401) {

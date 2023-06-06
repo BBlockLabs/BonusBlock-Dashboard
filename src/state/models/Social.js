@@ -19,6 +19,10 @@ export default class Social {
     social.type = dto.type;
     social.link = dto.link;
 
+    if (dto.title) {
+      social.title = dto.title;
+    }
+
     return social;
   }
 }
