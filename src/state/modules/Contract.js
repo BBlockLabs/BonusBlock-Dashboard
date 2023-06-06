@@ -75,10 +75,11 @@ export default {
      * @returns {Promise<ActionResponse>}
      */
     async preloadContracts({ commit }) {
-      const response = await HttpRequest.makeRequest("get/reward-pools");
-
-      if (!response.success) {
-        return new ActionResponse(false, null, response.errors);
+      let response;
+      try {
+        response = await HttpRequest.makeRequest("get/reward-pools");
+      } catch (e) {
+        return new ActionResponse(false, null, e);
       }
 
       /**

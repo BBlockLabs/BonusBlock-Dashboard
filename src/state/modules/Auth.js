@@ -38,10 +38,11 @@ export default {
      * @return {Promise<ActionResponse>}
      */
     async login({ commit }, loginData) {
-      const response = await HttpRequest.makeRequest("auth/login", loginData);
-
-      if (!response.success) {
-        return new ActionResponse(false, response.errors, "error");
+      let response;
+      try {
+        response = await HttpRequest.makeRequest("auth/login", loginData);
+      } catch (e) {
+        return new ActionResponse(false, null, e);
       }
 
       const user = new User(response.payload.account);
@@ -60,11 +61,12 @@ export default {
      * @return {Promise<*|boolean>}
      */
     async getTicket(context, nonce) {
-      const response = await HttpRequest.makeRequest("auth/get-auth-ticket", {
-        nonce: nonce,
-      });
-
-      if (!response.success) {
+      let response;
+      try {
+        response = await HttpRequest.makeRequest("auth/get-auth-ticket", {
+          nonce: nonce,
+        });
+      } catch (e) {
         return false;
       }
 
@@ -140,10 +142,11 @@ export default {
         signedObject: JSON.stringify(signResponse),
         nonce: nonce,
       };
-      const response = await HttpRequest.makeRequest("auth/wallet", authData);
-
-      if (!response.success) {
-        return new ActionResponse(false, response.errors, "error");
+      let response;
+      try {
+        response = await HttpRequest.makeRequest("auth/wallet", authData);
+      } catch (e) {
+        return new ActionResponse(false, null, e);
       }
 
       const user = new User(response.payload.account);
@@ -182,10 +185,11 @@ export default {
         signedObject: signedMessage,
         nonce: nonce,
       };
-      const response = await HttpRequest.makeRequest("auth/wallet", authData);
-
-      if (!response.success) {
-        return new ActionResponse(false, response.errors, "error");
+      let response;
+      try {
+        response = await HttpRequest.makeRequest("auth/wallet", authData);
+      } catch (e) {
+        return new ActionResponse(false, null, e);
       }
 
       const user = new User(response.payload.account);
@@ -204,13 +208,14 @@ export default {
      * @return {Promise<ActionResponse>}
      */
     async register({ commit }, registrationData) {
-      const response = await HttpRequest.makeRequest(
-        "auth/register",
-        registrationData
-      );
-
-      if (!response.success) {
-        return new ActionResponse(false, response.errors, "error");
+      let response;
+      try {
+        response = await HttpRequest.makeRequest(
+            "auth/register",
+            registrationData
+        );
+      } catch (e) {
+        return new ActionResponse(false, null, e);
       }
 
       const user = new User(response.payload.account);
@@ -225,10 +230,11 @@ export default {
      * @return {Promise<ActionResponse>}
      */
     async logout({ commit }) {
-      const response = await HttpRequest.makeRequest("auth/logout");
-
-      if (!response.success) {
-        return new ActionResponse(false, response.errors, "error");
+      let response;
+      try {
+        response = await HttpRequest.makeRequest("auth/logout");
+      } catch (e) {
+        return new ActionResponse(false, null, e);
       }
 
       commit("setUser", null);
@@ -270,9 +276,10 @@ export default {
 
       HttpRequest.setSession(token, expireMoment);
 
-      const response = await HttpRequest.makeRequest("get-status");
-
-      if (!response.success) {
+      let response;
+      try {
+        response = await HttpRequest.makeRequest("get-status");
+      } catch (e) {
         return;
       }
 

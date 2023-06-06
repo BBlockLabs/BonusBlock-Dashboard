@@ -37,13 +37,14 @@ export default {
         image: projectData.image.data,
         imageType: projectData.image.type,
       };
-      const response = await HttpRequest.makeRequest(
-        "project/create",
-        requestBody
-      );
-
-      if (!response.success) {
-        return new ActionResponse(false, response.errors, "error");
+      let response;
+      try {
+        response = await HttpRequest.makeRequest(
+            "project/create",
+            requestBody
+        );
+      } catch (e) {
+        return new ActionResponse(false, null, e);
       }
 
       const project = new Project(response.payload);
@@ -53,14 +54,14 @@ export default {
       return new ActionResponse(true, project);
     },
     async updateProject({ commit }, projectUpdateData) {
-
-      const response = await HttpRequest.makeRequest(
-        "project/update",
-        projectUpdateData
-      );
-
-      if (!response.success) {
-        return new ActionResponse(false, response.errors, "error");
+      let response;
+      try {
+        response = await HttpRequest.makeRequest(
+            "project/update",
+            projectUpdateData
+        );
+      } catch (e) {
+        return new ActionResponse(false, null, e);
       }
 
       const project = new Project(response.payload);

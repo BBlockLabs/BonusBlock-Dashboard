@@ -50,15 +50,16 @@ export class HttpRequest {
     }
 
     let response;
+    let url = `${import.meta.env.VITE_BACKEND_URL}/${prefix}/${endpoint}`;
     try {
       response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/${prefix}/${endpoint}`,
+          url,
           request
       );
     } catch (e) {
       console.error(e);
       Toast.methods.Toast("Can't connect to server", e, "error");
-      return new HttpResponse(false, null, "Network error", moment());
+      return Promise.reject("Network error");
     }
 
     let errorMessage = "";
@@ -66,6 +67,9 @@ export class HttpRequest {
     try {
       const responseText = await response.text();
       jsonData = jsonBigint.parse(responseText);
+      if (!jsonData) {
+        throw new Error("JSON parsing error");
+      }
       errorMessage = HttpRequest.parseErrorMessage(jsonData);
     } catch (e) {
       console.error(e);
@@ -75,27 +79,22 @@ export class HttpRequest {
       errorMessage = "The server returned error code " + response.status;
     }
     if (errorMessage) {
-      console.error(errorMessage);
-      let title = (response.status === 401) ? "Session expired" : "backend error";
-      Toast.methods.Toast("Server returned an error", errorMessage, "error");
-    }
-
-    if (response.status === 401) {
-      // user is logged out
-      this.session = null;
-      store.commit("Auth/setUser", null, { root: true });
-      store.commit("Project/setProject", null, { root: true });
-      store.commit("Campaign/clearCampaigns", null, { root: true });
-      Toast.methods.Toast("Session expired", errorMessage, "warning");
-      localStorage.removeItem("token");
-      localStorage.removeItem("tokenExpire");
-      HttpRequest.setSession(null, null);
-      router.push("/");
-    }
-
-    if (!response.ok && response.status !== 400) {
-      // return this on non-400 error response
-      return new HttpResponse(false, null, errorMessage, moment());
+      console.error("Error while fetching", url, errorMessage);
+      let title = (response.status === 401) ? "Session expired" : "Server returned an error";
+      Toast.methods.Toast(title, errorMessage, "error");
+      if (response.status === 401) {
+        // user is logged out
+        this.session = null;
+        store.commit("Auth/setUser", null, { root: true });
+        store.commit("Project/setProject", null, { root: true });
+        store.commit("Campaign/clearCampaigns", null, { root: true });
+        Toast.methods.Toast("Session expired", errorMessage, "warning");
+        localStorage.removeItem("token");
+        localStorage.removeItem("tokenExpire");
+        HttpRequest.setSession(null, null);
+        router.push("/");
+      }
+      return Promise.reject(errorMessage);
     }
 
     const responseBody = new HttpResponse(
@@ -106,7 +105,7 @@ export class HttpRequest {
     );
 
     if (!responseBody.success) {
-      return responseBody;
+      return Promise.reject(responseBody);
     }
 
     if (jsonData.payload && jsonData.payload.session) {

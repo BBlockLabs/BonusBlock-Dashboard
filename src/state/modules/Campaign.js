@@ -114,12 +114,13 @@ export default {
   },
   actions: {
     async copyCampaign({ dispatch }, campaignId) {
-      const response = await HttpRequest.makeRequest(
-        `campaign/${campaignId}/copy`
-      );
-
-      if (!response.success) {
-        return new ActionResponse(false, null, response.errors);
+      let response;
+      try {
+        response = await HttpRequest.makeRequest(
+            `campaign/${campaignId}/copy`
+        );
+      } catch (e) {
+        return new ActionResponse(false, null, e);
       }
 
       /**
@@ -145,12 +146,13 @@ export default {
         return new ActionResponse(false, null, ["UNSUPPORTED_STATUS"]);
       }
 
-      const response = await HttpRequest.makeRequest(
-        `campaign/${campaignId}/${endpointStatus}`
-      );
-
-      if (!response.success) {
-        return new ActionResponse(false, null, response.errors);
+      let response;
+      try {
+        response = await HttpRequest.makeRequest(
+            `campaign/${campaignId}/${endpointStatus}`
+        );
+      } catch (e) {
+        return new ActionResponse(false, null, e);
       }
 
       const campaign = getters["getCampaign"](campaignId);
@@ -178,32 +180,36 @@ export default {
       return new ActionResponse(true, null);
     },
     async loadCampaignAnalyticsInteractions(_, { campaignId, data }) {
-      const response = await HttpRequest.makeRequest(
-        `campaign/${campaignId}/analytics/interactions`,
-        data
-      );
-
-      if (!response.success) {
-        return new ActionResponse(false, null, response.errors);
+      let response;
+      try {
+        response = await HttpRequest.makeRequest(
+            `campaign/${campaignId}/analytics/interactions`,
+            data
+        );
+      } catch (e) {
+        return new ActionResponse(false, null, e);
       }
 
       return new ActionResponse(true, response.payload);
     },
     async loadCampaignAnalytics(_, campaignId) {
-      const response = await HttpRequest.makeRequest(
-        `campaign/${campaignId}/analytics`
-      );
-
-      if (!response.success) {
-        return new ActionResponse(false, null, response.errors);
+      let response;
+      try {
+        response = await HttpRequest.makeRequest(
+            `campaign/${campaignId}/analytics`
+        );
+      } catch (e) {
+        return new ActionResponse(false, null, e);
       }
+
       return new ActionResponse(true, response.payload);
     },
     async loadCampaigns({ dispatch }) {
-      const response = await HttpRequest.makeRequest("campaign/list");
-
-      if (!response.success) {
-        return new ActionResponse(false, null, response.errors);
+      let response;
+      try {
+        response = await HttpRequest.makeRequest("campaign/list");
+      } catch (e) {
+        return new ActionResponse(false, null, e);
       }
 
       /**
@@ -240,10 +246,11 @@ export default {
           ? `campaign/${campaign.id}/update`
           : "campaign/create";
 
-      const response = await HttpRequest.makeRequest(endpoint, campaignDto);
-
-      if (!response.success) {
-        return new ActionResponse(false, null, response.errors);
+      let response;
+      try {
+        response = await HttpRequest.makeRequest(endpoint, campaignDto);
+      } catch (e) {
+        return new ActionResponse(false, null, e);
       }
 
       campaign.tags.forEach((tag) => commit("addTag", tag));

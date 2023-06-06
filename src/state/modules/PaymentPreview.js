@@ -36,12 +36,13 @@ export default {
   },
   actions: {
     async loadCampaignPaymentPreview({ commit }, campaignId) {
-      const response = await HttpRequest.makeRequest(
-        `campaign/${campaignId}/payment-preview`
-      );
-
-      if (!response.success) {
-        return new ActionResponse(false, null, response.errors);
+      let response;
+      try {
+        response = await HttpRequest.makeRequest(
+            `campaign/${campaignId}/payment-preview`
+        );
+      } catch (e) {
+        return new ActionResponse(false, null, e);
       }
 
       /**

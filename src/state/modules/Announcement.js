@@ -74,12 +74,13 @@ export default {
   },
   actions: {
     async loadCampaignAnnouncements({ commit }, campaignId) {
-      const response = await HttpRequest.makeRequest(
-        `announcement/${campaignId}/list`
-      );
-
-      if (!response.success) {
-        return new ActionResponse(false, null, response.errors);
+      let response;
+      try {
+        response = await HttpRequest.makeRequest(
+            `announcement/${campaignId}/list`
+        );
+      } catch (e) {
+        return new ActionResponse(false, null, e);
       }
 
       /**
@@ -115,13 +116,14 @@ export default {
           ? `announcement/${announcement.campaign}/${announcement.id}/update`
           : `announcement/${announcement.campaign}/create`;
 
-      const response = await HttpRequest.makeRequest(
-        endpoint,
-        await announcement.toDto()
-      );
-
-      if (!response.success) {
-        return new ActionResponse(false, null, response.errors);
+      let response;
+      try {
+        response = await HttpRequest.makeRequest(
+            endpoint,
+            await announcement.toDto()
+        );
+      } catch (e) {
+        return new ActionResponse(false, null, e);
       }
 
       /**

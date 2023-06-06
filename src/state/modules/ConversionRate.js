@@ -1,6 +1,7 @@
 import ActionResponse from "@/common/ActionResponse";
-import { HttpRequest } from "@/common/HttpRequest.js";
-import ConversionRate from "@/state/models/ConversionRate.js";
+import { HttpRequest } from "@/common/HttpRequest";
+import ConversionRate from "@/state/models/ConversionRate";
+import CachedRequest from "@/common/CachedRequest";
 
 export class ConversionRateState {
   /**
@@ -17,7 +18,7 @@ export class ConversionRateState {
     rate.rate = 1;
     rate.id = "USD";
 
-    this.rates.set("USD", rate);
+    this.rates.set("USD-USD", rate);
   }
 }
 
@@ -25,28 +26,13 @@ export default {
   namespaced: true,
   state: new ConversionRateState(),
   getters: {
-    /**
-     * @param state
-     * @returns {function(string): ConversionRate | null}
-     */
-    getRate: (state) => (rateId) => {
-      if (!state.rates.has(rateId)) {
-        return null;
-      }
-
-      return state.rates.get(rateId);
-    },
     findPair: (state) => (denomFrom, denomTo) => {
       const from = denomFrom.toUpperCase();
       const to = denomTo.toUpperCase();
-
-      for (const rate of state.rates.values()) {
-        if (rate.from.toUpperCase() === from && rate.to.toUpperCase() === to) {
-          return rate;
-        }
+      if (!state.rates.has(from + "-" + to)) {
+        return null;
       }
-
-      return null;
+      return state.rates.get(from + "-" + to);
     },
     getMinRewardPoolAmount: (state) => () => {
       return state.minRewardPoolAmount;
@@ -57,8 +43,8 @@ export default {
      * @param {ConversionRateState} state
      * @param {ConversionRate} rate
      */
-    setRate(state, rate) {
-      state.rates.set(rate.id, rate);
+    setRate(state, params) {
+      state.rates.set(params.key, params.value);
     },
     /**
      * @param {ConversionRateState} state
@@ -85,41 +71,42 @@ export default {
      * @param {String} denom
      * @return {Promise<ActionResponse>}
      */
-    async loadConversionRate({ commit }, denom) {
-      const response = await HttpRequest.makeRequest(
-        `ticker-in-usd/${denom.toUpperCase()}`,
-        null,
-        "v1/rate"
-      );
+    loadConversionRate({ commit }, denom) {
+      const conversionRatePromise = CachedRequest.query("loadConversionRate/" + denom, () => HttpRequest.makeRequest(
+          `ticker-in-usd/${denom.toUpperCase()}`,
+          null,
+          "v1/rate"
+      ), 1, "minutes").then((response) => {
+        if (response.payload === null) {
+          throw new Error("Missing rate");
+        }
+        const rate = ConversionRate.fromDto(response.payload);
+        commit("setRate", {
+          key: rate.from.toUpperCase() + "-" + rate.to.toUpperCase(),
+          value: rate
+        });
+        return rate;
+      }).catch((e) => {
+        commit("setRate", {
+          key: denom.toUpperCase() + "-" + "USD",
+          value: false
+        });
+        return Promise.reject(e)
+      });
 
-      if (!response.success) {
-        return new ActionResponse(false, null, response.errors);
-      }
+      const minAmountPromise = CachedRequest.query("loadConversionRate/min-reward-pool-amount", () => HttpRequest.makeRequest(
+          "min-reward-pool-amount",
+          null,
+          "v1/rate"
+      ), 1, "minutes").then((response) => {
+        commit("setMinRewardPoolAmount", response.payload);
+      });
 
-      /**
-       * @type {ConversionRateDto|null}
-       */
-      const payload = response.payload;
-
-      if (payload === null) {
-        return new ActionResponse(false, denom, "RATE_NOT_FOUND");
-      }
-
-      const rate = ConversionRate.fromDto(payload);
-
-      commit("setRate", rate);
-
-      const minRewardPoolAmountResponse = await HttpRequest.makeRequest(
-        "min-reward-pool-amount",
-        null,
-        "v1/rate"
-      );
-
-      if (minRewardPoolAmountResponse.success) {
-        commit("setMinRewardPoolAmount", minRewardPoolAmountResponse.payload);
-      }
-
-      return new ActionResponse(true, rate.id);
+      return Promise.all([conversionRatePromise, minAmountPromise]).then((ret) => {
+        new ActionResponse(true, ret[0]);
+      }).catch(() => {
+        new ActionResponse(false, null);
+      });
     },
   },
 };

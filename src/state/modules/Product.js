@@ -73,10 +73,11 @@ export default {
      * @returns {Promise<ActionResponse>}
      */
     async queryProducts({ commit, getters }, query) {
-      const response = await HttpRequest.makeRequest("get/products", query);
-
-      if (!response.success) {
-        return new ActionResponse(false, null, response.errors);
+      let response;
+      try {
+        response = await HttpRequest.makeRequest("get/products", query);
+      } catch (e) {
+        return new ActionResponse(false, null, e);
       }
 
       /**

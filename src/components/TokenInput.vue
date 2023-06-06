@@ -3,6 +3,7 @@
     v-model="inputValue"
     placeholder="Provide token amount"
     v-bind="$attrs"
+    :readonly="!rate"
   >
     <template #prefix>
       <span class="text-secondary">
@@ -11,9 +12,15 @@
       &nbsp;
     </template>
 
-    <template v-if="rate" #append>
-      <span class="text-secondary">
+    <template #append>
+      <span class="text-secondary" v-if="rate">
         $ {{ Math.round(inputValue * rate.rate * 100) / 100 }}
+      </span>
+      <span class="text-secondary" v-else-if="rate === false">
+        Can't load rate
+      </span>
+      <span class="text-secondary" v-else>
+        Loading rate
       </span>
     </template>
   </el-input>
@@ -96,7 +103,7 @@ export default {
   },
   methods: {
     async loadConversionRate() {
-      if (!this.contract || this.rate !== null) {
+      if (!this.contract || this.rate) {
         return;
       }
 

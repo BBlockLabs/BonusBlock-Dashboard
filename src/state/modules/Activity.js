@@ -160,17 +160,18 @@ export default {
      * @returns {Promise<ActionResponse>}
      */
     async queryActivities({ commit, getters }, filters) {
-      const response = await HttpRequest.makeRequest("product/find", {
-        ...filters,
-        action: filters.action?.replace(/^0x/, "") || undefined,
-        filter: filters.filter?.replace(/^0x/, "") || undefined,
-        page: filters.page || 1,
-        perPage: filters.perPage || 25,
-        type: filters.type?.getName() || undefined,
-      });
-
-      if (!response.success) {
-        return new ActionResponse(false, null, response.errors);
+      let response;
+      try {
+        response = await HttpRequest.makeRequest("product/find", {
+          ...filters,
+          action: filters.action?.replace(/^0x/, "") || undefined,
+          filter: filters.filter?.replace(/^0x/, "") || undefined,
+          page: filters.page || 1,
+          perPage: filters.perPage || 25,
+          type: filters.type?.getName() || undefined,
+        });
+      } catch (e) {
+        return new ActionResponse(false, null, e);
       }
 
       /**

@@ -70,12 +70,13 @@ export default {
         return new ActionResponse(false, null, "PAYMENT_NOT_FOUND");
       }
 
-      const response = await HttpRequest.makeRequest(
-        `campaign/${campaignId}/payment-info`
-      );
-
-      if (!response.success) {
-        return new ActionResponse(false, null, response.errors);
+      let response;
+      try {
+        response = await HttpRequest.makeRequest(
+            `campaign/${campaignId}/payment-info`
+        );
+      } catch (e) {
+        return new ActionResponse(false, null, e);
       }
 
       /**
