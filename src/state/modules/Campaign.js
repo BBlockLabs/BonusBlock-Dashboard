@@ -219,7 +219,26 @@ export default {
 
       payload.forEach((dto) => dispatch("saveCampaignDto", dto));
 
-      return new ActionResponse(false, null, response.errors);
+      return new ActionResponse(true, payload);
+    },
+    async loadCampaign({ dispatch }, campaignId) {
+      let response;
+      try {
+        response = await HttpRequest.makeRequest("campaign/" + campaignId);
+      } catch (e) {
+        return new ActionResponse(false, null, e);
+      }
+
+      /**
+       * @type {CampaignDto}
+       */
+      const payload = response.payload;
+
+      if (payload) {
+        dispatch("saveCampaignDto", payload);
+      }
+
+      return new ActionResponse(true, payload);
     },
     /**
      * @param getters

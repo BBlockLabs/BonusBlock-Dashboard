@@ -112,7 +112,7 @@ import CampaignStep2ValidationBuilder from "@/common/validation/CampaignStep2Val
 const defaultData = () => {
   return {
     temporaryCampaignName: null,
-    loading: false,
+    loading: true,
     step: 1,
     campaign: new Campaign(),
     announcement: new Announcement(),
@@ -222,6 +222,11 @@ export default {
       ];
 
       if (this.$route.params.id) {
+        await this.$store.dispatch(
+          "Campaign/loadCampaign",
+          this.$route.params.id
+        );
+
         const campaign = this.$store.getters["Campaign/getCampaign"](
           this.$route.params.id
         );
