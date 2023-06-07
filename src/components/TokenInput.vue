@@ -4,6 +4,7 @@
     placeholder="Provide token amount"
     v-bind="$attrs"
     :readonly="!rate"
+    :class="rate ? '' : 'readonly'"
   >
     <template #prefix>
       <span class="text-secondary">
@@ -16,11 +17,11 @@
       <span class="text-secondary" v-if="rate">
         $ {{ Math.round(inputValue * rate.rate * 100) / 100 }}
       </span>
-      <span class="text-secondary" v-else-if="rate === false">
-        Can't load rate
+      <span class="text-secondary fs-small" v-else-if="rate === false">
+        USD rate unavailable
       </span>
-      <span class="text-secondary" v-else>
-        Loading rate
+      <span class="text-secondary fs-small" v-else>
+        Loading USD rate
       </span>
     </template>
   </el-input>

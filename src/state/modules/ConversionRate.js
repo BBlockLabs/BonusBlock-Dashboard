@@ -2,6 +2,7 @@ import ActionResponse from "@/common/ActionResponse";
 import { HttpRequest } from "@/common/HttpRequest";
 import ConversionRate from "@/state/models/ConversionRate";
 import CachedRequest from "@/common/CachedRequest";
+import moment from "moment";
 
 export class ConversionRateState {
   /**
@@ -32,7 +33,14 @@ export default {
       if (!state.rates.has(from + "-" + to)) {
         return null;
       }
-      return state.rates.get(from + "-" + to);
+      let rate = state.rates.get(from + "-" + to);
+      let serverAge = rate.serverTime.diff(rate.time, "seconds");
+      let localAge = moment().diff(rate.localTime, "seconds");
+      if ((serverAge + localAge) > 30 * 60) {
+        console.error("USD rate is " + ((serverAge + localAge) / 60).toFixed(0) + " minutes old");
+        return false;
+      }
+      return rate;
     },
     getMinRewardPoolAmount: (state) => () => {
       return state.minRewardPoolAmount;
@@ -81,6 +89,8 @@ export default {
           throw new Error("Missing rate");
         }
         const rate = ConversionRate.fromDto(response.payload);
+        rate.serverTime = moment(response.now);
+        rate.localTime = response.localTime;
         commit("setRate", {
           key: rate.from.toUpperCase() + "-" + rate.to.toUpperCase(),
           value: rate

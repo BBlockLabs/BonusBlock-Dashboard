@@ -119,6 +119,8 @@ export class HttpRequest {
       localStorage.setItem("tokenExpire", this.session.expiresOn.toISOString());
     }
 
+    responseBody.localTime = moment();
+
     return responseBody;
   }
   /**

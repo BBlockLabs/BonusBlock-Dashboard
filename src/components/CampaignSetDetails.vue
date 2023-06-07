@@ -45,8 +45,8 @@
     <h1>Set rewards</h1>
 
     <el-form-item class="">
-      <el-row class="w-100" :gutter="12">
-        <el-col :span="12">
+      <el-row class="w-100" :gutter="12" style="flex-wrap: wrap">
+        <el-col :span="12" style="min-width: 20em">
           <el-form-item
             v-bind="
               ValidationHelper.getFormItemErrorAttributes(
@@ -79,7 +79,7 @@
           </el-form-item>
         </el-col>
 
-        <el-col :span="12">
+        <el-col :span="12" style="min-width: 20em">
           <el-form-item
             v-bind="
               ValidationHelper.getFormItemErrorAttributes(
