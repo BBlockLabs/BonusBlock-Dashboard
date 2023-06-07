@@ -1,5 +1,5 @@
 <template>
-  <el-row justify="space-between" class="h-100">
+  <el-row justify="space-between" class="h-100 flex-nowrap">
     <el-col class="d-flex h-100" :span="-1">
       <span class="my-auto" v-if="!$store.state.hideMenus">
         {{
@@ -38,7 +38,7 @@
         <el-dropdown>
           <span class="d-flex align-items-center project-dropdown">
             <avatar :file="projectImage" />
-            <span class="ml-3 my-auto">
+            <span class="ml-3 my-auto max-two-lines">
               {{ $store.state.Project.currentProject?.title ?? "User/Wallet" }}
             </span>
           </span>

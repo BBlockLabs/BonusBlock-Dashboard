@@ -58,11 +58,33 @@
           />
 
           <campaign-summary v-if="step === 4" :campaign-id="campaign.id" />
+
+          <template v-if="$mq.sm">
+            <div class="bt-solid w-100 mt-auto">
+              <div class="d-flex p-4">
+                <el-button v-if="step !== 4" type="primary" class="ml-auto" @click="goToNextStep">
+                  Continue
+                </el-button>
+                <el-button type="secondary" class="ml-auto" @click="previewOpened = true">
+                  Preview
+                </el-button>
+              </div>
+            </div>
+          </template>
         </div>
       </div>
     </el-main>
 
-    <el-aside class="bl-solid h-100 pos-relative" width="360px">
+    <component
+      :is="$mq.sm ? 'el-drawer' : 'el-aside'"
+      v-model="previewOpened"
+      :direction="'rtl'"
+      class="bl-solid h-100"
+      :class="$mq.sm ? '' : 'pos-relative'"
+      width="360px"
+      size="360"
+      style="background: #FFF"
+    >
       <div class="pos-absolute d-flex flex-column h-100 w-100">
         <div class="of-auto p-4">
           <campaign-side-summary
@@ -82,7 +104,7 @@
           </div>
         </div>
       </div>
-    </el-aside>
+    </component>
   </el-container>
 </template>
 
@@ -111,6 +133,7 @@ import CampaignStep2ValidationBuilder from "@/common/validation/CampaignStep2Val
 
 const defaultData = () => {
   return {
+    previewOpened: false,
     temporaryCampaignName: null,
     loading: true,
     step: 1,

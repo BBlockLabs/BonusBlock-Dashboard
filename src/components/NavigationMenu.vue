@@ -1,5 +1,5 @@
 <template>
-  <logo class="mx-auto px-4" :small="menuCollapsed || $mq.xl" />
+  <logo class="mx-auto" :class="$mq.sm ? '' : 'px-4'" :small="menuCollapsed || $mq.xl" />
 
   <div class="mx-auto" :class="{ 'w-100': !menuCollapsed && !$mq.xl }">
     <el-menu

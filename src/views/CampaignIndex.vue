@@ -5,12 +5,8 @@
         <div class="pos-absolute w-100">
           <div style="margin-right: 20px">
             <div
-              style="
-                display: flex;
-                flex-direction: row;
-                margin-top: 20px;
-                justify-content: space-between;
-              "
+              class="d-flex flex-wrap"
+              style="flex-direction: row; margin-top: 20px; justify-content: space-between; gap: 0.5em"
             >
               <div><h1 style="margin: 0">Your Campaigns</h1></div>
               <router-link to="/campaign/add">
@@ -30,6 +26,7 @@
                 v-for="campaign in campaigns"
                 :key="campaign.id"
                 class="py-3"
+                :sm="12"
                 :md="12"
                 :lg="8"
                 :xl="6"

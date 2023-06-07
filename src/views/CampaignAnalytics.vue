@@ -4,38 +4,35 @@
       <el-main class="pos-relative">
         <div class="pos-absolute w-100">
           <div style="margin-right: 20px; margin-top: 20px">
-            <el-row class="is-justify-space-between">
+            <el-row class="is-justify-space-between" style="gap: 0.5em">
               <el-col :span="-1">
                 <h1 class="m-0">
                   {{ campaign ? campaign.name : "" }} campaign Analytics
                 </h1>
+                <el-row class="mt-1" align="middle">
+                  <el-col :span="-1">
+                    <b>Product:</b> {{ campaign ? campaign.name : "" }}
+                  </el-col>
+                  <el-col :span="-1" class="ml-3">
+                    <b>Categories:</b>
+                  </el-col>
+                  <el-col v-if="campaign" :span="-1">
+                    <el-tag
+                      v-for="tag in campaign.tags"
+                      :key="tag"
+                      class="mx-1"
+                      round
+                    >
+                      {{ tag }}
+                    </el-tag>
+                  </el-col>
+                </el-row>
               </el-col>
               <el-col :span="-1">
                 <!--                <el-button type="primary"> Export Data</el-button>-->
-                <router-link
-                  v-if="campaign"
-                  :to="`/campaign/${campaign.id}/edit`"
-                >
+                <router-link v-if="campaign" :to="`/campaign/${campaign.id}/edit`">
                   <el-button type="primary"> Manage Campaign</el-button>
                 </router-link>
-              </el-col>
-            </el-row>
-            <el-row class="mt-1" align="middle">
-              <el-col :span="-1">
-                <b>Product:</b> {{ campaign ? campaign.name : "" }}
-              </el-col>
-              <el-col :span="-1" class="ml-3">
-                <b>Categories:</b>
-              </el-col>
-              <el-col v-if="campaign" :span="-1">
-                <el-tag
-                  v-for="tag in campaign.tags"
-                  :key="tag"
-                  class="mx-1"
-                  round
-                >
-                  {{ tag }}
-                </el-tag>
               </el-col>
             </el-row>
             <el-row>
@@ -89,62 +86,46 @@
               <el-col v-loading="analyticsLoading" :md="12" class=" pl-3 d-flex flex-column justify-content-center">
                 <el-card class="analytics-card yellow" shadow="never">
                   <el-row class="d-flex mt-3 mb-4">
-                    <el-col
-                      ><strong style="font-size: 1.2em"
-                        >Total rewards pool</strong
-                      ></el-col
-                    >
+                    <el-col>
+                      <strong style="font-size: 1.2em">Total rewards pool</strong>
+                    </el-col>
                   </el-row>
                   <template v-if="campaign">
-                    <strong style="font-size: 3em">{{
-                      totalRewardsPool
-                    }}</strong>
-                    &nbsp;<strong style="font-size: 2em">{{
-                      campaign.rewardPoolCurrencyName
-                    }}</strong>
+                    <strong style="font-size: 3em">{{ totalRewardsPool }}</strong>
+                    &nbsp;<strong style="font-size: 2em">{{ campaign.rewardPoolCurrencyName }}</strong>
                   </template>
                 </el-card>
-                <div style="display: flex">
+                <div class="mt-3" style="display: flex; gap: 1em" :style="{flexDirection: $mq.sm ? 'column' : 'row'}">
                   <div style="flex-grow: 1">
-                    <el-card class="analytics-card mt-3">
+                    <el-card class="analytics-card mb-3">
                       <el-row
-                        class="d-flex mt-3 mb-4"
-                        style="
-                          flex-wrap: nowrap;
-                          justify-content: space-between;
-                        "
+                        class="d-flex mt-3 mb-4 flex-nowrap"
+                        justify="space-between"
+                        style="gap: 0.5em"
                       >
-                        <el-col :span="21"
-                          ><strong style="font-size: 1.2em"
-                            >Rewards claimed</strong
-                          ></el-col
-                        >
-                        <el-col :span="3" style="text-align: right">
+                        <el-col :span="-1">
+                          <strong style="font-size: 1.2em">Rewards claimed</strong>
+                        </el-col>
+                        <el-col :span="-1" class="ml-auto" style="text-align: right">
                           {{ campaignRewardsClaimedPercent ?? "&nbsp;" }}
                         </el-col>
                       </el-row>
                       <template v-if="campaignAndAnalyticsLoaded">
-                        <strong style="font-size: 3em">{{
-                          rewardsClaimed
-                        }}</strong>
-                        &nbsp;<strong style="font-size: 2em">{{
-                          campaign.rewardPoolCurrencyName
-                        }}</strong>
+                        <strong style="font-size: 3em">{{ rewardsClaimed }}</strong>
+                        &nbsp;<strong style="font-size: 2em">{{ campaign.rewardPoolCurrencyName }}</strong>
                       </template>
                       <strong v-else style="font-size: 3em">&nbsp;</strong>
                     </el-card>
-                    <el-card class="analytics-card mt-3">
+                    <el-card class="analytics-card mb-3">
                       <el-row
-                        class="d-flex mt-3 mb-4"
-                        style="
-                          flex-wrap: nowrap;
-                          justify-content: space-between;
-                        "
+                        class="d-flex mt-3 mb-4 flex-nowrap"
+                        justify="space-between"
+                        style="gap: 0.5em"
                       >
-                        <el-col :span="18">
+                        <el-col :span="-1">
                           <strong style="font-size: 1.2em">Rewards left</strong>
                         </el-col>
-                        <el-col :span="4" style="text-align: right">
+                        <el-col :span="-1" class="ml-auto" style="text-align: right">
                           {{ campaignRewardsLeftPercent ?? "&nbsp;" }}
                         </el-col>
                       </el-row>
@@ -152,21 +133,12 @@
                         <strong style="font-size: 3em">
                           {{ rewardsLeft }}
                         </strong>
-                        &nbsp;<strong style="font-size: 2em">{{
-                          campaign.rewardPoolCurrencyName
-                        }}</strong>
+                        &nbsp;<strong style="font-size: 2em">{{ campaign.rewardPoolCurrencyName }}</strong>
                       </template>
                       <strong v-else style="font-size: 3em">&nbsp;</strong>
                     </el-card>
                   </div>
-                  <div
-                    class="mt-3 ml-3"
-                    style="
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;
-                    "
-                  >
+                  <div style="display: flex; justify-content: center; align-items: center">
                     <div style="height: 300px">
                       <apexchart
                         v-if="campaignAndAnalyticsLoaded"
@@ -589,6 +561,10 @@ export default {
   .el-card__body {
     padding-top: 0.5em;
     padding-left: 2em;
+  }
+
+  @media only screen and (max-width: 768px) {
+    font-size: 0.8em;
   }
 }
 </style>

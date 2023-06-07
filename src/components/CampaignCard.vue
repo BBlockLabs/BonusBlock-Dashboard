@@ -216,5 +216,14 @@ export default {
 <style lang="scss">
 .info-box {
   height: 6.429em;
+
+  @media only screen and (max-width: 991px) {
+    height: 4em;
+
+    h1 {
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
+    }
+  }
 }
 </style>
