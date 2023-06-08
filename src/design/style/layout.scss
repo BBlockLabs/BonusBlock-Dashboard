@@ -11,6 +11,8 @@ $directions: (
 );
 
 $space: (
+  'n2': -0.5em,
+  'n1': -0.25em,
   '0': 0,
   '1': .25em,
   '2': .5rem,
@@ -22,43 +24,53 @@ $space: (
 
 @each $size, $space in $space {
   .m-#{$size} {
-    margin: $space;
+    margin: $space !important;
   }
 
-  @each $directionName, $direction in $directions {
-    .m#{$directionName}-#{$size} {
-      margin-#{$direction}: $space;
+  @if $space != 'n1' {
+    .p-#{$size} {
+      padding: $space !important;
     }
   }
+}
 
+@each $size, $space in $space {
   .mx-#{$size} {
-    margin-left: $space;
-    margin-right: $space;
+    margin-left: $space !important;
+    margin-right: $space !important;
   }
 
   .my-#{$size} {
-    margin-top: $space;
-    margin-bottom: $space;
+    margin-top: $space !important;
+    margin-bottom: $space !important;
   }
 
-  .p-#{$size} {
-    padding: $space;
-  }
+  @if $space != 'n1' {
+    .px-#{$size} {
+      padding-left: $space !important;
+      padding-right: $space !important;
+    }
 
+    .py-#{$size} {
+      padding-top: $space !important;
+      padding-bottom: $space !important;
+    }
+  }
+}
+
+@each $size, $space in $space {
   @each $directionName, $direction in $directions {
-    .p#{$directionName}-#{$size} {
-      padding-#{$direction}: $space;
+    .m#{$directionName}-#{$size} {
+      margin-#{$direction}: $space !important;
     }
   }
 
-  .px-#{$size} {
-    padding-left: $space;
-    padding-right: $space;
-  }
-
-  .py-#{$size} {
-    padding-top: $space;
-    padding-bottom: $space;
+  @if $space != 'n1' {
+    @each $directionName, $direction in $directions {
+      .p#{$directionName}-#{$size} {
+        padding-#{$direction}: $space !important;
+      }
+    }
   }
 }
 
@@ -179,6 +191,18 @@ html .d {
   flex-wrap: nowrap;
 }
 
+.flex-grow {
+  flex-grow: 1;
+}
+
+.flex-noshrink {
+  flex-shrink: 0 !important;
+}
+
+.mw-0 {
+  min-width: 0;
+}
+
 .float {
   float: none;
 
@@ -269,4 +293,8 @@ html .d {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+
+.text-nowrap {
+  white-space: nowrap;
 }

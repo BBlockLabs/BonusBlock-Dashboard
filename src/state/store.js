@@ -18,6 +18,7 @@ export default new Vuex.Store({
   state: {
     debug: false,
     hideMenus: false,
+    menuOpened: false,
   },
   mutations: {
     toggleDebug(state) {

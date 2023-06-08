@@ -7,6 +7,9 @@
             <el-row class="is-justify-space-between" style="gap: 0.5em">
               <el-col :span="-1">
                 <h1 class="m-0">
+                  <el-button link @click="back" style="margin-left: -0.5em; vertical-align: -0.25em">
+                    <svg-nav-arrow-left class="icon" />
+                  </el-button>
                   {{ campaign ? campaign.name : "" }} campaign Analytics
                 </h1>
                 <el-row class="mt-1" align="middle">
@@ -47,7 +50,7 @@
                   </div>
                 </el-row>
                 <el-row align="middle">
-                  <el-col class="mt-1" :span="-1">
+                  <el-col :span="-1">
                     <el-tabs v-model="interactionsRange">
                       <el-tab-pane label="Year" name="year"></el-tab-pane>
                       <el-tab-pane label="Month" name="month"></el-tab-pane>
@@ -96,7 +99,7 @@
                   </template>
                 </el-card>
                 <div class="mt-3" style="display: flex; gap: 1em" :style="{flexDirection: $mq.sm ? 'column' : 'row'}">
-                  <div style="flex-grow: 1">
+                  <div class="flex-grow">
                     <el-card class="analytics-card mb-3">
                       <el-row
                         class="d-flex mt-3 mb-4 flex-nowrap"
@@ -171,12 +174,14 @@ import moment from "moment";
 import VueApexCharts from "vue3-apexcharts";
 import SvgChevronLeft from "@/assets/icons/nav-arrow-left.svg";
 import SvgChevronRight from "@/assets/icons/nav-arrow-right.svg";
+import SvgNavArrowLeft from "@/assets/icons/nav-arrow-left.svg";
 
 export default {
   components: {
     apexchart: VueApexCharts,
     SvgChevronLeft,
     SvgChevronRight,
+    SvgNavArrowLeft,
   },
   data() {
     return {
@@ -380,6 +385,9 @@ export default {
     this.fetchCampaignInteractions().then(() => {});
   },
   methods: {
+    back() {
+      this.$router.push("/campaign");
+    },
     async fetchAnalytics() {
       this.analyticsLoading = true;
       if (this.campaign === null) {

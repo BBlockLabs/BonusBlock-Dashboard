@@ -1,6 +1,6 @@
 <template>
   <el-menu-item v-if="childRoutes.length === 0" :key="name" :index="name">
-    <el-icon v-if="currentRoute.icon">
+    <el-icon v-if="currentRoute.icon" :style="!$mq.sm && $mq.md ? 'font-size: 2em' : ''">
       <component :is="currentRoute.icon" />
     </el-icon>
 

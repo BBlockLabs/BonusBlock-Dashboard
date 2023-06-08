@@ -1,10 +1,10 @@
 <template>
-  <logo class="mx-auto" :class="$mq.sm ? '' : 'px-4'" :small="menuCollapsed || $mq.xl" />
+  <logo class="mx-auto" :class="$mq.sm ? '' : 'px-4'" :small="!$mq.sm && $mq.md" />
 
-  <div class="mx-auto" :class="{ 'w-100': !menuCollapsed && !$mq.xl }">
+  <div class="mx-auto" :class="{ 'w-100': !$mq.md }">
     <el-menu
       class="br-none"
-      :collapse="menuCollapsed || $mq.xl"
+      :collapse="!$mq.sm && $mq.md"
       mode="vertical"
       :ellipsis="false"
       :default-active="$route.name"
@@ -14,32 +14,17 @@
       <menu-item v-for="route in routes" :key="route.name" :name="route.name" />
     </el-menu>
   </div>
-
-  <div v-if="!$mq.xl" class="mt-auto p-3" :class="{ 'mx-auto': menuCollapsed }">
-    <el-button link @click="menuCollapsed = !menuCollapsed">
-      <sidebar-collapse v-if="!menuCollapsed" class="icon-extra-large" />
-      <sidebar-expand v-if="menuCollapsed" class="icon-extra-large" />
-    </el-button>
-  </div>
 </template>
 
 <script>
 import NavigationList from "@/common/Navigation";
 import MenuItem from "@/components/MenuItem.vue";
 import Logo from "@/components/PageLogo.vue";
-import { SidebarCollapse, SidebarExpand } from "iconoir-vue";
 
 export default {
   components: {
     MenuItem,
     Logo,
-    SidebarCollapse,
-    SidebarExpand,
-  },
-  data() {
-    return {
-      menuCollapsed: false,
-    };
   },
   computed: {
     routes() {

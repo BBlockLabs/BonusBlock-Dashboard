@@ -29,7 +29,7 @@
       'base': v.$color-danger,
     ),
     'info': (
-      'base': v.$color-black,
+      'base': v.$color-info,
     ),
   ),
   $text-color: (
@@ -61,11 +61,11 @@
     'border-radius': 0.5em,
   ),
   $font-size: (
-    'extra-large': 21px,
-    'large': 19px,
-    'medium': 17px,
-    'base': 15px,
-    'small': 14px,
-    'extra-small': 13px,
+    'extra-large': 1.3125em, // 21px
+    'large': 1.1875em, // 19px
+    'medium': 1.0625em, //17px
+    'base': 0.9375em, // 15px
+    'small': 0.875em, // 14px
+    'extra-small': 0.8125em, // 13px
   )
 );

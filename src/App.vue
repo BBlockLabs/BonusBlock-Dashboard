@@ -1,12 +1,17 @@
 <template>
   <el-container v-cloak>
-    <el-aside
+    <component
+      :is="$mq.sm ? 'el-drawer' : 'el-aside'"
       v-if="$store.getters['Auth/isLoggedIn'] && !$store.state.hideMenus"
-      class="br-solid d-flex flex-column"
+      v-model="$store.state.menuOpened"
+      :direction="'ltr'"
+      class="br-solid d-flex flex-column smaller-body-top-padding"
+      style="background: #FFF"
       width="auto"
+      size="200"
     >
       <navigation />
-    </el-aside>
+    </component>
 
     <el-container vertical>
       <el-header

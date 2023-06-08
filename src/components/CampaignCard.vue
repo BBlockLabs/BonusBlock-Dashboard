@@ -1,58 +1,35 @@
 <template>
   <box-wrapper>
-    <el-row justify="space-between">
-      <el-col :span="-1">
-        <h2 class="m-0">{{ campaign.name }}</h2>
-      </el-col>
+    <el-row class="flex-nowrap" align="middle">
+      <h3
+        class="m-0 mr-1 mw-0 of-hidden text-nowrap"
+        :title="campaign.name"
+      >
+        {{ campaign.name }}
+      </h3>
 
-      <el-col :span="-1">
-        <el-tag
-          class="mr-1"
-          :type="status === CampaignStatus.DELETED ? 'danger' : ''"
-        >
-          {{ status.getLabel() }}
-        </el-tag>
-        <el-tag
-          v-if="
-            status === CampaignStatus.PAID &&
-            now.isAfter(campaign.timeFrameFrom) &&
-            now.isBefore(campaign.timeFrameTill)
-          "
-          class="mr-1"
-          type="success"
-        >
-          <strong>ACTIVE</strong>
-        </el-tag>
-        <el-tag
-          v-if="
-            status === CampaignStatus.PAID &&
-            now.isAfter(campaign.timeFrameTill)
-          "
-          class="mr-1"
-          type="success"
-        >
-          <strong>FINISHED</strong>
-        </el-tag>
+      <el-tag
+        round
+        class="mr-auto"
+        :type="status.getTagClass()"
+      >
+        <strong>{{ status.getLabel() }}</strong>
+      </el-tag>
 
-        <delete-button
-          v-if="status === CampaignStatus.DRAFT"
-          class="mr-2"
-          @click="deleteCampaign(campaign.id)"
-        />
-        <router-link
-          :to="
-            status === CampaignStatus.PAID ||
-            status === CampaignStatus.RUNNING ||
-            status === CampaignStatus.ENDED
-              ? `/campaign/${campaign.id}/analytics`
-              : `/campaign/${campaign.id}/edit`
-          "
-        >
-          <el-button type="primary">
-            {{ status === CampaignStatus.DRAFT ? "Edit" : "View" }}
-          </el-button>
-        </router-link>
-      </el-col>
+      <delete-button
+        v-if="status === CampaignStatus.DRAFT"
+        class="ml-2"
+        @click="deleteCampaign(campaign.id)"
+      />
+
+      <router-link
+        class="ml-2"
+        :to="status === CampaignStatus.DRAFT ? `/campaign/${campaign.id}/edit` : `/campaign/${campaign.id}/analytics`"
+      >
+        <el-button type="primary">
+          {{ status === CampaignStatus.DRAFT ? "Edit" : "View" }}
+        </el-button>
+      </router-link>
     </el-row>
 
     <el-row>

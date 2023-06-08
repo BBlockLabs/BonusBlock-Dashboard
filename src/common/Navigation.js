@@ -1,4 +1,6 @@
-import { DashboardSpeed, Notes, Settings } from "iconoir-vue";
+import SvgHome from "@/assets/icons/sidebar/home.svg";
+import SvgCampaigns from "@/assets/icons/sidebar/campaigns.svg";
+import SvgSettings from "@/assets/icons/sidebar/settings.svg";
 
 export class NavigationItem {
   /**
@@ -36,7 +38,7 @@ export class NavigationItem {
 }
 
 export default [
-  new NavigationItem("Home", null, DashboardSpeed),
-  new NavigationItem("Campaigns", null, Notes),
-  new NavigationItem("Settings", null, Settings),
+  new NavigationItem("Home", null, SvgHome),
+  new NavigationItem("Campaigns", null, SvgCampaigns),
+  new NavigationItem("Settings", null, SvgSettings),
 ];

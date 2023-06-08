@@ -1,0 +1,33 @@
+.el-drawer {
+  max-width: 100%;
+
+  .el-drawer__header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    z-index: 1000;
+
+    .el-drawer__close-btn {
+      padding: 1em;
+    }
+  }
+
+  .el-drawer__body {
+    padding-top: 4em;
+  }
+
+  &.smaller-body-top-padding .el-drawer__body {
+    padding-top: 0.5em;
+  }
+
+  &.no-body-x-padding .el-drawer__body {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  &.no-body-bottom-padding .el-drawer__body {
+    padding-bottom: 0;
+  }
+}

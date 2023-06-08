@@ -8,13 +8,13 @@
             <h2>Kickstart with one of the things below:</h2>
             <el-space wrap fill :fill-ratio="25" class="w-100 home-panels">
               <div class="p-4">
-                <el-row align="middle">
-                  <el-col :span="3">
+                <el-row align="middle" class="flex-nowrap">
+                  <el-col :span="-1" class="flex-noshrink" style="width: 4.3em">
                     <div class="home-icon">
                       <svg-megaphone />
                     </div>
                   </el-col>
-                  <el-col :span="21" class="pl-2">
+                  <el-col :span="-1" class="pl-2 ml-1">
                     <h3 class="m-0">Set up your campaign</h3>
                     Set up your first on-chain incentive campaign
                   </el-col>
@@ -30,13 +30,13 @@
                 </el-row>
               </div>
               <div class="p-4">
-                <el-row align="middle">
-                  <el-col :span="3">
+                <el-row align="middle" class="flex-nowrap">
+                  <el-col :span="-1" class="flex-noshrink" style="width: 4.3em">
                     <div class="home-icon">
                       <svg-add-user />
                     </div>
                   </el-col>
-                  <el-col :span="21" class="pl-2">
+                  <el-col :span="-1" class="pl-2 ml-1">
                     <h3 class="m-0">Invite members</h3>
                     1 member
                   </el-col>
@@ -48,13 +48,13 @@
                 </el-row>
               </div>
               <div class="p-4">
-                <el-row align="middle">
-                  <el-col :span="3">
+                <el-row align="middle" class="flex-nowrap">
+                  <el-col :span="-1" class="flex-noshrink" style="width: 4.3em">
                     <div class="home-icon">
                       <svg-chat-bubble />
                     </div>
                   </el-col>
-                  <el-col :span="21" class="pl-2">
+                  <el-col :span="-1" class="pl-2 ml-1">
                     <h3 class="m-0">Need help?</h3>
                     Feel free to contact us! We will be always there with you!
                   </el-col>

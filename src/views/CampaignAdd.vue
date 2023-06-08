@@ -5,13 +5,13 @@
         <div class="p-4">
           <el-row>
             <el-col :span="1">
-              <el-button link @click="back">
+              <el-button link @click="back" style="margin-left: -0.5em">
                 <svg-nav-arrow-left class="icon" />
               </el-button>
             </el-col>
 
             <el-col :span="23">
-              <el-steps :active="step - 1" align-center class="mb-5">
+              <el-steps :active="step - 1" align-center class="mb-5" :style="$mq.sm ? 'font-size: 0.8em' : ''">
                 <el-step
                   v-for="(stepName, idx) in [
                     'Set campaign',
@@ -59,13 +59,13 @@
 
           <campaign-summary v-if="step === 4" :campaign-id="campaign.id" />
 
-          <template v-if="$mq.sm">
+          <template v-if="$mq.lg">
             <div class="bt-solid w-100 mt-auto">
-              <div class="d-flex p-4">
+              <div class="d-flex py-4">
                 <el-button v-if="step !== 4" type="primary" class="ml-auto" @click="goToNextStep">
                   Continue
                 </el-button>
-                <el-button type="secondary" class="ml-auto" @click="previewOpened = true">
+                <el-button type="secondary" class="ml-3" @click="previewOpened = true">
                   Preview
                 </el-button>
               </div>
@@ -76,31 +76,33 @@
     </el-main>
 
     <component
-      :is="$mq.sm ? 'el-drawer' : 'el-aside'"
+      :is="$mq.lg ? 'el-drawer' : 'el-aside'"
       v-model="previewOpened"
       :direction="'rtl'"
-      class="bl-solid h-100"
-      :class="$mq.sm ? '' : 'pos-relative'"
+      class="bl-solid h-100 no-body-x-padding no-body-bottom-padding"
       width="360px"
       size="360"
       style="background: #FFF"
     >
-      <div class="pos-absolute d-flex flex-column h-100 w-100">
-        <div class="of-auto p-4">
-          <campaign-side-summary
-            v-if="step !== 4"
-            :temporary-campaign-name="temporaryCampaignName"
-            :campaign-id="campaign.id"
-          />
+      <div class="pos-relative w-100 h-100">
+        <div class="pos-absolute d-flex flex-column" style="inset: 0">
+          <div class="of-auto p-4" :class="$mq.lg ? 'pt-0' : ''">
+            <campaign-side-summary
+              v-if="step !== 4"
+              :temporary-campaign-name="temporaryCampaignName"
+              :campaign-id="campaign.id"
+              :class="$mq.lg ? 'mt-n2' : ''"
+            />
 
-          <campaign-side-launch v-else :campaign-id="campaign.id" />
-        </div>
+            <campaign-side-launch v-else :campaign-id="campaign.id" />
+          </div>
 
-        <div v-if="step !== 4" class="bt-solid w-100 mt-auto">
-          <div class="d-flex p-4">
-            <el-button type="primary" class="ml-auto" @click="goToNextStep">
-              Continue
-            </el-button>
+          <div v-if="step !== 4" class="bt-solid w-100 mt-auto">
+            <div class="d-flex p-4">
+              <el-button type="primary" class="ml-auto" @click="previewOpened = false; goToNextStep()">
+                Continue
+              </el-button>
+            </div>
           </div>
         </div>
       </div>
