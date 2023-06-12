@@ -19,7 +19,8 @@
               <div>
                 <SvgEmptyBlock />
               </div>
-              <div>You dont have any campaigns yet</div>
+              <div v-if="!campaignsLoaded">Loading campaigns...</div>
+              <div v-else>You dont have any campaigns yet</div>
             </div>
             <el-row v-else :gutter="24">
               <el-col
@@ -52,6 +53,11 @@ export default {
     CampaignCard,
     SvgEmptyBlock,
   },
+  data() {
+    return {
+      campaignsLoaded: false,
+    };
+  },
   computed: {
     campaigns() {
       return this.$store.getters["Campaign/getAllCampaigns"].filter(
@@ -60,7 +66,11 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("Campaign/loadCampaigns");
+    this.$store.dispatch("Campaign/loadCampaigns").then((response) => {
+      if (response.success) {
+        this.campaignsLoaded = true;
+      }
+    });
   },
 };
 </script>

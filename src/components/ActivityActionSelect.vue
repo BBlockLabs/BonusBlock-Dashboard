@@ -18,26 +18,33 @@ export default {
       type: [ActivityAction, null],
       default: null,
     },
+    options: {
+      type: Array,
+      default: Object.values(ActivityAction),
+    },
   },
   emits: ["update:modelValue"],
   data() {
     return {
-      value: null,
+      value: false,
     };
-  },
-  computed: {
-    options: () => Object.values(ActivityAction),
   },
   watch: {
     modelValue: "setValue",
     value: "valueChange",
+    options: "setValue",
   },
   created() {
     this.setValue();
   },
   methods: {
     setValue() {
-      this.value = this.modelValue?.getName() || null;
+      if (this.modelValue) {
+        const found = this.options.find((action) => action.getName() === this.modelValue.getName());
+        this.value = found ? found.getName() : null;
+      } else {
+        this.value = null;
+      }
     },
     valueChange(val) {
       this.$emit(

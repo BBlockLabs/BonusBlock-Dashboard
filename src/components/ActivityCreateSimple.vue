@@ -53,13 +53,14 @@
       "
     >
       <activity-action-select
+        v-if="activitiesAvailable"
         v-model="activity.activityAction"
-        disabled
+        :options="activitiesAvailable"
         class="w-100"
       />
     </el-form-item>
 
-    <div v-if="activity.activityAction !== null">
+    <div v-if="activity.activityAction && activity.activityAction.name === ActivityAction.SWAP.name">
       <el-form-item
         :label="`${activity.activityAction.getLabel()} Type`"
         v-bind="ValidationHelper.getFormItemErrorAttributes(validate['type'])"
@@ -104,10 +105,70 @@
         </el-form-item>
       </div>
     </div>
+
+    <div v-else-if="activity.activityAction && activity.activityAction.name === ActivityAction.DEPOSIT.name">
+      <el-form-item label="Deposit Vault">
+        <el-input placeholder="Any vault" />
+      </el-form-item>
+
+      <el-form-item label="Minimum deposit limit">
+        <el-input placeholder="0" />
+        <small>Set minimum amount of deposits to count towards the reward</small>
+      </el-form-item>
+
+      <el-form-item label="Minimum deposit amount">
+        <el-input placeholder="$ 0.00" />
+        <small>Set minimum amount of tokens per deposits to count towards the reward</small>
+      </el-form-item>
+
+      <el-checkbox class="mb-4"> Limit the analysis to newly created vaults only</el-checkbox>
+    </div>
+
+    <div v-else-if="activity.activityAction && activity.activityAction.name === ActivityAction.CREATE_VAULT.name">
+      <el-form-item label="Number of created vaults">
+        <el-input placeholder="0" />
+        <small>Set minimum amount of new user vaults to count towards the reward</small>
+      </el-form-item>
+    </div>
+
+    <div v-else-if="activity.activityAction && activity.activityAction.name === ActivityAction.HOLDING.name">
+      <el-form-item label="Holding Vault">
+        <el-input placeholder="Any vault" />
+      </el-form-item>
+
+      <el-form-item label="Minimum holding amount">
+        <el-input placeholder="$ 0.00" />
+        <small>Set minimum amount of deposits to count towards the reward</small>
+      </el-form-item>
+
+      <el-form-item label="Holding period">
+        <el-input placeholder="0 days" />
+        <small>Set minimum amount of deposit days in order to count towards the reward</small>
+      </el-form-item>
+    </div>
+
+    <div v-if="activity.activityAction && campaign.product === 'enzyme'">
+      Use filtering <el-switch class="ml-2" /><br />
+
+      <el-radio-group class="mt-3" style="flex-direction: column; align-items: flex-start; font-size: inherit; gap: 1.5em">
+        <el-radio label="1" size="large" style="height: auto; margin-right: 0">
+          Pre-date targeting<br />
+          <el-date-picker class="my-1" /><br />
+          <small>Restrict the campaign exclusively to users who have engaged with the product prior to the specified date</small><br />
+        </el-radio>
+
+        <el-radio label="2" size="large" style="height: auto">
+          Post-date targeting<br />
+          <el-date-picker class="my-1" /><br />
+          <small>Restrict the campaign exclusively to users who have engaged with the product subsequent to the specified date</small><br />
+        </el-radio>
+      </el-radio-group>
+    </div>
   </box-wrapper>
 </template>
 
 <script setup>
+import ActivityAction from "@/common/ActivityAction.js";
 import ActivityActionSelect from "@/components/ActivityActionSelect.vue";
 import ActivityPicker from "@/components/ActivityPicker.vue";
 import ActivityTypeSelect from "@/components/ActivityTypeSelect.vue";
@@ -141,6 +202,10 @@ export default {
       default: () => null,
     },
     campaignValidation: {
+      type: Object,
+      default: () => null,
+    },
+    activitiesAvailable: {
       type: Object,
       default: () => null,
     },

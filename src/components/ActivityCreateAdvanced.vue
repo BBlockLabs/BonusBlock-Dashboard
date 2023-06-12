@@ -13,8 +13,9 @@
           "
         >
           <activity-action-select
+            v-if="activitiesAvailable"
             v-model="activity.activityAction"
-            disabled
+            :options="activitiesAvailable"
             class="w-100"
           />
         </el-form-item>
@@ -99,6 +100,10 @@ export default {
       default: () => null,
     },
     campaignValidation: {
+      type: Object,
+      default: () => null,
+    },
+    activitiesAvailable: {
       type: Object,
       default: () => null,
     },

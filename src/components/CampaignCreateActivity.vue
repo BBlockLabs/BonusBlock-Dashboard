@@ -23,6 +23,7 @@
       v-model:campaign-form="campaignFormObject"
       :validation="validate"
       :campaign-validation="campaignValidate"
+      :activities-available="activitiesAvailable"
     />
 
     <activity-create-advanced
@@ -31,6 +32,7 @@
       v-model:campaign-form="campaignFormObject"
       :validation="validate"
       :campaign-validation="campaignValidate"
+      :activities-available="activitiesAvailable"
     />
 
     <div class="d-flex">
@@ -99,6 +101,19 @@ export default {
     };
   },
   computed: {
+    activitiesAvailable() {
+      if (this.campaign.product === "enzyme") {
+        return [
+          ActivityAction.DEPOSIT,
+          ActivityAction.CREATE_VAULT,
+          ActivityAction.HOLDING,
+        ];
+      } else {
+        return [
+          this.advanced ? ActivityAction.INTERACT : ActivityAction.SWAP
+        ];
+      }
+    },
     contract() {
       return this.$store.getters["Contract/getContract"](
         this.campaignFormObject.rewardPoolContract
