@@ -35,7 +35,7 @@ export default class Activity extends Model {
   /**
    * @type {ActivityType|null}
    */
-  type;
+  type = null;
 
   /**
    * @param {ActivityDto} dto

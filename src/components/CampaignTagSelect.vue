@@ -2,8 +2,7 @@
   <el-select-v2
     v-bind="$attrs"
     :options="options"
-    placeholder="Please select"
-    allow-create
+    :placeholder="$attrs.disabled ? 'Please select product first' : 'Please select'"
     filterable
     multiple
     clearable

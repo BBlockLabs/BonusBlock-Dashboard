@@ -466,7 +466,7 @@ export default {
         };
         chartData = result.data;
       } catch (e) {
-        console.log(e);
+        console.error("loadCampaignAnalyticsInteractions failed", e);
       }
       if (this.interactionsRange === queriedRange && this.chartOffset === queriedOffset) {
         this.updateChart(chartData);

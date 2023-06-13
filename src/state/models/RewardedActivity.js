@@ -61,6 +61,16 @@ export default class RewardedActivity extends Model {
         (type) => type.getName() === dto.action
       ) || null;
 
+    rewardedActivity.vault = dto.vault;
+    rewardedActivity.minimumDepositLimit = dto.minimumDepositLimit;
+    rewardedActivity.depositAmount = dto.depositAmount;
+    rewardedActivity.newVaultsOnly = dto.newVaultsOnly;
+    rewardedActivity.vaultCount = dto.vaultCount;
+    rewardedActivity.holdingAmount = dto.holdingAmount;
+    rewardedActivity.holdingPeriod = dto.holdingPeriod;
+    rewardedActivity.useFiltering = dto.useFiltering;
+    rewardedActivity.filteringType = dto.filteringType;
+
     return rewardedActivity;
   }
 
@@ -76,6 +86,16 @@ export default class RewardedActivity extends Model {
     dto.productActivityAction = this.action;
     dto.actionType = this.type?.getName() || null;
     dto.action = this.activityAction?.getName() || null;
+
+    dto.vault = this.vault;
+    dto.minimumDepositLimit = this.minimumDepositLimit;
+    dto.depositAmount = this.depositAmount;
+    dto.newVaultsOnly = this.newVaultsOnly;
+    dto.vaultCount = this.vaultCount;
+    dto.holdingAmount = this.holdingAmount;
+    dto.holdingPeriod = this.holdingPeriod;
+    dto.useFiltering = this.useFiltering;
+    dto.filteringType = this.filteringType;
 
     return dto;
   }

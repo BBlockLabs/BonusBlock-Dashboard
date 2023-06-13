@@ -49,4 +49,19 @@ export default class ValidationHelper {
       validateStatus: ValidationHelper.getValidateStatus(validation),
     };
   }
+
+  /**
+   * @param {import('@vuelidate/core').BaseValidation} validation
+   * @returns {string}
+   */
+  static getAllErrors(validation) {
+    if (!validation.$error) {
+      return "";
+    }
+    let messages = [];
+    for (const error of validation.$errors) {
+      messages.push(error.$property + ": " + error.$message);
+    }
+    return messages.join("\n");
+  }
 }

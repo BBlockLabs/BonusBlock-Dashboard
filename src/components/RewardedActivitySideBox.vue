@@ -6,13 +6,15 @@
       </h3>
     </el-col>
     <el-col :span="-1">
-      <h3 class="m-0">{{ activity.name }}</h3>
+      <h3 v-if="activity" class="m-0">
+        {{ activity.name }}
+      </h3>
     </el-col>
   </el-row>
 
   <el-row v-else justify="space-between">
     <el-col :span="-1">
-      <h3 class="m-0">
+      <h3 v-if="activity" class="m-0">
         <b>
           {{ activity.type.getAction().getLabel() }} /
           {{ activity.type.getLabel() }}
@@ -20,11 +22,13 @@
       </h3>
     </el-col>
     <el-col :span="-1">
-      <h3 class="m-0">{{ activity.name }}</h3>
+      <h3 v-if="activity" class="m-0">
+        {{ activity.name }}
+      </h3>
     </el-col>
   </el-row>
 
-  <el-row justify="space-between">
+  <el-row v-if="rewardedActivity" justify="space-between">
     <el-col :span="-1"> Minimum transaction amount </el-col>
     <el-col :span="-1">
       {{
@@ -37,7 +41,7 @@
     </el-col>
   </el-row>
 
-  <el-row justify="space-between">
+  <el-row v-if="rewardedActivity" justify="space-between">
     <el-col :span="-1"> Minimum transaction limit </el-col>
     <el-col :span="-1">
       {{ rewardedActivity.minimumTransactionCount }}
@@ -50,7 +54,6 @@
 </template>
 
 <script>
-import Activity from "@/state/models/Activity.js";
 import DebugWrapper from "@/components/DebugWrapper.vue";
 import { Formatter } from "../common/Formatter.js";
 
@@ -72,23 +75,17 @@ export default {
       return Formatter;
     },
     activity() {
-      return (
-        this.$store.getters["Activity/getActivity"](
-          this.rewardedActivity.activity
-        ) || new Activity()
-      );
+      return this.rewardedActivity
+        ? this.$store.getters["Activity/getActivity"](this.rewardedActivity.activity)
+        : null;
     },
     action() {
-      return (
-        this.$store.getters["Activity/getAction"](
-          this.rewardedActivity.action
-        ) || null
-      );
+      return this.rewardedActivity
+        ? this.$store.getters["Activity/getAction"](this.rewardedActivity.action)
+        : null;
     },
     rewardedActivity() {
-      return this.$store.getters["RewardedActivity/get"](
-        this.rewardedActivityId
-      );
+      return this.$store.getters["RewardedActivity/get"](this.rewardedActivityId);
     },
   },
 };

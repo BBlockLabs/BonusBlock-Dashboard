@@ -132,6 +132,7 @@ import Toast from "@/mixins/Toast.js";
 import CampaignStatus from "@/common/CampaignStatus.js";
 import { toRaw } from "vue";
 import CampaignStep2ValidationBuilder from "@/common/validation/CampaignStep2ValidationBuilder.js";
+import ValidationHelper from "@/common/validation/ValidationHelper.js";
 
 const defaultData = () => {
   return {
@@ -389,7 +390,12 @@ export default {
       switch (this.step) {
         case 1:
           if (!(await this.campaignValidation.$validate())) {
-            this.Toast("Form contains errors", null, "error", 1500);
+            this.Toast(
+              "Form contains errors on step " + this.step,
+              ValidationHelper.getAllErrors(this.campaignValidation),
+              "error",
+              5000
+            );
             this.loading = false;
 
             return false;
@@ -408,14 +414,24 @@ export default {
           break;
         case 2: {
           if (!(await this.campaignStep2Validation.$validate())) {
-            this.Toast("Form contains errors", null, "error", 1500);
+            this.Toast(
+              "Form contains errors on step " + this.step,
+              ValidationHelper.getAllErrors(this.campaignStep2Validation),
+              "error",
+              5000
+            );
             this.loading = false;
 
             return false;
           }
 
           if (!(await this.rewardedActivityValidation.$validate())) {
-            this.Toast("Form contains errors", null, "error", 1500);
+            this.Toast(
+              "Form contains errors on step " + this.step,
+              ValidationHelper.getAllErrors(this.rewardedActivityValidation),
+              "error",
+              5000
+            );
             this.loading = false;
 
             return false;
@@ -468,7 +484,12 @@ export default {
         }
         case 3:
           if (!(await this.announcementFormValidation.$validate())) {
-            this.Toast("Form contains errors", null, "error", 1500);
+            this.Toast(
+              "Form contains errors on step " + this.step,
+              ValidationHelper.getAllErrors(this.announcementFormValidation),
+              "error",
+              5000
+            );
             this.loading = false;
 
             return false;

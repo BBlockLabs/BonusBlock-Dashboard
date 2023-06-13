@@ -30,4 +30,41 @@ export default class RewardedActivityDto {
    * @type {"TYPE_DEX" | "TYPE_POOL" | "TYPE_ROUTER"}
    */
   actionType = "TYPE_DEX";
+
+  /**
+   * @type {string}
+   */
+  vault = "";
+  /**
+   * @type {number}
+   */
+  minimumDepositLimit = 0;
+  /**
+   * @type {number}
+   */
+  depositAmount = 0;
+  /**
+   * @type {boolean}
+   */
+  newVaultsOnly = false;
+  /**
+   * @type {number}
+   */
+  vaultCount = 1;
+  /**
+   * @type {number}
+   */
+  holdingAmount = 0;
+  /**
+   * @type {number}
+   */
+  holdingPeriod = 1;
+  /**
+   * @type {boolean}
+   */
+  useFiltering = false;
+  /**
+   * @type {string}
+   */
+  filteringType = "";
 }

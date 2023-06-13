@@ -6,11 +6,7 @@
       <el-col :md="12">
         <el-form-item
           label="Network"
-          v-bind="
-            ValidationHelper.getFormItemErrorAttributes(
-              campaignValidation['network']
-            )
-          "
+          v-bind="ValidationHelper.getFormItemErrorAttributes(campaignValidation['network'])"
         >
           <network-select-field v-model="campaign.network" class="w-100" />
         </el-form-item>
@@ -19,14 +15,11 @@
       <el-col :md="12">
         <el-form-item
           label="Product"
-          v-bind="
-            ValidationHelper.getFormItemErrorAttributes(
-              campaignValidation['product']
-            )
-          "
+          v-bind="ValidationHelper.getFormItemErrorAttributes(campaignValidation['product'])"
         >
           <product-select-field
             v-model="campaign.product"
+            :disabled="!campaign.network"
             class="w-100"
             :filters="productSelectFilter"
           />
@@ -37,9 +30,13 @@
     <el-form-item label="Categories">
       <campaign-tag-select
         v-model="campaign.tags"
+        :disabled="!campaign.product"
         :product-id="campaign.product"
         class="w-100"
       />
+      <small class="text-muted">
+        Categories are utilized for campaign filtering purposes. Ensure that you provide at least one category
+      </small>
     </el-form-item>
   </box-wrapper>
 
@@ -48,9 +45,7 @@
 
     <el-form-item
       label="Select Action"
-      v-bind="
-        ValidationHelper.getFormItemErrorAttributes(validate['activityAction'])
-      "
+      v-bind="ValidationHelper.getFormItemErrorAttributes(validate['activityAction'])"
     >
       <activity-action-select
         v-if="activitiesAvailable"
@@ -74,9 +69,7 @@
 
       <div v-if="activity.type !== null">
         <el-form-item
-          v-bind="
-            ValidationHelper.getFormItemErrorAttributes(validate['activity'])
-          "
+          v-bind="ValidationHelper.getFormItemErrorAttributes(validate['activity'])"
           :label="activity.type.getLabel()"
         >
           <el-input
@@ -94,7 +87,11 @@
           :filter-string="filterString"
         />
 
-        <el-form-item label="Minimum transaction amount">
+        <el-form-item
+          v-bind="ValidationHelper.getFormItemErrorAttributes(validate['minimumTransactionLimit'])"
+          class="mt-3"
+          label="Minimum transaction amount"
+        >
           <token-input
             v-model="activity.minimumTransactionLimit"
             :contract="$store.getters['Contract/getContract']('USD')"
@@ -107,60 +104,119 @@
     </div>
 
     <div v-else-if="activity.activityAction && activity.activityAction.name === ActivityAction.DEPOSIT.name">
-      <el-form-item label="Deposit Vault">
-        <el-input placeholder="Any vault" />
+      <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['vault'])">
+        <template #label>
+          Deposit Vault <small class="ml-1 text-muted font-normal">Optional</small>
+        </template>
+        <el-select v-model="activity.vault" class="w-100">
+          <el-option label="Any vault" value="" />
+        </el-select>
       </el-form-item>
 
-      <el-form-item label="Minimum deposit limit">
-        <el-input placeholder="0" />
-        <small>Set minimum amount of deposits to count towards the reward</small>
+      <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['minimumDepositLimit'])">
+        <template #label>
+          Minimum deposit limit <small class="ml-1 text-muted font-normal">Optional</small>
+        </template>
+        <el-input v-model="activity.minimumDepositLimit" placeholder="0" />
+        <small class="text-muted">
+          Set minimum amount of deposits to count towards the reward
+        </small>
       </el-form-item>
 
-      <el-form-item label="Minimum deposit amount">
-        <el-input placeholder="$ 0.00" />
-        <small>Set minimum amount of tokens per deposits to count towards the reward</small>
+      <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['depositAmount'])">
+        <template #label>
+          Minimum deposit amount <small class="ml-1 text-muted font-normal">Optional</small>
+        </template>
+        <el-input v-model="activity.depositAmount" placeholder="$ 0.00" />
+        <small class="text-muted">
+          Set minimum amount of tokens per deposits to count towards the reward
+        </small>
       </el-form-item>
 
-      <el-checkbox class="mb-4"> Limit the analysis to newly created vaults only</el-checkbox>
+      <el-checkbox v-model="activity.newVaultsOnly" class="mb-4">
+        Limit the analysis to newly created vaults only
+      </el-checkbox>
     </div>
 
     <div v-else-if="activity.activityAction && activity.activityAction.name === ActivityAction.CREATE_VAULT.name">
-      <el-form-item label="Number of created vaults">
-        <el-input placeholder="0" />
-        <small>Set minimum amount of new user vaults to count towards the reward</small>
+      <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['vaultCount'])" label="Number of created vaults">
+        <el-input v-model="activity.vaultCount" placeholder="0" />
+        <small class="text-muted">
+          Set minimum amount of new user vaults to count towards the reward
+        </small>
       </el-form-item>
     </div>
 
     <div v-else-if="activity.activityAction && activity.activityAction.name === ActivityAction.HOLDING.name">
-      <el-form-item label="Holding Vault">
-        <el-input placeholder="Any vault" />
+      <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['vault'])">
+        <template #label>
+          Holding Vault <small class="ml-1 text-muted font-normal">Optional</small>
+        </template>
+        <el-select v-model="activity.vault">
+          <el-option label="Any vault" value="" />
+        </el-select>
       </el-form-item>
 
-      <el-form-item label="Minimum holding amount">
-        <el-input placeholder="$ 0.00" />
-        <small>Set minimum amount of deposits to count towards the reward</small>
+      <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['holdingAmount'])">
+        <template #label>
+          Minimum holding amount <small class="ml-1 text-muted font-normal">Optional</small>
+        </template>
+        <el-input v-model="activity.holdingAmount" placeholder="$ 0.00" />
+        <small class="text-muted">
+          Set minimum amount of deposits to count towards the reward
+        </small>
       </el-form-item>
 
-      <el-form-item label="Holding period">
-        <el-input placeholder="0 days" />
-        <small>Set minimum amount of deposit days in order to count towards the reward</small>
+      <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['holdingPeriod'])" label="Holding period">
+        <el-input v-model="activity.holdingPeriod" placeholder="0 days" />
+        <small class="text-muted">
+          Set minimum amount of deposit days in order to count towards the reward
+        </small>
       </el-form-item>
+
+      <el-checkbox v-model="activity.newVaultsOnly" class="mb-4">
+        Limit the analysis to newly created vaults only
+      </el-checkbox>
     </div>
 
     <div v-if="activity.activityAction && campaign.product === 'enzyme'">
-      Use filtering <el-switch class="ml-2" /><br />
+      <div>
+        Use filtering <el-switch v-model="activity.useFiltering" class="ml-2" />
+      </div>
 
-      <el-radio-group class="mt-3" style="flex-direction: column; align-items: flex-start; font-size: inherit; gap: 1.5em">
-        <el-radio label="1" size="large" style="height: auto; margin-right: 0">
-          Pre-date targeting<br />
-          <el-date-picker class="my-1" /><br />
-          <small>Restrict the campaign exclusively to users who have engaged with the product prior to the specified date</small><br />
+      <el-radio-group
+        v-model="activity.filteringType"
+        :disabled="!activity.useFiltering"
+        class="mt-3" style="flex-direction: column; align-items: flex-start; font-size: inherit; gap: 1.5em"
+      >
+        <el-radio label="preDate" size="large" style="height: auto; margin-right: 0">
+          Pre-date targeting
+          <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['preDate'])" class="mb-0">
+            <el-date-picker
+              v-model="activity.preDate"
+              :disabled="!activity.useFiltering || activity.filteringType !== 'preDate'"
+              :disabled-date="pickerDisableDates"
+              class="my-1"
+            />
+          </el-form-item>
+          <small class="text-muted">
+            Restrict the campaign exclusively to users who have engaged with the product prior to the specified date
+          </small>
         </el-radio>
 
-        <el-radio label="2" size="large" style="height: auto">
-          Post-date targeting<br />
-          <el-date-picker class="my-1" /><br />
-          <small>Restrict the campaign exclusively to users who have engaged with the product subsequent to the specified date</small><br />
+        <el-radio label="postDate" size="large" style="height: auto">
+          Post-date targeting
+          <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['postDate'])" class="mb-0">
+            <el-date-picker
+              v-model="activity.postDate"
+              :disabled="!activity.useFiltering || activity.filteringType !== 'postDate'"
+              :disabled-date="pickerDisableDates"
+              class="my-1"
+            />
+          </el-form-item>
+          <small class="text-muted">
+            Restrict the campaign exclusively to users who have engaged with the product subsequent to the specified date
+          </small>
         </el-radio>
       </el-radio-group>
     </div>
@@ -186,6 +242,7 @@ import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject
 import ProductFilters from "@/common/Http/ProductFilters.js";
 import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
 import CampaignStep2ValidationBuilder from "@/common/validation/CampaignStep2ValidationBuilder.js";
+import moment from "moment";
 
 export default {
   props: {
@@ -269,6 +326,11 @@ export default {
       handler(activity) {
         this.activity = activity;
       },
+    },
+  },
+  methods: {
+    pickerDisableDates(date) {
+      return moment(date).isSameOrAfter(this.campaign.timeFrame[0], "day");
     },
   },
 };

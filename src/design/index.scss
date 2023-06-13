@@ -5,6 +5,7 @@
 @use 'element-plus/theme-chalk/src/mixins/function' as EPFunctions;
 @use 'element-plus/theme-chalk/display.css';
 @use "@/design/style/cards.scss";
+@use "@/design/style/checkbox.scss";
 @use "@/design/style/col.scss";
 @use "@/design/style/collapse.scss";
 @use "@/design/style/color.scss";
@@ -15,6 +16,7 @@
 @use "@/design/style/icons.scss";
 @use "@/design/style/input.scss";
 @use "@/design/style/layout.scss";
+@use "@/design/style/radio.scss";
 @use "@/design/style/select-v2.scss";
 @use "@/design/style/steps.scss";
 @use "@/design/style/tabs.scss";
@@ -63,4 +65,12 @@ body {
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
+}
+
+.text-muted {
+  opacity: 0.6;
+}
+
+.font-normal {
+  font-weight: normal;
 }

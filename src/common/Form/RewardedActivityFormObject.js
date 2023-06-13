@@ -32,6 +32,43 @@ export default class RewardedActivityFormObject extends formObject {
   advanced = false;
 
   /**
+   * @type {string}
+   */
+  vault = "";
+  /**
+   * @type {number}
+   */
+  minimumDepositLimit = 0;
+  /**
+   * @type {number}
+   */
+  depositAmount = 0;
+  /**
+   * @type {boolean}
+   */
+  newVaultsOnly = false;
+  /**
+   * @type {number}
+   */
+  vaultCount = 1;
+  /**
+   * @type {number}
+   */
+  holdingAmount = 0;
+  /**
+   * @type {number}
+   */
+  holdingPeriod = 1;
+  /**
+   * @type {boolean}
+   */
+  useFiltering = false;
+  /**
+   * @type {string}
+   */
+  filteringType = "";
+
+  /**
    * @param {RewardedActivity[]} rewardedActivities
    */
   setRewardedActivityValues(rewardedActivities) {

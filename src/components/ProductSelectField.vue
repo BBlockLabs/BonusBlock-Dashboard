@@ -7,7 +7,7 @@
     clearable
     :options="options"
     :loading="loading"
-    placeholder="Please enter a keyword"
+    :placeholder="$attrs.disabled ? 'Please select network first' : 'Please enter a keyword'"
   />
 </template>
 
