@@ -15,4 +15,8 @@ export class ProductDto {
    * @type {Array<NetworkDto> | undefined}
    */
   networks;
+  /**
+   * @type {Array<String> | undefined}
+   */
+  actions;
 }

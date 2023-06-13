@@ -102,17 +102,11 @@ export default {
   },
   computed: {
     activitiesAvailable() {
-      if (this.campaign.product === "enzyme") {
-        return [
-          ActivityAction.DEPOSIT,
-          ActivityAction.CREATE_VAULT,
-          ActivityAction.HOLDING,
-        ];
-      } else {
-        return [
-          this.advanced ? ActivityAction.INTERACT : ActivityAction.SWAP
-        ];
+      const product = this.$store.getters["Product/getProduct"](this.campaign.product);
+      if (!product) {
+        return [];
       }
+      return Object.values(ActivityAction).filter(action => product.actions.indexOf(action.getName()) !== -1);
     },
     contract() {
       return this.$store.getters["Contract/getContract"](
@@ -171,6 +165,11 @@ export default {
 
       if (product === null) {
         return;
+        const product = this.$store.getters["Product/getProduct"](productId);
+
+        if (product === null) {
+          return;
+        }
       }
 
       this.campaignFormObject.categories = product.categories;

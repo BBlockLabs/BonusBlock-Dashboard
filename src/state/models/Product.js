@@ -17,6 +17,10 @@ export default class Product extends Model {
    * @type {Array<string>}
    */
   networks = [];
+  /**
+   * @type {Array<string>}
+   */
+  actions = [];
 
   /**
    * @param {ProductDto} dto
@@ -29,6 +33,7 @@ export default class Product extends Model {
     product.name = dto.name;
     product.categories = dto.categories?.map((category) => category.id) || [];
     product.networks = dto.networks?.map((network) => network.id) || [];
+    product.actions = dto.actions || [];
 
     return product;
   }
