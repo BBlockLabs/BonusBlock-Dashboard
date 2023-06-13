@@ -74,7 +74,7 @@ export class MetamaskClient {
         ],
       });
     } catch (e) {
-      console.error(e);
+      console.error("sendTransaction failed", e);
       throw e;
     }
   }

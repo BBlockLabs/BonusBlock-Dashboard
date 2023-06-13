@@ -221,7 +221,7 @@ export default {
 
       if (!response.success) {
         this.Toast("Failed to save campaign", "", "error", 1500);
-        console.error(response.errors);
+        console.error("Failed to save campaign", response.errors);
         this.copyLoading = false;
 
         return;
@@ -241,7 +241,7 @@ export default {
 
       if (!response.success) {
         this.Toast("Failed to delete campaign", "", "error");
-        console.error(response.errors);
+        console.error("Failed to delete campaign", response.errors);
 
         return false;
       }

@@ -95,7 +95,7 @@ export default {
         await keplr.experimentalSuggestChain(chainData);
         await keplr.enable(chainData.chainId);
       } catch (e) {
-        console.error(e);
+        console.error("keplrLogin failed", e);
         return new ActionResponse(
           false,
           "Could not authorize against network",
@@ -133,7 +133,7 @@ export default {
           new LoginSignOptions()
         );
       } catch (e) {
-        console.error(e);
+        console.error("keplrLogin failed", e);
         return new ActionResponse(false, e.toString(), "error");
       }
 

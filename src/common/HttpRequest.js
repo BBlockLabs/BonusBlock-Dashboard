@@ -57,7 +57,7 @@ export class HttpRequest {
           request
       );
     } catch (e) {
-      console.error(e);
+      console.error("fetch failed", e);
       Toast.methods.Toast("Can't connect to server", e, "error");
       return Promise.reject("Network error");
     }
@@ -72,7 +72,7 @@ export class HttpRequest {
       }
       errorMessage = HttpRequest.parseErrorMessage(jsonData);
     } catch (e) {
-      console.error(e);
+      console.error("JSON parsing failed", e);
       errorMessage = "Can't parse server response (response code " + response.status + ")";
     }
     if (!response.ok && !errorMessage) {

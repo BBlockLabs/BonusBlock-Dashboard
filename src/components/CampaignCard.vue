@@ -176,7 +176,7 @@ export default {
 
         if (!response.success) {
           this.Toast("Failed to delete campaign", "", "error");
-          console.error(response.errors);
+          console.error("Failed to delete campaign", response.errors);
 
           return false;
         }

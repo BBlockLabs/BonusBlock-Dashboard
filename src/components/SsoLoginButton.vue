@@ -56,7 +56,7 @@ export default {
       } catch (e) {
         this.$emit("loginError", e);
         this.ToastError(e, "login");
-        console.error(e);
+        console.error("login failed", e);
       } finally {
         this.$emit("loginLoading", false);
       }

@@ -330,7 +330,7 @@ export default {
 
       if (!response.success) {
         this.Toast("Failed to save campaign", "", "error", 1500);
-        console.error(response.errors);
+        console.error("Failed to save campaign", response.errors);
 
         return false;
       }
@@ -366,7 +366,7 @@ export default {
 
       if (!response.success) {
         this.Toast("Failed to save announcement", "", "error");
-        console.error(response.errors);
+        console.error("Failed to save announcement", response.errors);
 
         return false;
       }

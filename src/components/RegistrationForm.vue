@@ -134,7 +134,7 @@ export default {
       } catch (e) {
         this.$emit("registerError", e);
         this.ToastError(e, "register");
-        console.error(e);
+        console.error("register failed", e);
       } finally {
         this.$emit("loginLoading", false);
       }

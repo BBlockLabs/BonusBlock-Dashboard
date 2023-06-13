@@ -34,11 +34,13 @@ export default {
         return null;
       }
       let rate = state.rates.get(from + "-" + to);
-      let serverAge = rate.serverTime.diff(rate.time, "seconds");
-      let localAge = moment().diff(rate.localTime, "seconds");
-      if ((serverAge + localAge) > 30 * 60) {
-        console.error("USD rate is " + ((serverAge + localAge) / 60).toFixed(0) + " minutes old");
-        return false;
+      if (from !== to) {
+        let serverAge = rate.serverTime.diff(rate.time, "seconds");
+        let localAge = moment().diff(rate.localTime, "seconds");
+        if (serverAge + localAge > 30 * 60) {
+          console.error("USD rate is " + ((serverAge + localAge) / 60).toFixed(0) + " minutes old");
+          return false;
+        }
       }
       return rate;
     },
@@ -97,6 +99,7 @@ export default {
         });
         return rate;
       }).catch((e) => {
+        console.error("loadConversionRate failed", e);
         commit("setRate", {
           key: denom.toUpperCase() + "-" + "USD",
           value: false

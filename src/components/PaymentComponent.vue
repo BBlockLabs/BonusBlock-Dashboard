@@ -138,7 +138,7 @@ export default {
       });
 
       if (!response.success) {
-        console.error(response.errors);
+        console.error("checkPaymentStatus failed", response.errors);
       }
 
       if (this.payment.status === "INITIATED") {
@@ -193,7 +193,7 @@ export default {
           this.payment.memo
         );
       } catch (e) {
-        console.error(e);
+        console.error("payWithMetamask failed", e);
       }
 
       await this.checkPaymentStatus();

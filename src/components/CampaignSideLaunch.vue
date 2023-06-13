@@ -168,10 +168,10 @@ export default {
         });
 
         if (!response.success) {
-          console.error(response.errors);
+          console.error("setStatus failed", response.errors);
         }
       } catch (e) {
-        console.error(e);
+        console.error("setStatus failed", e);
       }
 
       this.loading = false;
