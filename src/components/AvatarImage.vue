@@ -1,5 +1,5 @@
 <template>
-  <img :src="src" alt="" style="height: 2.7em" />
+  <el-avatar :src="src" shape="square" />
 </template>
 
 <script>
