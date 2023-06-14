@@ -14,7 +14,7 @@
       v-for="item in options"
       :key="item.id"
       :value="item.id"
-      :label="(item.name ?? 'Unnamed') + ' (' + item.hash + ')'"
+      :label="(item.name ? item.name : 'Unnamed') + ' (' + item.hash + ')'"
     >
       <!-- eslint-disable-next-line vue/no-v-html -->
       <b v-html="item.name ? highlightSearchString(item.name) : 'Unnamed'" />

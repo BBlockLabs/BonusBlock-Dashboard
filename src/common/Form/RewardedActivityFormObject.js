@@ -37,11 +37,11 @@ export default class RewardedActivityFormObject extends formObject {
    */
   vault = "";
   /**
-   * @type {string}
+   * @type {string|null}
    */
   minimumDepositLimit = "0";
   /**
-   * @type {string}
+   * @type {string|null}
    */
   depositAmount = "0";
   /**
@@ -49,15 +49,15 @@ export default class RewardedActivityFormObject extends formObject {
    */
   newVaultsOnly = false;
   /**
-   * @type {string}
+   * @type {string|null}
    */
   vaultCount = "1";
   /**
-   * @type {string}
+   * @type {string|null}
    */
   holdingAmount = "0";
   /**
-   * @type {string}
+   * @type {string|null}
    */
   holdingPeriod = "1";
   /**
@@ -87,12 +87,12 @@ export default class RewardedActivityFormObject extends formObject {
       rewardedActivity.activityAction = this.activityAction;
 
       rewardedActivity.vault = this.vault;
-      rewardedActivity.minimumDepositLimit = BigInt(this.minimumDepositLimit);
-      rewardedActivity.depositAmount = BigInt(this.depositAmount);
+      rewardedActivity.minimumDepositLimit = this.minimumDepositLimit ? BigInt(this.minimumDepositLimit) : null;
+      rewardedActivity.depositAmount = this.depositAmount ? BigInt(this.depositAmount) : null;
       rewardedActivity.newVaultsOnly = this.newVaultsOnly;
-      rewardedActivity.vaultCount = parseInt(this.vaultCount);
-      rewardedActivity.holdingAmount = BigInt(this.holdingAmount);
-      rewardedActivity.holdingPeriod = parseInt(this.holdingPeriod);
+      rewardedActivity.vaultCount = this.vaultCount ? parseInt(this.vaultCount) : null;
+      rewardedActivity.holdingAmount = this.holdingAmount ? BigInt(this.holdingAmount) : null;
+      rewardedActivity.holdingPeriod = this.holdingPeriod ? parseInt(this.holdingPeriod) : null;
       rewardedActivity.useFiltering = this.useFiltering;
       rewardedActivity.filteringType = this.filteringType;
       rewardedActivity.preDate = this.preDate ? moment(this.preDate) : null;
