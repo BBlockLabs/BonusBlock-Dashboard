@@ -18,7 +18,7 @@ export default class RewardedActivityFormObject extends formObject {
   minimumTransactionLimit = "0";
 
   /**
-   * @type {ActivityType|null}
+   * @type {ContractType|null}
    */
   type = null;
 

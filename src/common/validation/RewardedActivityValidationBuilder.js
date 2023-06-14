@@ -1,7 +1,7 @@
 import { integer, required, minValue, helpers, requiredIf } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import ValidationBuilder from "@/common/validation/ValidationBuilder.js";
-import ActivityType from "@/common/ActivityType.js";
+import ContractType from "@/common/ContractType.js";
 import ActivityAction from "@/common/ActivityAction.js";
 import { toRaw } from "vue";
 
@@ -23,7 +23,7 @@ export default class RewardedActivityValidationBuilder extends ValidationBuilder
           return true;
         }
 
-        return Object.values(ActivityType).includes(toRaw(value));
+        return Object.values(ContractType).includes(toRaw(value));
       },
       required: requiredIf(function (value, form) {
         return (form.activityAction && form.activityAction.name === ActivityAction.SWAP.name) && !form.advanced;

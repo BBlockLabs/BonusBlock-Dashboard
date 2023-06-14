@@ -23,6 +23,9 @@ export default class CampaignStep2ValidationBuilder extends ValidationBuilder {
         }
       ),
     },
+    tags: {
+      required,
+    },
   };
 
   /**

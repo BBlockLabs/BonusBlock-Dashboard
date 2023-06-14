@@ -82,7 +82,7 @@ export default {
      *  productId?: string,
      *  queryString?: string,
      *  selectedRewardedActivities?: Array,
-     *  type?: ActivityType
+     *  type?: ContractType
      * }): Array<Activity>}
      */
     queryActivities: (state) => (filters) => {
@@ -154,7 +154,7 @@ export default {
      *  network: String,
      *  page: Number,
      *  perPage: Number,
-     *  type: ActivityType,
+     *  type: ContractType,
      *  product: String
      * }} filters
      * @returns {Promise<ActionResponse>}

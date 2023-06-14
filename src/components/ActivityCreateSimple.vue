@@ -27,7 +27,10 @@
       </el-col>
     </el-row>
 
-    <el-form-item label="Categories">
+    <el-form-item
+      label="Categories"
+      v-bind="ValidationHelper.getFormItemErrorAttributes(campaignValidation['tags'])"
+    >
       <campaign-tag-select
         v-model="campaign.tags"
         :disabled="!campaign.product"
@@ -110,9 +113,12 @@
             Deposit Vault <small class="ml-1 text-muted">Optional</small>
           </span>
         </template>
-        <el-select v-model="activity.vault" class="w-100">
-          <el-option label="Any vault" value="" />
-        </el-select>
+        <vault-picker
+          v-model="activity.vault"
+          :product="campaign.product"
+          :type="activity.type"
+          :network="campaign.network"
+        />
       </el-form-item>
 
       <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['minimumDepositLimit'])">
@@ -248,6 +254,7 @@ import ActivityAction from "@/common/ActivityAction.js";
 import ActivityActionSelect from "@/components/ActivityActionSelect.vue";
 import ActivityPicker from "@/components/ActivityPicker.vue";
 import ActivityTypeSelect from "@/components/ActivityTypeSelect.vue";
+import VaultPicker from "@/components/VaultPicker.vue";
 import BoxWrapper from "@/components/BoxWrapper.vue";
 import CampaignTagSelect from "@/components/CampaignTagSelect.vue";
 import NetworkSelectField from "@/components/NetworkSelectField.vue";

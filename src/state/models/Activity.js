@@ -1,5 +1,5 @@
 import Model from "@/state/models/Model";
-import ActivityType from "@/common/ActivityType.js";
+import ContractType from "@/common/ContractType.js";
 
 export default class Activity extends Model {
   /**
@@ -33,7 +33,7 @@ export default class Activity extends Model {
   url = null;
 
   /**
-   * @type {ActivityType|null}
+   * @type {ContractType|null}
    */
   type = null;
 
@@ -49,7 +49,7 @@ export default class Activity extends Model {
     activity.hash = dto.address;
     activity.actions = dto.actions.map(({ id }) => id);
     activity.type =
-      Object.values(ActivityType).find((type) => type.getName() === dto.type) ||
+      Object.values(ContractType).find((type) => type.getName() === dto.type) ||
       null;
 
     return activity;

@@ -1,6 +1,6 @@
 import Model from "@/state/models/Model";
 import RewardedActivityDto from "@/common/dto/RewardedActivityDto.js";
-import ActivityType from "@/common/ActivityType.js";
+import ContractType from "@/common/ContractType.js";
 import ActivityAction from "@/common/ActivityAction.js";
 import moment from "moment";
 
@@ -31,7 +31,7 @@ export default class RewardedActivity extends Model {
   campaign = null;
 
   /**
-   * @type {ActivityType|null}
+   * @type {ContractType|null}
    */
   type;
 
@@ -98,7 +98,7 @@ export default class RewardedActivity extends Model {
     rewardedActivity.action = dto.productActivityAction?.id || null;
 
     rewardedActivity.type =
-      Object.values(ActivityType).find(
+      Object.values(ContractType).find(
         (type) => type.getName() === dto.actionType
       ) || null;
 
@@ -108,11 +108,11 @@ export default class RewardedActivity extends Model {
       ) || null;
 
     rewardedActivity.vault = dto.vault;
-    rewardedActivity.minimumDepositLimit = BigInt(dto.minimumDepositLimit);
-    rewardedActivity.depositAmount = BigInt(dto.depositAmount);
+    rewardedActivity.minimumDepositLimit = dto.minimumDepositLimit ? BigInt(dto.minimumDepositLimit) : null;
+    rewardedActivity.depositAmount = dto.depositAmount ? BigInt(dto.depositAmount) : null;
     rewardedActivity.newVaultsOnly = dto.newVaultsOnly;
     rewardedActivity.vaultCount = dto.vaultCount;
-    rewardedActivity.holdingAmount = BigInt(dto.holdingAmount);
+    rewardedActivity.holdingAmount = dto.holdingAmount ? BigInt(dto.holdingAmount) : null;
     rewardedActivity.holdingPeriod = dto.holdingPeriod;
     rewardedActivity.preDate = dto.preDate ? moment(dto.preDate) : null;
     rewardedActivity.postDate = dto.postDate ? moment(dto.postDate) : null;

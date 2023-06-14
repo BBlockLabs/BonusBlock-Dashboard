@@ -11,7 +11,7 @@
 
 <script>
 import ActivityAction from "@/common/ActivityAction.js";
-import ActivityType from "@/common/ActivityType.js";
+import ContractType from "@/common/ContractType.js";
 import { toRaw } from "vue";
 
 export default {
@@ -21,7 +21,7 @@ export default {
       default: null,
     },
     modelValue: {
-      type: [ActivityType, null],
+      type: [ContractType, null],
       default: null,
     },
   },
@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     options() {
-      const options = Object.values(ActivityType);
+      const options = Object.values(ContractType);
 
       if (!this.action) {
         return options;

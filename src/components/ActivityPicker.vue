@@ -18,9 +18,11 @@
           <el-avatar />
           <div class="mx-2 of-hidden my-auto">
             <el-tag>ETH</el-tag>&nbsp;
-            <b>{{ activity.name || "Unnamed" }}</b>
+            <!-- eslint-disable-next-line vue/no-v-html -->
+            <b v-html="activity.name ? highlightSearchString(activity.name) : 'Unnamed'" style="background-color: #FFF" />
             <br />
-            0x{{ activity.hash }}
+            <!-- eslint-disable-next-line vue/no-v-html -->
+            0x<span v-html="highlightSearchString(activity.hash)" />
           </div>
 
           <div class="ml-auto my-auto">
@@ -45,8 +47,9 @@
 
 <script>
 import Toast from "@/mixins/Toast.js";
+import highlightSearchTerms from "@/mixins/highlightSearchTerms.js";
 import OpenNewWindow from "@/assets/icons/open-new-window.svg";
-import ActivityType from "@/common/ActivityType.js";
+import ContractType from "@/common/ContractType.js";
 
 export default {
   components: {
@@ -60,7 +63,7 @@ export default {
       default: "",
     },
     type: {
-      type: ActivityType,
+      type: ContractType,
       require: true,
       default: "",
     },
@@ -121,6 +124,9 @@ export default {
     this.loadActivities();
   },
   methods: {
+    highlightSearchString(str) {
+      return highlightSearchTerms(str, this.filterString ? [this.filterString.toLowerCase()] : null);
+    },
     nextPage() {
       if (this.lastPage || this.loading) {
         return;
