@@ -171,9 +171,12 @@
             Holding Vault <small class="ml-1 text-muted">Optional</small>
           </span>
         </template>
-        <el-select v-model="activity.vault">
-          <el-option label="Any vault" value="" />
-        </el-select>
+        <vault-picker
+          v-model="activity.vault"
+          :product="campaign.product"
+          :type="activity.type"
+          :network="campaign.network"
+        />
       </el-form-item>
 
       <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['holdingAmount'])">
