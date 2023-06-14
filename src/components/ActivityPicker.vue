@@ -47,7 +47,7 @@
 
 <script>
 import Toast from "@/mixins/Toast.js";
-import highlightSearchTerms from "@/mixins/highlightSearchTerms.js";
+import highlightSearchTerms from "@/mixins/HighlightSearchTerms.js";
 import OpenNewWindow from "@/assets/icons/open-new-window.svg";
 import ContractType from "@/common/ContractType.js";
 
