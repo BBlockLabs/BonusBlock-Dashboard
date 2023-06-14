@@ -180,7 +180,11 @@ export default {
     },
   },
   watch: {
-    id: "setupForCampaign",
+    id(newValue) {
+      if (newValue !== this.campaign.getId()) {
+        this.setupForCampaign();
+      }
+    },
     announcementFormObject: {
       deep: true,
       handler() {
@@ -282,6 +286,10 @@ export default {
           this.rewardedActivityFormObject.reset();
         }
 
+        if (this.step === 1) {
+          this.step = await this.guessCurrentStep();
+        }
+
         promises.push(this.loadAnnouncement());
       }
 
@@ -381,6 +389,18 @@ export default {
 
       return true;
     },
+    async guessCurrentStep() {
+      if (!(await ValidationHelper.validateSilently(this.campaignValidation))) {
+        return 1;
+      }
+      if (
+        !(await ValidationHelper.validateSilently(this.campaignStep2Validation)) ||
+        !(await ValidationHelper.validateSilently(this.rewardedActivityValidation))
+      ) {
+        return 2;
+      }
+      return 3;
+    },
     /**
      * @return {Promise<boolean>}
      */
@@ -409,6 +429,10 @@ export default {
             this.loading = false;
 
             return false;
+          }
+
+          if (!this.$route.params.id) {
+            this.$router.push("/campaign/" + this.campaign.getId() + "/edit");
           }
 
           break;

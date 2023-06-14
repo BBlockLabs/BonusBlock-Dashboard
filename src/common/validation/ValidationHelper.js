@@ -64,4 +64,17 @@ export default class ValidationHelper {
     }
     return messages.join("\n");
   }
+
+  /**
+   * @param {import('@vuelidate/core').BaseValidation} validation
+   * @returns {boolean}
+   */
+  static async validateSilently(validation) {
+    const wasDirty = validation.$dirty;
+    let ret = await validation.$validate();
+    if (!wasDirty) {
+      validation.$reset();
+    }
+    return ret;
+  }
 }
