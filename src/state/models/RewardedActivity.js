@@ -2,6 +2,7 @@ import Model from "@/state/models/Model";
 import RewardedActivityDto from "@/common/dto/RewardedActivityDto.js";
 import ActivityType from "@/common/ActivityType.js";
 import ActivityAction from "@/common/ActivityAction.js";
+import moment from "moment";
 
 export default class RewardedActivity extends Model {
   /**
@@ -40,6 +41,51 @@ export default class RewardedActivity extends Model {
   activityAction;
 
   /**
+   * @type {string}
+   */
+  vault = "";
+  /**
+   * @type {BigInt}
+   */
+  minimumDepositLimit = 0n;
+  /**
+   * @type {BigInt}
+   */
+  depositAmount = 0n;
+  /**
+   * @type {boolean}
+   */
+  newVaultsOnly = false;
+  /**
+   * @type {number}
+   */
+  vaultCount = 1;
+  /**
+   * @type {BigInt}
+   */
+  holdingAmount = 0n;
+  /**
+   * @type {number}
+   */
+  holdingPeriod = 1;
+  /**
+   * @type {boolean}
+   */
+  useFiltering = false;
+  /**
+   * @type {string}
+   */
+  filteringType = "";
+  /**
+   * @type {Moment|null}
+   */
+  preDate = null;
+  /**
+   * @type {Moment|null}
+   */
+  postDate = null;
+
+  /**
    * @param {RewardedActivityDto} dto
    * @return {RewardedActivity}
    */
@@ -47,7 +93,7 @@ export default class RewardedActivity extends Model {
     const rewardedActivity = new RewardedActivity();
 
     rewardedActivity.minimumTransactionLimit = BigInt(dto.minTrxLimit);
-    rewardedActivity.minimumTransactionCount = dto.minTrxAmount;
+    rewardedActivity.minimumTransactionCount = parseInt(dto.minTrxAmount);
     rewardedActivity.activity = dto.productActivity.id;
     rewardedActivity.action = dto.productActivityAction?.id || null;
 
@@ -62,14 +108,16 @@ export default class RewardedActivity extends Model {
       ) || null;
 
     rewardedActivity.vault = dto.vault;
-    rewardedActivity.minimumDepositLimit = dto.minimumDepositLimit;
-    rewardedActivity.depositAmount = dto.depositAmount;
+    rewardedActivity.minimumDepositLimit = BigInt(dto.minimumDepositLimit);
+    rewardedActivity.depositAmount = BigInt(dto.depositAmount);
     rewardedActivity.newVaultsOnly = dto.newVaultsOnly;
     rewardedActivity.vaultCount = dto.vaultCount;
-    rewardedActivity.holdingAmount = dto.holdingAmount;
+    rewardedActivity.holdingAmount = BigInt(dto.holdingAmount);
     rewardedActivity.holdingPeriod = dto.holdingPeriod;
-    rewardedActivity.useFiltering = dto.useFiltering;
-    rewardedActivity.filteringType = dto.filteringType;
+    rewardedActivity.preDate = dto.preDate ? moment(dto.preDate) : null;
+    rewardedActivity.postDate = dto.postDate ? moment(dto.postDate) : null;
+    rewardedActivity.useFiltering = !!(rewardedActivity.preDate || rewardedActivity.postDate);
+    rewardedActivity.filteringType = rewardedActivity.postDate ? "postDate" : "preDate";
 
     return rewardedActivity;
   }
@@ -80,22 +128,22 @@ export default class RewardedActivity extends Model {
   toDto() {
     const dto = new RewardedActivityDto();
 
-    dto.minTrxLimit = this.minimumTransactionLimit.toString();
-    dto.minTrxAmount = this.minimumTransactionCount;
+    dto.minTrxLimit = this.minimumTransactionLimit?.toString();
+    dto.minTrxAmount = this.minimumTransactionCount?.toString();
     dto.productActivity = this.activity;
     dto.productActivityAction = this.action;
     dto.actionType = this.type?.getName() || null;
     dto.action = this.activityAction?.getName() || null;
 
     dto.vault = this.vault;
-    dto.minimumDepositLimit = this.minimumDepositLimit;
-    dto.depositAmount = this.depositAmount;
+    dto.minimumDepositLimit = this.minimumDepositLimit?.toString();
+    dto.depositAmount = this.depositAmount?.toString();
     dto.newVaultsOnly = this.newVaultsOnly;
     dto.vaultCount = this.vaultCount;
-    dto.holdingAmount = this.holdingAmount;
+    dto.holdingAmount = this.holdingAmount?.toString();
     dto.holdingPeriod = this.holdingPeriod;
-    dto.useFiltering = this.useFiltering;
-    dto.filteringType = this.filteringType;
+    dto.preDate = (this.useFiltering && this.filteringType === "preDate" && this.preDate) ? this.preDate.utc().format() : null;
+    dto.postDate = (this.useFiltering && this.filteringType === "postDate" && this.postDate) ? this.postDate.utc().format() : null;
 
     return dto;
   }

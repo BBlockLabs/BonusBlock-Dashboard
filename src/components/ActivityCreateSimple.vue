@@ -106,7 +106,9 @@
     <div v-else-if="activity.activityAction && activity.activityAction.name === ActivityAction.DEPOSIT.name">
       <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['vault'])">
         <template #label>
-          Deposit Vault <small class="ml-1 text-muted font-normal">Optional</small>
+          <span class="font-normal">
+            Deposit Vault <small class="ml-1 text-muted">Optional</small>
+          </span>
         </template>
         <el-select v-model="activity.vault" class="w-100">
           <el-option label="Any vault" value="" />
@@ -115,9 +117,11 @@
 
       <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['minimumDepositLimit'])">
         <template #label>
-          Minimum deposit limit <small class="ml-1 text-muted font-normal">Optional</small>
+          <span class="font-normal">
+            Minimum deposit limit <small class="ml-1 text-muted">Optional</small>
+          </span>
         </template>
-        <el-input v-model="activity.minimumDepositLimit" placeholder="0" />
+        <el-input v-model="activity.minimumDepositLimit" placeholder="0" type="number" min="0" />
         <small class="text-muted">
           Set minimum amount of deposits to count towards the reward
         </small>
@@ -125,9 +129,11 @@
 
       <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['depositAmount'])">
         <template #label>
-          Minimum deposit amount <small class="ml-1 text-muted font-normal">Optional</small>
+          <span class="font-normal">
+            Minimum deposit amount <small class="ml-1 text-muted">Optional</small>
+          </span>
         </template>
-        <el-input v-model="activity.depositAmount" placeholder="$ 0.00" />
+        <el-input v-model="activity.depositAmount" placeholder="$ 0.00" type="number" min="0" />
         <small class="text-muted">
           Set minimum amount of tokens per deposits to count towards the reward
         </small>
@@ -139,8 +145,13 @@
     </div>
 
     <div v-else-if="activity.activityAction && activity.activityAction.name === ActivityAction.CREATE_VAULT.name">
-      <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['vaultCount'])" label="Number of created vaults">
-        <el-input v-model="activity.vaultCount" placeholder="0" />
+      <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['vaultCount'])">
+        <template #label>
+          <span class="font-normal">
+            Number of created vaults
+          </span>
+        </template>
+        <el-input v-model="activity.vaultCount" placeholder="0" type="number" min="1" step="1" />
         <small class="text-muted">
           Set minimum amount of new user vaults to count towards the reward
         </small>
@@ -150,7 +161,9 @@
     <div v-else-if="activity.activityAction && activity.activityAction.name === ActivityAction.HOLDING.name">
       <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['vault'])">
         <template #label>
-          Holding Vault <small class="ml-1 text-muted font-normal">Optional</small>
+          <span class="font-normal">
+            Holding Vault <small class="ml-1 text-muted">Optional</small>
+          </span>
         </template>
         <el-select v-model="activity.vault">
           <el-option label="Any vault" value="" />
@@ -159,16 +172,23 @@
 
       <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['holdingAmount'])">
         <template #label>
-          Minimum holding amount <small class="ml-1 text-muted font-normal">Optional</small>
+          <span class="font-normal">
+            Minimum holding amount <small class="ml-1 text-muted">Optional</small>
+          </span>
         </template>
-        <el-input v-model="activity.holdingAmount" placeholder="$ 0.00" />
+        <el-input v-model="activity.holdingAmount" placeholder="$ 0.00" type="number" min="0" />
         <small class="text-muted">
           Set minimum amount of deposits to count towards the reward
         </small>
       </el-form-item>
 
-      <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['holdingPeriod'])" label="Holding period">
-        <el-input v-model="activity.holdingPeriod" placeholder="0 days" />
+      <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['holdingPeriod'])">
+        <template #label>
+          <span class="font-normal">
+            Holding period
+          </span>
+        </template>
+        <el-input v-model="activity.holdingPeriod" placeholder="0 days" type="number" min="1" />
         <small class="text-muted">
           Set minimum amount of deposit days in order to count towards the reward
         </small>
@@ -180,7 +200,7 @@
     </div>
 
     <div v-if="activity.activityAction && campaign.product === 'enzyme'">
-      <div>
+      <div class="font-bold">
         Use filtering <el-switch v-model="activity.useFiltering" class="ml-2" />
       </div>
 

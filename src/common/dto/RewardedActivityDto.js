@@ -36,13 +36,13 @@ export default class RewardedActivityDto {
    */
   vault = "";
   /**
-   * @type {number}
+   * @type {string}
    */
-  minimumDepositLimit = 0;
+  minimumDepositLimit = "0";
   /**
-   * @type {number}
+   * @type {string}
    */
-  depositAmount = 0;
+  depositAmount = "0";
   /**
    * @type {boolean}
    */
@@ -52,19 +52,19 @@ export default class RewardedActivityDto {
    */
   vaultCount = 1;
   /**
-   * @type {number}
+   * @type {string}
    */
-  holdingAmount = 0;
+  holdingAmount = "0";
   /**
    * @type {number}
    */
   holdingPeriod = 1;
   /**
-   * @type {boolean}
+   * @type {string}
    */
-  useFiltering = false;
+  preDate = "";
   /**
    * @type {string}
    */
-  filteringType = "";
+  postDate = "";
 }
