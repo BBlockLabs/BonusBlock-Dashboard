@@ -27,9 +27,13 @@
         :to="status === CampaignStatus.DRAFT ? `/campaign/${campaign.id}/edit` : `/campaign/${campaign.id}/analytics`"
       >
         <el-button type="primary">
+
           {{ status === CampaignStatus.DRAFT ? "Edit" : "View" }}
         </el-button>
       </router-link>
+      <el-button type="primary" @click="cancelCampaignTest(campaign.id)">
+        CancelTest
+      </el-button>
     </el-row>
 
     <el-row>
@@ -186,6 +190,19 @@ export default {
         return true;
       }
     },
+    async cancelCampaignTest(campaignId){
+      const response = await this.$store.dispatch("Campaign/changeStatus", {
+        campaignId: campaignId,
+        status: CampaignStatus.CANCELLED,
+      });
+
+      if (!response.success) {
+        this.Toast("Failed to cancel campaign", "", "error");
+        console.error("Failed to cancel campaign", response.errors);
+
+        return false;
+      }
+    }
   },
 };
 </script>
