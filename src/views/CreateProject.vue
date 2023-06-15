@@ -108,11 +108,12 @@
         class="d-flex flex-column justify-content-center align-items-center h-100"
       >
         <el-card shadow="never" class="new-project-card align-center">
-          <img
+          <el-avatar
+            shape="square"
+            size="large"
             :src="
               'data:' + formData.image.type + ';base64,' + formData.image.data
             "
-            alt=""
           />
           <h3>{{ formData.title }}</h3>
           1 member
@@ -204,14 +205,8 @@ export default {
   padding: 3em 6em 3em 6em;
   background-color: v.$color-lighter;
 
-  img {
-    margin-bottom: 1.5em;
-    width: auto;
-    height: 9em;
-  }
-
   h3 {
-    margin: 0 0 0.5em;
+    margin: 1.5em 0 0.5em;
   }
 }
 </style>

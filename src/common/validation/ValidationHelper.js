@@ -67,7 +67,7 @@ export default class ValidationHelper {
 
   /**
    * @param {import('@vuelidate/core').BaseValidation} validation
-   * @returns {boolean}
+   * @returns {Promise<boolean>}
    */
   static async validateSilently(validation) {
     const wasDirty = validation.$dirty;

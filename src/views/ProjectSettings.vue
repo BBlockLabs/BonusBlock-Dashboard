@@ -50,25 +50,14 @@
               </el-col>
               <el-col :span="-1" class="d-flex" >
                 <el-card shadow="never" class="h-100 new-project-card align-center">
-                  <img
-                    v-if="formData.image.data !== ''"
+                  <el-avatar
+                    shape="square"
+                    size="large"
                     :src="
-                      'data:' +
-                      formData.image.type +
-                      ';base64,' +
                       formData.image.data
+                      ? 'data:' + formData.image.type + ';base64,' + formData.image.data
+                      : 'data:' + currentProject.imageType + ';base64,' + currentProject.image
                     "
-                    alt=""
-                  />
-                  <img
-                    v-else
-                    :src="
-                      'data:' +
-                      currentProject.imageType +
-                      ';base64,' +
-                      currentProject.image
-                    "
-                    alt=""
                   />
                   <h3>
                     {{
@@ -177,14 +166,8 @@ export default {
   flex-wrap: wrap;
   width: 30em;
 
-  img {
-    margin-bottom: 1.5em;
-    width: auto;
-    height: 9em;
-  }
-
   h3 {
-    margin: 0 0 0.5em;
+    margin: 1.5em 0 0.5em;
   }
 }
 </style>
