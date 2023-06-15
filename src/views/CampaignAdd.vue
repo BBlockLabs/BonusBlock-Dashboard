@@ -232,7 +232,7 @@ export default {
   },
   methods: {
     async gotoStep(stepNumber) {
-      if (this.status === this.CampaignStatus.DRAFT) {
+      if (this.status.name !== this.CampaignStatus.DRAFT.name) {
         return;
       }
 
@@ -605,7 +605,7 @@ export default {
       }
 
       this.$router.push("/campaign");
-      this.Toast("Campaign deleted successfully", null, "success");
+      this.Toast("Campaign deleted successfully", null, "success", 1500);
 
       return true;
     },

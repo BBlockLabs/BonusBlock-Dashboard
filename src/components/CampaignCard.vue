@@ -202,7 +202,7 @@ export default {
         return false;
       }
 
-      this.Toast("Campaign copied successfully", null, "success");
+      this.Toast("Campaign copied successfully", null, "success", 1500);
 
       return true;
     },
@@ -244,7 +244,7 @@ export default {
       }
 
       this.$router.push("/campaign");
-      this.Toast("Campaign deleted successfully", null, "success");
+      this.Toast("Campaign deleted successfully", null, "success", 1500);
 
       return true;
     },
