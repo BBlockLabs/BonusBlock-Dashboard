@@ -16,12 +16,6 @@
         <strong>{{ status.getLabel() }}</strong>
       </el-tag>
 
-      <delete-button
-        v-if="status === CampaignStatus.DRAFT"
-        class="ml-2"
-        @click="deleteCampaign(campaign.id)"
-      />
-
       <router-link
         class="ml-2"
         :to="status === CampaignStatus.DRAFT ? `/campaign/${campaign.id}/edit` : `/campaign/${campaign.id}/analytics`"
@@ -31,6 +25,29 @@
           {{ status === CampaignStatus.DRAFT ? "Edit" : "View" }}
         </el-button>
       </router-link>
+
+      <el-dropdown trigger="click" class="ml-2">
+        <el-button link>
+          <svg-ellipsis-v class="icon" />
+        </el-button>
+
+        <template #dropdown>
+          <el-dropdown-item v-if="status !== CampaignStatus.DRAFT" @click="exportData(campaign.id)">
+            <svg-text /> Export data
+          </el-dropdown-item>
+
+          <el-dropdown-item @click="copyCampaign(campaign.id)">
+            <svg-copy-bolder /> Duplicate
+          </el-dropdown-item>
+
+          <el-dropdown-item v-if="status === CampaignStatus.DRAFT" class="text-danger" @click="deleteCampaign(campaign.id)">
+            <svg-trash /> Delete
+          </el-dropdown-item>
+          <el-dropdown-item v-else class="text-danger" @click="cancelCampaign(campaign.id)">
+            <svg-trash /> Cancel campaign
+          </el-dropdown-item>
+        </template>
+      </el-dropdown>
       <el-button type="primary" @click="cancelCampaignTest(campaign.id)">
         CancelTest
       </el-button>
@@ -82,21 +99,28 @@
 </template>
 
 <script>
+import Toast from "@/mixins/Toast.js";
 import Campaign from "@/state/models/Campaign.js";
 import moment from "moment";
 import BoxWrapper from "@/components/BoxWrapper.vue";
 import { Formatter } from "@/common/Formatter.js";
 import CampaignStatus from "../common/CampaignStatus.js";
 import { toRaw } from "vue";
-import DeleteButton from "@/components/DeleteButton.vue";
 import MessageBox from "@/mixins/MessageBox.js";
+import SvgEllipsisV from "@/assets/icons/ellipsis-v.svg";
+import SvgTrash from "@/assets/icons/trash.svg";
+import SvgText from "@/assets/icons/text.svg";
+import SvgCopyBolder from "@/assets/icons/copy-bolder.svg";
 
 export default {
   components: {
-    DeleteButton,
     BoxWrapper,
+    SvgEllipsisV,
+    SvgTrash,
+    SvgText,
+    SvgCopyBolder,
   },
-  mixins: [MessageBox],
+  mixins: [MessageBox, Toast],
   props: {
     campaignId: {
       type: String,
@@ -166,29 +190,67 @@ export default {
     },
   },
   methods: {
+    exportData(campaignId) {
+      this.Toast("Coming soon", "", "info");
+    },
+    async copyCampaign(campaignId) {
+      const response = await this.$store.dispatch(
+        "Campaign/copyCampaign",
+        campaignId
+      );
+
+      if (!response.success) {
+        this.Toast("Failed to copy campaign", "", "error");
+        console.error("Failed to copy campaign", response.errors);
+
+        return false;
+      }
+
+      this.Toast("Campaign copied successfully", null, "success", 1500);
+
+      return true;
+    },
+    async cancelCampaign(campaignId) {
+      if (
+        !(await this.MessageBoxConfirm(
+          "Be aware that the cancellation will not have an immediate impact. You will be required to await the completion of the next set of calculations (which will mark the end of the campaign) before you can retrieve your reward pool.",
+          {
+            title: "Cancel Campaign",
+          }
+        ))
+      ) {
+        return false;
+      }
+      this.Toast("Coming soon", "", "info");
+    },
     async deleteCampaign(campaignId) {
       if (
-        await this.MessageBoxConfirm(
-          'Are you sure you want to mark this campaign as "Deleted"?',
-          {}
-        )
+        !(await this.MessageBoxConfirm(
+          "Do you wish to proceed with the deletion of your campaign? Please note that by doing so, all the associated campaign information will be permanently lost.",
+          {
+            title: "Delete Campaign",
+          }
+        ))
       ) {
-        const response = await this.$store.dispatch("Campaign/changeStatus", {
-          campaignId: campaignId,
-          status: CampaignStatus.DELETED,
-        });
-
-        if (!response.success) {
-          this.Toast("Failed to delete campaign", "", "error");
-          console.error("Failed to delete campaign", response.errors);
-
-          return false;
-        }
-
-        this.$router.push("/campaign");
-
-        return true;
+        return false;
       }
+
+      const response = await this.$store.dispatch("Campaign/changeStatus", {
+        campaignId: campaignId,
+        status: CampaignStatus.DELETED,
+      });
+
+      if (!response.success) {
+        this.Toast("Failed to delete campaign", "", "error");
+        console.error("Failed to delete campaign", response.errors);
+
+        return false;
+      }
+
+      this.$router.push("/campaign");
+      this.Toast("Campaign deleted successfully", null, "success", 1500);
+
+      return true;
     },
     async cancelCampaignTest(campaignId){
       const response = await this.$store.dispatch("Campaign/changeStatus", {

@@ -1,0 +1,42 @@
+.stepper {
+  >* {
+    padding-bottom: 0.4em;
+  }
+
+  .delimiter-icon {
+    width: 1em;
+    height: 1em;
+    opacity: 0.6;
+  }
+
+  .stepper-item {
+    border-bottom: 2px solid transparent;
+    opacity: 0.6;
+
+    &.active {
+      color: var(--el-color-primary);
+      opacity: 1;
+    }
+
+    &.current {
+      border-bottom-color: var(--el-color-primary);
+      opacity: 1;
+    }
+
+    .icon {
+      font-size: 1.1em;
+    }
+  }
+
+  &.stepper-mobile {
+    .delimiter-icon,
+    .stepper-item:not(.current) {
+      display: none;
+    }
+
+    .stepper-item.current {
+      margin-left: 0.25em;
+      margin-right: 0.5em;
+    }
+  }
+}

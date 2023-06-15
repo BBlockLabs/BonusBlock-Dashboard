@@ -3,35 +3,50 @@
     <el-main class="pos-relative">
       <div class="pos-absolute w-100">
         <div class="p-4">
-          <el-row>
+          <el-row class="mb-5">
             <el-col :span="1">
               <el-button link @click="back" style="margin-left: -0.5em">
                 <svg-nav-arrow-left class="icon" />
               </el-button>
             </el-col>
 
-            <el-col :span="23">
-              <el-steps :active="step - 1" align-center class="mb-5" :style="$mq.sm ? 'font-size: 0.8em' : ''">
-                <el-step
-                  v-for="(stepName, idx) in [
-                    'Set campaign',
-                    'Create activities',
-                    'Create your announcement',
-                    'Launch!',
-                  ]"
-                  :key="stepName"
-                  :title="stepName"
-                >
-                  <template v-if="status === CampaignStatus.DRAFT" #title>
-                    <el-link
-                      :type="step > idx ? 'primary' : 'default'"
-                      @click="gotoStep(idx + 1)"
-                    >
-                      {{ stepName }}
-                    </el-link>
-                  </template>
-                </el-step>
-              </el-steps>
+            <el-col v-if="$mq.sm" :span="3" class="align-center">
+              <el-button link @click="gotoStep(step + 1)" style="margin-left: 0.5em">
+                <svg-nav-arrow-right class="icon" />
+              </el-button>
+            </el-col>
+
+            <el-col :span="$mq.sm ? 18 : 22">
+              <div class="d-flex w-100 align-items-center stepper" :class="{'stepper-mobile': $mq.sm}">
+                <template v-for="(stepData, idx) in steps" :key="idx">
+                  <svg-nav-arrow-right v-if="idx > 0" class="delimiter-icon flex-grow" />
+                  <div
+                    class="d-flex align-items-center flex-grow justify-content-center stepper-item pointer"
+                    :class="{ active: step > idx, current: step === idx + 1 }"
+                    @click="gotoStep(idx + 1)"
+                  >
+                    <component :is="stepData.icon" class="mr-2 icon" />
+                    <div>{{ stepData.name }}</div>
+                  </div>
+                </template>
+              </div>
+            </el-col>
+
+            <el-col :span="$mq.sm ? 2 : 1" class="align-right">
+              <el-dropdown trigger="click">
+                <el-button link>
+                  <svg-ellipsis-v class="icon" />
+                </el-button>
+
+                <template #dropdown>
+                  <el-dropdown-item @click="saveAndExit()">
+                    <svg-add-page-icon /> Save and exit
+                  </el-dropdown-item>
+                  <el-dropdown-item v-if="$route.params.id" class="text-danger" @click="deleteCampaign($route.params.id)">
+                    <svg-trash /> Delete
+                  </el-dropdown-item>
+                </template>
+              </el-dropdown>
             </el-col>
           </el-row>
 
@@ -128,11 +143,19 @@ import RewardedActivity from "@/state/models/RewardedActivity.js";
 import RewardedActivityFormObject from "@/common/Form/RewardedActivityFormObject.js";
 import RewardedActivityValidationBuilder from "@/common/validation/RewardedActivityValidationBuilder.js";
 import SvgNavArrowLeft from "@/assets/icons/nav-arrow-left.svg";
+import SvgNavArrowRight from "@/assets/icons/nav-arrow-right.svg";
 import Toast from "@/mixins/Toast.js";
 import CampaignStatus from "@/common/CampaignStatus.js";
 import { toRaw } from "vue";
 import CampaignStep2ValidationBuilder from "@/common/validation/CampaignStep2ValidationBuilder.js";
 import ValidationHelper from "@/common/validation/ValidationHelper.js";
+import SvgMegaphone from "@/assets/icons/megaphone-bolder.svg";
+import SvgStar from "@/assets/icons/star.svg";
+import SvgMediaImage from "@/assets/icons/media-image.svg";
+import SvgCheck from "@/assets/icons/check.svg";
+import SvgEllipsisV from "@/assets/icons/ellipsis-v.svg";
+import SvgAddPageIcon from "@/assets/icons/add-page-alt.svg";
+import SvgTrash from "@/assets/icons/trash.svg";
 
 const defaultData = () => {
   return {
@@ -150,6 +173,12 @@ const defaultData = () => {
     campaignStep2Validation: null,
     rewardedActivityValidation: null,
     announcementFormValidation: null,
+    steps: [
+      { name: "Campaign", icon: SvgMegaphone },
+      { name: "Activities", icon: SvgStar },
+      { name: "Announcement", icon: SvgMediaImage },
+      { name: "Launch", icon: SvgCheck },
+    ],
   };
 };
 
@@ -162,6 +191,10 @@ export default {
     CampaignSideSummary,
     CampaignSummary,
     SvgNavArrowLeft,
+    SvgNavArrowRight,
+    SvgEllipsisV,
+    SvgAddPageIcon,
+    SvgTrash,
   },
   mixins: [Toast, MessageBox],
   data: defaultData,
@@ -199,6 +232,10 @@ export default {
   },
   methods: {
     async gotoStep(stepNumber) {
+      if (this.status.name !== this.CampaignStatus.DRAFT.name) {
+        return;
+      }
+
       if (this.step === stepNumber) {
         return;
       }
@@ -406,6 +443,7 @@ export default {
      */
     async goToNextStep() {
       this.loading = true;
+      this.dismissToast("validation-error");
 
       switch (this.step) {
         case 1:
@@ -414,7 +452,8 @@ export default {
               "Form contains errors on step " + this.step,
               ValidationHelper.getAllErrors(this.campaignValidation),
               "error",
-              5000
+              5000,
+              "validation-error"
             );
             this.loading = false;
 
@@ -442,7 +481,8 @@ export default {
               "Form contains errors on step " + this.step,
               ValidationHelper.getAllErrors(this.campaignStep2Validation),
               "error",
-              5000
+              5000,
+              "validation-error"
             );
             this.loading = false;
 
@@ -454,7 +494,8 @@ export default {
               "Form contains errors on step " + this.step,
               ValidationHelper.getAllErrors(this.rewardedActivityValidation),
               "error",
-              5000
+              5000,
+              "validation-error"
             );
             this.loading = false;
 
@@ -512,7 +553,8 @@ export default {
               "Form contains errors on step " + this.step,
               ValidationHelper.getAllErrors(this.announcementFormValidation),
               "error",
-              5000
+              5000,
+              "validation-error"
             );
             this.loading = false;
 
@@ -531,9 +573,46 @@ export default {
       }
 
       this.loading = false;
-      this.step++;
+
+      if (this.step < 4) {
+        this.step++;
+      }
 
       return true;
+    },
+    async deleteCampaign(campaignId) {
+      if (
+        !(await this.MessageBoxConfirm(
+          "Do you wish to proceed with the deletion of your campaign? Please note that by doing so, all the associated campaign information will be permanently lost.",
+          {
+            title: "Delete Campaign",
+          }
+        ))
+      ) {
+        return false;
+      }
+
+      const response = await this.$store.dispatch("Campaign/changeStatus", {
+        campaignId: campaignId,
+        status: CampaignStatus.DELETED,
+      });
+
+      if (!response.success) {
+        this.Toast("Failed to delete campaign", "", "error");
+        console.error("Failed to delete campaign", response.errors);
+
+        return false;
+      }
+
+      this.$router.push("/campaign");
+      this.Toast("Campaign deleted successfully", null, "success", 1500);
+
+      return true;
+    },
+    async saveAndExit() {
+      if (await this.goToNextStep()) {
+        this.$router.push("/campaign");
+      }
     },
   },
 };
