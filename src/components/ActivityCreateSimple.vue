@@ -58,7 +58,7 @@
       />
     </el-form-item>
 
-    <div v-if="activity.activityAction && activity.activityAction.name === ActivityAction.SWAP.name">
+    <div v-if="activity.activityAction?.name === ActivityAction.SWAP.name">
       <el-form-item
         :label="`${activity.activityAction.getLabel()} Type`"
         v-bind="ValidationHelper.getFormItemErrorAttributes(validate['type'])"
@@ -106,7 +106,7 @@
       </div>
     </div>
 
-    <div v-else-if="activity.activityAction && activity.activityAction.name === ActivityAction.DEPOSIT.name">
+    <div v-else-if="activity.activityAction?.name === ActivityAction.DEPOSIT.name">
       <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['vault'])">
         <template #label>
           <span class="font-normal">
@@ -150,7 +150,7 @@
       </el-checkbox>
     </div>
 
-    <div v-else-if="activity.activityAction && activity.activityAction.name === ActivityAction.CREATE_VAULT.name">
+    <div v-else-if="activity.activityAction?.name === ActivityAction.CREATE_VAULT.name">
       <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['vaultCount'])">
         <template #label>
           <span class="font-normal">
@@ -164,7 +164,7 @@
       </el-form-item>
     </div>
 
-    <div v-else-if="activity.activityAction && activity.activityAction.name === ActivityAction.HOLDING.name">
+    <div v-else-if="activity.activityAction?.name === ActivityAction.HOLDING.name">
       <el-form-item v-bind="ValidationHelper.getFormItemErrorAttributes(validate['vault'])">
         <template #label>
           <span class="font-normal">

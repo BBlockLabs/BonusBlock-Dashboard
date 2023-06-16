@@ -26,7 +26,7 @@ export default {
   emits: ["update:modelValue"],
   data() {
     return {
-      value: false,
+      value: null,
     };
   },
   watch: {

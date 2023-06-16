@@ -2,7 +2,7 @@ import ActivityDto from "@/common/dto/ActivityDto.js";
 
 export default class RewardedActivityDto {
   /**
-   * @type {ActivityDto}
+   * @type {ActivityDto | null}
    */
   productActivity = new ActivityDto();
 
@@ -12,12 +12,12 @@ export default class RewardedActivityDto {
   productActivityAction = null;
 
   /**
-   * @type {String}
+   * @type {String | null}
    */
   minTrxLimit = "0";
 
   /**
-   * @type {String}
+   * @type {String | null}
    */
   minTrxAmount = "0";
 
@@ -32,9 +32,9 @@ export default class RewardedActivityDto {
   actionType = "TYPE_DEX";
 
   /**
-   * @type {string}
+   * @type {ActivityDto | null}
    */
-  vault = "";
+  vault = new ActivityDto();
   /**
    * @type {string}
    */

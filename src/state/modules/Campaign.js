@@ -345,11 +345,21 @@ export default {
 
         rewardedActivity.campaign = campaignDto.id;
 
-        commit(
-          "Activity/setActivity",
-          Activity.fromDto(rewardedActivityDto.productActivity),
-          { root: true }
-        );
+        if (rewardedActivityDto.productActivity !== null) {
+          commit(
+            "Activity/setActivity",
+            Activity.fromDto(rewardedActivityDto.productActivity),
+            { root: true }
+          );
+        }
+
+        if (rewardedActivityDto.vault !== null) {
+          commit(
+            "Activity/setActivity",
+            Activity.fromDto(rewardedActivityDto.vault),
+            { root: true }
+          );
+        }
 
         if (rewardedActivityDto.productActivityAction !== null) {
           commit(

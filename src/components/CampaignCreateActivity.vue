@@ -165,11 +165,6 @@ export default {
 
       if (product === null) {
         return;
-        const product = this.$store.getters["Product/getProduct"](productId);
-
-        if (product === null) {
-          return;
-        }
       }
 
       this.campaignFormObject.categories = product.categories;
