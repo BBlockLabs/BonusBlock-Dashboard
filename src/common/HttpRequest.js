@@ -58,9 +58,10 @@ export class HttpRequest {
       );
     } catch (e) {
       console.error("fetch failed", e);
-      Toast.methods.Toast("Can't connect to server", e, "error");
+      Toast.methods.Toast("Can't connect to server", e, "error", 0, "network-error");
       return Promise.reject("Network error");
     }
+    Toast.methods.dismissToast("network-error");
 
     let errorMessage = "";
     let jsonData = null;
@@ -81,14 +82,14 @@ export class HttpRequest {
     if (errorMessage) {
       console.error("Error while fetching", url, errorMessage);
       let title = (response.status === 401) ? "Session expired" : "Server returned an error";
-      Toast.methods.Toast(title, errorMessage, "error");
+      Toast.methods.Toast(title, errorMessage, "error", 6000, "server-error");
       if (response.status === 401) {
         // user is logged out
         this.session = null;
         store.commit("Auth/setUser", null, { root: true });
         store.commit("Project/setProject", null, { root: true });
         store.commit("Campaign/clearCampaigns", null, { root: true });
-        Toast.methods.Toast("Session expired", errorMessage, "warning");
+        Toast.methods.Toast("Session expired", errorMessage, "warning", 0, "session-expired");
         localStorage.removeItem("token");
         localStorage.removeItem("tokenExpire");
         HttpRequest.setSession(null, null);

@@ -104,10 +104,13 @@ export default {
         const response = await this.$store.dispatch("Auth/login", loginData);
 
         if (!response.success) {
-          this.Toast("Failed to login", response.data, "error");
+          this.Toast("Failed to login", response.data, "error", 0, "login-failed");
           this.$emit("loginFailed", response.errors);
           return;
         }
+
+        Toast.methods.dismissToast("session-expired");
+        Toast.methods.dismissToast("login-failed");
 
         this.$emit("loginSuccess", response.data);
       } catch (e) {

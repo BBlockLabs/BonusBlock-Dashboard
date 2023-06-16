@@ -46,10 +46,13 @@ export default {
         }
 
         if (!response.success) {
-          this.Toast("Failed to login", response.errors, "error");
+          this.Toast("Failed to login", response.errors, "error", 0, "login-failed");
           this.$emit("loginFailed", response.errors);
           return;
         }
+
+        Toast.methods.dismissToast("session-expired");
+        Toast.methods.dismissToast("login-failed");
 
         this.Toast("Logged in successfully", "", "success", 1500);
         this.$emit("loginSuccess", response.data);

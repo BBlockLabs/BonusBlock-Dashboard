@@ -1,7 +1,7 @@
 import { ElMessage } from "element-plus";
 import { h } from "vue";
 
-export default {
+let toastMixin = {
   methods: {
     /**
      * @param {String} id
@@ -33,6 +33,9 @@ export default {
         title = type === "info" || type === "success" ? "Information" : "Error";
       } else if (text instanceof Error) {
         text = text.message;
+      }
+      if (id) {
+        toastMixin.methods.dismissToast(id);
       }
       ElMessage({
         message: h(
@@ -69,3 +72,5 @@ export default {
     },
   },
 };
+
+export default toastMixin;
