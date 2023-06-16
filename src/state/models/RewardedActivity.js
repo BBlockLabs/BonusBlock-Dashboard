@@ -92,9 +92,13 @@ export default class RewardedActivity extends Model {
   static fromDto(dto) {
     const rewardedActivity = new RewardedActivity();
 
-    rewardedActivity.minimumTransactionLimit = BigInt(dto.minTrxLimit);
-    rewardedActivity.minimumTransactionCount = parseInt(dto.minTrxAmount);
-    rewardedActivity.activity = dto.productActivity.id;
+    rewardedActivity.minimumTransactionLimit = dto.minTrxLimit !== null
+      ? BigInt(dto.minTrxLimit)
+      : 0n;
+    rewardedActivity.minimumTransactionCount = dto.minTrxAmount !== null
+      ? parseInt(dto.minTrxAmount)
+      : 0;
+    rewardedActivity.activity = dto.productActivity?.id || null;
     rewardedActivity.action = dto.productActivityAction?.id || null;
 
     rewardedActivity.type =
@@ -107,7 +111,7 @@ export default class RewardedActivity extends Model {
         (type) => type.getName() === dto.action
       ) || null;
 
-    rewardedActivity.vault = dto.vault;
+    rewardedActivity.vault = dto.vault?.id || null;
     rewardedActivity.minimumDepositLimit = dto.minimumDepositLimit ? BigInt(dto.minimumDepositLimit) : null;
     rewardedActivity.depositAmount = dto.depositAmount ? BigInt(dto.depositAmount) : null;
     rewardedActivity.newVaultsOnly = dto.newVaultsOnly;

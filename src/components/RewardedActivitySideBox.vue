@@ -28,7 +28,7 @@
     </el-col>
   </el-row>
 
-  <el-row v-if="rewardedActivity" justify="space-between">
+  <el-row v-if="rewardedActivity?.minimumTransactionLimit" justify="space-between">
     <el-col :span="-1"> Minimum transaction amount </el-col>
     <el-col :span="-1">
       {{
@@ -41,7 +41,7 @@
     </el-col>
   </el-row>
 
-  <el-row v-if="rewardedActivity" justify="space-between">
+  <el-row v-if="rewardedActivity?.minimumTransactionCount" justify="space-between">
     <el-col :span="-1"> Minimum transaction limit </el-col>
     <el-col :span="-1">
       {{ rewardedActivity.minimumTransactionCount }}
