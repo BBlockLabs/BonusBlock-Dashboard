@@ -189,7 +189,7 @@ export default {
         await MetamaskClient.sendTransaction(
           provider,
           this.payment.wallet,
-          this.payment.amount,
+          this.payment.tokenSmartContractAddress ? null : this.payment.amount,
           this.payment.memo
         );
       } catch (e) {
